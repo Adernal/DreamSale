@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{70A8446D-FEBB-4C7C-83AF-29494BD98E46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DreamSale.Model</RootNamespace>
+    <AssemblyName>DreamSale.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Affiliates\Affiliate.cs" />
+    <Compile Include="BaseEntity.cs" />
+    <Compile Include="Blogs\BlogComment.cs" />
+    <Compile Include="Blogs\BlogExtensions.cs" />
+    <Compile Include="Blogs\BlogPost.cs" />
+    <Compile Include="Blogs\BlogPostTag.cs" />
+    <Compile Include="Blogs\BlogSettings.cs" />
+    <Compile Include="Blogs\Events.cs" />
+    <Compile Include="Catalog\AttributeControlType.cs" />
+    <Compile Include="Catalog\AttributeValueType.cs" />
+    <Compile Include="Catalog\BackInStockSubscription.cs" />
+    <Compile Include="Catalog\BackorderMode.cs" />
+    <Compile Include="Catalog\CatalogSettings.cs" />
+    <Compile Include="Catalog\Category.cs" />
+    <Compile Include="Catalog\CategoryTemplate.cs" />
+    <Compile Include="Catalog\CrossSellProduct.cs" />
+    <Compile Include="Catalog\DownloadActivationType.cs" />
+    <Compile Include="Catalog\Events.cs" />
+    <Compile Include="Catalog\GiftCardType.cs" />
+    <Compile Include="Catalog\LowStockActivity.cs" />
+    <Compile Include="Catalog\ManageInventoryMethod.cs" />
+    <Compile Include="Catalog\Manufacturer.cs" />
+    <Compile Include="Catalog\ManufacturerTemplate.cs" />
+    <Compile Include="Catalog\PredefinedProductAttributeValue.cs" />
+    <Compile Include="Catalog\PriceRange.cs" />
+    <Compile Include="Catalog\Product.cs" />
+    <Compile Include="Catalog\ProductAttribute.cs" />
+    <Compile Include="Catalog\ProductAttributeCombination.cs" />
+    <Compile Include="Catalog\ProductAttributeMapping.cs" />
+    <Compile Include="Catalog\ProductAttributeValue.cs" />
+    <Compile Include="Catalog\ProductCategory.cs" />
+    <Compile Include="Catalog\ProductEditorSettings.cs" />
+    <Compile Include="Catalog\ProductExtensions.cs" />
+    <Compile Include="Catalog\ProductManufacturer.cs" />
+    <Compile Include="Catalog\ProductPicture.cs" />
+    <Compile Include="Catalog\ProductReview.cs" />
+    <Compile Include="Catalog\ProductReviewHelpfulness.cs" />
+    <Compile Include="Catalog\ProductSortingEnum.cs" />
+    <Compile Include="Catalog\ProductSpecificationAttribute.cs" />
+    <Compile Include="Catalog\ProductTag.cs" />
+    <Compile Include="Catalog\ProductTemplate.cs" />
+    <Compile Include="Catalog\ProductType.cs" />
+    <Compile Include="Catalog\ProductWarehouseInventory.cs" />
+    <Compile Include="Catalog\RecurringProductCyclePeriod.cs" />
+    <Compile Include="Catalog\RelatedProduct.cs" />
+    <Compile Include="Catalog\RentalPricePeriod.cs" />
+    <Compile Include="Catalog\SpecificationAttribute.cs" />
+    <Compile Include="Catalog\SpecificationAttributeOption.cs" />
+    <Compile Include="Catalog\SpecificationAttributeOptionFilter.cs" />
+    <Compile Include="Catalog\SpecificationAttributeType.cs" />
+    <Compile Include="Catalog\StockQuantityHistory.cs" />
+    <Compile Include="Catalog\TierPrice.cs" />
+    <Compile Include="Cms\WidgetSettings.cs" />
+    <Compile Include="Common\Address.cs" />
+    <Compile Include="Common\AddressAttribute.cs" />
+    <Compile Include="Common\AddressAttributeValue.cs" />
+    <Compile Include="Common\AddressSettings.cs" />
+    <Compile Include="Common\AdminAreaSettings.cs" />
+    <Compile Include="Common\CommonSettings.cs" />
+    <Compile Include="Common\DisplayDefaultMenuItemSettings.cs" />
+    <Compile Include="Common\FulltextSearchMode.cs" />
+    <Compile Include="Common\GenericAttribute.cs" />
+    <Compile Include="Common\PdfSettings.cs" />
+    <Compile Include="Common\SearchTerm.cs" />
+    <Compile Include="Common\SearchTermReportLine.cs" />
+    <Compile Include="Configuration\Setting.cs" />
+    <Compile Include="Customers\BestCustomerReportLine.cs" />
+    <Compile Include="Customers\Customer.cs" />
+    <Compile Include="Customers\CustomerAttribute.cs" />
+    <Compile Include="Customers\CustomerAttributeValue.cs" />
+    <Compile Include="Customers\CustomerExtensions.cs" />
+    <Compile Include="Customers\CustomerLoginResults.cs" />
+    <Compile Include="Customers\CustomerNameFormat.cs" />
+    <Compile Include="Customers\CustomerPassword.cs" />
+    <Compile Include="Customers\CustomerRole.cs" />
+    <Compile Include="Customers\CustomerSettings.cs" />
+    <Compile Include="Customers\Events.cs" />
+    <Compile Include="Customers\ExternalAuthenticationRecord.cs" />
+    <Compile Include="Customers\ExternalAuthenticationSettings.cs" />
+    <Compile Include="Customers\PasswordFormat.cs" />
+    <Compile Include="Customers\RewardPointsActivatingDelayPeriod.cs" />
+    <Compile Include="Customers\RewardPointsHistory.cs" />
+    <Compile Include="Customers\RewardPointsSettings.cs" />
+    <Compile Include="Customers\SystemCustomerAttributeNames.cs" />
+    <Compile Include="Customers\SystemCustomerNames.cs" />
+    <Compile Include="Customers\SystemCustomerRoleNames.cs" />
+    <Compile Include="Customers\UserRegistrationType.cs" />
+    <Compile Include="Directory\Country.cs" />
+    <Compile Include="Directory\Currency.cs" />
+    <Compile Include="Directory\CurrencySettings.cs" />
+    <Compile Include="Directory\ExchangeRate.cs" />
+    <Compile Include="Directory\MeasureDimension.cs" />
+    <Compile Include="Directory\MeasureSettings.cs" />
+    <Compile Include="Directory\MeasureWeight.cs" />
+    <Compile Include="Directory\RoundingType.cs" />
+    <Compile Include="Directory\StateProvince.cs" />
+    <Compile Include="Discounts\Discount.cs" />
+    <Compile Include="Discounts\DiscountLimitationType.cs" />
+    <Compile Include="Discounts\DiscountRequirement.cs" />
+    <Compile Include="Discounts\DiscountType.cs" />
+    <Compile Include="Discounts\DiscountUsageHistory.cs" />
+    <Compile Include="Discounts\RequirementGroupInteractionType.cs" />
+    <Compile Include="Forums\EditorType.cs" />
+    <Compile Include="Forums\Forum.cs" />
+    <Compile Include="Forums\ForumGroup.cs" />
+    <Compile Include="Forums\ForumPost.cs" />
+    <Compile Include="Forums\ForumPostVote.cs" />
+    <Compile Include="Forums\ForumSearchType.cs" />
+    <Compile Include="Forums\ForumSettings.cs" />
+    <Compile Include="Forums\ForumSubscription.cs" />
+    <Compile Include="Forums\ForumTopic.cs" />
+    <Compile Include="Forums\ForumTopicType.cs" />
+    <Compile Include="Forums\PrivateMessage.cs" />
+    <Compile Include="Localization\ILocalizedEntity.cs" />
+    <Compile Include="Localization\ILocalizedEnum.cs" />
+    <Compile Include="Localization\Language.cs" />
+    <Compile Include="Localization\LocaleStringResource.cs" />
+    <Compile Include="Localization\LocalizationSettings.cs" />
+    <Compile Include="Localization\LocalizedProperty.cs" />
+    <Compile Include="Logging\ActivityLog.cs" />
+    <Compile Include="Logging\ActivityLogType.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Media\Download.cs" />
+    <Compile Include="Media\MediaSettings.cs" />
+    <Compile Include="Media\Picture.cs" />
+    <Compile Include="Media\PictureType.cs" />
+    <Compile Include="Messages\Campaign.cs" />
+    <Compile Include="Messages\EmailAccount.cs" />
+    <Compile Include="Messages\EmailAccountSettings.cs" />
+    <Compile Include="Messages\Events.cs" />
+    <Compile Include="Messages\MessageDelayPeriod.cs" />
+    <Compile Include="Messages\MessageTemplate.cs" />
+    <Compile Include="Messages\MessageTemplatesSettings.cs" />
+    <Compile Include="Messages\MessageTemplateSystemNames.cs" />
+    <Compile Include="Messages\NewsLetterSubscription.cs" />
+    <Compile Include="Messages\QueuedEmail.cs" />
+    <Compile Include="Messages\QueuedEmailPriority.cs" />
+    <Compile Include="News\Events.cs" />
+    <Compile Include="News\NewsComment.cs" />
+    <Compile Include="News\NewsItem.cs" />
+    <Compile Include="News\NewsSettings.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Orders\BestsellersReportLine.cs" />
+    <Compile Include="Orders\CheckoutAttribute.cs" />
+    <Compile Include="Orders\CheckoutAttributeValue.cs" />
+    <Compile Include="Orders\Events.cs" />
+    <Compile Include="Orders\GiftCard.cs" />
+    <Compile Include="Orders\GiftCardExtensions.cs" />
+    <Compile Include="Orders\GiftCardUsageHistory.cs" />
+    <Compile Include="Orders\Order.cs" />
+    <Compile Include="Orders\OrderAverageReportLine.cs" />
+    <Compile Include="Orders\OrderAverageReportLineSummary.cs" />
+    <Compile Include="Orders\OrderByCountryReportLine.cs" />
+    <Compile Include="Orders\OrderItem.cs" />
+    <Compile Include="Orders\OrderNote.cs" />
+    <Compile Include="Orders\OrderSettings.cs" />
+    <Compile Include="Orders\OrderStatus.cs" />
+    <Compile Include="Orders\RecurringPayment.cs" />
+    <Compile Include="Orders\RecurringPaymentHistory.cs" />
+    <Compile Include="Orders\ReturnRequest.cs" />
+    <Compile Include="Orders\ReturnRequestAction.cs" />
+    <Compile Include="Orders\ReturnRequestReason.cs" />
+    <Compile Include="Orders\ReturnRequestStatus.cs" />
+    <Compile Include="Orders\ShoppingCartItem.cs" />
+    <Compile Include="Orders\ShoppingCartSettings.cs" />
+    <Compile Include="Orders\ShoppingCartType.cs" />
+    <Compile Include="Payments\PaymentSettings.cs" />
+    <Compile Include="Payments\PaymentStatus.cs" />
+    <Compile Include="Polls\Poll.cs" />
+    <Compile Include="Polls\PollAnswer.cs" />
+    <Compile Include="Polls\PollVotingRecord.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\AclRecord.cs" />
+    <Compile Include="Security\DefaultPermissionRecord.cs" />
+    <Compile Include="Security\IAclSupported.cs" />
+    <Compile Include="Security\PermissionRecord.cs" />
+    <Compile Include="Security\SecuritySettings.cs" />
+    <Compile Include="Seo\ISlugSupported.cs" />
+    <Compile Include="Seo\PageTitleSeoAdjustment.cs" />
+    <Compile Include="Seo\SeoSettings.cs" />
+    <Compile Include="Seo\UrlRecord.cs" />
+    <Compile Include="Seo\WwwRequirement.cs" />
+    <Compile Include="Shipping\DeliveryDate.cs" />
+    <Compile Include="Shipping\Events.cs" />
+    <Compile Include="Shipping\PickupPoint.cs" />
+    <Compile Include="Shipping\ProductAvailabilityRange.cs" />
+    <Compile Include="Shipping\Shipment.cs" />
+    <Compile Include="Shipping\ShipmentItem.cs" />
+    <Compile Include="Shipping\ShippingMethod.cs" />
+    <Compile Include="Shipping\ShippingOption.cs" />
+    <Compile Include="Shipping\ShippingSettings.cs" />
+    <Compile Include="Shipping\ShippingStatus.cs" />
+    <Compile Include="Shipping\Warehouse.cs" />
+    <Compile Include="StoreInformationSettings.cs" />
+    <Compile Include="Stores\IStoreMappingSupported.cs" />
+    <Compile Include="Stores\Store.cs" />
+    <Compile Include="Stores\StoreExtensions.cs" />
+    <Compile Include="Stores\StoreMapping.cs" />
+    <Compile Include="Tasks\ScheduleTask.cs" />
+    <Compile Include="Tax\TaxBasedOn.cs" />
+    <Compile Include="Tax\TaxCategory.cs" />
+    <Compile Include="Tax\TaxDisplayType.cs" />
+    <Compile Include="Tax\TaxSettings.cs" />
+    <Compile Include="Tax\VatNumberStatus.cs" />
+    <Compile Include="Topics\Topic.cs" />
+    <Compile Include="Topics\TopicTemplate.cs" />
+    <Compile Include="Vendors\Vendor.cs" />
+    <Compile Include="Vendors\VendorNote.cs" />
+    <Compile Include="Vendors\VendorSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="obj\Debug\DreamSale.Model.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\DreamSale.Model.dll" />
+    <Content Include="obj\Debug\DreamSale.Model.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DreamSale.Common\DreamSale.Common.csproj">
+      <Project>{bda00497-4c97-477a-8638-fd4e53bbb4e9}</Project>
+      <Name>DreamSale.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DreamSale.Core\DreamSale.Core.csproj">
+      <Project>{8b17aee3-aa29-4160-acbc-a68f0c5e5fdd}</Project>
+      <Name>DreamSale.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

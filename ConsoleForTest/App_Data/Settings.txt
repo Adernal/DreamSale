@@ -1,0 +1,2 @@
+DataProvider: sqlserver
+DataConnectionString: Data Source=.\AURA;Initial Catalog=dreamSale;Integrated Security=True;Persist Security Info=False
