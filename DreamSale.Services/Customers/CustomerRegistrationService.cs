@@ -1,14 +1,15 @@
 using System;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Model.Customers;
 using DreamSale.Services.Common;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Messages;
 using DreamSale.Services.Orders;
 using DreamSale.Services.Security;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Customers
 {
@@ -28,7 +29,7 @@ namespace DreamSale.Services.Customers
         private readonly IGenericAttributeService _genericAttributeService;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly RewardPointsSettings _rewardPointsSettings;
         private readonly CustomerSettings _customerSettings;
 
@@ -60,7 +61,7 @@ namespace DreamSale.Services.Customers
             IWorkContext workContext,
             IGenericAttributeService genericAttributeService,
             IWorkflowMessageService workflowMessageService,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             RewardPointsSettings rewardPointsSettings,
             CustomerSettings customerSettings)
         {
@@ -73,7 +74,7 @@ namespace DreamSale.Services.Customers
             this._genericAttributeService = genericAttributeService;
             this._workContext = workContext;
             this._workflowMessageService = workflowMessageService;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._rewardPointsSettings = rewardPointsSettings;
             this._customerSettings = customerSettings;
         }
@@ -287,7 +288,7 @@ namespace DreamSale.Services.Customers
             _customerService.UpdateCustomer(request.Customer);
 
             //publish event
-            _eventPublisher.Publish(new CustomerPasswordChangedEvent(customerPassword));
+            //_eventPublisher.Publish(new CustomerPasswordChangedEvent(customerPassword));
 
             return result;
         }
@@ -371,7 +372,7 @@ namespace DreamSale.Services.Customers
             _customerService.InsertCustomerPassword(customerPassword);
 
             //publish event
-            _eventPublisher.Publish(new CustomerPasswordChangedEvent(customerPassword));
+            //_eventPublisher.Publish(new CustomerPasswordChangedEvent(customerPassword));
 
             return result;
         }

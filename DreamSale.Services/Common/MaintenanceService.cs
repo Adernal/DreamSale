@@ -6,10 +6,12 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Common;
-using DreamSale.Data;
+using DreamSale.Model;
+using DreamSale.Common;
+using DreamSale.Core.DataSetting;
+using DreamSale.Data.DataProvider;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Common
 {
@@ -35,8 +37,7 @@ namespace DreamSale.Services.Common
         /// <param name="dbContext">Database Context</param>
         /// <param name="commonSettings">Common settings</param>
         /// <param name="httpContext">HTTP context</param>
-        public MaintenanceService(IDataProvider dataProvider, IDbContext dbContext,
-            CommonSettings commonSettings, HttpContextBase httpContext)
+        public MaintenanceService(IDataProvider dataProvider, IDbContext dbContext, CommonSettings commonSettings, HttpContextBase httpContext)
         {
             this._dataProvider = dataProvider;
             this._dbContext = dbContext;

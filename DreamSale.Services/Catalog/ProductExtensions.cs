@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
 using DreamSale.Services.Directory;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Shipping.Date;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {

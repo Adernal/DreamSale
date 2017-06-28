@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using DreamSale.Core;
 using DreamSale.Services.Tasks;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Common
 {

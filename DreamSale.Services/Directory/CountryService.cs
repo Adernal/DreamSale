@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Directory;
 using DreamSale.Model.Stores;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Directory
 {
@@ -40,7 +40,7 @@ namespace DreamSale.Services.Directory
         private readonly IRepository<StoreMapping> _storeMappingRepository;
         private readonly IStoreContext _storeContext;
         private readonly CatalogSettings _catalogSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
 
         #endregion
@@ -55,20 +55,18 @@ namespace DreamSale.Services.Directory
         /// <param name="storeMappingRepository">Store mapping repository</param>
         /// <param name="storeContext">Store context</param>
         /// <param name="catalogSettings">Catalog settings</param>
-        /// <param name="eventPublisher">Event published</param>
         public CountryService(ICacheManager cacheManager,
             IRepository<Country> countryRepository,
             IRepository<StoreMapping> storeMappingRepository,
             IStoreContext storeContext,
-            CatalogSettings catalogSettings,
-            IEventPublisher eventPublisher)
+            CatalogSettings catalogSettings/*, IEventPublisher eventPublisher*/)
         {
             this._cacheManager = cacheManager;
             this._countryRepository = countryRepository;
             this._storeMappingRepository = storeMappingRepository;
             this._storeContext = storeContext;
             this._catalogSettings = catalogSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -89,7 +87,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(COUNTRIES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(country);
+            //_eventPublisher.EntityDeleted(country);
         }
 
         /// <summary>
@@ -250,7 +248,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(COUNTRIES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(country);
+            //_eventPublisher.EntityInserted(country);
         }
 
         /// <summary>
@@ -267,7 +265,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(COUNTRIES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(country);
+            //_eventPublisher.EntityUpdated(country);
         }
 
         #endregion

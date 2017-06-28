@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Messages;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Messages
 {
     public partial class EmailAccountService : IEmailAccountService
     {
         private readonly IRepository<EmailAccount> _emailAccountRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="emailAccountRepository">Email account repository</param>
         /// <param name="eventPublisher">Event published</param>
-        public EmailAccountService(IRepository<EmailAccount> emailAccountRepository,
-            IEventPublisher eventPublisher)
+        public EmailAccountService(IRepository<EmailAccount> emailAccountRepository/*,IEventPublisher eventPublisher*/)
         {
             this._emailAccountRepository = emailAccountRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         /// <summary>
@@ -55,7 +54,7 @@ namespace DreamSale.Services.Messages
             _emailAccountRepository.Insert(emailAccount);
 
             //event notification
-            _eventPublisher.EntityInserted(emailAccount);
+            //_eventPublisher.EntityInserted(emailAccount);
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace DreamSale.Services.Messages
             _emailAccountRepository.Update(emailAccount);
 
             //event notification
-            _eventPublisher.EntityUpdated(emailAccount);
+            //_eventPublisher.EntityUpdated(emailAccount);
         }
 
         /// <summary>
@@ -106,7 +105,7 @@ namespace DreamSale.Services.Messages
             _emailAccountRepository.Delete(emailAccount);
 
             //event notification
-            _eventPublisher.EntityDeleted(emailAccount);
+            //_eventPublisher.EntityDeleted(emailAccount);
         }
 
         /// <summary>

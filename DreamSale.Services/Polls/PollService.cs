@@ -1,9 +1,8 @@
 using System;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Polls;
-using DreamSale.Services.Events;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Polls
 {
@@ -17,7 +16,7 @@ namespace DreamSale.Services.Polls
         private readonly IRepository<Poll> _pollRepository;
         private readonly IRepository<PollAnswer> _pollAnswerRepository;
         private readonly IRepository<PollVotingRecord> _pollVotingRecords;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -25,13 +24,12 @@ namespace DreamSale.Services.Polls
 
         public PollService(IRepository<Poll> pollRepository, 
             IRepository<PollAnswer> pollAnswerRepository,
-            IRepository<PollVotingRecord> pollVotingRecords,
-            IEventPublisher eventPublisher)
+            IRepository<PollVotingRecord> pollVotingRecords)
         {
             this._pollRepository = pollRepository;
             this._pollAnswerRepository = pollAnswerRepository;
             this._pollVotingRecords = pollVotingRecords;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -102,7 +100,7 @@ namespace DreamSale.Services.Polls
             _pollRepository.Delete(poll);
 
             //event notification
-            _eventPublisher.EntityDeleted(poll);
+            //_eventPublisher.EntityDeleted(poll);
         }
 
         /// <summary>
@@ -117,7 +115,7 @@ namespace DreamSale.Services.Polls
             _pollRepository.Insert(poll);
 
             //event notification
-            _eventPublisher.EntityInserted(poll);
+            //_eventPublisher.EntityInserted(poll);
         }
 
         /// <summary>
@@ -132,7 +130,7 @@ namespace DreamSale.Services.Polls
             _pollRepository.Update(poll);
 
             //event notification
-            _eventPublisher.EntityUpdated(poll);
+            //_eventPublisher.EntityUpdated(poll);
         }
         
         /// <summary>
@@ -160,7 +158,7 @@ namespace DreamSale.Services.Polls
             _pollAnswerRepository.Delete(pollAnswer);
 
             //event notification
-            _eventPublisher.EntityDeleted(pollAnswer);
+            //_eventPublisher.EntityDeleted(pollAnswer);
         }
 
         /// <summary>

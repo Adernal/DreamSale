@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.IO;
 using DreamSale.Core;
+using DreamSale.Model;
 
 namespace DreamSale.Services.Common
 {

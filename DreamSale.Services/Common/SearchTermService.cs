@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Common;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Common
 {
@@ -15,17 +15,16 @@ namespace DreamSale.Services.Common
         #region Fields
 
         private readonly IRepository<SearchTerm> _searchTermRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
         #region Ctor
 
-        public SearchTermService(IRepository<SearchTerm> searchTermRepository,
-            IEventPublisher eventPublisher)
+        public SearchTermService(IRepository<SearchTerm> searchTermRepository/*, IEventPublisher eventPublisher*/)
         {
             this._searchTermRepository = searchTermRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -44,7 +43,7 @@ namespace DreamSale.Services.Common
             _searchTermRepository.Delete(searchTerm);
 
             //event notification
-            _eventPublisher.EntityDeleted(searchTerm);
+            //_eventPublisher.EntityDeleted(searchTerm);
         }
 
         /// <summary>
@@ -117,7 +116,7 @@ namespace DreamSale.Services.Common
             _searchTermRepository.Insert(searchTerm);
 
             //event notification
-            _eventPublisher.EntityInserted(searchTerm);
+            //_eventPublisher.EntityInserted(searchTerm);
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace DreamSale.Services.Common
             _searchTermRepository.Update(searchTerm);
 
             //event notification
-            _eventPublisher.EntityUpdated(searchTerm);
+            //_eventPublisher.EntityUpdated(searchTerm);
         }
         
         #endregion

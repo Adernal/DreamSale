@@ -2,7 +2,6 @@ using System;
 using System.Text;
 using System.Web;
 using DreamSale.Model.Catalog;
-using DreamSale.Core.Html;
 using DreamSale.Services.Localization;
 using DreamSale.Data.DatabaseContext;
 using DreamSale.Helper;

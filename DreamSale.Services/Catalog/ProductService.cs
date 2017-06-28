@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Common;
 using DreamSale.Model.Localization;
@@ -12,13 +10,16 @@ using DreamSale.Model.Orders;
 using DreamSale.Model.Security;
 using DreamSale.Model.Shipping;
 using DreamSale.Model.Stores;
-using DreamSale.Data;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Messages;
 using DreamSale.Services.Security;
 using DreamSale.Services.Stores;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DataProvider;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {
@@ -67,7 +68,7 @@ namespace DreamSale.Services.Catalog
         private readonly LocalizationSettings _localizationSettings;
         private readonly CommonSettings _commonSettings;
         private readonly CatalogSettings _catalogSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly IAclService _aclService;
         private readonly IStoreMappingService _storeMappingService;
 
@@ -102,7 +103,6 @@ namespace DreamSale.Services.Catalog
         /// <param name="localizationSettings">Localization settings</param>
         /// <param name="commonSettings">Common settings</param>
         /// <param name="catalogSettings">Catalog settings</param>
-        /// <param name="eventPublisher">Event published</param>
         /// <param name="aclService">ACL service</param>
         /// <param name="storeMappingService">Store mapping service</param>
         public ProductService(ICacheManager cacheManager,
@@ -129,7 +129,7 @@ namespace DreamSale.Services.Catalog
             LocalizationSettings localizationSettings, 
             CommonSettings commonSettings,
             CatalogSettings catalogSettings,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             IAclService aclService,
             IStoreMappingService storeMappingService)
         {
@@ -157,7 +157,7 @@ namespace DreamSale.Services.Catalog
             this._localizationSettings = localizationSettings;
             this._commonSettings = commonSettings;
             this._catalogSettings = catalogSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._aclService = aclService;
             this._storeMappingService = storeMappingService;
         }
@@ -182,7 +182,7 @@ namespace DreamSale.Services.Catalog
             UpdateProduct(product);
 
             //event notification
-            _eventPublisher.EntityDeleted(product);
+            //_eventPublisher.EntityDeleted(product);
         }
 
         /// <summary>
@@ -205,7 +205,7 @@ namespace DreamSale.Services.Catalog
             foreach (var product in products)
             {
                 //event notification
-                _eventPublisher.EntityDeleted(product);
+                //_eventPublisher.EntityDeleted(product);
             }
         }
 
@@ -280,7 +280,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTS_PATTERN_KEY);
             
             //event notification
-            _eventPublisher.EntityInserted(product);
+            //_eventPublisher.EntityInserted(product);
         }
 
         /// <summary>
@@ -299,7 +299,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(product);
+            //_eventPublisher.EntityUpdated(product);
         }
 
         public virtual void UpdateProducts(IList<Product> products)
@@ -316,7 +316,7 @@ namespace DreamSale.Services.Catalog
             //event notification
             foreach (var product in products)
             {
-                _eventPublisher.EntityUpdated(product);
+                //_eventPublisher.EntityUpdated(product);
             }
         }
 
@@ -1578,7 +1578,7 @@ namespace DreamSale.Services.Catalog
             _relatedProductRepository.Delete(relatedProduct);
 
             //event notification
-            _eventPublisher.EntityDeleted(relatedProduct);
+            //_eventPublisher.EntityDeleted(relatedProduct);
         }
 
         /// <summary>
@@ -1626,7 +1626,7 @@ namespace DreamSale.Services.Catalog
             _relatedProductRepository.Insert(relatedProduct);
 
             //event notification
-            _eventPublisher.EntityInserted(relatedProduct);
+            //_eventPublisher.EntityInserted(relatedProduct);
         }
 
         /// <summary>
@@ -1641,7 +1641,7 @@ namespace DreamSale.Services.Catalog
             _relatedProductRepository.Update(relatedProduct);
 
             //event notification
-            _eventPublisher.EntityUpdated(relatedProduct);
+            //_eventPublisher.EntityUpdated(relatedProduct);
         }
 
         #endregion
@@ -1660,7 +1660,7 @@ namespace DreamSale.Services.Catalog
             _crossSellProductRepository.Delete(crossSellProduct);
 
             //event notification
-            _eventPublisher.EntityDeleted(crossSellProduct);
+            //_eventPublisher.EntityDeleted(crossSellProduct);
         }
 
         /// <summary>
@@ -1707,7 +1707,7 @@ namespace DreamSale.Services.Catalog
             _crossSellProductRepository.Insert(crossSellProduct);
 
             //event notification
-            _eventPublisher.EntityInserted(crossSellProduct);
+            //_eventPublisher.EntityInserted(crossSellProduct);
         }
 
         /// <summary>
@@ -1722,7 +1722,7 @@ namespace DreamSale.Services.Catalog
             _crossSellProductRepository.Update(crossSellProduct);
 
             //event notification
-            _eventPublisher.EntityUpdated(crossSellProduct);
+            //_eventPublisher.EntityUpdated(crossSellProduct);
         }
 
         /// <summary>
@@ -1791,7 +1791,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(tierPrice);
+            //_eventPublisher.EntityDeleted(tierPrice);
         }
 
         /// <summary>
@@ -1821,7 +1821,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(tierPrice);
+            //_eventPublisher.EntityInserted(tierPrice);
         }
 
         /// <summary>
@@ -1838,7 +1838,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(tierPrice);
+            //_eventPublisher.EntityUpdated(tierPrice);
         }
 
         #endregion
@@ -1857,7 +1857,7 @@ namespace DreamSale.Services.Catalog
             _productPictureRepository.Delete(productPicture);
 
             //event notification
-            _eventPublisher.EntityDeleted(productPicture);
+            //_eventPublisher.EntityDeleted(productPicture);
         }
 
         /// <summary>
@@ -1900,7 +1900,7 @@ namespace DreamSale.Services.Catalog
             _productPictureRepository.Insert(productPicture);
 
             //event notification
-            _eventPublisher.EntityInserted(productPicture);
+            //_eventPublisher.EntityInserted(productPicture);
         }
 
         /// <summary>
@@ -1915,7 +1915,7 @@ namespace DreamSale.Services.Catalog
             _productPictureRepository.Update(productPicture);
 
             //event notification
-            _eventPublisher.EntityUpdated(productPicture);
+            //_eventPublisher.EntityUpdated(productPicture);
         }
 
         /// <summary>
@@ -2028,7 +2028,7 @@ namespace DreamSale.Services.Catalog
 
             _cacheManager.RemoveByPattern(PRODUCTS_PATTERN_KEY);
             //event notification
-            _eventPublisher.EntityDeleted(productReview);
+            //_eventPublisher.EntityDeleted(productReview);
         }
 
         /// <summary>
@@ -2046,7 +2046,7 @@ namespace DreamSale.Services.Catalog
             //event notification
             foreach (var productReview in productReviews)
             {
-                _eventPublisher.EntityDeleted(productReview);
+                //_eventPublisher.EntityDeleted(productReview);
             }
         }
 
@@ -2104,7 +2104,7 @@ namespace DreamSale.Services.Catalog
             _stockQuantityHistoryRepository.Insert(historyEntry);
 
             //event notification
-            _eventPublisher.EntityInserted(historyEntry);
+            //_eventPublisher.EntityInserted(historyEntry);
         }
 
         /// <summary>

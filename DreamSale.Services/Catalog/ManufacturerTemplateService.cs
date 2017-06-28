@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Catalog
 {
@@ -15,7 +15,7 @@ namespace DreamSale.Services.Catalog
         #region Fields
 
         private readonly IRepository<ManufacturerTemplate> _manufacturerTemplateRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
         
@@ -26,11 +26,10 @@ namespace DreamSale.Services.Catalog
         /// </summary>
         /// <param name="manufacturerTemplateRepository">Manufacturer template repository</param>
         /// <param name="eventPublisher">Event published</param>
-        public ManufacturerTemplateService(IRepository<ManufacturerTemplate> manufacturerTemplateRepository,
-            IEventPublisher eventPublisher)
+        public ManufacturerTemplateService(IRepository<ManufacturerTemplate> manufacturerTemplateRepository/*, IEventPublisher eventPublisher*/)
         {
             this._manufacturerTemplateRepository = manufacturerTemplateRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -49,7 +48,7 @@ namespace DreamSale.Services.Catalog
             _manufacturerTemplateRepository.Delete(manufacturerTemplate);
 
             //event notification
-            _eventPublisher.EntityDeleted(manufacturerTemplate);
+            //_eventPublisher.EntityDeleted(manufacturerTemplate);
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace DreamSale.Services.Catalog
             _manufacturerTemplateRepository.Insert(manufacturerTemplate);
 
             //event notification
-            _eventPublisher.EntityInserted(manufacturerTemplate);
+            //_eventPublisher.EntityInserted(manufacturerTemplate);
         }
 
         /// <summary>
@@ -106,7 +105,7 @@ namespace DreamSale.Services.Catalog
             _manufacturerTemplateRepository.Update(manufacturerTemplate);
 
             //event notification
-            _eventPublisher.EntityUpdated(manufacturerTemplate);
+            //_eventPublisher.EntityUpdated(manufacturerTemplate);
         }
         
         #endregion

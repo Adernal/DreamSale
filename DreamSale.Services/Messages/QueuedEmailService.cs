@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 using DreamSale.Model.Common;
 using DreamSale.Model.Messages;
-using DreamSale.Data;
-using DreamSale.Services.Events;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Data.DataProvider;
 
 namespace DreamSale.Services.Messages
 {
@@ -16,24 +16,23 @@ namespace DreamSale.Services.Messages
         private readonly IDbContext _dbContext;
         private readonly IDataProvider _dataProvider;
         private readonly CommonSettings _commonSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="queuedEmailRepository">Queued email repository</param>
-        /// <param name="eventPublisher">Event published</param>
         /// <param name="dbContext">DB context</param>
         /// <param name="dataProvider">WeData provider</param>
         /// <param name="commonSettings">Common settings</param>
         public QueuedEmailService(IRepository<QueuedEmail> queuedEmailRepository,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             IDbContext dbContext, 
             IDataProvider dataProvider, 
             CommonSettings commonSettings)
         {
             _queuedEmailRepository = queuedEmailRepository;
-            _eventPublisher = eventPublisher;
+            //_eventPublisher = eventPublisher;
             this._dbContext = dbContext;
             this._dataProvider = dataProvider;
             this._commonSettings = commonSettings;
@@ -51,7 +50,7 @@ namespace DreamSale.Services.Messages
             _queuedEmailRepository.Insert(queuedEmail);
 
             //event notification
-            _eventPublisher.EntityInserted(queuedEmail);
+            //_eventPublisher.EntityInserted(queuedEmail);
         }
 
         /// <summary>
@@ -66,7 +65,7 @@ namespace DreamSale.Services.Messages
             _queuedEmailRepository.Update(queuedEmail);
 
             //event notification
-            _eventPublisher.EntityUpdated(queuedEmail);
+            //_eventPublisher.EntityUpdated(queuedEmail);
         }
 
         /// <summary>
@@ -81,7 +80,7 @@ namespace DreamSale.Services.Messages
             _queuedEmailRepository.Delete(queuedEmail);
 
             //event notification
-            _eventPublisher.EntityDeleted(queuedEmail);
+            //_eventPublisher.EntityDeleted(queuedEmail);
         }
 
         /// <summary>
@@ -98,7 +97,7 @@ namespace DreamSale.Services.Messages
             //event notification
             foreach (var queuedEmail in queuedEmails)
             {
-                _eventPublisher.EntityDeleted(queuedEmail);
+                //_eventPublisher.EntityDeleted(queuedEmail);
             }
         }
 

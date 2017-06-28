@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DreamSale.Core;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Forums;
 using DreamSale.Model.Seo;
 using DreamSale.Infrastructure;
 using DreamSale.Services.Localization;
+using DreamSale.Model;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Seo
 {

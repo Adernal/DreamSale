@@ -4,8 +4,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Web;
-using DreamSale.Core;
-using DreamSale.Core.Domain;
 using DreamSale.Model.Blogs;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
@@ -19,13 +17,13 @@ using DreamSale.Model.Shipping;
 using DreamSale.Model.Stores;
 using DreamSale.Model.Tax;
 using DreamSale.Model.Vendors;
-using DreamSale.Core.Html;
+using DreamSale.Helper;
 using DreamSale.Infrastructure;
 using DreamSale.Services.Catalog;
 using DreamSale.Services.Common;
 using DreamSale.Services.Customers;
 using DreamSale.Services.Directory;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Forums;
 using DreamSale.Services.Helpers;
 using DreamSale.Services.Localization;
@@ -36,6 +34,8 @@ using DreamSale.Services.Seo;
 using DreamSale.Services.Shipping;
 using DreamSale.Services.Shipping.Tracking;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Model;
 
 namespace DreamSale.Services.Messages
 {
@@ -65,7 +65,7 @@ namespace DreamSale.Services.Messages
         private readonly ShippingSettings _shippingSettings;
         private readonly PaymentSettings _paymentSettings;
 
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly StoreInformationSettings _storeInformationSettings;
 
         #endregion
@@ -92,7 +92,7 @@ namespace DreamSale.Services.Messages
             CurrencySettings currencySettings,
             ShippingSettings shippingSettings,
             PaymentSettings paymentSettings,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             StoreInformationSettings storeInformationSettings)
         {
             this._languageService = languageService;
@@ -116,7 +116,7 @@ namespace DreamSale.Services.Messages
             this._currencySettings = currencySettings;
             this._shippingSettings = shippingSettings;
             this._paymentSettings = paymentSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._storeInformationSettings = storeInformationSettings;
         }
 
@@ -848,7 +848,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("GooglePlus.URL", _storeInformationSettings.GooglePlusLink));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(store, tokens);
+            //_eventPublisher.EntityTokensAdded(store, tokens);
         }
 
         /// <summary>
@@ -897,7 +897,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Order.ShippingCustomAttributes", _addressAttributeFormatter.FormatAttributes(order.ShippingAddress != null ? order.ShippingAddress.CustomAttributes : string.Empty), true));
 
             var paymentMethod = _paymentService.LoadPaymentMethodBySystemName(order.PaymentMethodSystemName);
-            var paymentMethodName = paymentMethod != null ? paymentMethod.GetLocalizedFriendlyName(_localizationService, _workContext.WorkingLanguage.Id) : order.PaymentMethodSystemName;
+            var paymentMethodName = "";// paymentMethod != null ? paymentMethod.GetLocalizedFriendlyName(_localizationService, _workContext.WorkingLanguage.Id) : order.PaymentMethodSystemName;
             tokens.Add(new Token("Order.PaymentMethod", paymentMethodName));
             tokens.Add(new Token("Order.VatNumber", order.VatNumber));
             var sbCustomValues = new StringBuilder();
@@ -931,7 +931,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Order.OrderURLForCustomer", string.Format("{0}orderdetails/{1}", GetStoreUrl(order.StoreId), order.Id), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(order, tokens);
+            //_eventPublisher.EntityTokensAdded(order, tokens);
         }
 
         /// <summary>
@@ -953,7 +953,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Order.AmountRefunded", refundedAmountStr));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(order, tokens);
+            //_eventPublisher.EntityTokensAdded(order, tokens);
         }
 
         /// <summary>
@@ -980,7 +980,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Shipment.URLForCustomer", string.Format("{0}orderdetails/shipment/{1}", GetStoreUrl(shipment.Order.StoreId), shipment.Id), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(shipment, tokens);
+            //_eventPublisher.EntityTokensAdded(shipment, tokens);
         }
 
         /// <summary>
@@ -994,7 +994,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Order.OrderNoteAttachmentUrl", string.Format("{0}download/ordernotefile/{1}", GetStoreUrl(orderNote.Order.StoreId), orderNote.Id), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(orderNote, tokens);
+            //_eventPublisher.EntityTokensAdded(orderNote, tokens);
         }
 
         /// <summary>
@@ -1011,7 +1011,7 @@ namespace DreamSale.Services.Messages
                 tokens.Add(new Token("RecurringPayment.RecurringPaymentType", _paymentService.GetRecurringPaymentType(recurringPayment.InitialOrder.PaymentMethodSystemName).ToString()));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(recurringPayment, tokens);
+            //_eventPublisher.EntityTokensAdded(recurringPayment, tokens);
         }
 
         /// <summary>
@@ -1033,7 +1033,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("ReturnRequest.Status", returnRequest.ReturnRequestStatus.GetLocalizedEnum(_localizationService, _workContext)));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(returnRequest, tokens);
+            //_eventPublisher.EntityTokensAdded(returnRequest, tokens);
         }
 
         /// <summary>
@@ -1056,7 +1056,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("GiftCard.Message", giftCardMesage, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(giftCard, tokens);
+            //_eventPublisher.EntityTokensAdded(giftCard, tokens);
         }
 
         /// <summary>
@@ -1091,7 +1091,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Wishlist.URLForCustomer", wishlistUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(customer, tokens);
+            //_eventPublisher.EntityTokensAdded(customer, tokens);
         }
 
         /// <summary>
@@ -1105,7 +1105,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Vendor.Email", vendor.Email));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(vendor, tokens);
+            //_eventPublisher.EntityTokensAdded(vendor, tokens);
         }
 
         /// <summary>
@@ -1127,7 +1127,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("NewsLetterSubscription.DeactivationUrl", deActivationUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(subscription, tokens);
+            //_eventPublisher.EntityTokensAdded(subscription, tokens);
         }
 
         /// <summary>
@@ -1140,7 +1140,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("ProductReview.ProductName", productReview.Product.Name));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(productReview, tokens);
+            //_eventPublisher.EntityTokensAdded(productReview, tokens);
         }
 
         /// <summary>
@@ -1153,7 +1153,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("BlogComment.BlogPostTitle", blogComment.BlogPost.Title));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(blogComment, tokens);
+            //_eventPublisher.EntityTokensAdded(blogComment, tokens);
         }
 
         /// <summary>
@@ -1166,7 +1166,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("NewsComment.NewsTitle", newsComment.NewsItem.Title));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(newsComment, tokens);
+            //_eventPublisher.EntityTokensAdded(newsComment, tokens);
         }
 
         /// <summary>
@@ -1188,7 +1188,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Product.ProductURLForCustomer", productUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(product, tokens);
+            //_eventPublisher.EntityTokensAdded(product, tokens);
         }
 
         /// <summary>
@@ -1215,7 +1215,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("AttributeCombination.StockQuantity", combination.StockQuantity));
             
             //event notification
-            _eventPublisher.EntityTokensAdded(combination, tokens);
+            //_eventPublisher.EntityTokensAdded(combination, tokens);
         }
 
         /// <summary>
@@ -1240,7 +1240,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Forums.TopicName", forumTopic.Subject));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(forumTopic, tokens);
+            //_eventPublisher.EntityTokensAdded(forumTopic, tokens);
         }
 
         /// <summary>
@@ -1254,7 +1254,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Forums.PostBody", forumPost.FormatPostText(), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(forumPost, tokens);
+            //_eventPublisher.EntityTokensAdded(forumPost, tokens);
         }
 
         /// <summary>
@@ -1270,7 +1270,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Forums.ForumName", forum.Name));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(forum, tokens);
+            //_eventPublisher.EntityTokensAdded(forum, tokens);
         }
 
         /// <summary>
@@ -1284,7 +1284,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("PrivateMessage.Text",  privateMessage.FormatPrivateMessageText(), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(privateMessage, tokens);
+            //_eventPublisher.EntityTokensAdded(privateMessage, tokens);
         }
 
         /// <summary>
@@ -1300,7 +1300,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("BackInStockSubscription.ProductUrl", productUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(subscription, tokens);
+            //_eventPublisher.EntityTokensAdded(subscription, tokens);
         }
 
         /// <summary>
@@ -1310,7 +1310,7 @@ namespace DreamSale.Services.Messages
         public virtual IEnumerable<string> GetListOfCampaignAllowedTokens()
         {
             var additionTokens = new CampaignAdditionTokensAddedEvent();
-            _eventPublisher.Publish(additionTokens);
+            //_eventPublisher.Publish(additionTokens);
 
             var allowedTokens = GetListOfAllowedTokens(new[] { TokenGroupNames.StoreTokens, TokenGroupNames.SubscriptionTokens }).ToList();
             allowedTokens.AddRange(additionTokens.AdditionTokens);
@@ -1326,7 +1326,7 @@ namespace DreamSale.Services.Messages
         public virtual IEnumerable<string> GetListOfAllowedTokens(IEnumerable<string> tokenGroups = null)
         {
             var additionTokens = new AdditionTokensAddedEvent();
-            _eventPublisher.Publish(additionTokens);
+            //_eventPublisher.Publish(additionTokens);
 
             var allowedTokens = AllowedTokens.Where(x => tokenGroups == null || tokenGroups.Contains(x.Key))
                 .SelectMany(x => x.Value).ToList();

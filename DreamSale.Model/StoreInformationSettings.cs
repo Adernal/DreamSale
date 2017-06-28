@@ -8,7 +8,7 @@ namespace DreamSale.Model
         /// Gets or sets a value indicating whether "powered by DreamSaleCommerce" text should be displayed.
         /// Please find more info at http://www.DreamSalecommerce.com/copyrightremoval.aspx
         /// </summary>
-        public bool HidePoweredByDreamSaleCommerce { get; set; }
+        public bool HidePoweredByDreamSale { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether store is closed

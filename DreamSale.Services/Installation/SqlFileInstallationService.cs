@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Localization;
 using DreamSale.Model.Stores;
@@ -12,6 +10,10 @@ using DreamSale.Infrastructure;
 using DreamSale.Data;
 using DreamSale.Services.Customers;
 using DreamSale.Services.Localization;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Helper;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Installation
 {

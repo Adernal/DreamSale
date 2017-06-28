@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Data.DataRepository;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
-using DreamSale.Services.Events;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Orders
 {
@@ -18,7 +18,7 @@ namespace DreamSale.Services.Orders
         private readonly IRepository<RewardPointsHistory> _rphRepository;
         private readonly RewardPointsSettings _rewardPointsSettings;
         private readonly IStoreContext _storeContext;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -33,13 +33,12 @@ namespace DreamSale.Services.Orders
         /// <param name="eventPublisher">Event published</param>
         public RewardPointService(IRepository<RewardPointsHistory> rphRepository,
             RewardPointsSettings rewardPointsSettings,
-            IStoreContext storeContext,
-            IEventPublisher eventPublisher)
+            IStoreContext storeContext)
         {
             this._rphRepository = rphRepository;
             this._rewardPointsSettings = rewardPointsSettings;
             this._storeContext = storeContext;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -157,7 +156,7 @@ namespace DreamSale.Services.Orders
             _rphRepository.Insert(rph);
 
             //event notification
-            _eventPublisher.EntityInserted(rph);
+            //_eventPublisher.EntityInserted(rph);
 
             return rph.Id;
         }
@@ -217,7 +216,7 @@ namespace DreamSale.Services.Orders
             _rphRepository.Delete(rewardPointsHistory);
 
             //event notification
-            _eventPublisher.EntityDeleted(rewardPointsHistory);
+            //_eventPublisher.EntityDeleted(rewardPointsHistory);
         }
 
         /// <summary>
@@ -232,7 +231,7 @@ namespace DreamSale.Services.Orders
             _rphRepository.Update(rewardPointsHistory);
 
             //event notification
-            _eventPublisher.EntityUpdated(rewardPointsHistory);
+            //_eventPublisher.EntityUpdated(rewardPointsHistory);
         }
 
         #endregion

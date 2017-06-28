@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core.Data;
 using DreamSale.Model.Shipping;
-using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Shipping.Date
 {
@@ -14,7 +13,7 @@ namespace DreamSale.Services.Shipping.Date
     {
         #region Fields
 
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly IRepository<DeliveryDate> _deliveryDateRepository;
         private readonly IRepository<ProductAvailabilityRange> _productAvailabilityRangeRepository;
 
@@ -28,11 +27,10 @@ namespace DreamSale.Services.Shipping.Date
         /// <param name="eventPublisher">Event published</param>
         /// <param name="deliveryDateRepository">Delivery date repository</param>
         /// <param name="productAvailabilityRangeRepository">Product availability range repository</param>
-        public DateRangeService(IEventPublisher eventPublisher,
-            IRepository<DeliveryDate> deliveryDateRepository,
+        public DateRangeService(IRepository<DeliveryDate> deliveryDateRepository,
             IRepository<ProductAvailabilityRange> productAvailabilityRangeRepository)
         {
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._deliveryDateRepository = deliveryDateRepository;
             this._productAvailabilityRangeRepository = productAvailabilityRangeRepository;
         }
@@ -81,7 +79,7 @@ namespace DreamSale.Services.Shipping.Date
             _deliveryDateRepository.Insert(deliveryDate);
 
             //event notification
-            _eventPublisher.EntityInserted(deliveryDate);
+            //_eventPublisher.EntityInserted(deliveryDate);
         }
 
         /// <summary>
@@ -96,7 +94,7 @@ namespace DreamSale.Services.Shipping.Date
             _deliveryDateRepository.Update(deliveryDate);
 
             //event notification
-            _eventPublisher.EntityUpdated(deliveryDate);
+            //_eventPublisher.EntityUpdated(deliveryDate);
         }
 
         /// <summary>
@@ -111,7 +109,7 @@ namespace DreamSale.Services.Shipping.Date
             _deliveryDateRepository.Delete(deliveryDate);
 
             //event notification
-            _eventPublisher.EntityDeleted(deliveryDate);
+            //_eventPublisher.EntityDeleted(deliveryDate);
         }
 
         #endregion
@@ -152,7 +150,7 @@ namespace DreamSale.Services.Shipping.Date
             _productAvailabilityRangeRepository.Insert(productAvailabilityRange);
 
             //event notification
-            _eventPublisher.EntityInserted(productAvailabilityRange);
+            //_eventPublisher.EntityInserted(productAvailabilityRange);
         }
 
         /// <summary>
@@ -167,7 +165,7 @@ namespace DreamSale.Services.Shipping.Date
             _productAvailabilityRangeRepository.Update(productAvailabilityRange);
 
             //event notification
-            _eventPublisher.EntityUpdated(productAvailabilityRange);
+            //_eventPublisher.EntityUpdated(productAvailabilityRange);
         }
 
         /// <summary>
@@ -182,7 +180,7 @@ namespace DreamSale.Services.Shipping.Date
             _productAvailabilityRangeRepository.Delete(productAvailabilityRange);
 
             //event notification
-            _eventPublisher.EntityDeleted(productAvailabilityRange);
+            //_eventPublisher.EntityDeleted(productAvailabilityRange);
         }
 
         #endregion

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using DreamSale.Core;
+using DreamSale.Common;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Common;
 using DreamSale.Model.Customers;
@@ -16,6 +16,7 @@ using DreamSale.Services.Discounts;
 using DreamSale.Services.Payments;
 using DreamSale.Services.Shipping;
 using DreamSale.Services.Tax;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Orders
 {

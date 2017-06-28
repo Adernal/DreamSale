@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Nop.Core;
-using Nop.Core.Infrastructure;
-using Nop.Services.Localization;
+using DreamSale.Common;
+using DreamSale.Infrastructure;
+using DreamSale.Services.Localization;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Model;
 
-namespace Nop.Services
+namespace DreamSale.Services
 {
     /// <summary>
     /// Extensions

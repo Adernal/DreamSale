@@ -1,6 +1,7 @@
 using System.Collections.Generic;
-using DreamSale.Core;
+using DreamSale.Common;
 using DreamSale.Model.Seo;
+using DreamSale.Model;
 
 namespace DreamSale.Services.Seo
 {

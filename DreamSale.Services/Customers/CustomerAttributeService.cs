@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Customers
 {
@@ -54,7 +54,7 @@ namespace DreamSale.Services.Customers
 
         private readonly IRepository<CustomerAttribute> _customerAttributeRepository;
         private readonly IRepository<CustomerAttributeValue> _customerAttributeValueRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
         
         #endregion
@@ -67,16 +67,14 @@ namespace DreamSale.Services.Customers
         /// <param name="cacheManager">Cache manager</param>
         /// <param name="customerAttributeRepository">Customer attribute repository</param>
         /// <param name="customerAttributeValueRepository">Customer attribute value repository</param>
-        /// <param name="eventPublisher">Event published</param>
         public CustomerAttributeService(ICacheManager cacheManager,
             IRepository<CustomerAttribute> customerAttributeRepository,
-            IRepository<CustomerAttributeValue> customerAttributeValueRepository,
-            IEventPublisher eventPublisher)
+            IRepository<CustomerAttributeValue> customerAttributeValueRepository/*,IEventPublisher eventPublisher*/)
         {
             this._cacheManager = cacheManager;
             this._customerAttributeRepository = customerAttributeRepository;
             this._customerAttributeValueRepository = customerAttributeValueRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -98,7 +96,7 @@ namespace DreamSale.Services.Customers
             _cacheManager.RemoveByPattern(CUSTOMERATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(customerAttribute);
+            //_eventPublisher.EntityDeleted(customerAttribute);
         }
 
         /// <summary>
@@ -146,7 +144,7 @@ namespace DreamSale.Services.Customers
             _cacheManager.RemoveByPattern(CUSTOMERATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(customerAttribute);
+            //_eventPublisher.EntityInserted(customerAttribute);
         }
 
         /// <summary>
@@ -164,7 +162,7 @@ namespace DreamSale.Services.Customers
             _cacheManager.RemoveByPattern(CUSTOMERATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(customerAttribute);
+            //_eventPublisher.EntityUpdated(customerAttribute);
         }
 
         /// <summary>
@@ -182,7 +180,7 @@ namespace DreamSale.Services.Customers
             _cacheManager.RemoveByPattern(CUSTOMERATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(customerAttributeValue);
+            //_eventPublisher.EntityDeleted(customerAttributeValue);
         }
 
         /// <summary>
@@ -233,7 +231,7 @@ namespace DreamSale.Services.Customers
             _cacheManager.RemoveByPattern(CUSTOMERATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(customerAttributeValue);
+            //_eventPublisher.EntityInserted(customerAttributeValue);
         }
 
         /// <summary>
@@ -251,7 +249,7 @@ namespace DreamSale.Services.Customers
             _cacheManager.RemoveByPattern(CUSTOMERATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(customerAttributeValue);
+            //_eventPublisher.EntityUpdated(customerAttributeValue);
         }
         
         #endregion

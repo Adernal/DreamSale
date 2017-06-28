@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Messages;
 using DreamSale.Data;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
+using DreamSale.Common;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Messages
 {
@@ -17,7 +17,7 @@ namespace DreamSale.Services.Messages
     {
         #region Fields
 
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly IDbContext _context;
         private readonly IRepository<NewsLetterSubscription> _subscriptionRepository;
         private readonly IRepository<Customer> _customerRepository;
@@ -30,13 +30,13 @@ namespace DreamSale.Services.Messages
         public NewsLetterSubscriptionService(IDbContext context,
             IRepository<NewsLetterSubscription> subscriptionRepository,
             IRepository<Customer> customerRepository,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             ICustomerService customerService)
         {
             this._context = context;
             this._subscriptionRepository = subscriptionRepository;
             this._customerRepository = customerRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._customerService = customerService;
         }
 
@@ -54,14 +54,14 @@ namespace DreamSale.Services.Messages
         {
             if (publishSubscriptionEvents)
             {
-                if (isSubscribe)
-                {
-                    _eventPublisher.PublishNewsletterSubscribe(subscription);
-                }
-                else
-                {
-                    _eventPublisher.PublishNewsletterUnsubscribe(subscription);
-                }
+                //if (isSubscribe)
+                //{
+                //    _eventPublisher.PublishNewsletterSubscribe(subscription);
+                //}
+                //else
+                //{
+                //    _eventPublisher.PublishNewsletterUnsubscribe(subscription);
+                //}
             }
         }
         #endregion
@@ -93,7 +93,7 @@ namespace DreamSale.Services.Messages
             }
 
             //Publish event
-            _eventPublisher.EntityInserted(newsLetterSubscription);
+            //_eventPublisher.EntityInserted(newsLetterSubscription);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace DreamSale.Services.Messages
             }
 
             //Publish event
-            _eventPublisher.EntityUpdated(newsLetterSubscription);
+            //_eventPublisher.EntityUpdated(newsLetterSubscription);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace DreamSale.Services.Messages
             PublishSubscriptionEvent(newsLetterSubscription, false, publishSubscriptionEvents);
 
             //event notification
-            _eventPublisher.EntityDeleted(newsLetterSubscription);
+            //_eventPublisher.EntityDeleted(newsLetterSubscription);
         }
 
         /// <summary>

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Directory;
-using DreamSale.Core.Plugins;
-using DreamSale.Services.Events;
+//using DreamSale.Core.Plugins;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DataRepository;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Directory
 {
@@ -46,8 +47,8 @@ namespace DreamSale.Services.Directory
         private readonly IStoreMappingService _storeMappingService;
         private readonly ICacheManager _cacheManager;
         private readonly CurrencySettings _currencySettings;
-        private readonly IPluginFinder _pluginFinder;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IPluginFinder _pluginFinder;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -60,21 +61,18 @@ namespace DreamSale.Services.Directory
         /// <param name="currencyRepository">Currency repository</param>
         /// <param name="storeMappingService">Store mapping service</param>
         /// <param name="currencySettings">Currency settings</param>
-        /// <param name="pluginFinder">Plugin finder</param>
-        /// <param name="eventPublisher">Event published</param>
+        ///// <param name="pluginFinder">Plugin finder</param>
         public CurrencyService(ICacheManager cacheManager,
             IRepository<Currency> currencyRepository,
             IStoreMappingService storeMappingService,
-            CurrencySettings currencySettings,
-            IPluginFinder pluginFinder,
-            IEventPublisher eventPublisher)
+            CurrencySettings currencySettings/*,IPluginFinder pluginFinder,IEventPublisher eventPublisher*/)
         {
             this._cacheManager = cacheManager;
             this._currencyRepository = currencyRepository;
             this._storeMappingService = storeMappingService;
             this._currencySettings = currencySettings;
-            this._pluginFinder = pluginFinder;
-            this._eventPublisher = eventPublisher;
+            //this._pluginFinder = pluginFinder;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -112,7 +110,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(CURRENCIES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(currency);
+            //_eventPublisher.EntityDeleted(currency);
         }
 
         /// <summary>
@@ -183,7 +181,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(CURRENCIES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(currency);
+            //_eventPublisher.EntityInserted(currency);
         }
 
         /// <summary>
@@ -200,7 +198,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(CURRENCIES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(currency);
+            //_eventPublisher.EntityUpdated(currency);
         }
 
         #endregion
@@ -339,8 +337,8 @@ namespace DreamSale.Services.Directory
         public virtual IExchangeRateProvider LoadActiveExchangeRateProvider(Customer customer = null)
         {
             var exchangeRateProvider = LoadExchangeRateProviderBySystemName(_currencySettings.ActiveExchangeRateProviderSystemName);
-            if (exchangeRateProvider == null || !_pluginFinder.AuthorizedForUser(exchangeRateProvider.PluginDescriptor, customer))
-                exchangeRateProvider = LoadAllExchangeRateProviders(customer).FirstOrDefault();
+            //if (exchangeRateProvider == null || !_pluginFinder.AuthorizedForUser(exchangeRateProvider.PluginDescriptor, customer))
+            //    exchangeRateProvider = LoadAllExchangeRateProviders(customer).FirstOrDefault();
 
             return exchangeRateProvider;
         }
@@ -352,9 +350,9 @@ namespace DreamSale.Services.Directory
         /// <returns>Found exchange rate provider</returns>
         public virtual IExchangeRateProvider LoadExchangeRateProviderBySystemName(string systemName)
         {
-            var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IExchangeRateProvider>(systemName);
-            if (descriptor != null)
-                return descriptor.Instance<IExchangeRateProvider>();
+            //var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IExchangeRateProvider>(systemName);
+            //if (descriptor != null)
+            //    return descriptor.Instance<IExchangeRateProvider>();
 
             return null;
         }
@@ -366,9 +364,10 @@ namespace DreamSale.Services.Directory
         /// <returns>Exchange rate providers</returns>
         public virtual IList<IExchangeRateProvider> LoadAllExchangeRateProviders(Customer customer = null)
         {
-            var exchangeRateProviders = _pluginFinder.GetPlugins<IExchangeRateProvider>(customer: customer);
+            //var exchangeRateProviders = _pluginFinder.GetPlugins<IExchangeRateProvider>(customer: customer);
 
-            return exchangeRateProviders.OrderBy(tp => tp.PluginDescriptor).ToList();
+            //return exchangeRateProviders.OrderBy(tp => tp.PluginDescriptor).ToList();
+            return null;
         }
         
         #endregion

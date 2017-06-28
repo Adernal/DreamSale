@@ -1,4 +1,4 @@
-using DreamSale.Core;
+using DreamSale.Common;
 using DreamSale.Model.Common;
 
 namespace DreamSale.Services.Common

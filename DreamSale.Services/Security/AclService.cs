@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Security;
-using DreamSale.Services.Events;
+using DreamSale.Model;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Security
 {
@@ -38,7 +38,7 @@ namespace DreamSale.Services.Security
         private readonly IRepository<AclRecord> _aclRecordRepository;
         private readonly IWorkContext _workContext;
         private readonly ICacheManager _cacheManager;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly CatalogSettings _catalogSettings;
 
         #endregion
@@ -56,13 +56,13 @@ namespace DreamSale.Services.Security
         public AclService(ICacheManager cacheManager, 
             IWorkContext workContext,
             IRepository<AclRecord> aclRecordRepository,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             CatalogSettings catalogSettings)
         {
             this._cacheManager = cacheManager;
             this._workContext = workContext;
             this._aclRecordRepository = aclRecordRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._catalogSettings = catalogSettings;
         }
 
@@ -85,7 +85,7 @@ namespace DreamSale.Services.Security
             _cacheManager.RemoveByPattern(ACLRECORD_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(aclRecord);
+            //_eventPublisher.EntityDeleted(aclRecord);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace DreamSale.Services.Security
             _cacheManager.RemoveByPattern(ACLRECORD_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(aclRecord);
+            //_eventPublisher.EntityInserted(aclRecord);
         }
 
         /// <summary>
@@ -184,7 +184,7 @@ namespace DreamSale.Services.Security
             _cacheManager.RemoveByPattern(ACLRECORD_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(aclRecord);
+            //_eventPublisher.EntityUpdated(aclRecord);
         }
 
         /// <summary>

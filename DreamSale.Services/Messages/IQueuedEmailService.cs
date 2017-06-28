@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DreamSale.Core;
+using DreamSale.Common;
 using DreamSale.Model.Messages;
 
 namespace DreamSale.Services.Messages

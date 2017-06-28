@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Forums;
 using DreamSale.Services.Common;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Messages;
 using DreamSale.Common;
 using DreamSale.Data.DataRepository;
@@ -60,7 +58,7 @@ namespace DreamSale.Services.Forums
         private readonly ICustomerService _customerService;
         private readonly IWorkContext _workContext;
         private readonly IWorkflowMessageService _workflowMessageService;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -82,7 +80,7 @@ namespace DreamSale.Services.Forums
         /// <param name="customerService">Customer service</param>
         /// <param name="workContext">Work context</param>
         /// <param name="workflowMessageService">Workflow message service</param>
-        /// <param name="eventPublisher">Event published</param>
+        ///// <param name="eventPublisher">Event published</param>
         public ForumService(ICacheManager cacheManager,
             IRepository<ForumGroup> forumGroupRepository,
             IRepository<Forum> forumRepository,
@@ -96,8 +94,7 @@ namespace DreamSale.Services.Forums
             IGenericAttributeService genericAttributeService,
             ICustomerService customerService,
             IWorkContext workContext,
-            IWorkflowMessageService workflowMessageService,
-            IEventPublisher eventPublisher
+            IWorkflowMessageService workflowMessageService/*,IEventPublisher eventPublisher*/
             )
         {
             this._cacheManager = cacheManager;
@@ -114,7 +111,7 @@ namespace DreamSale.Services.Forums
             this._customerService = customerService;
             this._workContext = workContext;
             this._workflowMessageService = workflowMessageService;
-            _eventPublisher = eventPublisher;
+            //_eventPublisher = eventPublisher;
         }
         #endregion
 
@@ -291,7 +288,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(forumGroup);
+            //_eventPublisher.EntityDeleted(forumGroup);
         }
 
         /// <summary>
@@ -343,7 +340,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(forumGroup);
+            //_eventPublisher.EntityInserted(forumGroup);
         }
 
         /// <summary>
@@ -364,7 +361,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(forumGroup);
+            //_eventPublisher.EntityUpdated(forumGroup);
         }
 
         /// <summary>
@@ -389,7 +386,7 @@ namespace DreamSale.Services.Forums
             {
                 _forumSubscriptionRepository.Delete(fs);
                 //event notification
-                _eventPublisher.EntityDeleted(fs);
+                //_eventPublisher.EntityDeleted(fs);
             }
 
             //delete forum subscriptions (forum)
@@ -400,7 +397,7 @@ namespace DreamSale.Services.Forums
             {
                 _forumSubscriptionRepository.Delete(fs2);
                 //event notification
-                _eventPublisher.EntityDeleted(fs2);
+                //_eventPublisher.EntityDeleted(fs2);
             }
 
             //delete forum
@@ -410,7 +407,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(forum);
+            //_eventPublisher.EntityDeleted(forum);
         }
 
         /// <summary>
@@ -462,7 +459,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(forum);
+            //_eventPublisher.EntityInserted(forum);
         }
 
         /// <summary>
@@ -482,7 +479,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(forum);
+            //_eventPublisher.EntityUpdated(forum);
         }
 
         /// <summary>
@@ -511,7 +508,7 @@ namespace DreamSale.Services.Forums
             {
                 _forumSubscriptionRepository.Delete(fs);
                 //event notification
-                _eventPublisher.EntityDeleted(fs);
+                //_eventPublisher.EntityDeleted(fs);
             }
 
             //update stats
@@ -522,7 +519,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(forumTopic);
+            //_eventPublisher.EntityDeleted(forumTopic);
         }
 
         /// <summary>
@@ -652,7 +649,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(forumTopic);
+            //_eventPublisher.EntityInserted(forumTopic);
 
             //send notifications
             if (sendNotifications)
@@ -694,7 +691,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(forumTopic);
+            //_eventPublisher.EntityUpdated(forumTopic);
         }
 
         /// <summary>
@@ -777,7 +774,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(forumPost);
+            //_eventPublisher.EntityDeleted(forumPost);
 
         }
 
@@ -874,7 +871,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(forumPost);
+            //_eventPublisher.EntityInserted(forumPost);
 
             //notifications
             if (sendNotifications)
@@ -922,7 +919,7 @@ namespace DreamSale.Services.Forums
             _cacheManager.RemoveByPattern(FORUM_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(forumPost);
+            //_eventPublisher.EntityUpdated(forumPost);
         }
 
         /// <summary>
@@ -939,7 +936,7 @@ namespace DreamSale.Services.Forums
             _forumPrivateMessageRepository.Delete(privateMessage);
 
             //event notification
-            _eventPublisher.EntityDeleted(privateMessage);
+            //_eventPublisher.EntityDeleted(privateMessage);
         }
 
         /// <summary>
@@ -1011,7 +1008,7 @@ namespace DreamSale.Services.Forums
             _forumPrivateMessageRepository.Insert(privateMessage);
 
             //event notification
-            _eventPublisher.EntityInserted(privateMessage);
+            //_eventPublisher.EntityInserted(privateMessage);
 
             var customerTo = _customerService.GetCustomerById(privateMessage.ToCustomerId);
             if (customerTo == null)
@@ -1042,13 +1039,13 @@ namespace DreamSale.Services.Forums
             {
                 _forumPrivateMessageRepository.Delete(privateMessage);
                 //event notification
-                _eventPublisher.EntityDeleted(privateMessage);
+                //_eventPublisher.EntityDeleted(privateMessage);
             }
             else
             {
                 _forumPrivateMessageRepository.Update(privateMessage);
                 //event notification
-                _eventPublisher.EntityUpdated(privateMessage);
+                //_eventPublisher.EntityUpdated(privateMessage);
             }
         }
 
@@ -1066,7 +1063,7 @@ namespace DreamSale.Services.Forums
             _forumSubscriptionRepository.Delete(forumSubscription);
 
             //event notification
-            _eventPublisher.EntityDeleted(forumSubscription);
+            //_eventPublisher.EntityDeleted(forumSubscription);
         }
 
         /// <summary>
@@ -1126,7 +1123,7 @@ namespace DreamSale.Services.Forums
             _forumSubscriptionRepository.Insert(forumSubscription);
 
             //event notification
-            _eventPublisher.EntityInserted(forumSubscription);
+            //_eventPublisher.EntityInserted(forumSubscription);
         }
 
         /// <summary>
@@ -1143,7 +1140,7 @@ namespace DreamSale.Services.Forums
             _forumSubscriptionRepository.Update(forumSubscription);
 
             //event notification
-            _eventPublisher.EntityUpdated(forumSubscription);
+            //_eventPublisher.EntityUpdated(forumSubscription);
         }
 
         /// <summary>
@@ -1498,7 +1495,7 @@ namespace DreamSale.Services.Forums
             this.UpdatePost(post);
 
             //event notification
-            _eventPublisher.EntityInserted(postVote);
+            //_eventPublisher.EntityInserted(postVote);
         }
 
         /// <summary>
@@ -1513,7 +1510,7 @@ namespace DreamSale.Services.Forums
             _forumPostVoteRepository.Update(postVote);
 
             //event notification
-            _eventPublisher.EntityUpdated(postVote);
+            //_eventPublisher.EntityUpdated(postVote);
         }
 
         /// <summary>
@@ -1533,7 +1530,7 @@ namespace DreamSale.Services.Forums
             this.UpdatePost(post);
 
             //event notification
-            _eventPublisher.EntityDeleted(postVote);
+            //_eventPublisher.EntityDeleted(postVote);
         }
         #endregion
     }

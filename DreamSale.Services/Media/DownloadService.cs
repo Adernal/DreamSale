@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Media;
 using DreamSale.Model.Orders;
 using DreamSale.Model.Payments;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Media
@@ -18,7 +17,7 @@ namespace DreamSale.Services.Media
         #region Fields
 
         private readonly IRepository<Download> _downloadRepository;
-        private readonly IEventPublisher _eventPubisher;
+        //private readonly IEventPublisher _eventPubisher;
 
         #endregion
 

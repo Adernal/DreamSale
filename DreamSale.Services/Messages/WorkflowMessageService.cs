@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using DreamSale.Core;
 using DreamSale.Model.Blogs;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Common;
@@ -14,9 +13,10 @@ using DreamSale.Model.Orders;
 using DreamSale.Model.Shipping;
 using DreamSale.Model.Vendors;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Messages
 {
@@ -34,7 +34,7 @@ namespace DreamSale.Services.Messages
         private readonly IStoreContext _storeContext;
         private readonly CommonSettings _commonSettings;
         private readonly EmailAccountSettings _emailAccountSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly HttpContextBase _httpContext;
 
         #endregion
@@ -51,7 +51,7 @@ namespace DreamSale.Services.Messages
             IStoreContext storeContext,
             CommonSettings commonSettings,
             EmailAccountSettings emailAccountSettings,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             HttpContextBase httpContext)
         {
             this._messageTemplateService = messageTemplateService;
@@ -64,7 +64,7 @@ namespace DreamSale.Services.Messages
             this._storeContext = storeContext;
             this._commonSettings = commonSettings;
             this._emailAccountSettings = emailAccountSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._httpContext = httpContext;
         }
 
@@ -158,7 +158,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -193,7 +193,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
             var toName = customer.GetFullName();
@@ -229,7 +229,7 @@ namespace DreamSale.Services.Messages
 
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
             var toName = customer.GetFullName();
@@ -265,7 +265,7 @@ namespace DreamSale.Services.Messages
 
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             //email to re-validate
             var toEmail = customer.EmailToRevalidate;
@@ -302,7 +302,7 @@ namespace DreamSale.Services.Messages
 
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
             var toName = customer.GetFullName();
@@ -346,7 +346,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
@@ -382,7 +382,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -418,7 +418,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -457,7 +457,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -498,7 +498,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
@@ -537,7 +537,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -579,7 +579,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, shipment.Order.Customer);
             
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -620,7 +620,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, shipment.Order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -659,7 +659,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -696,7 +696,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -734,7 +734,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -772,7 +772,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -811,7 +811,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, orderNote.Order.Customer);
             
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -848,7 +848,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddRecurringPaymentTokens(tokens, recurringPayment);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -885,7 +885,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddRecurringPaymentTokens(tokens, recurringPayment);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = recurringPayment.InitialOrder.BillingAddress.Email;
             var toName = string.Format("{0} {1}", 
@@ -923,7 +923,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddRecurringPaymentTokens(tokens, recurringPayment);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = recurringPayment.InitialOrder.BillingAddress.Email;
             var toName = string.Format("{0} {1}",
@@ -963,7 +963,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddNewsLetterSubscriptionTokens(tokens, subscription);
             
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, subscription.Email, string.Empty);
         }
@@ -995,7 +995,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddNewsLetterSubscriptionTokens(tokens, subscription);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, subscription.Email, string.Empty);
         }
@@ -1042,7 +1042,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("EmailAFriend.Email", customerEmail));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
             
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, friendsEmail, string.Empty);
         }
@@ -1080,7 +1080,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("Wishlist.Email", customerEmail));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, friendsEmail, string.Empty);
         }
@@ -1118,7 +1118,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddReturnRequestTokens(tokens, returnRequest, orderItem);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1155,7 +1155,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddReturnRequestTokens(tokens, returnRequest, orderItem);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = returnRequest.Customer.IsGuest() ?
                 orderItem.Order.BillingAddress.Email :
@@ -1196,7 +1196,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddReturnRequestTokens(tokens, returnRequest, orderItem);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             string toEmail = returnRequest.Customer.IsGuest() ? 
                 orderItem.Order.BillingAddress.Email :
@@ -1242,7 +1242,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
             var toName = customer.GetFullName();
@@ -1284,7 +1284,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
           
             var toEmail = customer.Email;
             var toName = customer.GetFullName();
@@ -1319,7 +1319,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, privateMessage.ToCustomer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
            
             var toEmail = privateMessage.ToCustomer.Email;
             var toName = privateMessage.ToCustomer.GetFullName();
@@ -1363,7 +1363,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddVendorTokens(tokens, vendor);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1398,7 +1398,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddVendorTokens(tokens, vendor);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1435,7 +1435,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddGiftCardTokens(tokens, giftCard);
             
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = giftCard.RecipientEmail;
             var toName = giftCard.RecipientName;
@@ -1471,7 +1471,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, productReview.Customer);
             
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1505,7 +1505,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddProductTokens(tokens, product, languageId);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1542,7 +1542,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddAttributeCombinationTokens(tokens, combination, languageId);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1582,7 +1582,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("VatValidationResult.Address", vatAddress));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1618,7 +1618,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, blogComment.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1654,7 +1654,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, newsComment.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1690,7 +1690,7 @@ namespace DreamSale.Services.Messages
             _messageTokenProvider.AddBackInStockTokens(tokens, subscription);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var customer = subscription.Customer;
             var toEmail = customer.Email;
@@ -1745,7 +1745,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("ContactUs.Body", body, true));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1808,7 +1808,7 @@ namespace DreamSale.Services.Messages
             tokens.Add(new Token("ContactUs.Body", body, true));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
@@ -1839,7 +1839,7 @@ namespace DreamSale.Services.Messages
             var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, sendToEmail, null);
         }

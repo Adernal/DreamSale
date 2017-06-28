@@ -1,4 +1,4 @@
-using DreamSale.Core;
+using DreamSale.Common;
 using DreamSale.Model.Polls;
 
 namespace DreamSale.Services.Polls

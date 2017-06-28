@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
-using DreamSale.Core.Domain;
+using DreamSale.Model;
 using DreamSale.Model.Affiliates;
 using DreamSale.Model.Blogs;
 using DreamSale.Model.Catalog;
@@ -38,6 +36,8 @@ using DreamSale.Services.Helpers;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Media;
 using DreamSale.Services.Seo;
+using DreamSale.Data.DataRepository;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Installation
 {
@@ -99,7 +99,7 @@ namespace DreamSale.Services.Installation
         private readonly IRepository<ShipmentItem> _shipmentItemRepository;
         private readonly IRepository<StockQuantityHistory> _stockQuantityHistoryRepository;
         private readonly IGenericAttributeService _genericAttributeService;
-        private readonly IWebHelper _webHelper;
+        private readonly DreamSale.Helper.IWebHelper _webHelper;
 
         #endregion
 
@@ -159,7 +159,7 @@ namespace DreamSale.Services.Installation
             IRepository<SearchTerm> searchTermRepository,
             IRepository<StockQuantityHistory> stockQuantityHistoryRepository,
             IGenericAttributeService genericAttributeService,
-            IWebHelper webHelper)
+            DreamSale.Helper.IWebHelper webHelper)
         {
             this._storeRepository = storeRepository;
             this._measureDimensionRepository = measureDimensionRepository;

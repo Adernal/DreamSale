@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
@@ -10,12 +8,14 @@ using DreamSale.Services.Catalog;
 using DreamSale.Services.Common;
 using DreamSale.Services.Customers;
 using DreamSale.Services.Directory;
-using DreamSale.Services.Events;
 using DreamSale.Services.Helpers;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Security;
 using DreamSale.Services.Shipping.Date;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Orders
 {
@@ -38,7 +38,7 @@ namespace DreamSale.Services.Orders
         private readonly IPriceFormatter _priceFormatter;
         private readonly ICustomerService _customerService;
         private readonly ShoppingCartSettings _shoppingCartSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly IPermissionService _permissionService;
         private readonly IAclService _aclService;
         private readonly IDateRangeService _dateRangeService;
@@ -86,7 +86,7 @@ namespace DreamSale.Services.Orders
             IPriceFormatter priceFormatter,
             ICustomerService customerService,
             ShoppingCartSettings shoppingCartSettings,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             IPermissionService permissionService, 
             IAclService aclService,
             IDateRangeService dateRangeService,
@@ -107,7 +107,7 @@ namespace DreamSale.Services.Orders
             this._priceFormatter = priceFormatter;
             this._customerService = customerService;
             this._shoppingCartSettings = shoppingCartSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._permissionService = permissionService;
             this._aclService = aclService;
             this._dateRangeService = dateRangeService;
@@ -165,7 +165,7 @@ namespace DreamSale.Services.Orders
             }
 
             //event notification
-            _eventPublisher.EntityDeleted(shoppingCartItem);
+            //_eventPublisher.EntityDeleted(shoppingCartItem);
         }
 
         /// <summary>
@@ -1126,7 +1126,7 @@ namespace DreamSale.Services.Orders
                     _customerService.UpdateCustomer(customer);
 
                     //event notification
-                    _eventPublisher.EntityUpdated(shoppingCartItem);
+                    //_eventPublisher.EntityUpdated(shoppingCartItem);
                 }
             }
             else
@@ -1186,7 +1186,7 @@ namespace DreamSale.Services.Orders
                     _customerService.UpdateCustomer(customer);
 
                     //event notification
-                    _eventPublisher.EntityInserted(shoppingCartItem);
+                    //_eventPublisher.EntityInserted(shoppingCartItem);
                 }
             }
 
@@ -1243,7 +1243,7 @@ namespace DreamSale.Services.Orders
                         _customerService.UpdateCustomer(customer);
 
                         //event notification
-                        _eventPublisher.EntityUpdated(shoppingCartItem);
+                        //_eventPublisher.EntityUpdated(shoppingCartItem);
                     }
                 }
                 else

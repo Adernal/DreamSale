@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using DreamSale.Common;
 using Autofac;
 using Autofac.Core.Lifetime;
 using Autofac.Integration.Mvc;
-using DreamSale.Common;
-using Autofac.Integration.WebApi;
 
 namespace DreamSale.Infrastructure.DependencyManagement
 {

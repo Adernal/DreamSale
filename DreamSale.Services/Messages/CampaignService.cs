@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Messages;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Messages
 {
@@ -18,7 +18,7 @@ namespace DreamSale.Services.Messages
         private readonly IQueuedEmailService _queuedEmailService;
         private readonly ICustomerService _customerService;
         private readonly IStoreContext _storeContext;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         /// <summary>
         /// Ctor
@@ -34,8 +34,7 @@ namespace DreamSale.Services.Messages
         public CampaignService(IRepository<Campaign> campaignRepository,
             IEmailSender emailSender, IMessageTokenProvider messageTokenProvider,
             ITokenizer tokenizer, IQueuedEmailService queuedEmailService,
-            ICustomerService customerService, IStoreContext storeContext,
-            IEventPublisher eventPublisher)
+            ICustomerService customerService, IStoreContext storeContext/*,IEventPublisher eventPublisher*/)
         {
             this._campaignRepository = campaignRepository;
             this._emailSender = emailSender;
@@ -44,7 +43,7 @@ namespace DreamSale.Services.Messages
             this._queuedEmailService = queuedEmailService;
             this._storeContext = storeContext;
             this._customerService = customerService;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace DreamSale.Services.Messages
             _campaignRepository.Insert(campaign);
 
             //event notification
-            _eventPublisher.EntityInserted(campaign);
+            //_eventPublisher.EntityInserted(campaign);
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace DreamSale.Services.Messages
             _campaignRepository.Update(campaign);
 
             //event notification
-            _eventPublisher.EntityUpdated(campaign);
+            //_eventPublisher.EntityUpdated(campaign);
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace DreamSale.Services.Messages
             _campaignRepository.Delete(campaign);
 
             //event notification
-            _eventPublisher.EntityDeleted(campaign);
+            //_eventPublisher.EntityDeleted(campaign);
         }
 
         /// <summary>

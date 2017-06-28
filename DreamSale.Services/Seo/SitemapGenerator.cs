@@ -14,6 +14,8 @@ using DreamSale.Model.News;
 using DreamSale.Model.Security;
 using DreamSale.Services.Catalog;
 using DreamSale.Services.Topics;
+using DreamSale.Helper;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Seo
 {

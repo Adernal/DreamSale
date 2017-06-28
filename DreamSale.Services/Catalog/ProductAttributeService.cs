@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Catalog
 {
@@ -91,7 +91,7 @@ namespace DreamSale.Services.Catalog
         private readonly IRepository<ProductAttributeCombination> _productAttributeCombinationRepository;
         private readonly IRepository<ProductAttributeValue> _productAttributeValueRepository;
         private readonly IRepository<PredefinedProductAttributeValue> _predefinedProductAttributeValueRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
 
 
@@ -108,14 +108,12 @@ namespace DreamSale.Services.Catalog
         /// <param name="productAttributeCombinationRepository">Product attribute combination repository</param>
         /// <param name="productAttributeValueRepository">Product attribute value repository</param>
         /// <param name="predefinedProductAttributeValueRepository">Predefined product attribute value repository</param>
-        /// <param name="eventPublisher">Event published</param>
         public ProductAttributeService(ICacheManager cacheManager,
             IRepository<ProductAttribute> productAttributeRepository,
             IRepository<ProductAttributeMapping> productAttributeMappingRepository,
             IRepository<ProductAttributeCombination> productAttributeCombinationRepository,
             IRepository<ProductAttributeValue> productAttributeValueRepository,
-            IRepository<PredefinedProductAttributeValue> predefinedProductAttributeValueRepository,
-            IEventPublisher eventPublisher)
+            IRepository<PredefinedProductAttributeValue> predefinedProductAttributeValueRepository/*, IEventPublisher eventPublisher*/)
         {
             this._cacheManager = cacheManager;
             this._productAttributeRepository = productAttributeRepository;
@@ -123,7 +121,7 @@ namespace DreamSale.Services.Catalog
             this._productAttributeCombinationRepository = productAttributeCombinationRepository;
             this._productAttributeValueRepository = productAttributeValueRepository;
             this._predefinedProductAttributeValueRepository = predefinedProductAttributeValueRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -150,7 +148,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(productAttribute);
+            //_eventPublisher.EntityDeleted(productAttribute);
         }
 
         /// <summary>
@@ -204,7 +202,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(productAttribute);
+            //_eventPublisher.EntityInserted(productAttribute);
         }
 
         /// <summary>
@@ -225,7 +223,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(productAttribute);
+            //_eventPublisher.EntityUpdated(productAttribute);
         }
 
         /// <summary>
@@ -266,7 +264,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(productAttributeMapping);
+            //_eventPublisher.EntityDeleted(productAttributeMapping);
         }
 
         /// <summary>
@@ -321,7 +319,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(productAttributeMapping);
+            //_eventPublisher.EntityInserted(productAttributeMapping);
         }
 
         /// <summary>
@@ -342,7 +340,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(productAttributeMapping);
+            //_eventPublisher.EntityUpdated(productAttributeMapping);
         }
 
         #endregion
@@ -367,7 +365,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(productAttributeValue);
+            //_eventPublisher.EntityDeleted(productAttributeValue);
         }
 
         /// <summary>
@@ -421,7 +419,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(productAttributeValue);
+            //_eventPublisher.EntityInserted(productAttributeValue);
         }
 
         /// <summary>
@@ -442,7 +440,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(productAttributeValue);
+            //_eventPublisher.EntityUpdated(productAttributeValue);
         }
 
         #endregion
@@ -467,7 +465,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(ppav);
+            //_eventPublisher.EntityDeleted(ppav);
         }
 
         /// <summary>
@@ -516,7 +514,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(ppav);
+            //_eventPublisher.EntityInserted(ppav);
         }
 
         /// <summary>
@@ -537,7 +535,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(ppav);
+            //_eventPublisher.EntityUpdated(ppav);
         }
 
         #endregion
@@ -562,7 +560,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(combination);
+            //_eventPublisher.EntityDeleted(combination);
         }
 
         /// <summary>
@@ -639,7 +637,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(combination);
+            //_eventPublisher.EntityInserted(combination);
         }
 
         /// <summary>
@@ -660,7 +658,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTATTRIBUTECOMBINATIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(combination);
+            //_eventPublisher.EntityUpdated(combination);
         }
 
         #endregion

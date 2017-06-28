@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DreamSale.Model.Forums;
-using DreamSale.Core.Html;
+using DreamSale.Helper;
 using DreamSale.Infrastructure;
 
 namespace DreamSale.Services.Forums

@@ -1,5 +1,5 @@
 ﻿using System;
-using DreamSale.Core;
+using DreamSale.Common;
 using DreamSale.Model.Messages;
 
 namespace DreamSale.Services.Messages

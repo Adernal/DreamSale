@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Security;
 using DreamSale.Model.Stores;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {
@@ -67,7 +67,7 @@ namespace DreamSale.Services.Catalog
         private readonly IRepository<StoreMapping> _storeMappingRepository;
         private readonly IWorkContext _workContext;
         private readonly IStoreContext _storeContext;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
         private readonly CatalogSettings _catalogSettings;
 
@@ -96,8 +96,8 @@ namespace DreamSale.Services.Catalog
             IRepository<StoreMapping> storeMappingRepository,
             IWorkContext workContext,
             IStoreContext storeContext,
-            CatalogSettings catalogSettings,
-            IEventPublisher eventPublisher)
+            CatalogSettings catalogSettings
+            )
         {
             this._cacheManager = cacheManager;
             this._manufacturerRepository = manufacturerRepository;
@@ -108,7 +108,7 @@ namespace DreamSale.Services.Catalog
             this._workContext = workContext;
             this._storeContext = storeContext;
             this._catalogSettings = catalogSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
         #endregion
 
@@ -127,7 +127,7 @@ namespace DreamSale.Services.Catalog
             UpdateManufacturer(manufacturer);
 
             //event notification
-            _eventPublisher.EntityDeleted(manufacturer);
+            //_eventPublisher.EntityDeleted(manufacturer);
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTMANUFACTURERS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(manufacturer);
+            //_eventPublisher.EntityInserted(manufacturer);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTMANUFACTURERS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(manufacturer);
+            //_eventPublisher.EntityUpdated(manufacturer);
         }
         
 
@@ -257,7 +257,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTMANUFACTURERS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(productManufacturer);
+            //_eventPublisher.EntityDeleted(productManufacturer);
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTMANUFACTURERS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(productManufacturer);
+            //_eventPublisher.EntityInserted(productManufacturer);
         }
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTMANUFACTURERS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(productManufacturer);
+            //_eventPublisher.EntityUpdated(productManufacturer);
         }
 
 

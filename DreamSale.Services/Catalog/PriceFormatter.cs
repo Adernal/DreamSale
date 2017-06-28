@@ -1,12 +1,13 @@
 using System;
 using System.Globalization;
-using DreamSale.Core;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Directory;
 using DreamSale.Model.Localization;
 using DreamSale.Model.Tax;
 using DreamSale.Services.Directory;
 using DreamSale.Services.Localization;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Catalog
 {

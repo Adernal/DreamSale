@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Common;
 using DreamSale.Model.Stores;
-using DreamSale.Data;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
+using DreamSale.Data.DataProvider;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {
@@ -43,7 +44,7 @@ namespace DreamSale.Services.Catalog
         private readonly CommonSettings _commonSettings;
         private readonly CatalogSettings _catalogSettings;
         private readonly ICacheManager _cacheManager;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly IProductService _productService;
 
         #endregion
@@ -58,7 +59,6 @@ namespace DreamSale.Services.Catalog
         /// <param name="dbContext">Database Context</param>
         /// <param name="commonSettings">Common settings</param>
         /// <param name="cacheManager">Cache manager</param>
-        /// <param name="eventPublisher">Event published</param>
         /// <param name="storeMappingRepository">Store mapping repository</param>
         /// <param name="catalogSettings">Catalog settings</param>
         /// <param name="productService">Product service</param>
@@ -69,7 +69,7 @@ namespace DreamSale.Services.Catalog
             CommonSettings commonSettings,
             CatalogSettings catalogSettings,
             ICacheManager cacheManager,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             IProductService productService)
         {
             this._productTagRepository = productTagRepository;
@@ -79,7 +79,7 @@ namespace DreamSale.Services.Catalog
             this._commonSettings = commonSettings;
             this._catalogSettings = catalogSettings;
             this._cacheManager = cacheManager;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._productService = productService;
         }
 
@@ -180,7 +180,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTTAG_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(productTag);
+            //_eventPublisher.EntityDeleted(productTag);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTTAG_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(productTag);
+            //_eventPublisher.EntityInserted(productTag);
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace DreamSale.Services.Catalog
             _cacheManager.RemoveByPattern(PRODUCTTAG_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(productTag);
+            //_eventPublisher.EntityUpdated(productTag);
         }
 
         /// <summary>

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Localization;
 using DreamSale.Services.Configuration;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Localization
 {
@@ -45,7 +45,7 @@ namespace DreamSale.Services.Localization
         private readonly ICacheManager _cacheManager;
         private readonly ISettingService _settingService;
         private readonly LocalizationSettings _localizationSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -59,20 +59,18 @@ namespace DreamSale.Services.Localization
         /// <param name="storeMappingService">Store mapping service</param>
         /// <param name="settingService">Setting service</param>
         /// <param name="localizationSettings">Localization settings</param>
-        /// <param name="eventPublisher">Event published</param>
         public LanguageService(ICacheManager cacheManager,
             IRepository<Language> languageRepository,
             IStoreMappingService storeMappingService,
             ISettingService settingService,
-            LocalizationSettings localizationSettings,
-            IEventPublisher eventPublisher)
+            LocalizationSettings localizationSettings/*,IEventPublisher eventPublisher*/)
         {
             this._cacheManager = cacheManager;
             this._languageRepository = languageRepository;
             this._storeMappingService = storeMappingService;
             this._settingService = settingService;
             this._localizationSettings = localizationSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -108,7 +106,7 @@ namespace DreamSale.Services.Localization
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(language);
+            //_eventPublisher.EntityDeleted(language);
         }
 
         /// <summary>
@@ -168,7 +166,7 @@ namespace DreamSale.Services.Localization
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(language);
+            //_eventPublisher.EntityInserted(language);
         }
 
         /// <summary>
@@ -187,7 +185,7 @@ namespace DreamSale.Services.Localization
             _cacheManager.RemoveByPattern(LANGUAGES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(language);
+            //_eventPublisher.EntityUpdated(language);
         }
 
         #endregion

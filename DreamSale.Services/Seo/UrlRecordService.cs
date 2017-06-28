@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Localization;
 using DreamSale.Model.Seo;
+using DreamSale.Data.DataRepository;
+using DreamSale.Common;
+using DreamSale.Model;
 
 namespace DreamSale.Services.Seo
 {

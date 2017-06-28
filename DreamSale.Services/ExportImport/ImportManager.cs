@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.WebPages;
-using DreamSale.Core;
-using DreamSale.Core.Data;
+using DreamSale.Model;
+using DreamSale.Data.DataProvider;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Directory;
 using DreamSale.Model.Media;
@@ -27,6 +27,8 @@ using DreamSale.Services.Shipping.Date;
 using DreamSale.Services.Tax;
 using DreamSale.Services.Vendors;
 using OfficeOpenXml;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.ExportImport
 {
@@ -48,7 +50,7 @@ namespace DreamSale.Services.ExportImport
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IEncryptionService _encryptionService;
-        private readonly IDataProvider _dataProvider;
+        private readonly DreamSale.Data.DataProvider.IDataProvider _dataProvider;
         private readonly MediaSettings _mediaSettings;
         private readonly IVendorService _vendorService;
         private readonly IProductTemplateService _productTemplateService;
@@ -77,7 +79,7 @@ namespace DreamSale.Services.ExportImport
             ICountryService countryService,
             IStateProvinceService stateProvinceService,
             IEncryptionService encryptionService,
-            IDataProvider dataProvider,
+            DreamSale.Data.DataProvider.IDataProvider dataProvider,
             MediaSettings mediaSettings,
             IVendorService vendorService,
             IProductTemplateService productTemplateService,

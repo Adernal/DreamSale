@@ -28,6 +28,9 @@ using DreamSale.Services.Tax;
 using DreamSale.Services.Vendors;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Model;
+using DreamSale.Common;
 
 namespace DreamSale.Services.ExportImport
 {
@@ -526,7 +529,7 @@ namespace DreamSale.Services.ExportImport
             var xmlWriter = new XmlTextWriter(stringWriter);
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("Manufacturers");
-            xmlWriter.WriteAttributeString("Version", NopVersion.CurrentVersion);
+            xmlWriter.WriteAttributeString("Version", DreamSaleVersion.CurrentVersion);
             
             foreach (var manufacturer in manufacturers)
             {
@@ -621,7 +624,7 @@ namespace DreamSale.Services.ExportImport
             var xmlWriter = new XmlTextWriter(stringWriter);
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("Categories");
-            xmlWriter.WriteAttributeString("Version", NopVersion.CurrentVersion);
+            xmlWriter.WriteAttributeString("Version", DreamSaleVersion.CurrentVersion);
             WriteCategories(xmlWriter, 0);
             xmlWriter.WriteEndElement();
             xmlWriter.WriteEndDocument();
@@ -672,7 +675,7 @@ namespace DreamSale.Services.ExportImport
             var xmlWriter = new XmlTextWriter(stringWriter);
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("Products");
-            xmlWriter.WriteAttributeString("Version", NopVersion.CurrentVersion);
+            xmlWriter.WriteAttributeString("Version", DreamSaleVersion.CurrentVersion);
 
             foreach (var product in products)
             {
@@ -1151,7 +1154,7 @@ namespace DreamSale.Services.ExportImport
             var xmlWriter = new XmlTextWriter(stringWriter);
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("Orders");
-            xmlWriter.WriteAttributeString("Version", NopVersion.CurrentVersion);
+            xmlWriter.WriteAttributeString("Version", DreamSaleVersion.CurrentVersion);
 
             foreach (var order in orders)
             {
@@ -1401,7 +1404,7 @@ namespace DreamSale.Services.ExportImport
             var xmlWriter = new XmlTextWriter(stringWriter);
             xmlWriter.WriteStartDocument();
             xmlWriter.WriteStartElement("Customers");
-            xmlWriter.WriteAttributeString("Version", NopVersion.CurrentVersion);
+            xmlWriter.WriteAttributeString("Version", DreamSaleVersion.CurrentVersion);
 
             foreach (var customer in customers)
             {

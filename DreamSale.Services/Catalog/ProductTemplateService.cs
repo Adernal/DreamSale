@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Catalog
 {
@@ -15,7 +15,7 @@ namespace DreamSale.Services.Catalog
         #region Fields
 
         private readonly IRepository<ProductTemplate> _productTemplateRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
         
@@ -26,11 +26,10 @@ namespace DreamSale.Services.Catalog
         /// </summary>
         /// <param name="productTemplateRepository">Product template repository</param>
         /// <param name="eventPublisher">Event published</param>
-        public ProductTemplateService(IRepository<ProductTemplate> productTemplateRepository,
-            IEventPublisher eventPublisher)
+        public ProductTemplateService(IRepository<ProductTemplate> productTemplateRepository/*, IEventPublisher eventPublisher*/)
         {
             this._productTemplateRepository = productTemplateRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -49,7 +48,7 @@ namespace DreamSale.Services.Catalog
             _productTemplateRepository.Delete(productTemplate);
 
             //event notification
-            _eventPublisher.EntityDeleted(productTemplate);
+            //_eventPublisher.EntityDeleted(productTemplate);
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace DreamSale.Services.Catalog
             _productTemplateRepository.Insert(productTemplate);
 
             //event notification
-            _eventPublisher.EntityInserted(productTemplate);
+            //_eventPublisher.EntityInserted(productTemplate);
         }
 
         /// <summary>
@@ -106,7 +105,7 @@ namespace DreamSale.Services.Catalog
             _productTemplateRepository.Update(productTemplate);
 
             //event notification
-            _eventPublisher.EntityUpdated(productTemplate);
+            //_eventPublisher.EntityUpdated(productTemplate);
         }
         
         #endregion

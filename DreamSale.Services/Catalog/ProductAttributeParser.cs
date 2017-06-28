@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using DreamSale.Model.Catalog;
-using DreamSale.Data;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {
@@ -22,8 +22,7 @@ namespace DreamSale.Services.Catalog
 
         #region Ctor
 
-        public ProductAttributeParser(IDbContext context,
-            IProductAttributeService productAttributeService)
+        public ProductAttributeParser(IDbContext context, IProductAttributeService productAttributeService)
         {
             this._context = context;
             this._productAttributeService = productAttributeService;

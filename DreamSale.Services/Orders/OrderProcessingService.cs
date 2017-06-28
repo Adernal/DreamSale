@@ -21,7 +21,6 @@ using DreamSale.Services.Common;
 using DreamSale.Services.Customers;
 using DreamSale.Services.Directory;
 using DreamSale.Services.Discounts;
-using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Logging;
 using DreamSale.Services.Messages;
@@ -30,6 +29,9 @@ using DreamSale.Services.Security;
 using DreamSale.Services.Shipping;
 using DreamSale.Services.Tax;
 using DreamSale.Services.Vendors;
+using DreamSale.Data.DatabaseContext;
+using DreamSale.Helper;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Orders
 {
@@ -67,7 +69,7 @@ namespace DreamSale.Services.Orders
         private readonly ICustomerActivityService _customerActivityService;
         private readonly ICurrencyService _currencyService;
         private readonly IAffiliateService _affiliateService;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly IPdfService _pdfService;
         private readonly IRewardPointService _rewardPointService;
         private readonly IGenericAttributeService _genericAttributeService;
@@ -117,7 +119,6 @@ namespace DreamSale.Services.Orders
         /// <param name="customerActivityService">Customer activity service</param>
         /// <param name="currencyService">Currency service</param>
         /// <param name="affiliateService">Affiliate service</param>
-        /// <param name="eventPublisher">Event published</param>
         /// <param name="pdfService">PDF service</param>
         /// <param name="rewardPointService">Reward point service</param>
         /// <param name="genericAttributeService">Generic attribute service</param>
@@ -157,7 +158,7 @@ namespace DreamSale.Services.Orders
             ICustomerActivityService customerActivityService,
             ICurrencyService currencyService,
             IAffiliateService affiliateService,
-            IEventPublisher eventPublisher,
+            //IEventPublisher eventPublisher,
             IPdfService pdfService,
             IRewardPointService rewardPointService,
             IGenericAttributeService genericAttributeService,
@@ -199,7 +200,7 @@ namespace DreamSale.Services.Orders
             this._customerActivityService = customerActivityService;
             this._currencyService = currencyService;
             this._affiliateService = affiliateService;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
             this._pdfService = pdfService;
             this._rewardPointService = rewardPointService;
             this._genericAttributeService = genericAttributeService;
@@ -1004,7 +1005,7 @@ namespace DreamSale.Services.Orders
                 throw new ArgumentNullException("order");
 
             //raise event
-            _eventPublisher.Publish(new OrderPaidEvent(order));
+            //_eventPublisher.Publish(new OrderPaidEvent(order));
 
             //order paid email notification
             if (order.OrderTotal != decimal.Zero)
@@ -1436,7 +1437,7 @@ namespace DreamSale.Services.Orders
                     CheckOrderStatus(order);
 
                     //raise event       
-                    _eventPublisher.Publish(new OrderPlacedEvent(order));
+                    //_eventPublisher.Publish(new OrderPlacedEvent(order));
 
                     if (order.PaymentStatus == PaymentStatus.Paid)
                         ProcessOrderPaid(order);
@@ -1824,7 +1825,7 @@ namespace DreamSale.Services.Orders
                     CheckOrderStatus(order);
 
                     //raise event       
-                    _eventPublisher.Publish(new OrderPlacedEvent(order));
+                    //_eventPublisher.Publish(new OrderPlacedEvent(order));
 
                     if (order.PaymentStatus == PaymentStatus.Paid)
                         ProcessOrderPaid(order);
@@ -2078,7 +2079,7 @@ namespace DreamSale.Services.Orders
             }
 
             //event
-            _eventPublisher.PublishShipmentSent(shipment);
+            //_eventPublisher.PublishShipmentSent(shipment);
 
             //check order status
             CheckOrderStatus(order);
@@ -2137,7 +2138,7 @@ namespace DreamSale.Services.Orders
             }
 
             //event
-            _eventPublisher.PublishShipmentDelivered(shipment);
+            //_eventPublisher.PublishShipmentDelivered(shipment);
 
             //check order status
             CheckOrderStatus(order);
@@ -2218,7 +2219,7 @@ namespace DreamSale.Services.Orders
                     string.Format(_localizationService.GetResource("Admin.StockQuantityHistory.Messages.CancelOrder"), order.Id));
             }
 
-            _eventPublisher.Publish(new OrderCancelledEvent(order));
+            //_eventPublisher.Publish(new OrderCancelledEvent(order));
 
         }
 
@@ -2525,7 +2526,7 @@ namespace DreamSale.Services.Orders
                     }
 
                     //raise event       
-                    _eventPublisher.Publish(new OrderRefundedEvent(order, request.AmountToRefund));
+                    //_eventPublisher.Publish(new OrderRefundedEvent(order, request.AmountToRefund));
                 }
 
             }
@@ -2649,7 +2650,7 @@ namespace DreamSale.Services.Orders
             }
 
             //raise event       
-            _eventPublisher.Publish(new OrderRefundedEvent(order, amountToRefund));
+            //_eventPublisher.Publish(new OrderRefundedEvent(order, amountToRefund));
         }
 
         /// <summary>
@@ -2758,7 +2759,7 @@ namespace DreamSale.Services.Orders
                     }
 
                     //raise event       
-                    _eventPublisher.Publish(new OrderRefundedEvent(order, amountToRefund));
+                    //_eventPublisher.Publish(new OrderRefundedEvent(order, amountToRefund));
                 }
             }
             catch (Exception exc)
@@ -2884,7 +2885,7 @@ namespace DreamSale.Services.Orders
                 _orderService.UpdateOrder(order);
             }
             //raise event       
-            _eventPublisher.Publish(new OrderRefundedEvent(order, amountToRefund));
+            //_eventPublisher.Publish(new OrderRefundedEvent(order, amountToRefund));
         }
 
 

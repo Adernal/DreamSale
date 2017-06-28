@@ -1,7 +1,7 @@
 ﻿using DreamSale.Core.Caching;
 using DreamSale.Model.Customers;
 using DreamSale.Infrastructure;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 
 namespace DreamSale.Services.Customers.Cache
 {

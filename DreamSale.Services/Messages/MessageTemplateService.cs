@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Messages;
 using DreamSale.Model.Stores;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Messages
 {
@@ -46,7 +46,7 @@ namespace DreamSale.Services.Messages
         private readonly IStoreMappingService _storeMappingService;
         private readonly ILocalizedEntityService _localizedEntityService;
         private readonly CatalogSettings _catalogSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
 
         #endregion
@@ -63,15 +63,15 @@ namespace DreamSale.Services.Messages
         /// <param name="storeMappingService">Store mapping service</param>
         /// <param name="messageTemplateRepository">Message template repository</param>
         /// <param name="catalogSettings">Catalog settings</param>
-        /// <param name="eventPublisher">Event published</param>
         public MessageTemplateService(ICacheManager cacheManager,
             IRepository<StoreMapping> storeMappingRepository,
             ILanguageService languageService,
             ILocalizedEntityService localizedEntityService,
             IStoreMappingService storeMappingService,
             IRepository<MessageTemplate> messageTemplateRepository,
-            CatalogSettings catalogSettings,
-            IEventPublisher eventPublisher)
+            CatalogSettings catalogSettings
+            //,IEventPublisher eventPublisher
+            )
         {
             this._cacheManager = cacheManager;
             this._storeMappingRepository = storeMappingRepository;
@@ -80,7 +80,7 @@ namespace DreamSale.Services.Messages
             this._storeMappingService = storeMappingService;
             this._messageTemplateRepository = messageTemplateRepository;
             this._catalogSettings = catalogSettings;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace DreamSale.Services.Messages
             _cacheManager.RemoveByPattern(MESSAGETEMPLATES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(messageTemplate);
+            //_eventPublisher.EntityDeleted(messageTemplate);
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace DreamSale.Services.Messages
             _cacheManager.RemoveByPattern(MESSAGETEMPLATES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(messageTemplate);
+            //_eventPublisher.EntityInserted(messageTemplate);
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace DreamSale.Services.Messages
             _cacheManager.RemoveByPattern(MESSAGETEMPLATES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(messageTemplate);
+            //_eventPublisher.EntityUpdated(messageTemplate);
         }
 
         /// <summary>

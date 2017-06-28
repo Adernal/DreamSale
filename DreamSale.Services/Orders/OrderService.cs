@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
-using DreamSale.Services.Events;
 
 namespace DreamSale.Services.Orders
 {
@@ -23,7 +22,7 @@ namespace DreamSale.Services.Orders
         private readonly IRepository<Product> _productRepository;
         private readonly IRepository<RecurringPayment> _recurringPaymentRepository;
         private readonly IRepository<Customer> _customerRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -38,14 +37,12 @@ namespace DreamSale.Services.Orders
         /// <param name="productRepository">Product repository</param>
         /// <param name="recurringPaymentRepository">Recurring payment repository</param>
         /// <param name="customerRepository">Customer repository</param>
-        /// <param name="eventPublisher">Event published</param>
         public OrderService(IRepository<Order> orderRepository,
             IRepository<OrderItem> orderItemRepository,
             IRepository<OrderNote> orderNoteRepository,
             IRepository<Product> productRepository,
             IRepository<RecurringPayment> recurringPaymentRepository,
-            IRepository<Customer> customerRepository, 
-            IEventPublisher eventPublisher)
+            IRepository<Customer> customerRepository)
         {
             this._orderRepository = orderRepository;
             this._orderItemRepository = orderItemRepository;
@@ -53,7 +50,7 @@ namespace DreamSale.Services.Orders
             this._productRepository = productRepository;
             this._recurringPaymentRepository = recurringPaymentRepository;
             this._customerRepository = customerRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -143,7 +140,7 @@ namespace DreamSale.Services.Orders
             UpdateOrder(order);
 
             //event notification
-            _eventPublisher.EntityDeleted(order);
+            //_eventPublisher.EntityDeleted(order);
         }
 
         /// <summary>
@@ -254,7 +251,7 @@ namespace DreamSale.Services.Orders
             _orderRepository.Insert(order);
 
             //event notification
-            _eventPublisher.EntityInserted(order);
+            //_eventPublisher.EntityInserted(order);
         }
 
         /// <summary>
@@ -269,7 +266,7 @@ namespace DreamSale.Services.Orders
             _orderRepository.Update(order);
 
             //event notification
-            _eventPublisher.EntityUpdated(order);
+            //_eventPublisher.EntityUpdated(order);
         }
 
         /// <summary>
@@ -362,7 +359,7 @@ namespace DreamSale.Services.Orders
             _orderItemRepository.Delete(orderItem);
 
             //event notification
-            _eventPublisher.EntityDeleted(orderItem);
+            //_eventPublisher.EntityDeleted(orderItem);
         }
 
         #endregion
@@ -394,7 +391,7 @@ namespace DreamSale.Services.Orders
             _orderNoteRepository.Delete(orderNote);
 
             //event notification
-            _eventPublisher.EntityDeleted(orderNote);
+            //_eventPublisher.EntityDeleted(orderNote);
         }
 
         #endregion
@@ -414,7 +411,7 @@ namespace DreamSale.Services.Orders
             UpdateRecurringPayment(recurringPayment);
 
             //event notification
-            _eventPublisher.EntityDeleted(recurringPayment);
+            //_eventPublisher.EntityDeleted(recurringPayment);
         }
 
         /// <summary>
@@ -442,7 +439,7 @@ namespace DreamSale.Services.Orders
             _recurringPaymentRepository.Insert(recurringPayment);
 
             //event notification
-            _eventPublisher.EntityInserted(recurringPayment);
+            //_eventPublisher.EntityInserted(recurringPayment);
         }
 
         /// <summary>
@@ -457,7 +454,7 @@ namespace DreamSale.Services.Orders
             _recurringPaymentRepository.Update(recurringPayment);
 
             //event notification
-            _eventPublisher.EntityUpdated(recurringPayment);
+            //_eventPublisher.EntityUpdated(recurringPayment);
         }
 
         /// <summary>

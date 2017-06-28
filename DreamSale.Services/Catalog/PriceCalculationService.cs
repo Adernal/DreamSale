@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
@@ -11,6 +10,7 @@ using DreamSale.Model.Orders;
 using DreamSale.Services.Catalog.Cache;
 using DreamSale.Services.Customers;
 using DreamSale.Services.Discounts;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {

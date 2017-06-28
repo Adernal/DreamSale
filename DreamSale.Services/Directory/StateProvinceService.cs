@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Directory;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
 using DreamSale.Services.Localization;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Directory
 {
@@ -35,7 +35,7 @@ namespace DreamSale.Services.Directory
         #region Fields
 
         private readonly IRepository<StateProvince> _stateProvinceRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
 
         #endregion
@@ -49,12 +49,11 @@ namespace DreamSale.Services.Directory
         /// <param name="stateProvinceRepository">State/province repository</param>
         /// <param name="eventPublisher">Event published</param>
         public StateProvinceService(ICacheManager cacheManager,
-            IRepository<StateProvince> stateProvinceRepository,
-            IEventPublisher eventPublisher)
+            IRepository<StateProvince> stateProvinceRepository/*, IEventPublisher eventPublisher*/)
         {
             _cacheManager = cacheManager;
             _stateProvinceRepository = stateProvinceRepository;
-            _eventPublisher = eventPublisher;
+            //_eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -74,7 +73,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(STATEPROVINCES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(stateProvince);
+            //_eventPublisher.EntityDeleted(stateProvince);
         }
 
         /// <summary>
@@ -164,7 +163,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(STATEPROVINCES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(stateProvince);
+            //_eventPublisher.EntityInserted(stateProvince);
         }
 
         /// <summary>
@@ -181,7 +180,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(STATEPROVINCES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(stateProvince);
+            //_eventPublisher.EntityUpdated(stateProvince);
         }
 
         #endregion

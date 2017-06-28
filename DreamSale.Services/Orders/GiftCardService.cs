@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
 using DreamSale.Services.Customers;
-using DreamSale.Services.Events;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Orders
 {
@@ -18,7 +17,7 @@ namespace DreamSale.Services.Orders
         #region Fields
         
         private readonly IRepository<GiftCard> _giftCardRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -28,11 +27,10 @@ namespace DreamSale.Services.Orders
         /// Ctor
         /// </summary>
         /// <param name="giftCardRepository">Gift card context</param>
-        /// <param name="eventPublisher">Event published</param>
-        public GiftCardService(IRepository<GiftCard> giftCardRepository, IEventPublisher eventPublisher)
+        public GiftCardService(IRepository<GiftCard> giftCardRepository)
         {
             _giftCardRepository = giftCardRepository;
-            _eventPublisher = eventPublisher;
+            //_eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -51,7 +49,7 @@ namespace DreamSale.Services.Orders
             _giftCardRepository.Delete(giftCard);
 
             //event notification
-            _eventPublisher.EntityDeleted(giftCard);
+            //_eventPublisher.EntityDeleted(giftCard);
         }
 
         /// <summary>
@@ -119,7 +117,7 @@ namespace DreamSale.Services.Orders
             _giftCardRepository.Insert(giftCard);
 
             //event notification
-            _eventPublisher.EntityInserted(giftCard);
+            //_eventPublisher.EntityInserted(giftCard);
         }
 
         /// <summary>
@@ -134,7 +132,7 @@ namespace DreamSale.Services.Orders
             _giftCardRepository.Update(giftCard);
 
             //event notification
-            _eventPublisher.EntityUpdated(giftCard);
+            //_eventPublisher.EntityUpdated(giftCard);
         }
 
         /// <summary>

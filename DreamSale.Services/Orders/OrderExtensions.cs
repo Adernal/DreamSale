@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using DreamSale.Model.Orders;
-using DreamSale.Core.Html;
+using DreamSale.Helper;
 
 namespace DreamSale.Services.Orders
 {

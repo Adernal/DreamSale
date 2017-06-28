@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
-using DreamSale.Core.Data;
 using DreamSale.Model.Common;
-using DreamSale.Data;
+using DreamSale.Data.DataProvider;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Common
 {

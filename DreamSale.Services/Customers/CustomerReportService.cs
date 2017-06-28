@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
 using DreamSale.Model.Payments;
 using DreamSale.Model.Shipping;
 using DreamSale.Services.Helpers;
+using DreamSale.Common;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Customers
 {

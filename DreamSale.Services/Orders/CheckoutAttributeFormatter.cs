@@ -1,15 +1,14 @@
 using System;
 using System.Text;
 using System.Web;
-using DreamSale.Core;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
-using DreamSale.Core.Html;
 using DreamSale.Services.Catalog;
 using DreamSale.Services.Directory;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Media;
 using DreamSale.Services.Tax;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Orders
 {
@@ -25,7 +24,7 @@ namespace DreamSale.Services.Orders
         private readonly ITaxService _taxService;
         private readonly IPriceFormatter _priceFormatter;
         private readonly IDownloadService _downloadService;
-        private readonly IWebHelper _webHelper;
+        private readonly DreamSale.Helper.IWebHelper _webHelper;
 
         public CheckoutAttributeFormatter(IWorkContext workContext,
             ICheckoutAttributeService checkoutAttributeService,
@@ -34,7 +33,7 @@ namespace DreamSale.Services.Orders
             ITaxService taxService,
             IPriceFormatter priceFormatter,
             IDownloadService downloadService,
-            IWebHelper webHelper)
+            DreamSale.Helper.IWebHelper webHelper)
         {
             this._workContext = workContext;
             this._checkoutAttributeService = checkoutAttributeService;
@@ -95,7 +94,7 @@ namespace DreamSale.Services.Orders
                             //encode (if required)
                             if (htmlEncode)
                                 attributeName = HttpUtility.HtmlEncode(attributeName);
-                            formattedAttribute = string.Format("{0}: {1}", attributeName, HtmlHelper.FormatText(valueStr, false, true, false, false, false, false));
+                            formattedAttribute = string.Format("{0}: {1}", attributeName, DreamSale.Helper.HtmlHelper.FormatText(valueStr, false, true, false, false, false, false));
                             //we never encode multiline textbox input
                         }
                         else if (attribute.AttributeControlType == AttributeControlType.FileUpload)

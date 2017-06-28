@@ -2,10 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Orders;
-using DreamSale.Services.Events;
 using DreamSale.Services.Stores;
+using DreamSale.Data.DataRepository;
 
 namespace DreamSale.Services.Orders
 {
@@ -60,7 +59,7 @@ namespace DreamSale.Services.Orders
         private readonly IRepository<CheckoutAttribute> _checkoutAttributeRepository;
         private readonly IRepository<CheckoutAttributeValue> _checkoutAttributeValueRepository;
         private readonly IStoreMappingService _storeMappingService;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
         private readonly ICacheManager _cacheManager;
         
         #endregion
@@ -74,18 +73,16 @@ namespace DreamSale.Services.Orders
         /// <param name="checkoutAttributeRepository">Checkout attribute repository</param>
         /// <param name="checkoutAttributeValueRepository">Checkout attribute value repository</param>
         /// <param name="storeMappingService">Store mapping service</param>
-        /// <param name="eventPublisher">Event published</param>
         public CheckoutAttributeService(ICacheManager cacheManager,
             IRepository<CheckoutAttribute> checkoutAttributeRepository,
             IRepository<CheckoutAttributeValue> checkoutAttributeValueRepository,
-            IStoreMappingService storeMappingService,
-            IEventPublisher eventPublisher)
+            IStoreMappingService storeMappingService)
         {
             this._cacheManager = cacheManager;
             this._checkoutAttributeRepository = checkoutAttributeRepository;
             this._checkoutAttributeValueRepository = checkoutAttributeValueRepository;
             this._storeMappingService = storeMappingService;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -109,7 +106,7 @@ namespace DreamSale.Services.Orders
             _cacheManager.RemoveByPattern(CHECKOUTATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(checkoutAttribute);
+            //_eventPublisher.EntityDeleted(checkoutAttribute);
         }
 
         /// <summary>
@@ -170,7 +167,7 @@ namespace DreamSale.Services.Orders
             _cacheManager.RemoveByPattern(CHECKOUTATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(checkoutAttribute);
+            //_eventPublisher.EntityInserted(checkoutAttribute);
         }
 
         /// <summary>
@@ -188,7 +185,7 @@ namespace DreamSale.Services.Orders
             _cacheManager.RemoveByPattern(CHECKOUTATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(checkoutAttribute);
+            //_eventPublisher.EntityUpdated(checkoutAttribute);
         }
 
         #endregion
@@ -210,7 +207,7 @@ namespace DreamSale.Services.Orders
             _cacheManager.RemoveByPattern(CHECKOUTATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(checkoutAttributeValue);
+            //_eventPublisher.EntityDeleted(checkoutAttributeValue);
         }
 
         /// <summary>
@@ -261,7 +258,7 @@ namespace DreamSale.Services.Orders
             _cacheManager.RemoveByPattern(CHECKOUTATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(checkoutAttributeValue);
+            //_eventPublisher.EntityInserted(checkoutAttributeValue);
         }
 
         /// <summary>
@@ -279,7 +276,7 @@ namespace DreamSale.Services.Orders
             _cacheManager.RemoveByPattern(CHECKOUTATTRIBUTEVALUES_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(checkoutAttributeValue);
+            //_eventPublisher.EntityUpdated(checkoutAttributeValue);
         }
         
         #endregion

@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
 using DreamSale.Core.Caching;
-using DreamSale.Core.Data;
 using DreamSale.Model.Directory;
-using DreamSale.Services.Events;
+//using DreamSale.Services.Events;
+using DreamSale.Data.DataRepository;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Directory
 {
@@ -55,7 +55,7 @@ namespace DreamSale.Services.Directory
         private readonly IRepository<MeasureWeight> _measureWeightRepository;
         private readonly ICacheManager _cacheManager;
         private readonly MeasureSettings _measureSettings;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -68,18 +68,16 @@ namespace DreamSale.Services.Directory
         /// <param name="measureDimensionRepository">Dimension repository</param>
         /// <param name="measureWeightRepository">Weight repository</param>
         /// <param name="measureSettings">Measure settings</param>
-        /// <param name="eventPublisher">Event published</param>
         public MeasureService(ICacheManager cacheManager,
             IRepository<MeasureDimension> measureDimensionRepository,
             IRepository<MeasureWeight> measureWeightRepository,
-            MeasureSettings measureSettings,
-            IEventPublisher eventPublisher)
+            MeasureSettings measureSettings/*, IEventPublisher eventPublisher*/)
         {
             _cacheManager = cacheManager;
             _measureDimensionRepository = measureDimensionRepository;
             _measureWeightRepository = measureWeightRepository;
             _measureSettings = measureSettings;
-           _eventPublisher = eventPublisher;
+           //_eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -102,7 +100,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(MEASUREDIMENSIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(measureDimension);
+            //_eventPublisher.EntityDeleted(measureDimension);
         }
         
         /// <summary>
@@ -168,7 +166,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(MEASUREDIMENSIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(measure);
+            //_eventPublisher.EntityInserted(measure);
         }
 
         /// <summary>
@@ -185,7 +183,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(MEASUREDIMENSIONS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(measure);
+            //_eventPublisher.EntityUpdated(measure);
         }
 
         /// <summary>
@@ -282,7 +280,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(MEASUREWEIGHTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityDeleted(measureWeight);
+            //_eventPublisher.EntityDeleted(measureWeight);
         }
 
         /// <summary>
@@ -347,7 +345,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(MEASUREWEIGHTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityInserted(measure);
+            //_eventPublisher.EntityInserted(measure);
         }
 
         /// <summary>
@@ -364,7 +362,7 @@ namespace DreamSale.Services.Directory
             _cacheManager.RemoveByPattern(MEASUREWEIGHTS_PATTERN_KEY);
 
             //event notification
-            _eventPublisher.EntityUpdated(measure);
+            //_eventPublisher.EntityUpdated(measure);
         }
 
         /// <summary>

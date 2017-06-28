@@ -1,15 +1,14 @@
 using System;
 using System.Text;
 using System.Web;
-using DreamSale.Core;
 using DreamSale.Model.Catalog;
 using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
-using DreamSale.Core.Html;
 using DreamSale.Services.Directory;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Media;
 using DreamSale.Services.Tax;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {
@@ -26,7 +25,7 @@ namespace DreamSale.Services.Catalog
         private readonly ITaxService _taxService;
         private readonly IPriceFormatter _priceFormatter;
         private readonly IDownloadService _downloadService;
-        private readonly IWebHelper _webHelper;
+        private readonly DreamSale.Helper.IWebHelper _webHelper;
         private readonly IPriceCalculationService _priceCalculationService;
         private readonly ShoppingCartSettings _shoppingCartSettings;
 
@@ -38,7 +37,7 @@ namespace DreamSale.Services.Catalog
             ITaxService taxService,
             IPriceFormatter priceFormatter,
             IDownloadService downloadService,
-            IWebHelper webHelper,
+             DreamSale.Helper.IWebHelper webHelper,
             IPriceCalculationService priceCalculationService,
             ShoppingCartSettings shoppingCartSettings)
         {
@@ -108,7 +107,7 @@ namespace DreamSale.Services.Catalog
                                     attributeName = HttpUtility.HtmlEncode(attributeName);
 
                                 //we never encode multiline textbox input
-                                formattedAttribute = string.Format("{0}: {1}", attributeName, HtmlHelper.FormatText(value, false, true, false, false, false, false));
+                                formattedAttribute = string.Format("{0}: {1}", attributeName, DreamSale.Helper.HtmlHelper.FormatText(value, false, true, false, false, false, false));
                             }
                             else if (attribute.AttributeControlType == AttributeControlType.FileUpload)
                             {

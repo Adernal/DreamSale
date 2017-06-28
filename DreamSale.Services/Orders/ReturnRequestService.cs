@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DreamSale.Core;
-using DreamSale.Core.Data;
+using DreamSale.Data.DataRepository;
 using DreamSale.Model.Orders;
-using DreamSale.Services.Events;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Orders
 {
@@ -18,7 +17,7 @@ namespace DreamSale.Services.Orders
         private readonly IRepository<ReturnRequest> _returnRequestRepository;
         private readonly IRepository<ReturnRequestAction> _returnRequestActionRepository;
         private readonly IRepository<ReturnRequestReason> _returnRequestReasonRepository;
-        private readonly IEventPublisher _eventPublisher;
+        //private readonly IEventPublisher _eventPublisher;
 
         #endregion
 
@@ -33,13 +32,12 @@ namespace DreamSale.Services.Orders
         /// <param name="eventPublisher">Event published</param>
         public ReturnRequestService(IRepository<ReturnRequest> returnRequestRepository,
             IRepository<ReturnRequestAction> returnRequestActionRepository,
-            IRepository<ReturnRequestReason> returnRequestReasonRepository,
-            IEventPublisher eventPublisher)
+            IRepository<ReturnRequestReason> returnRequestReasonRepository)
         {
             this._returnRequestRepository = returnRequestRepository;
             this._returnRequestActionRepository = returnRequestActionRepository;
             this._returnRequestReasonRepository = returnRequestReasonRepository;
-            this._eventPublisher = eventPublisher;
+            //this._eventPublisher = eventPublisher;
         }
 
         #endregion
@@ -58,7 +56,7 @@ namespace DreamSale.Services.Orders
             _returnRequestRepository.Delete(returnRequest);
 
             //event notification
-            _eventPublisher.EntityDeleted(returnRequest);
+            //_eventPublisher.EntityDeleted(returnRequest);
         }
 
         /// <summary>
@@ -132,7 +130,7 @@ namespace DreamSale.Services.Orders
             _returnRequestActionRepository.Delete(returnRequestAction);
 
             //event notification
-            _eventPublisher.EntityDeleted(returnRequestAction);
+            //_eventPublisher.EntityDeleted(returnRequestAction);
         }
 
         /// <summary>
@@ -172,7 +170,7 @@ namespace DreamSale.Services.Orders
             _returnRequestActionRepository.Insert(returnRequestAction);
 
             //event notification
-            _eventPublisher.EntityInserted(returnRequestAction);
+            //_eventPublisher.EntityInserted(returnRequestAction);
         }
 
         /// <summary>
@@ -187,7 +185,7 @@ namespace DreamSale.Services.Orders
             _returnRequestActionRepository.Update(returnRequestAction);
 
             //event notification
-            _eventPublisher.EntityUpdated(returnRequestAction);
+            //_eventPublisher.EntityUpdated(returnRequestAction);
         }
 
 
@@ -205,7 +203,7 @@ namespace DreamSale.Services.Orders
             _returnRequestReasonRepository.Delete(returnRequestReason);
 
             //event notification
-            _eventPublisher.EntityDeleted(returnRequestReason);
+            //_eventPublisher.EntityDeleted(returnRequestReason);
         }
 
         /// <summary>
@@ -245,7 +243,7 @@ namespace DreamSale.Services.Orders
             _returnRequestReasonRepository.Insert(returnRequestReason);
 
             //event notification
-            _eventPublisher.EntityInserted(returnRequestReason);
+            //_eventPublisher.EntityInserted(returnRequestReason);
         }
 
         /// <summary>
@@ -260,7 +258,7 @@ namespace DreamSale.Services.Orders
             _returnRequestReasonRepository.Update(returnRequestReason);
 
             //event notification
-            _eventPublisher.EntityUpdated(returnRequestReason);
+            //_eventPublisher.EntityUpdated(returnRequestReason);
         }
 
         #endregion
