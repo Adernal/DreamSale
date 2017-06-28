@@ -1,4 +1,5 @@
-﻿using DreamSale.Data.Mapping;
+﻿using DreamSale.Common;
+using DreamSale.Data.Mapping;
 using DreamSale.Model;
 using System;
 using System.Collections.Generic;
@@ -143,7 +144,7 @@ namespace DreamSale.Data.DatabaseContext
                 {
                     var p = parameters[i] as DbParameter;
                     if (p == null)
-                        throw new Exception("Not support parameter type");
+                        throw new DreamSaleException("Not support parameter type");
 
                     commandText += i == 0 ? " " : ", ";
 

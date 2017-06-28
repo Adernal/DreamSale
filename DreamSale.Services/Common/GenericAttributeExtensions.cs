@@ -56,7 +56,7 @@ namespace DreamSale.Services.Common
             if (prop == null || string.IsNullOrEmpty(prop.Value))
                 return default(TPropType);
 
-            return CommonHelper.To<TPropType>(prop.Value);
+            return DreamSale.Common.CommonHelper.To<TPropType>(prop.Value);
         }
     }
 }

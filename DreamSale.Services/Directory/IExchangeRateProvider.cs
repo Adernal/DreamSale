@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using DreamSale.Model.Directory;
-using DreamSale.Core.Plugins;
 
 namespace DreamSale.Services.Directory
 {
     /// <summary>
     /// Exchange rate provider interface
     /// </summary>
-    public partial interface IExchangeRateProvider : IPlugin
+    public partial interface IExchangeRateProvider 
     {
         /// <summary>
         /// Gets currency live rates

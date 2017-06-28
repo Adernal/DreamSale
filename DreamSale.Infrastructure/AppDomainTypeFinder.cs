@@ -288,7 +288,7 @@ namespace DreamSale.Infrastructure
                 foreach (var e in ex.LoaderExceptions)
                     msg += e.Message + Environment.NewLine;
 
-                var fail = new Exception(msg, ex);
+                var fail = new Common.DreamSaleException(msg, ex);
                 Debug.WriteLine(fail.Message, fail);
 
                 throw fail;

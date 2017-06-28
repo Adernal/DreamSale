@@ -48,7 +48,7 @@ namespace DreamSale.Services.Helpers
             }
 
             if (crawlerItems == null)
-                throw new Exception("Incorrect file format");
+                throw new DreamSaleException("Incorrect file format");
 
             _crawlerUserAgentsRegexp.AddRange(crawlerItems
                 //get only user agent names

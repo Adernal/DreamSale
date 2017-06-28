@@ -331,10 +331,10 @@ namespace DreamSale.Services.Tax
         /// <returns>Found tax provider</returns>
         public virtual ITaxProvider LoadTaxProviderBySystemName(string systemName)
         {
-            var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<ITaxProvider>(systemName);
+            /*var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<ITaxProvider>(systemName);
             if (descriptor != null)
                 return descriptor.Instance<ITaxProvider>();
-
+            */
             return null;
         }
 
@@ -345,7 +345,8 @@ namespace DreamSale.Services.Tax
         /// <returns>Tax providers</returns>
         public virtual IList<ITaxProvider> LoadAllTaxProviders(Customer customer = null)
         {
-            return _pluginFinder.GetPlugins<ITaxProvider>(customer: customer).ToList();
+            //return _pluginFinder.GetPlugins<ITaxProvider>(customer: customer).ToList();
+            return null;
         }
 
         #endregion
@@ -759,7 +760,7 @@ namespace DreamSale.Services.Tax
 
             try
             {
-                bool valid;
+                bool valid = false;
 
                 //s = new EuropaCheckVatService.checkVatService();
                 //s.checkVat(ref twoLetterIsoCode, ref vatNumber, out valid, out name, out address);
@@ -779,9 +780,6 @@ namespace DreamSale.Services.Tax
 
                 if (address == null)
                     address = string.Empty;
-
-                if (s != null)
-                    s.Dispose();
             }
         }
 

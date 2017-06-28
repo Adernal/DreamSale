@@ -36,6 +36,7 @@ using DreamSale.Services.Shipping.Tracking;
 using DreamSale.Services.Stores;
 using DreamSale.Data.DatabaseContext;
 using DreamSale.Model;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Messages
 {
@@ -814,7 +815,7 @@ namespace DreamSale.Services.Messages
             var store = _storeService.GetStoreById(storeId) ?? _storeContext.CurrentStore;
 
             if (store == null)
-                throw new Exception("No store could be loaded");
+                throw new DreamSaleException("No store could be loaded");
 
             return store.Url;
         }

@@ -133,7 +133,7 @@ namespace DreamSale.Infrastructure.DependencyManagement
                     }
                     return Activator.CreateInstance(type, parameterInstances.ToArray());
                 }
-                catch (DreamSaleException)
+                catch (Exception)
                 {
 
                 }

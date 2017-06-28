@@ -4,6 +4,7 @@ using System.Linq;
 using DreamSale.Core.Caching;
 using DreamSale.Model.Stores;
 using DreamSale.Data.DataRepository;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Stores
 {
@@ -71,7 +72,7 @@ namespace DreamSale.Services.Stores
 
             var allStores = GetAllStores();
             if (allStores.Count == 1)
-                throw new Exception("You cannot delete the only configured store");
+                throw new DreamSaleException("You cannot delete the only configured store");
 
             _storeRepository.Delete(store);
 

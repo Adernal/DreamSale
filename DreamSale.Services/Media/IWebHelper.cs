@@ -2,5 +2,6 @@
 {
     public interface IWebHelper
     {
+        string GetStoreLocation();
     }
 }

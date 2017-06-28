@@ -19,7 +19,7 @@ namespace DreamSale.Services.Payments
         #region Fields
 
         private readonly PaymentSettings _paymentSettings;
-        private readonly IPluginFinder _pluginFinder;
+        //private readonly IPluginFinder _pluginFinder;
         private readonly ISettingService _settingService;
         private readonly ShoppingCartSettings _shoppingCartSettings;
 
@@ -35,12 +35,12 @@ namespace DreamSale.Services.Payments
         /// <param name="settingService">Setting service</param>
         /// <param name="shoppingCartSettings">Shopping cart settings</param>
         public PaymentService(PaymentSettings paymentSettings, 
-            IPluginFinder pluginFinder,
+            /*IPluginFinder pluginFinder,*/
             ISettingService settingService,
             ShoppingCartSettings shoppingCartSettings)
         {
             this._paymentSettings = paymentSettings;
-            this._pluginFinder = pluginFinder;
+            //this._pluginFinder = pluginFinder;
             this._settingService = settingService;
             this._shoppingCartSettings = shoppingCartSettings;
         }
@@ -72,9 +72,9 @@ namespace DreamSale.Services.Payments
         /// <returns>Found payment provider</returns>
         public virtual IPaymentMethod LoadPaymentMethodBySystemName(string systemName)
         {
-            var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IPaymentMethod>(systemName);
+            /*var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IPaymentMethod>(systemName);
             if (descriptor != null)
-                return descriptor.Instance<IPaymentMethod>();
+                return descriptor.Instance<IPaymentMethod>();*/
 
             return null;
         }
@@ -88,7 +88,7 @@ namespace DreamSale.Services.Payments
         /// <returns>Payment providers</returns>
         public virtual IList<IPaymentMethod> LoadAllPaymentMethods(Customer customer = null, int storeId = 0, int filterByCountryId = 0)
         {
-            var paymentMethods = _pluginFinder.GetPlugins<IPaymentMethod>(customer: customer, storeId: storeId).ToList();
+            /*var paymentMethods = _pluginFinder.GetPlugins<IPaymentMethod>(customer: customer, storeId: storeId).ToList();
             if (filterByCountryId == 0)
                 return paymentMethods;
 
@@ -103,7 +103,8 @@ namespace DreamSale.Services.Payments
                 }
             }
 
-            return paymentMetodsByCountry;
+            return paymentMetodsByCountry;*/
+            return null;
         }
 
         #endregion
@@ -170,7 +171,7 @@ namespace DreamSale.Services.Payments
             }
             var paymentMethod = LoadPaymentMethodBySystemName(processPaymentRequest.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             return paymentMethod.ProcessPayment(processPaymentRequest);
         }
 
@@ -186,7 +187,7 @@ namespace DreamSale.Services.Payments
 
             var paymentMethod = LoadPaymentMethodBySystemName(postProcessPaymentRequest.Order.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             paymentMethod.PostProcessPayment(postProcessPaymentRequest);
         }
 
@@ -269,7 +270,7 @@ namespace DreamSale.Services.Payments
         {
             var paymentMethod = LoadPaymentMethodBySystemName(capturePaymentRequest.Order.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             return paymentMethod.Capture(capturePaymentRequest);
         }
         
@@ -308,7 +309,7 @@ namespace DreamSale.Services.Payments
         {
             var paymentMethod = LoadPaymentMethodBySystemName(refundPaymentRequest.Order.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             return paymentMethod.Refund(refundPaymentRequest);
         }
         
@@ -334,7 +335,7 @@ namespace DreamSale.Services.Payments
         {
             var paymentMethod = LoadPaymentMethodBySystemName(voidPaymentRequest.Order.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             return paymentMethod.Void(voidPaymentRequest);
         }
         
@@ -369,7 +370,7 @@ namespace DreamSale.Services.Payments
 
             var paymentMethod = LoadPaymentMethodBySystemName(processPaymentRequest.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             return paymentMethod.ProcessRecurringPayment(processPaymentRequest);
         }
 
@@ -385,7 +386,7 @@ namespace DreamSale.Services.Payments
 
             var paymentMethod = LoadPaymentMethodBySystemName(cancelPaymentRequest.Order.PaymentMethodSystemName);
             if (paymentMethod == null)
-                throw new DreamSaleException("Payment method couldn't be loaded");
+                throw new Exception("Payment method couldn't be loaded");
             return paymentMethod.CancelRecurringPayment(cancelPaymentRequest);
         }
 

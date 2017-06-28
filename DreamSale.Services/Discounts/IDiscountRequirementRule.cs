@@ -1,11 +1,10 @@
-﻿using DreamSale.Core.Plugins;
-
+﻿
 namespace DreamSale.Services.Discounts
 {
     /// <summary>
     /// Represents a discount requirement rule
     /// </summary>
-    public partial interface IDiscountRequirementRule : IPlugin
+    public partial interface IDiscountRequirementRule 
     {
         /// <summary>
         /// Check discount requirement

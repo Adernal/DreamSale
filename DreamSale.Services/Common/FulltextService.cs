@@ -3,6 +3,7 @@ using System.Linq;
 using DreamSale.Model.Common;
 using DreamSale.Data.DataProvider;
 using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Common
 {
@@ -67,7 +68,7 @@ namespace DreamSale.Services.Common
             }
             else
             {
-                throw new Exception("Stored procedures are not supported by your database");
+                throw new DreamSaleException("Stored procedures are not supported by your database");
             }
         }
 
@@ -83,7 +84,7 @@ namespace DreamSale.Services.Common
             }
             else
             {
-                throw new Exception("Stored procedures are not supported by your database");
+                throw new DreamSaleException("Stored procedures are not supported by your database");
             }
         }
 

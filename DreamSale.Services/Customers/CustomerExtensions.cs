@@ -8,8 +8,8 @@ using DreamSale.Core.Caching;
 using DreamSale.Model.Customers;
 using DreamSale.Infrastructure;
 using DreamSale.Services.Common;
-using DreamSale.Services.Customers.Cache;
 using DreamSale.Services.Localization;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Customers
 {
@@ -435,7 +435,7 @@ namespace DreamSale.Services.Customers
 
             //cache result between HTTP requests 
             var cacheManager = EngineContext.Current.ContainerManager.Resolve<ICacheManager>("dreamSale_cache_static");
-            var cacheKey = string.Format(CustomerCacheEventConsumer.CUSTOMER_PASSWORD_LIFETIME, customer.Id);
+            var cacheKey = string.Format("DreamSale.customers.passwordlifetime -{ 0}", customer.Id);
             //get current password usage time
             var currentLifetime = cacheManager.Get(cacheKey, () =>
             {

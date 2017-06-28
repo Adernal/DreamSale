@@ -2,6 +2,7 @@ using System;
 using DreamSale.Core;
 using DreamSale.Model.Directory;
 using DreamSale.Infrastructure;
+using DreamSale.Data.DatabaseContext;
 
 namespace DreamSale.Services.Catalog
 {

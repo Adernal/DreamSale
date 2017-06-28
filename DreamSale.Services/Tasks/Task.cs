@@ -6,6 +6,7 @@ using DreamSale.Model.Tasks;
 using DreamSale.Infrastructure;
 using DreamSale.Services.Infrastructure;
 using DreamSale.Services.Logging;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Tasks
 {
@@ -90,14 +91,14 @@ namespace DreamSale.Services.Tasks
                 if (ensureRunOnOneWebFarmInstance)
                 {
                     //is web farm enabled (multiple instances)?
-                    var nopConfig = EngineContext.Current.ContainerManager.Resolve<NopConfig>("", scope);
+                    var nopConfig = EngineContext.Current.ContainerManager.Resolve<DreamSaleConfig>("", scope);
                     if (nopConfig.MultipleInstancesEnabled)
                     {
                         var machineNameProvider = EngineContext.Current.ContainerManager.Resolve<IMachineNameProvider>("", scope);
                         var machineName = machineNameProvider.GetMachineName();
                         if (String.IsNullOrEmpty(machineName))
                         {
-                            throw new Exception("Machine name cannot be detected. You cannot run in web farm.");
+                            throw new DreamSaleException("Machine name cannot be detected. You cannot run in web farm.");
                             //actually in this case we can generate some unique string (e.g. Guid) and store it in some "static" (!!!) variable
                             //then it can be used as a machine name
                         }

@@ -349,7 +349,7 @@ namespace DreamSale.Services.Blogs
             _blogCommentRepository.Delete(blogComment);
 
             //event notification
-            _eventPublisher.EntityDeleted(blogComment);
+            //_eventPublisher.EntityDeleted(blogComment);
         }
 
         /// <summary>

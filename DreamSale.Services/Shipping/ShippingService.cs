@@ -15,6 +15,7 @@ using DreamSale.Services.Orders;
 using DreamSale.Services.Shipping.Pickup;
 using DreamSale.Data.DataRepository;
 using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Shipping
 {
@@ -178,9 +179,10 @@ namespace DreamSale.Services.Shipping
         /// <returns>Found Shipping rate computation method</returns>
         public virtual IShippingRateComputationMethod LoadShippingRateComputationMethodBySystemName(string systemName)
         {
-            var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IShippingRateComputationMethod>(systemName);
+            /*var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IShippingRateComputationMethod>(systemName);
             if (descriptor != null)
                 return descriptor.Instance<IShippingRateComputationMethod>();
+                */
 
             return null;
         }
@@ -193,7 +195,8 @@ namespace DreamSale.Services.Shipping
         /// <returns>Shipping rate computation methods</returns>
         public virtual IList<IShippingRateComputationMethod> LoadAllShippingRateComputationMethods(Customer customer = null, int storeId = 0)
         {
-            return _pluginFinder.GetPlugins<IShippingRateComputationMethod>(customer: customer, storeId: storeId).ToList();
+            //return _pluginFinder.GetPlugins<IShippingRateComputationMethod>(customer: customer, storeId: storeId).ToList();
+            return null;
         }
 
         #endregion
@@ -398,10 +401,10 @@ namespace DreamSale.Services.Shipping
         /// <returns>Found pickup point provider</returns>
         public virtual IPickupPointProvider LoadPickupPointProviderBySystemName(string systemName)
         {
-            var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IPickupPointProvider>(systemName);
+            /*var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IPickupPointProvider>(systemName);
             if (descriptor != null)
                 return descriptor.Instance<IPickupPointProvider>();
-
+                */
             return null;
         }
 
@@ -413,7 +416,8 @@ namespace DreamSale.Services.Shipping
         /// <returns>Pickup point providers</returns>
         public virtual IList<IPickupPointProvider> LoadAllPickupPointProviders(Customer customer = null, int storeId = 0)
         {
-            return _pluginFinder.GetPlugins<IPickupPointProvider>(customer: customer, storeId: storeId).ToList();
+            //return _pluginFinder.GetPlugins<IPickupPointProvider>(customer: customer, storeId: storeId).ToList();
+            return null;
         }
 
         #endregion

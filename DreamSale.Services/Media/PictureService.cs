@@ -121,7 +121,7 @@ namespace DreamSale.Services.Media
                     height = targetSize;
                     break;
                 default:
-                    throw new Exception("Not supported ResizeType");
+                    throw new DreamSaleException("Not supported ResizeType");
             }
 
             if (ensureSizePositive)

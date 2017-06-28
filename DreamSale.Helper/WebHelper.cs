@@ -283,7 +283,7 @@ namespace DreamSale.Helper
                 //var storeContext = EngineContext.Current.Resolve<IStoreContext>();
                 //var currentStore = storeContext.CurrentStore;
                 //if (currentStore == null)
-                //    throw new Exception("Current store cannot be loaded");
+                //    throw new DreamSaleException("Current store cannot be loaded");
 
                 //if (String.IsNullOrWhiteSpace(httpHost))
                 //{

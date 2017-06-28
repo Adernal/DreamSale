@@ -121,7 +121,7 @@ namespace DreamSale.Services.Messages
             }
 
             if (language == null)
-                throw new Exception("No active language could be loaded");
+                throw new DreamSaleException("No active language could be loaded");
             return language.Id;
         }
 
@@ -559,7 +559,7 @@ namespace DreamSale.Services.Messages
 
             var order = shipment.Order;
             if (order == null)
-                throw new Exception("Order cannot be loaded");
+                throw new DreamSaleException("Order cannot be loaded");
 
             var store = _storeService.GetStoreById(order.StoreId) ?? _storeContext.CurrentStore;
             languageId = EnsureLanguageIsActive(languageId, store.Id);
@@ -600,7 +600,7 @@ namespace DreamSale.Services.Messages
 
             var order = shipment.Order;
             if (order == null)
-                throw new Exception("Order cannot be loaded");
+                throw new DreamSaleException("Order cannot be loaded");
 
             var store = _storeService.GetStoreById(order.StoreId) ?? _storeContext.CurrentStore;
             languageId = EnsureLanguageIsActive(languageId, store.Id);

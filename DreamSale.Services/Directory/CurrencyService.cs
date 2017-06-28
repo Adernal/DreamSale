@@ -91,7 +91,7 @@ namespace DreamSale.Services.Directory
         {
             var exchangeRateProvider = LoadActiveExchangeRateProvider(customer);
             if (exchangeRateProvider == null)
-                throw new Exception("Active exchange rate provider cannot be loaded");
+                throw new DreamSaleException("Active exchange rate provider cannot be loaded");
 
             return exchangeRateProvider.GetCurrencyLiveRates(exchangeRateCurrencyCode);
         }
@@ -257,7 +257,7 @@ namespace DreamSale.Services.Directory
 
             var primaryExchangeRateCurrency = GetCurrencyById(_currencySettings.PrimaryExchangeRateCurrencyId);
             if (primaryExchangeRateCurrency == null)
-                throw new Exception("Primary exchange rate currency cannot be loaded");
+                throw new DreamSaleException("Primary exchange rate currency cannot be loaded");
 
             decimal result = amount; 
             if (result != decimal.Zero && sourceCurrencyCode.Id != primaryExchangeRateCurrency.Id)
@@ -283,7 +283,7 @@ namespace DreamSale.Services.Directory
 
             var primaryExchangeRateCurrency = GetCurrencyById(_currencySettings.PrimaryExchangeRateCurrencyId);
             if (primaryExchangeRateCurrency == null)
-                throw new Exception("Primary exchange rate currency cannot be loaded");
+                throw new DreamSaleException("Primary exchange rate currency cannot be loaded");
 
             decimal result = amount;
             if (result != decimal.Zero && targetCurrencyCode.Id != primaryExchangeRateCurrency.Id)

@@ -1,4 +1,5 @@
-﻿using DreamSale.Data.DatabaseContext;
+﻿using DreamSale.Common;
+using DreamSale.Data.DatabaseContext;
 using DreamSale.Model;
 using System;
 using System.Collections.Generic;
@@ -79,7 +80,7 @@ namespace DreamSale.Data.DataRepository
             }
             catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(GetFullErrorText(dbEx), dbEx);
+                throw new DreamSaleException(GetFullErrorText(dbEx), dbEx);
             }
         }
 
@@ -101,7 +102,7 @@ namespace DreamSale.Data.DataRepository
             }
             catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(GetFullErrorText(dbEx), dbEx);
+                throw new DreamSaleException(GetFullErrorText(dbEx), dbEx);
             }
         }
 
@@ -120,7 +121,7 @@ namespace DreamSale.Data.DataRepository
             }
             catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(GetFullErrorText(dbEx), dbEx);
+                throw new DreamSaleException(GetFullErrorText(dbEx), dbEx);
             }
         }
 
@@ -139,7 +140,7 @@ namespace DreamSale.Data.DataRepository
             }
             catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(GetFullErrorText(dbEx), dbEx);
+                throw new DreamSaleException(GetFullErrorText(dbEx), dbEx);
             }
         }
 
@@ -160,7 +161,7 @@ namespace DreamSale.Data.DataRepository
             }
             catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(GetFullErrorText(dbEx), dbEx);
+                throw new DreamSaleException(GetFullErrorText(dbEx), dbEx);
             }
         }
 
@@ -182,7 +183,7 @@ namespace DreamSale.Data.DataRepository
             }
             catch (DbEntityValidationException dbEx)
             {
-                throw new Exception(GetFullErrorText(dbEx), dbEx);
+                throw new DreamSaleException(GetFullErrorText(dbEx), dbEx);
             }
         }
 

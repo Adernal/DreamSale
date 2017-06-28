@@ -7,6 +7,7 @@ using DreamSale.Services.Directory;
 using DreamSale.Services.Localization;
 using DreamSale.Services.Shipping.Date;
 using DreamSale.Data.DatabaseContext;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Catalog
 {
@@ -346,7 +347,7 @@ namespace DreamSale.Services.Catalog
                     }
                     break;
                 default:
-                    throw new Exception("Not supported rental period");
+                    throw new DreamSaleException("Not supported rental period");
             }
 
             return totalPeriods;

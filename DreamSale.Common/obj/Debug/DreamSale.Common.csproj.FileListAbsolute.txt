@@ -1,0 +1,4 @@
+C:\project\DreamSale\Source\DreamSale.Common\bin\Debug\DreamSale.Common.dll
+C:\project\DreamSale\Source\DreamSale.Common\bin\Debug\DreamSale.Common.pdb
+C:\project\DreamSale\Source\DreamSale.Common\obj\Debug\DreamSale.Common.dll
+C:\project\DreamSale\Source\DreamSale.Common\obj\Debug\DreamSale.Common.pdb

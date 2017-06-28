@@ -4096,7 +4096,7 @@ namespace DreamSale.Services.Installation
             var defaultStore = _storeRepository.Table.FirstOrDefault();
 
             if (defaultStore == null)
-                throw new Exception("No default store could be loaded");
+                throw new DreamSaleException("No default store could be loaded");
 
             var storeId = defaultStore.Id;
 
@@ -4428,7 +4428,7 @@ namespace DreamSale.Services.Installation
             //default store
             var defaultStore = _storeRepository.Table.FirstOrDefault();
             if (defaultStore == null)
-                throw new Exception("No default store could be loaded");
+                throw new DreamSaleException("No default store could be loaded");
 
             //first order
             var firstCustomer = _customerRepository.Table.First(c => c.Email.Equals("steve_gates@DreamSale.com"));
@@ -5212,7 +5212,7 @@ namespace DreamSale.Services.Installation
             //default customer/user
             var defaultCustomer = _customerRepository.Table.FirstOrDefault(x => x.Email == defaultUserEmail);
             if (defaultCustomer == null)
-                throw new Exception("Cannot load default customer");
+                throw new DreamSaleException("Cannot load default customer");
 
             _activityLogRepository.Insert(new ActivityLog()
             {
@@ -5261,7 +5261,7 @@ namespace DreamSale.Services.Installation
             //default store
             var defaultStore = _storeRepository.Table.FirstOrDefault();
             if (defaultStore == null)
-                throw new Exception("No default store could be loaded");
+                throw new DreamSaleException("No default store could be loaded");
 
             _searchTermRepository.Insert(new SearchTerm()
             {
@@ -5324,7 +5324,7 @@ namespace DreamSale.Services.Installation
         {
             var eaGeneral = _emailAccountRepository.Table.FirstOrDefault();
             if (eaGeneral == null)
-                throw new Exception("Default email account cannot be loaded");
+                throw new DreamSaleException("Default email account cannot be loaded");
 
             var messageTemplates = new List<MessageTemplate>
             {
@@ -5687,7 +5687,7 @@ namespace DreamSale.Services.Installation
             var defaultTopicTemplate =
                 _topicTemplateRepository.Table.FirstOrDefault(tt => tt.Name == "Default template");
             if (defaultTopicTemplate == null)
-                throw new Exception("Topic template cannot be loaded");
+                throw new DreamSaleException("Topic template cannot be loaded");
 
             var topics = new List<Topic>
                                {
@@ -6416,7 +6416,7 @@ namespace DreamSale.Services.Installation
 
             var eaGeneral = _emailAccountRepository.Table.FirstOrDefault();
             if (eaGeneral == null)
-                throw new Exception("Default email account cannot be loaded");
+                throw new DreamSaleException("Default email account cannot be loaded");
             settingService.SaveSetting(new EmailAccountSettings
             {
                 DefaultEmailAccountId = eaGeneral.Id
@@ -6645,7 +6645,7 @@ namespace DreamSale.Services.Installation
             var categoryTemplateInGridAndLines = _categoryTemplateRepository
                 .Table.FirstOrDefault(pt => pt.Name == "Products in Grid or Lines");
             if (categoryTemplateInGridAndLines == null)
-                throw new Exception("Category template cannot be loaded");
+                throw new DreamSaleException("Category template cannot be loaded");
 
 
             //categories
@@ -6981,7 +6981,7 @@ namespace DreamSale.Services.Installation
             var manufacturerTemplateInGridAndLines =
                 _manufacturerTemplateRepository.Table.FirstOrDefault(pt => pt.Name == "Products in Grid or Lines");
             if (manufacturerTemplateInGridAndLines == null)
-                throw new Exception("Manufacturer template cannot be loaded");
+                throw new DreamSaleException("Manufacturer template cannot be loaded");
 
             var allManufacturers = new List<Manufacturer>();
             var manufacturerAsus = new Manufacturer
@@ -7052,30 +7052,30 @@ namespace DreamSale.Services.Installation
         {
             var productTemplateSimple = _productTemplateRepository.Table.FirstOrDefault(pt => pt.Name == "Simple product");
             if (productTemplateSimple == null)
-                throw new Exception("Simple product template could not be loaded");
+                throw new DreamSaleException("Simple product template could not be loaded");
             var productTemplateGrouped = _productTemplateRepository.Table.FirstOrDefault(pt => pt.Name == "Grouped product (with variants)");
             if (productTemplateGrouped == null)
-                throw new Exception("Grouped product template could not be loaded");
+                throw new DreamSaleException("Grouped product template could not be loaded");
 
             //delivery date
             var deliveryDate = _deliveryDateRepository.Table.FirstOrDefault();
             if (deliveryDate == null)
-                throw new Exception("No default deliveryDate could be loaded");
+                throw new DreamSaleException("No default deliveryDate could be loaded");
 
             //product availability range
             var productAvailabilityRange = _productAvailabilityRangeRepository.Table.FirstOrDefault();
             if (productAvailabilityRange == null)
-                throw new Exception("No default product availability range could be loaded");
+                throw new DreamSaleException("No default product availability range could be loaded");
 
             //default customer/user
             var defaultCustomer = _customerRepository.Table.FirstOrDefault(x => x.Email == defaultUserEmail);
             if (defaultCustomer == null)
-                throw new Exception("Cannot load default customer");
+                throw new DreamSaleException("Cannot load default customer");
 
             //default store
             var defaultStore = _storeRepository.Table.FirstOrDefault();
             if (defaultStore == null)
-                throw new Exception("No default store could be loaded");
+                throw new DreamSaleException("No default store could be loaded");
 
 
             //pictures
@@ -10956,12 +10956,12 @@ namespace DreamSale.Services.Installation
             //comments
             var defaultCustomer = _customerRepository.Table.FirstOrDefault(x => x.Email == defaultUserEmail);
             if (defaultCustomer == null)
-                throw new Exception("Cannot load default customer");
+                throw new DreamSaleException("Cannot load default customer");
 
             //default store
             var defaultStore = _storeRepository.Table.FirstOrDefault();
             if (defaultStore == null)
-                throw new Exception("No default store could be loaded");
+                throw new DreamSaleException("No default store could be loaded");
 
             foreach (var blogPost in blogPosts)
             {
@@ -11034,12 +11034,12 @@ namespace DreamSale.Services.Installation
             //comments
             var defaultCustomer = _customerRepository.Table.FirstOrDefault(x => x.Email == defaultUserEmail);
             if (defaultCustomer == null)
-                throw new Exception("Cannot load default customer");
+                throw new DreamSaleException("Cannot load default customer");
 
             //default store
             var defaultStore = _storeRepository.Table.FirstOrDefault();
             if (defaultStore == null)
-                throw new Exception("No default store could be loaded");
+                throw new DreamSaleException("No default store could be loaded");
 
             foreach (var newsItem in news)
             {

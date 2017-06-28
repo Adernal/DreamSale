@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DreamSale.Model.Cms;
 using DreamSale.Model.Customers;
-using DreamSale.Core.Plugins;
 
 namespace DreamSale.Services.Cms
 {
@@ -14,7 +13,7 @@ namespace DreamSale.Services.Cms
     {
         #region Fields
 
-        private readonly IPluginFinder _pluginFinder;
+        //private readonly IPluginFinder _pluginFinder;
         private readonly WidgetSettings _widgetSettings;
 
         #endregion
@@ -26,10 +25,10 @@ namespace DreamSale.Services.Cms
         /// </summary>
         /// <param name="pluginFinder">Plugin finder</param>
         /// <param name="widgetSettings">Widget settings</param>
-        public WidgetService(IPluginFinder pluginFinder,
+        public WidgetService(/*IPluginFinder pluginFinder,*/
             WidgetSettings widgetSettings)
         {
-            this._pluginFinder = pluginFinder;
+            //this._pluginFinder = pluginFinder;
             this._widgetSettings = widgetSettings;
         }
 
@@ -46,7 +45,7 @@ namespace DreamSale.Services.Cms
         public virtual IList<IWidgetPlugin> LoadActiveWidgets(Customer customer = null, int storeId = 0)
         {
             return LoadAllWidgets(customer, storeId)
-                .Where(x => _widgetSettings.ActiveWidgetSystemNames.Contains(x.PluginDescriptor.SystemName, StringComparer.InvariantCultureIgnoreCase)).ToList();
+                ./*Where(x => _widgetSettings.ActiveWidgetSystemNames.Contains(x.PluginDescriptor.SystemName, StringComparer.InvariantCultureIgnoreCase)).*/ToList();
         }
 
         /// <summary>
@@ -72,9 +71,9 @@ namespace DreamSale.Services.Cms
         /// <returns>Found widget</returns>
         public virtual IWidgetPlugin LoadWidgetBySystemName(string systemName)
         {
-            var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IWidgetPlugin>(systemName);
+            /*var descriptor = _pluginFinder.GetPluginDescriptorBySystemName<IWidgetPlugin>(systemName);
             if (descriptor != null)
-                return descriptor.Instance<IWidgetPlugin>();
+                return descriptor.Instance<IWidgetPlugin>();*/
 
             return null;
         }
@@ -87,7 +86,8 @@ namespace DreamSale.Services.Cms
         /// <returns>Widgets</returns>
         public virtual IList<IWidgetPlugin> LoadAllWidgets(Customer customer = null, int storeId = 0)
         {
-            return _pluginFinder.GetPlugins<IWidgetPlugin>(customer: customer, storeId: storeId).ToList();
+            //return _pluginFinder.GetPlugins<IWidgetPlugin>(customer: customer, storeId: storeId).ToList();
+            return null;
         }
         
         #endregion

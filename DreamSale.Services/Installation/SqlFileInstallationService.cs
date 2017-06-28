@@ -67,7 +67,7 @@ namespace DreamSale.Services.Installation
         {
             var adminUser = _customerRepository.Table.Single(x => x.Email == "admin@yourStore.com");
             if (adminUser == null)
-                throw new Exception("Admin user cannot be loaded");
+                throw new DreamSaleException("Admin user cannot be loaded");
 
             adminUser.CustomerGuid = Guid.NewGuid();
             adminUser.Email = defaultUserEmail;
@@ -83,7 +83,7 @@ namespace DreamSale.Services.Installation
         {
             var store = _storeRepository.Table.FirstOrDefault();
             if (store == null)
-                throw new Exception("Default store cannot be loaded");
+                throw new DreamSaleException("Default store cannot be loaded");
 
             store.Url = _webHelper.GetStoreLocation(false);
             _storeRepository.Update(store);

@@ -1,0 +1,9 @@
+C:\project\DreamSale\Source\DreamSale.Model\obj\Debug\DreamSale.Model.csprojResolveAssemblyReference.cache
+C:\project\DreamSale\Source\DreamSale.Model\bin\Debug\DreamSale.Model.dll
+C:\project\DreamSale\Source\DreamSale.Model\bin\Debug\DreamSale.Model.pdb
+C:\project\DreamSale\Source\DreamSale.Model\bin\Debug\DreamSale.Common.dll
+C:\project\DreamSale\Source\DreamSale.Model\bin\Debug\DreamSale.Core.dll
+C:\project\DreamSale\Source\DreamSale.Model\bin\Debug\DreamSale.Common.pdb
+C:\project\DreamSale\Source\DreamSale.Model\bin\Debug\DreamSale.Core.pdb
+C:\project\DreamSale\Source\DreamSale.Model\obj\Debug\DreamSale.Model.dll
+C:\project\DreamSale\Source\DreamSale.Model\obj\Debug\DreamSale.Model.pdb

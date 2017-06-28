@@ -46,7 +46,7 @@ namespace DreamSale.Services.Helpers
                 if (Singleton<BrowscapXmlHelper>.Instance != null)
                     return Singleton<BrowscapXmlHelper>.Instance;
 
-                var userAgentStringsPath = CommonHelper.MapPath(_config.UserAgentStringsPath);
+                var userAgentStringsPath = DreamSale.Common.CommonHelper.MapPath(_config.UserAgentStringsPath);
                 var crawlerOnlyUserAgentStringsPath = string.IsNullOrEmpty(_config.CrawlerOnlyUserAgentStringsPath) ? string.Empty : CommonHelper.MapPath(_config.CrawlerOnlyUserAgentStringsPath);
 
                 var browscapXmlHelper = new BrowscapXmlHelper(userAgentStringsPath, crawlerOnlyUserAgentStringsPath);

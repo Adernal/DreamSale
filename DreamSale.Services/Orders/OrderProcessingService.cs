@@ -882,7 +882,7 @@ namespace DreamSale.Services.Orders
                             if (customerLang == null)
                                 customerLang = _languageService.GetAllLanguages().FirstOrDefault();
                             if (customerLang == null)
-                                throw new Exception("No languages could be loaded");
+                                throw new DreamSaleException("No languages could be loaded");
                             int queuedEmailId = _workflowMessageService.SendGiftCardNotification(gc, customerLang.Id);
                             if (queuedEmailId > 0)
                                 isRecipientNotified = true;
@@ -2030,10 +2030,10 @@ namespace DreamSale.Services.Orders
 
             var order = _orderService.GetOrderById(shipment.OrderId);
             if (order == null)
-                throw new Exception("Order cannot be loaded");
+                throw new DreamSaleException("Order cannot be loaded");
 
             if (shipment.ShippedDateUtc.HasValue)
-                throw new Exception("This shipment is already shipped");
+                throw new DreamSaleException("This shipment is already shipped");
 
             shipment.ShippedDateUtc = DateTime.UtcNow;
             _shipmentService.UpdateShipment(shipment);
@@ -2097,13 +2097,13 @@ namespace DreamSale.Services.Orders
 
             var order = shipment.Order;
             if (order == null)
-                throw new Exception("Order cannot be loaded");
+                throw new DreamSaleException("Order cannot be loaded");
 
             if (!shipment.ShippedDateUtc.HasValue)
-                throw new Exception("This shipment is not shipped yet");
+                throw new DreamSaleException("This shipment is not shipped yet");
 
             if (shipment.DeliveryDateUtc.HasValue)
-                throw new Exception("This shipment is already delivered");
+                throw new DreamSaleException("This shipment is already delivered");
 
             shipment.DeliveryDateUtc = DateTime.UtcNow;
             _shipmentService.UpdateShipment(shipment);

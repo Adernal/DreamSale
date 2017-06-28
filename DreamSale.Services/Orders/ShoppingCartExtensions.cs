@@ -6,6 +6,7 @@ using DreamSale.Model.Customers;
 using DreamSale.Model.Orders;
 using DreamSale.Infrastructure;
 using DreamSale.Services.Localization;
+using DreamSale.Common;
 
 namespace DreamSale.Services.Orders
 {

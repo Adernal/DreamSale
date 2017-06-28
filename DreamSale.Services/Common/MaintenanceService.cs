@@ -104,7 +104,7 @@ namespace DreamSale.Services.Common
             }
             else
             {
-                throw new Exception("Stored procedures are not supported by your database");
+                throw new DreamSaleException("Stored procedures are not supported by your database");
             }
         }
 
