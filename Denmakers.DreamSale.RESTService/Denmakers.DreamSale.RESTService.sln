@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.Model", "Denmakers.DreamSale.Model\Denmakers.DreamSale.Model.csproj", "{8F0992B8-F4FD-416A-AD7C-B1ED352033FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.Common", "Denmakers.DreamSale.Common\Denmakers.DreamSale.Common.csproj", "{B965D767-E8A8-42E0-9532-AF11E68890EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.Data", "Denmakers.DreamSale.Data\Denmakers.DreamSale.Data.csproj", "{7259E820-DD6F-4FDB-B4C6-9449DE8073E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.RESTAPI", "Denmakers.DreamSale.RESTAPI\Denmakers.DreamSale.RESTAPI.csproj", "{B9133F17-5727-412A-B640-5917C279A1A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.Services", "Denmakers.DreamSale.Services\Denmakers.DreamSale.Services.csproj", "{FB95C198-12ED-4757-958A-4C9BD602245E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F0992B8-F4FD-416A-AD7C-B1ED352033FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F0992B8-F4FD-416A-AD7C-B1ED352033FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F0992B8-F4FD-416A-AD7C-B1ED352033FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F0992B8-F4FD-416A-AD7C-B1ED352033FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B965D767-E8A8-42E0-9532-AF11E68890EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B965D767-E8A8-42E0-9532-AF11E68890EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B965D767-E8A8-42E0-9532-AF11E68890EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B965D767-E8A8-42E0-9532-AF11E68890EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7259E820-DD6F-4FDB-B4C6-9449DE8073E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7259E820-DD6F-4FDB-B4C6-9449DE8073E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7259E820-DD6F-4FDB-B4C6-9449DE8073E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7259E820-DD6F-4FDB-B4C6-9449DE8073E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9133F17-5727-412A-B640-5917C279A1A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9133F17-5727-412A-B640-5917C279A1A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9133F17-5727-412A-B640-5917C279A1A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9133F17-5727-412A-B640-5917C279A1A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB95C198-12ED-4757-958A-4C9BD602245E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB95C198-12ED-4757-958A-4C9BD602245E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB95C198-12ED-4757-958A-4C9BD602245E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB95C198-12ED-4757-958A-4C9BD602245E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
