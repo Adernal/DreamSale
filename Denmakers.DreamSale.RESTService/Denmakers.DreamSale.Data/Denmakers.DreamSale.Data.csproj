@@ -52,6 +52,8 @@
     <Compile Include="Context\ContextExtensions.cs" />
     <Compile Include="Context\DreamSaleObjectContext.cs" />
     <Compile Include="Context\IDbContext.cs" />
+    <Compile Include="Context\IStoreContext.cs" />
+    <Compile Include="Context\IWorkContext.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
     <Compile Include="Infrastructure\Disposable.cs" />
     <Compile Include="Infrastructure\IDbFactory.cs" />

@@ -4,6 +4,8 @@ using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.Model.Orders;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services.Categories;
+using Denmakers.DreamSale.Services.Configuration;
 using Denmakers.DreamSale.Services.Customers;
 using System;
 using System.Collections.Generic;
@@ -19,13 +21,19 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
     {
         #region Fields
         private readonly ICustomerService _customerService;
+        private readonly ICategoryService _categoryService;
+        private readonly CustomerSettings _customerSettings;
+        private readonly ISettingService _settingService;
         #endregion
 
         #region Ctor
-        public CustomerController(IRepository<Log> log, IUnitOfWork unitOfWork, ICustomerService customerService)
+        public CustomerController(IRepository<Log> log, IUnitOfWork unitOfWork, ICustomerService customerService, ICategoryService categoryService, ISettingService settingService)
             : base(log, unitOfWork)
         {
             this._customerService = customerService;
+            this._categoryService = categoryService;
+            this._settingService = settingService;
+            this._customerSettings = _settingService.LoadSetting<CustomerSettings>();
         }
         #endregion
 
@@ -57,7 +65,12 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             if (customerId == 0)
             {
-                var c = _customerService.GetAllCustomers();
+                var sortedCategories = _categoryService.GetAllCategories();
+                var alreadyProcessedCategoryIds = new List<string>();
+                foreach (var cat in sortedCategories)
+                {
+                    alreadyProcessedCategoryIds.Add(cat.GetFormattedBreadCrumb(sortedCategories));
+                }
                 return null;
             }
 

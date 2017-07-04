@@ -4,6 +4,7 @@ using Denmakers.DreamSale.Data.Repositories;
 using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services.Vendors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,15 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
     {
         #region Fields
 
-        private readonly IRepository<Vendor> _vendorRepository;
-        private readonly IRepository<VendorNote> _vendorNoteRepository;
+        private readonly IVendorService _vendorService;
 
         #endregion
 
         #region Ctor
-        public VendorController(IRepository<Vendor> vendorRepository, IRepository<VendorNote> vendorNoteRepository, IRepository<Log> log, IUnitOfWork unitOfWork)
+        public VendorController(IVendorService vendorService, IRepository<Log> log, IUnitOfWork unitOfWork)
             : base(log, unitOfWork)
         {
-            this._vendorRepository = vendorRepository;
-            this._vendorNoteRepository = vendorNoteRepository;
+            this._vendorService = vendorService;
         }
         #endregion
 
@@ -40,13 +39,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                var query = _vendorRepository.Table;
-                if (!String.IsNullOrWhiteSpace(name))
-                    query = query.Where(v => v.Name.Contains(name));
-                if (!showHidden)
-                    query = query.Where(v => v.Active);
-                query = query.Where(v => !v.Deleted);
-                query = query.OrderBy(v => v.DisplayOrder).ThenBy(v => v.Name);
+                var query = _vendorService.GetAllVendors();
 
                 var vendors = new PagedList<Vendor>(query, pageIndex, pageSize);
 
@@ -74,7 +67,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             if (vendorId == 0)
                 return null;
 
-            return _vendorRepository.GetById(vendorId);
+            return _vendorService.GetVendorById(vendorId);
         }
 
         [Route("GetVendorNotById/{Id}")]
@@ -83,7 +76,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             if (vendorNoteId == 0)
                 return null;
 
-            return _vendorNoteRepository.GetById(vendorNoteId);
+            return _vendorService.GetVendorNoteById(vendorNoteId);
         }
 
         public virtual void AddVendor(Vendor vendor)
@@ -91,7 +84,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             if (vendor == null)
                 throw new ArgumentNullException("vendor");
 
-            _vendorRepository.Insert(vendor);
+            _vendorService.InsertVendor(vendor);
+            _unitOfWork.Commit();
         }
 
         public virtual void UpdateVendor(Vendor vendor)
@@ -99,7 +93,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             if (vendor == null)
                 throw new ArgumentNullException("vendor");
 
-            _vendorRepository.Update(vendor);
+            _vendorService.UpdateVendor(vendor);
         }
 
         public virtual void DeleteVendor(Vendor vendor)
