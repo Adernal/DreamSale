@@ -63,7 +63,7 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure
             }
             catch (Exception e)
             {
-
+                string errorMsg = e.Message;
             }
         }
     }

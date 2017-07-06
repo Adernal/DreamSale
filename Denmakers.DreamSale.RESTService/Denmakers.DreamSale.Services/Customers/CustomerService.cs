@@ -2,12 +2,14 @@
 using Denmakers.DreamSale.Data.Context;
 using Denmakers.DreamSale.Data.Infrastructure;
 using Denmakers.DreamSale.Data.Repositories;
+using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Catalog;
 using Denmakers.DreamSale.Model.Common;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Orders;
 using Denmakers.DreamSale.Model.Shipping;
 using Denmakers.DreamSale.Services.Attributes;
+using Denmakers.DreamSale.Services.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,12 +59,13 @@ namespace Denmakers.DreamSale.Services.Customers
         private readonly IRepository<ProductReviewHelpfulness> _productReviewHelpfulnessRepository;
         private readonly IGenericAttributeService _genericAttributeService;
         //private readonly IDataProvider _dataProvider;
-        //private readonly IDbContext _dbContext;
+        private readonly IDbContext _dbContext;
+        private readonly IWebHelper _webHelper;
         //private readonly ICacheManager _cacheManager;
         //private readonly IEventPublisher _eventPublisher;
+        private readonly ISettingService _settingService;
         private readonly CustomerSettings _customerSettings;
         private readonly CommonSettings _commonSettings;
-
         #endregion
 
         #region Ctor
@@ -74,6 +77,8 @@ namespace Denmakers.DreamSale.Services.Customers
             IRepository<GenericAttribute> gaRepository,
             IRepository<Order> orderRepository,
             IUnitOfWork unitOfWork,
+            IDbContext dbContext,
+            ISettingService settingService,
             //IRepository<ForumPost> forumPostRepository,
             //IRepository<ForumTopic> forumTopicRepository,
             //IRepository<BlogComment> blogCommentRepository,
@@ -81,8 +86,8 @@ namespace Denmakers.DreamSale.Services.Customers
             //IRepository<PollVotingRecord> pollVotingRecordRepository,
             IRepository<ProductReview> productReviewRepository,
             IRepository<ProductReviewHelpfulness> productReviewHelpfulnessRepository,
-            IGenericAttributeService genericAttributeService
-            
+            IGenericAttributeService genericAttributeService,
+            IWebHelper webHelper
             //IEventPublisher eventPublisher,
             //CustomerSettings customerSettings,
             //CommonSettings commonSettings
@@ -103,10 +108,11 @@ namespace Denmakers.DreamSale.Services.Customers
             this._productReviewRepository = productReviewRepository;
             this._productReviewHelpfulnessRepository = productReviewHelpfulnessRepository;
             this._genericAttributeService = genericAttributeService;
-            //this._dataProvider = dataProvider;
-            //this._eventPublisher = eventPublisher;
-            //this._customerSettings = customerSettings;
-            //this._commonSettings = commonSettings;
+            this._settingService = settingService;
+            this._dbContext = dbContext;
+            this._webHelper = webHelper;
+            this._customerSettings = _settingService.LoadSetting<CustomerSettings>();
+            this._commonSettings = _settingService.LoadSetting<CommonSettings>();
         }
 
         #endregion
@@ -456,6 +462,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 Active = true,
                 CreatedOnUtc = DateTime.UtcNow,
                 LastActivityDateUtc = DateTime.UtcNow,
+                LastIpAddress = _webHelper.GetCurrentIpAddress()
             };
 
             //add to 'Guests' role

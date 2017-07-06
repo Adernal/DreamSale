@@ -1,4 +1,5 @@
 ﻿using Denmakers.DreamSale.Common;
+using Denmakers.DreamSale.Data;
 using Denmakers.DreamSale.Data.Infrastructure;
 using Denmakers.DreamSale.Data.Repositories;
 using Denmakers.DreamSale.Model;
@@ -11,21 +12,6 @@ namespace Denmakers.DreamSale.Services.Attributes
 {
     public partial class GenericAttributeService : IGenericAttributeService
     {
-        #region Constants
-
-        /// <summary>
-        /// Key for caching
-        /// </summary>
-        /// <remarks>
-        /// {0} : entity ID
-        /// {1} : key group
-        /// </remarks>
-        private const string GENERICATTRIBUTE_KEY = "DreamSale.genericattribute.{0}-{1}";
-        /// <summary>
-        /// Key pattern to clear cache
-        /// </summary>
-        private const string GENERICATTRIBUTE_PATTERN_KEY = "DreamSale.genericattribute.";
-        #endregion
 
         #region Fields
 
@@ -119,7 +105,6 @@ namespace Denmakers.DreamSale.Services.Attributes
 
         public virtual IList<GenericAttribute> GetAttributesForEntity(int entityId, string keyGroup)
         {
-            string key = string.Format(GENERICATTRIBUTE_KEY, entityId, keyGroup);
             var attributes = _genericAttributeRepository.FindBy(a => a.KeyGroup == keyGroup).ToList();
             return attributes;
         }
@@ -132,7 +117,7 @@ namespace Denmakers.DreamSale.Services.Attributes
             if (key == null)
                 throw new ArgumentNullException("key");
 
-            string keyGroup = "";// entity.GetUnproxiedEntityType().Name;
+            string keyGroup = entity.GetUnproxiedEntityType().Name;
 
             var props = GetAttributesForEntity(entity.Id, keyGroup)
                 .Where(x => x.StoreId == storeId)
@@ -177,6 +162,7 @@ namespace Denmakers.DreamSale.Services.Attributes
                 }
             }
         }
+
 
         #endregion
     }

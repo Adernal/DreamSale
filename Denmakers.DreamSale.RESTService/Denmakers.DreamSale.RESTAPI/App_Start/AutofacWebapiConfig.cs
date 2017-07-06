@@ -5,17 +5,23 @@ using Autofac.Integration.WebApi;
 using Denmakers.DreamSale.Data.Context;
 using Denmakers.DreamSale.Data.Infrastructure;
 using Denmakers.DreamSale.Data.Repositories;
-using Denmakers.DreamSale.Model.Customers;
-using Denmakers.DreamSale.RESTAPI.Controllers;
-using Denmakers.DreamSale.Services.Attributes;
-using Denmakers.DreamSale.Services.Categories;
-using Denmakers.DreamSale.Services.Configuration;
-using Denmakers.DreamSale.Services.Customers;
-using Denmakers.DreamSale.Services.Localization;
-using Denmakers.DreamSale.Services.Stores;
-using Denmakers.DreamSale.Services.Vendors;
+//using Denmakers.DreamSale.Model.Customers;
+//using Denmakers.DreamSale.RESTAPI.Controllers;
+//using Denmakers.DreamSale.Services.Attributes;
+//using Denmakers.DreamSale.Services.Categories;
+//using Denmakers.DreamSale.Services.Configuration;
+//using Denmakers.DreamSale.Services.Customers;
+//using Denmakers.DreamSale.Services.Localization;
+//using Denmakers.DreamSale.Services.Stores;
+//using Denmakers.DreamSale.Services.Vendors;
 using System.Reflection;
 using System.Web.Http;
+using System.Configuration;
+using Denmakers.DreamSale.Helpers;
+using Denmakers.DreamSale.RESTAPI.Infrastructure.WebContext;
+using System.Web;
+using Denmakers.DreamSale.Services.Addresses;
+using Denmakers.DreamSale.Services.Logging;
 
 namespace Denmakers.DreamSale.RESTAPI
 {
@@ -43,29 +49,52 @@ namespace Denmakers.DreamSale.RESTAPI
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
 
             // EF DbContext
+            builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
             //builder.RegisterType<DreamSaleObjectContext>()
             //       .As<IDbContext>()
             //       .InstancePerLifetimeScope();
-
+            //var conString = ConfigurationManager.AppSettings["DreamSaleConString"].ToString();
             builder.Register<IDbContext>(c => new DreamSaleObjectContext("DreamSaleConString")).InstancePerLifetimeScope();
-            builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+            
+            // Web context
+            builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
+            ////store context
+            builder.RegisterType<WebStoreContext>().As<IStoreContext>().InstancePerLifetimeScope();
 
+            // Db Factory
             builder.RegisterType<DbFactory>()
                 .As<IDbFactory>()
                 .InstancePerLifetimeScope();
 
+            // Unit Of work
             builder.RegisterType<UnitOfWork>()
                 .As<IUnitOfWork>()
                 .InstancePerLifetimeScope();
-
-            //builder.RegisterType<WebWorkContext>().As<IWorkContext>().InstancePerLifetimeScope();
-            ////store context
-            //builder.RegisterType<WebStoreContext>().As<IStoreContext>().InstancePerLifetimeScope();
+            
+            //HTTP context and other related stuff
+            builder.Register(c =>
+                (new HttpContextWrapper(HttpContext.Current) as HttpContextBase))
+                .As<HttpContextBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Request)
+                .As<HttpRequestBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Response)
+                .As<HttpResponseBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Server)
+                .As<HttpServerUtilityBase>()
+                .InstancePerLifetimeScope();
+            builder.Register(c => c.Resolve<HttpContextBase>().Session)
+                .As<HttpSessionStateBase>()
+                .InstancePerLifetimeScope();
 
             //builder.RegisterType<CustomerController>().InstancePerLifetimeScope();//.WithParameter(ResolvedParameter.ForNamed<ICacheManager>("nop_cache_static"));
 
+            //web helper
+            builder.RegisterType<WebHelper>().As<IWebHelper>().InstancePerLifetimeScope();
+
             // settings
-            //builder.RegisterType<CustomerSettings>().AsSelf();
             builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 
             //services
@@ -89,6 +118,16 @@ namespace Denmakers.DreamSale.RESTAPI
             //    .As<IOAuthAuthorizationServerProvider>()
             //    .PropertiesAutowired() // to automatically resolve IUserService
             //    .InstancePerLifetimeScope();
+
+            // formatter and parser
+            //builder.RegisterType<CustomerAttributeFormatter>().As<ICustomerAttributeFormatter>().InstancePerLifetimeScope();
+            //builder.RegisterType<CustomerAttributeParser>().As<ICustomerAttributeParser>().InstancePerLifetimeScope();
+
+            builder.RegisterType<AddressAttributeFormatter>().As<IAddressAttributeFormatter>().InstancePerLifetimeScope();
+            builder.RegisterType<AddressAttributeParser>().As<IAddressAttributeParser>().InstancePerLifetimeScope();
+
+            // logger
+            builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
 
             Container = builder.Build();
 

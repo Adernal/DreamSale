@@ -214,6 +214,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\ApiControllerBase.cs" />
+    <Compile Include="Infrastructure\WebContext\WebStoreContext.cs" />
+    <Compile Include="Infrastructure\WebContext\WebWorkContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -274,6 +276,10 @@
     <ProjectReference Include="..\Denmakers.DreamSale.Data\Denmakers.DreamSale.Data.csproj">
       <Project>{7259e820-dd6f-4fdb-b4c6-9449de8073e1}</Project>
       <Name>Denmakers.DreamSale.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Denmakers.DreamSale.Helpers\Denmakers.DreamSale.Helpers.csproj">
+      <Project>{bf2e0849-2fde-415e-8e53-9d97bc786fa7}</Project>
+      <Name>Denmakers.DreamSale.Helpers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Denmakers.DreamSale.Model\Denmakers.DreamSale.Model.csproj">
       <Project>{8f0992b8-f4fd-416a-ad7c-b1ed352033fa}</Project>

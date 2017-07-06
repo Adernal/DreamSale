@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.RESTAPI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.Services", "Denmakers.DreamSale.Services\Denmakers.DreamSale.Services.csproj", "{FB95C198-12ED-4757-958A-4C9BD602245E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Denmakers.DreamSale.Helpers", "Denmakers.DreamSale.Helpers\Denmakers.DreamSale.Helpers.csproj", "{BF2E0849-2FDE-415E-8E53-9D97BC786FA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{FB95C198-12ED-4757-958A-4C9BD602245E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB95C198-12ED-4757-958A-4C9BD602245E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB95C198-12ED-4757-958A-4C9BD602245E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF2E0849-2FDE-415E-8E53-9D97BC786FA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF2E0849-2FDE-415E-8E53-9D97BC786FA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF2E0849-2FDE-415E-8E53-9D97BC786FA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF2E0849-2FDE-415E-8E53-9D97BC786FA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

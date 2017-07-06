@@ -71,6 +71,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     alreadyProcessedCategoryIds.Add(cat.GetFormattedBreadCrumb(sortedCategories));
                 }
+                var cc = _categoryService.GetAllCategoriesDisplayedOnHomePage();
                 return null;
             }
 
