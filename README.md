@@ -1,2 +1,0 @@
-# DreamSale
-DreamSale Web App
