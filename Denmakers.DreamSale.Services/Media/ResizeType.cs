@@ -1,0 +1,9 @@
+﻿namespace Denmakers.DreamSale.Services.Media
+{
+    public enum ResizeType
+    {
+        LongestSide,
+        Width,
+        Height
+    }
+}

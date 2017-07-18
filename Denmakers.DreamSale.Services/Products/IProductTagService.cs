@@ -1,0 +1,62 @@
+﻿
+using Denmakers.DreamSale.Common;
+using Denmakers.DreamSale.Model.Catalog;
+using System.Collections.Generic;
+
+namespace Denmakers.DreamSale.Services.Products
+{
+    public partial interface IProductTagService
+    {
+        /// <summary>
+        /// Gets all product tags
+        /// </summary>
+        /// <returns>Product tags</returns>
+        IPagedList<ProductTag> GetAllProductTags(int pageIndex = 0, int pageSize = int.MaxValue);
+
+        /// <summary>
+        /// Gets product tag
+        /// </summary>
+        /// <param name="productTagId">Product tag identifier</param>
+        /// <returns>Product tag</returns>
+        ProductTag GetProductTagById(int productTagId);
+
+        /// <summary>
+        /// Gets product tag by name
+        /// </summary>
+        /// <param name="name">Product tag name</param>
+        /// <returns>Product tag</returns>
+        ProductTag GetProductTagByName(string name);
+
+        /// <summary>
+        /// Get number of products
+        /// </summary>
+        /// <param name="productTagId">Product tag identifier</param>
+        /// <param name="storeId">Store identifier</param>
+        /// <returns>Number of products</returns>
+        int GetProductCount(int productTagId, int storeId);
+
+        /// <summary>
+        /// Inserts a product tag
+        /// </summary>
+        /// <param name="productTag">Product tag</param>
+        void InsertProductTag(ProductTag productTag);
+
+        /// <summary>
+        /// Updates the product tag
+        /// </summary>
+        /// <param name="productTag">Product tag</param>
+        void UpdateProductTag(ProductTag productTag);
+
+        /// <summary>
+        /// Delete a product tag
+        /// </summary>
+        /// <param name="productTag">Product tag</param>
+        void DeleteProductTag(ProductTag productTag);
+        /// <summary>
+        /// Update product tags
+        /// </summary>
+        /// <param name="product">Product for update</param>
+        /// <param name="productTags">Product tags</param>
+        void UpdateProductTags(Product product, string[] productTags);
+    }
+}
