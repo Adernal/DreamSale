@@ -222,7 +222,6 @@
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ProductReviewController.cs" />
     <Compile Include="Controllers\SpecificationAttributeController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="DataSourceRequest.cs" />
     <Compile Include="DataSourceResult.cs" />
@@ -263,6 +262,8 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
     <Content Include="App_Data\GeoLite2-Country.mmdb" />
+    <None Include="Properties\PublishProfiles\DreamSale.pubxml" />
+    <None Include="Properties\PublishProfiles\DreamSale1.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
