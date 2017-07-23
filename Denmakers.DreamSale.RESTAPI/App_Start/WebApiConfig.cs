@@ -1,4 +1,5 @@
 ﻿using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Denmakers.DreamSale.RESTAPI
 {
@@ -7,6 +8,10 @@ namespace Denmakers.DreamSale.RESTAPI
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
+            //enable cors
+            EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "GET,POST");
+            config.EnableCors(cors);
+
 
             // Web API routes
             config.MapHttpAttributeRoutes();

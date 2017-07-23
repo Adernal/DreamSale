@@ -301,7 +301,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("", Name = "ManufacturerList")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -391,7 +391,6 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 model.AllowCustomersToSelectPageSize = true;
 
                 response = request.CreateResponse<ManufacturerVM>(HttpStatusCode.OK, model);
-                //response = request.CreateResponse(HttpStatusCode.OK, model);
 
                 return response;
             });
@@ -399,7 +398,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public HttpResponseMessage Add(HttpRequestMessage request, ManufacturerVM model, bool continueEditing)
+        public HttpResponseMessage Add(HttpRequestMessage request, ManufacturerVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -466,7 +465,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public HttpResponseMessage Update(HttpRequestMessage request, ManufacturerVM model, bool continueEditing)
+        public HttpResponseMessage Update(HttpRequestMessage request, ManufacturerVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {

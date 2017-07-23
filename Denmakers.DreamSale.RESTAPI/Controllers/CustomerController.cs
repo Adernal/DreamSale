@@ -51,7 +51,7 @@ using System.Web.Http;
 
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
-    [RoutePrefix("api/Customer")]
+    [RoutePrefix("api/Customers")]
     public class CustomerController : ApiControllerBase
     {
         #region Fields
@@ -789,6 +789,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Activity log
 
         [HttpPost]
+        [Route("ActivityLogs", Name = "CustomerActivityLogs")]
         public HttpResponseMessage ListActivityLog(HttpRequestMessage request, DataSourceRequest command, int customerId)
         {
             return CreateHttpResponse(request, () =>
@@ -816,6 +817,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     };
                     response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 }
+                else
+                {
+                    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
+                }
                 return response;
 
             });
@@ -833,8 +838,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
-                    var subscriptions = _backInStockSubscriptionService.GetAllSubscriptionsByCustomerId(customerId,
-                0, command.Page - 1, command.PageSize);
+                    var subscriptions = _backInStockSubscriptionService.GetAllSubscriptionsByCustomerId(customerId, 0, command.Page - 1, command.PageSize);
                     var gridModel = new DataSourceResult
                     {
                         Data = subscriptions.Select(x =>
@@ -866,6 +870,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Current shopping cart/ wishlist
 
         [HttpPost]
+        [Route("GetCustomerCarts", Name = "GetCustomerCarts")]
         public HttpResponseMessage GetCartList(HttpRequestMessage request, int customerId, int cartTypeId)
         {
             return CreateHttpResponse(request, () =>
@@ -900,6 +905,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     };
 
                     response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
+                }
+                else
+                {
+                    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
                 }
                 return response;
 

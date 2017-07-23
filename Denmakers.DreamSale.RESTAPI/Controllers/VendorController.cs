@@ -201,7 +201,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Vendors
         [HttpGet]
-        [Route("EmptyVendorList")]
+        [Route("EmptyVendorList", Name = "EmptyVendorList")]
         public HttpResponseMessage EmptyVendorList(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -273,6 +273,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("GetCreateVendorModel")]
         public HttpResponseMessage Create(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -299,9 +301,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
-
         [HttpPost]
-        public HttpResponseMessage Create(HttpRequestMessage request, VendorVM model, bool continueEditing)
+        [Route("CreateVendor", Name = "CreateVendor")]
+        public HttpResponseMessage Create(HttpRequestMessage request, VendorVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -360,8 +362,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        [Route("EditVendor")]
-        public HttpResponseMessage EditVendor(HttpRequestMessage request, VendorVM model, bool continueEditing)
+        [Route("EditVendor", Name = "EditVendor")]
+        public HttpResponseMessage EditVendor(HttpRequestMessage request, VendorVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -390,8 +392,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             _customerActivityService.InsertActivity("EditVendor", _localizationService.GetResource("ActivityLog.EditVendor"), vendor.Id);
 
                             //search engine name
-                            model.SeName = vendor.ValidateSeName(model.SeName, vendor.Name, true, _urlRecordService, _seoSettings);
-                            _urlRecordService.SaveSlug(vendor, model.SeName, 0);
+                            //model.SeName = vendor.ValidateSeName(model.SeName, vendor.Name, true, _urlRecordService, _seoSettings);
+                            //_urlRecordService.SaveSlug(vendor, model.SeName, 0);
 
                             //address
                             var address = _addressService.GetAddressById(vendor.AddressId);
@@ -440,12 +442,12 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 // Generate a link to the update item and set the Location header in the response.
                                 string uri = Url.Link("GetVendorById", new { id = vendor.Id });
                                 response.Headers.Location = new Uri(uri);
-                                return response;
                             }
                             else
                             {
                                 string uri = Url.Link("VendorList", null);
                                 response.Headers.Location = new Uri(uri);
+                                RedirectToRoute("VendorList", new { pageIndex = 1, pageSize = 57788, showHidden = true});
                             }
                             return response;
                         }
@@ -525,7 +527,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Vendor notes
 
         [HttpPost]
-        public HttpResponseMessage VendorNotesSelect(HttpRequestMessage request, int vendorId, DataSourceRequest command)
+        [Route("{vendorId}/vendorNotes")]
+        public HttpResponseMessage VendorNotesSelect(HttpRequestMessage request, int vendorId)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -562,7 +565,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
-        [System.Web.Mvc.ValidateInput(false)]
+        [HttpPost]
+        [Route("{vendorId:int}/vendorNotes/Add")]
         public HttpResponseMessage VendorNoteAdd(HttpRequestMessage request, int vendorId, string message)
         {
             return CreateHttpResponse(request, () =>
@@ -595,6 +599,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("{vendorId:int}/vendorNotes/Delete/{id:int}")]
         public HttpResponseMessage VendorNoteDelete(HttpRequestMessage request, int id, int vendorId)
         {
             return CreateHttpResponse(request, () =>

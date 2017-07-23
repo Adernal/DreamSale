@@ -1,0 +1,4 @@
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\bin\Release\Denmakers.DreamSale.Common.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\bin\Release\Denmakers.DreamSale.Common.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\obj\Release\Denmakers.DreamSale.Common.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\obj\Release\Denmakers.DreamSale.Common.pdb

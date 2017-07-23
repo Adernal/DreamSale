@@ -47,7 +47,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Activity log types
-
+        [HttpGet]
         [Route("Types", Name = "ActivityListTypes")]
         public HttpResponseMessage ListTypes(HttpRequestMessage request)
         {
@@ -62,8 +62,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 .ToList();
                     response = request.CreateResponse<List<ActivityLogTypeVM>>(HttpStatusCode.OK, model);
                 }
+                else
+                {
+                    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
+                }
                 return response;
-
             });
         }
 

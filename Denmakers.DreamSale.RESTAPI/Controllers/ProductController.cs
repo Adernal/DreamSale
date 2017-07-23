@@ -974,7 +974,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public HttpResponseMessage Add(HttpRequestMessage request, ProductVM model, bool continueEditing)
+        public HttpResponseMessage Add(HttpRequestMessage request, ProductVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1071,7 +1071,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Edit")]
-        public HttpResponseMessage Edit(HttpRequestMessage request, ProductVM model, bool continueEditing)
+        public HttpResponseMessage Edit(HttpRequestMessage request, ProductVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1329,7 +1329,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Required products
 
         [HttpPost]
-        [System.Web.Mvc.ValidateInput(false)]
+        [Route("{productIds}/ProductFriendlyNames", Name = "LoadProductFriendlyNames")]
         public HttpResponseMessage LoadProductFriendlyNames(HttpRequestMessage request, string productIds)
         {
             return CreateHttpResponse(request, () =>
@@ -1338,12 +1338,6 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var result = "";
-
-                    if (!_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
-                    {
-                        response = request.CreateResponse(HttpStatusCode.OK, new { Text = result });
-                        return response;
-                    }
 
                     if (!String.IsNullOrWhiteSpace(productIds))
                     {
@@ -1370,10 +1364,16 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
                     response = request.CreateResponse(HttpStatusCode.OK, new { Text = result });
                 }
+                else
+                {
+                    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
+                }
                 return response;
             });
         }
 
+        [HttpGet]
+        [Route("{productIdsInput}/RequiredProductAddPopup", Name = "RequiredProductAddPopup")]
         public HttpResponseMessage RequiredProductAddPopup(HttpRequestMessage request, string productIdsInput)
         {
             return CreateHttpResponse(request, () =>
@@ -1422,7 +1422,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage RequiredProductAddPopupList(HttpRequestMessage request, ProductVM.AddRequiredProductVM model, DataSourceRequest command)
+        [Route("{pageIndex:int=0}/{pageSize:int=2147493645}/RequiredProductAddPopupList", Name = "RequiredProductAddPopupList")]
+        public HttpResponseMessage RequiredProductAddPopupList(HttpRequestMessage request, ProductVM.AddRequiredProductVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1442,8 +1443,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         vendorId: model.SearchVendorId,
                         productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
                         keywords: model.SearchProductName,
-                        pageIndex: command.Page - 1,
-                        pageSize: command.PageSize,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
                         showHidden: true
                         );
                     var gridModel = new DataSourceResult();
@@ -1602,6 +1603,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Related products
 
         [HttpPost]
+        [Route("{productId:int}/relatedProducts", Name = "RelatedProductList")]
         public HttpResponseMessage RelatedProductList(HttpRequestMessage request, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -1646,6 +1648,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("RelatedProduct/Update")]
         public HttpResponseMessage RelatedProductUpdate(HttpRequestMessage request, ProductVM.RelatedProductVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -1678,6 +1681,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("RelatedProduct/Delete")]
         public HttpResponseMessage RelatedProductDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -1709,6 +1713,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("{productId:int}/RelatedProductAddPopup", Name = "RelatedProductAddPopup")]
         public HttpResponseMessage RelatedProductAddPopup(HttpRequestMessage request, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -1753,11 +1759,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 }
                 return response;
             });
-
         }
 
         [HttpPost]
-        public HttpResponseMessage RelatedProductAddPopupList(HttpRequestMessage request, DataSourceRequest command, ProductVM.AddRelatedProductVM model)
+        [Route("{pageIndex:int=0}/{pageSize:int=2147493645}/RelatedProductAddPopupList", Name = "RelatedProductAddPopupList")]
+        public HttpResponseMessage RelatedProductAddPopupList(HttpRequestMessage request, ProductVM.AddRelatedProductVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1777,8 +1783,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         vendorId: model.SearchVendorId,
                         productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
                         keywords: model.SearchProductName,
-                        pageIndex: command.Page - 1,
-                        pageSize: command.PageSize,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
                         showHidden: true
                         );
                     var gridModel = new DataSourceResult();
@@ -1794,6 +1800,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("RelatedProduct/Add")]
         public HttpResponseMessage RelatedProductAddPopup(HttpRequestMessage request, ProductVM.AddRelatedProductVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -1841,6 +1848,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Cross-sell products
 
         [HttpPost]
+        [Route("{productId:int}/CrossSellProducts", Name = "CrossSellProductList")]
         public HttpResponseMessage CrossSellProductList(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -1884,6 +1892,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("CrossSellProduct/Delete")]
         public HttpResponseMessage CrossSellProductDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -1916,6 +1925,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("{productId:int}/CrossSellProductAddPopup", Name = "CrossSellProductAddPopup")]
         public HttpResponseMessage CrossSellProductAddPopup(HttpRequestMessage request, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -1964,7 +1975,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage CrossSellProductAddPopupList(HttpRequestMessage request, DataSourceRequest command, ProductVM.AddCrossSellProductVM model)
+        [Route("{pageIndex:int=0}/{pageSize:int=2147493645}/CrossSellProductAddPopupList", Name = "CrossSellProductAddPopupList")]
+        public HttpResponseMessage CrossSellProductAddPopupList(HttpRequestMessage request, ProductVM.AddCrossSellProductVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1984,8 +1996,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         vendorId: model.SearchVendorId,
                         productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
                         keywords: model.SearchProductName,
-                        pageIndex: command.Page - 1,
-                        pageSize: command.PageSize,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
                         showHidden: true
                         );
                     var gridModel = new DataSourceResult();
@@ -1999,6 +2011,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("CrossSellProduct/Add")]
         public HttpResponseMessage CrossSellProductAddPopup(HttpRequestMessage request, ProductVM.AddCrossSellProductVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2046,6 +2059,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Associated products
 
         [HttpPost]
+        [Route("{productId:int}/AssociatedProducts", Name = "AssociatedProductList")]
         public HttpResponseMessage AssociatedProductList(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -2098,6 +2112,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("AssociatedProduct/Update")]
         public HttpResponseMessage AssociatedProductUpdate(HttpRequestMessage request, ProductVM.AssociatedProducVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2128,6 +2143,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("AssociatedProduct/Delete")]
         public HttpResponseMessage AssociatedProductDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -2157,6 +2173,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("{productId:int}/AssociatedProductAddPopup", Name = "AssociatedProductAddPopup")]
         public HttpResponseMessage AssociatedProductAddPopup(HttpRequestMessage request, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -2205,7 +2223,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage AssociatedProductAddPopupList(HttpRequestMessage request, DataSourceRequest command, ProductVM.AddAssociatedProductVM model)
+        [Route("{pageIndex:int=0}/{pageSize:int=2147493645}/AssociatedProductAddPopupList", Name = "AssociatedProductAddPopupList")]
+        public HttpResponseMessage AssociatedProductAddPopupList(HttpRequestMessage request, ProductVM.AddAssociatedProductVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -2225,8 +2244,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         vendorId: model.SearchVendorId,
                         productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
                         keywords: model.SearchProductName,
-                        pageIndex: command.Page - 1,
-                        pageSize: command.PageSize,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
                         showHidden: true
                         );
                     var gridModel = new DataSourceResult();
@@ -2253,6 +2272,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("AssociatedProduct/Add")]
         public HttpResponseMessage AssociatedProductAddPopup(HttpRequestMessage request, ProductVM.AddAssociatedProductVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2290,8 +2310,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Product pictures
-
-        [System.Web.Mvc.ValidateInput(false)]
+        [HttpGet]
+        [Route("{productId:int}/ProductPictureAdd/{pictureId:int}/{displayOrder:int}/{overrideAltAttribute}/{overrideTitleAttribute}", Name = "ProductPictureAdd")]
         public HttpResponseMessage ProductPictureAdd(HttpRequestMessage request, int pictureId, int displayOrder,
             string overrideAltAttribute, string overrideTitleAttribute, int productId)
         {
@@ -2326,7 +2346,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         overrideAltAttribute,
                         overrideTitleAttribute);
 
-                    _pictureService.SetSeoFilename(pictureId, _pictureService.GetPictureSeName(product.Name));
+                    //_pictureService.SetSeoFilename(pictureId, _pictureService.GetPictureSeName(product.Name));
 
                     _productService.InsertProductPicture(new ProductPicture
                     {
@@ -2345,6 +2365,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("{productId:int}/ProductPictureList", Name = "ProductPictureList")]
         public HttpResponseMessage ProductPictureList(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -2398,6 +2419,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductPicture/Update")]
         public HttpResponseMessage ProductPictureUpdate(HttpRequestMessage request, ProductVM.ProductPictureVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2442,6 +2464,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductPicture/Delete")]
         public HttpResponseMessage ProductPictureDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -2483,8 +2506,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Product specification attributes
-
-        [System.Web.Mvc.ValidateInput(false)]
+        [HttpGet]
+        [Route("{productId:int}/ProductSpecificationAttributeAdd/{attributeTypeId:int}/{specificationAttributeOptionId:int}/{customValue}/{overrideTitleAttribute}/{allowFiltering:bool}/{showOnProductPage:bool}/{displayOrder:int}", Name = "ProductSpecificationAttributeAdd")]
         public HttpResponseMessage ProductSpecificationAttributeAdd(HttpRequestMessage request, int attributeTypeId, int specificationAttributeOptionId,
             string customValue, bool allowFiltering, bool showOnProductPage, int displayOrder, int productId)
         {
@@ -2538,6 +2561,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("{productId:int}/ProductSpecAttrList", Name = "ProductSpecAttrList")]
         public HttpResponseMessage ProductSpecAttrList(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -2609,6 +2633,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductSpecAttr/Update")]
         public HttpResponseMessage ProductSpecAttrUpdate(HttpRequestMessage request, ProductSpecificationAttributeVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2658,6 +2683,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductSpecAttr/Delete")]
         public HttpResponseMessage ProductSpecAttrDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -2699,6 +2725,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Purchased with order
 
         [HttpPost]
+        [Route("{productId:int}/PurchasedWithOrders", Name = "PurchasedWithOrders")]
         public HttpResponseMessage PurchasedWithOrders(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -2815,6 +2842,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Stock quantity history
 
         [HttpPost]
+        [Route("StockQuantityHistory")]
         public HttpResponseMessage StockQuantityHistory(HttpRequestMessage request, DataSourceRequest command, int productId, int warehouseId)
         {
             return CreateHttpResponse(request, () =>
@@ -2879,6 +2907,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Product attributes
 
         [HttpPost]
+        [Route("{productId:int}/ProductAttributeMappingList", Name = "ProductAttributeMappingList")]
         public HttpResponseMessage ProductAttributeMappingList(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -2975,6 +3004,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductAttributeMapping/Add")]
         public HttpResponseMessage ProductAttributeMappingInsert(HttpRequestMessage request, ProductVM.ProductAttributeMappingVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -3048,6 +3078,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductAttributeMapping/Update")]
         public HttpResponseMessage ProductAttributeMappingUpdate(HttpRequestMessage request, ProductVM.ProductAttributeMappingVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -3084,6 +3115,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductAttributeMapping/Delete")]
         public HttpResponseMessage ProductAttributeMappingDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -3121,7 +3153,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Product attributes. Validation rules
-
+        [HttpGet]
+        [Route("ProductAttributeValidationRulesPopup/{id:int}", Name = "ProductAttributeValidationRulesPopup")]
         public HttpResponseMessage ProductAttributeValidationRulesPopup(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -3170,7 +3203,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
             });
         }
+
         [HttpPost]
+        [Route("ProductAttributeValidationRulesPopup")]
         public HttpResponseMessage ProductAttributeValidationRulesPopup(HttpRequestMessage request, ProductVM.ProductAttributeMappingVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -3225,7 +3260,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Product attributes. Condition
-
+        [HttpGet]
+        [Route("ProductAttributeConditionPopup/{productAttributeMappingId:int}", Name = "ProductAttributeConditionPopup")]
         public HttpResponseMessage ProductAttributeConditionPopup(HttpRequestMessage request, int productAttributeMappingId)
         {
             return CreateHttpResponse(request, () =>
@@ -3350,6 +3386,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("ProductAttributeConditionPopup")]
         public HttpResponseMessage ProductAttributeConditionPopup(HttpRequestMessage request, ProductAttributeConditionVM model, System.Web.Mvc.FormCollection form)
         {
             return CreateHttpResponse(request, () =>
@@ -3483,6 +3520,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Product editor settings
 
         [HttpPost]
+        [Route("SaveProductEditorSettings", Name = "SaveProductEditorSettings")]
         public HttpResponseMessage SaveProductEditorSettings(HttpRequestMessage request, ProductVM model, string returnUrl = "")
         {
             return CreateHttpResponse(request, () =>
@@ -3534,6 +3572,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Tier prices
 
         [HttpPost]
+        [Route("{productId:int}/TierPriceList", Name = "TierPriceList")]
         public HttpResponseMessage TierPriceList(HttpRequestMessage request, DataSourceRequest command, int productId)
         {
             return CreateHttpResponse(request, () =>
@@ -3591,6 +3630,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });            
         }
 
+        [HttpGet]
+        [Route("TierPriceCreatePopup")]
         public HttpResponseMessage TierPriceCreatePopup(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -3620,6 +3661,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("TierPrice/Add")]
         public HttpResponseMessage TierPriceCreatePopup(HttpRequestMessage request, ProductVM.TierPriceVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -3680,6 +3722,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             
         }
 
+        [HttpGet]
+        [Route("TierPriceEditPopup/{id:int}")]
         public HttpResponseMessage TierPriceEditPopup(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -3736,6 +3780,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("TierPrice/Update")]
         public HttpResponseMessage TierPriceEditPopup(HttpRequestMessage request, ProductVM.TierPriceVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -3794,6 +3839,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("TierPrice/Delete")]
         public HttpResponseMessage TierPriceDelete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -3833,7 +3879,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Bulk editing
-
+        [HttpGet]
+        [Route("BulkEdit")]
         public HttpResponseMessage BulkEdit(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -3865,6 +3912,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("BulkEditSelect")]
         public HttpResponseMessage BulkEditSelect(HttpRequestMessage request, DataSourceRequest command, BulkEditListVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -3918,6 +3966,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("BulkProducts/Update")]
         public HttpResponseMessage BulkEditUpdate(HttpRequestMessage request, IEnumerable<BulkEditProductVM> products)
         {
             return CreateHttpResponse(request, () =>
@@ -3976,6 +4025,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("BulkProducts/Delete")]
         public HttpResponseMessage BulkEditDelete(HttpRequestMessage request, IEnumerable<BulkEditProductVM> products)
         {
             return CreateHttpResponse(request, () =>

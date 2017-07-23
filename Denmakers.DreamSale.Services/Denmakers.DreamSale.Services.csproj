@@ -55,7 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -193,8 +193,10 @@
     <Compile Include="Orders\CheckoutAttributeExtensions.cs" />
     <Compile Include="Orders\CheckoutAttributeParser.cs" />
     <Compile Include="Orders\CheckoutAttributeService.cs" />
+    <Compile Include="Orders\GiftCardService.cs" />
     <Compile Include="Orders\ICheckoutAttributeParser.cs" />
     <Compile Include="Orders\ICheckoutAttributeService.cs" />
+    <Compile Include="Orders\IGiftCardService.cs" />
     <Compile Include="Orders\IOrderReportService.cs" />
     <Compile Include="Orders\IOrderService.cs" />
     <Compile Include="Orders\IShoppingCartService.cs" />

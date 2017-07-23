@@ -303,7 +303,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Category: CRUD
         [HttpGet]
-        [Route("DefaultPageLoad")]
+        [Route("DefaultPageLoad", Name = "DefaultCategoryList")]
         public HttpResponseMessage DefaultPageLoad(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -322,7 +322,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpGet]
-        [Route("")]
+        [Route("", Name = "CategoryList")]
         public HttpResponseMessage GetAll(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -433,7 +433,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public HttpResponseMessage Add(HttpRequestMessage request, CategoryVM model, bool continueEditing)
+        public HttpResponseMessage Add(HttpRequestMessage request, CategoryVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -499,7 +499,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public HttpResponseMessage Update(HttpRequestMessage request, CategoryVM model, bool continueEditing)
+        public HttpResponseMessage Update(HttpRequestMessage request, CategoryVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {

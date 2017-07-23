@@ -57,7 +57,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Product Attributes : CRUD
         [HttpGet]
-        [Route("{pageIndex:int=0}/{pageSize:int=2147483647}")]
+        [Route("{pageIndex:int=0}/{pageSize:int=2147483647}", Name = "PAList")]
         public HttpResponseMessage Get(HttpRequestMessage request, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
