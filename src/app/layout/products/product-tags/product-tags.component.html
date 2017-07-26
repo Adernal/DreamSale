@@ -1,0 +1,105 @@
+<div class="container">
+<h1>  Product Tags Management </h1>
+     <hr>
+    <div class="row">
+
+
+      <form role="form" (ngSubmit)="addTag(f)" #f="ngForm" class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+                <label>Product Tag</label>
+                <input class="form-control" ngModel name="tag_name" required placeholder="Enter Tag Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="tag_name" name="tag_name" required value="{{tag_name}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+            <fieldset class="form-group">
+              <label>Tag Description</label>
+              <textarea class="form-control" rows="3"
+
+              ngModel
+               name="tag_description"
+
+              required
+
+              placeholder="Enter Tag Description"
+                *ngIf="!editMode"
+              ></textarea>
+              <textarea class="form-control" rows="3"
+
+              [(ngModel)]="tag_description"
+               name="tag_description"
+
+              required
+
+              value="{{tag_description}}" *ngIf="editMode"></textarea>
+          </fieldset>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Tag</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Tag</button>
+            <button type="reset" class="btn btn-danger">Reset Details</button>
+
+        </div>
+
+
+  </div>
+</form>
+  </div>
+ <hr>
+    <div class="row">
+
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    Tag List<input type="text" placeholder="Search Tag" [(ngModel)]="filteredTag">
+                </div>
+                <div class="card-block table-responsive" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Tag Id</th>
+                            <th>Tag Name</th>
+                            <th>Tag Descriptions</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor =" let i = index ;let tag of tag | filter : filteredTag : 'tag_name'">
+
+                          <td>{{tag.tag_id}}</td>
+                          <td>{{tag.tag_name}}</td>
+                          <td>{{tag.tag_description}}</td>
+
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editTagMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteTag(d)" #d><i class="fa fa-edit"></i>Delete</button></td>
+                        </tr>
+
+                        <!-- <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>
+</div>

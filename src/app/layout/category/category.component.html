@@ -1,0 +1,101 @@
+<div class="container">
+<h1>  Category Management </h1>
+     <hr>
+    <div class="row">
+
+
+      <form role="form" (ngSubmit)="addCategory(f)" #f="ngForm" class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+                <label>Category Name</label>
+                <input class="form-control" ngModel name="Name" required placeholder="Enter Category Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+
+
+            <fieldset class="form-group">
+              <label>Category Description</label>
+              <textarea class="form-control" rows="3"
+
+              ngModel
+               name="Description"
+
+              required
+
+              placeholder="Enter Category Description"
+                *ngIf="!editMode"
+              ></textarea>
+              <textarea class="form-control" rows="3"
+
+              [(ngModel)]="Description"
+               name="Description"
+
+              required
+
+              value="{{Description}}" *ngIf="editMode"></textarea>
+          </fieldset>
+
+          <fieldset class="form-group">
+            <label>Display Order</label>
+            <input type="number" class="form-control" ngModel name="Display_Order" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="!editMode">
+            <input type="number" class="form-control" [(ngModel)]="Display_Order" name="Display_Order" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="editMode">
+        </fieldset>
+
+
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Category</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Category</button>
+            <button type="reset" class="btn btn-danger">Reset Details</button>
+
+        </div>
+
+
+  </div>
+</form>
+  </div>
+ <hr>
+    <div class="row">
+
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    Category List <input type="text" placeholder="Search Category" [(ngModel)]="filteredCategory">
+                </div>
+                <div class="card-block table-responsive" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Catgory Id</th>
+                            <th>Catgory Name</th>
+                            <th>Category Description</th>
+                            <th>Display Order</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor =" let i = index;let category of category | filter: filteredCategory : 'Name'">
+
+                          <td>{{category.Id}}</td>
+                          <td>{{category.Name}}</td>
+                          <td>{{category.Description}}</td>
+                          <td>{{category.Display_Order}}</td>
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCategory(d)" #d><i class="fa fa-delete"></i>Delete</button></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>
+</div>

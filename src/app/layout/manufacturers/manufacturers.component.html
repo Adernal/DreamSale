@@ -1,0 +1,80 @@
+<div class="container">
+<h1> Manufacturer Management </h1>
+     <hr>
+    <div class="row">
+
+
+      <form role="form" (ngSubmit)="addManufacturer(f)" #f="ngForm" class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+                <label>Manufacturer Name</label>
+                <input class="form-control" ngModel name="Name" required placeholder="Enter Manufacturer Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+
+
+
+
+          <fieldset class="form-group">
+            <label>Display Order</label>
+            <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="!editMode">
+            <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="editMode">
+        </fieldset>
+
+
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Manufacturer</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Manufacturer</button>
+            <button type="reset" class="btn btn-danger">Reset Details</button>
+
+        </div>
+
+
+  </div>
+</form>
+  </div>
+ <hr>
+    <div class="row">
+
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    Manufacturer List <input type="text" placeholder="Search Manufacturer" [(ngModel)]="filteredManufacturer" >
+                </div>
+                <div class="card-block table-responsive" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Manufacturer Id</th>
+                            <th>Manufacturer Name</th>
+
+                            <th>Display Order</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor ="let i= index; let manufacturer of manufacturer | filter : filteredManufacturer : 'Name'">
+
+                          <td>{{manufacturer.Id}}</td>
+                          <td>{{manufacturer.Name}}</td>
+
+                          <td>{{manufacturer.DisplayOrder}}</td>
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editManufacturerMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteManufacturer(d)" #d><i class="fa fa-delete"></i>Delete</button></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>
+</div>

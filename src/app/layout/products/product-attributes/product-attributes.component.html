@@ -1,0 +1,66 @@
+<div class="container">
+<h1>  Product Attributes Management </h1>
+     <hr>
+    <div class="row">
+
+
+      <form role="form" (ngSubmit)="addAttribute(f)" #f="ngForm" class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group">
+                <label>Product Attribute</label>
+                <input class="form-control" ngModel name="Name" required placeholder="Enter Attribute Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Attribute</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Attribute</button>
+            <button type="reset" class="btn btn-danger">Reset Details</button>
+
+
+        </div>
+
+
+  </div>
+</form>
+  </div>
+ <hr>
+    <div class="row">
+<!--
+  <button  class="btn btn-danger" (click)="getReviews()">Get Reviews</button> -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    Attribute List <input type="text" placeholder="Search" [(ngModel)]="filteredAttribute">
+                </div>
+                <div class="card-block table-responsive" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>Attribute Id</th>
+                            <th>Attribute Name</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor ="let i = index; let attribute of attribute | filter:filteredAttribute:'Name'">
+
+                          <td>{{attribute.Id}}</td>
+                          <td>{{attribute.Name}}</td>
+
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editAttributeMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteAttribute(d)" #d><i class="fa fa-delete"></i>Delete</button></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>
+</div>
