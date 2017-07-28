@@ -16,7 +16,7 @@ namespace Denmakers.DreamSale.Services.Addresses
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
         private readonly IAddressAttributeService _addressAttributeService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly ISettingService _settingService;
         private readonly AddressSettings _addressSettings;
         //private readonly ICacheManager _cacheManager;
@@ -29,7 +29,7 @@ namespace Denmakers.DreamSale.Services.Addresses
             ICountryService countryService,
             IStateProvinceService stateProvinceService,
             IAddressAttributeService addressAttributeService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             ISettingService settingService)
         {
             //this._cacheManager = cacheManager;
@@ -37,7 +37,7 @@ namespace Denmakers.DreamSale.Services.Addresses
             this._countryService = countryService;
             this._stateProvinceService = stateProvinceService;
             this._addressAttributeService = addressAttributeService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._settingService = settingService;
             this._addressSettings = _settingService.LoadSetting<AddressSettings>();
         }
@@ -109,7 +109,7 @@ namespace Denmakers.DreamSale.Services.Addresses
 
             _addressRepository.Insert(address);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Denmakers.DreamSale.Services.Addresses
 
             _addressRepository.Update(address);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Denmakers.DreamSale.Services.Addresses
 
             _addressRepository.Delete(address);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
 

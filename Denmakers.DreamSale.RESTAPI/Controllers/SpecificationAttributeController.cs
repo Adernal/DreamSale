@@ -95,7 +95,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public HttpResponseMessage Add(HttpRequestMessage request, SpecificationAttributeVM model, bool continueEditing)
+        public HttpResponseMessage Add(HttpRequestMessage request, SpecificationAttributeVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -112,6 +112,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("AddNewSpecAttribute", _localizationService.GetResource("ActivityLog.AddNewSpecAttribute"), specificationAttribute.Name);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse<SpecificationAttribute>(HttpStatusCode.Created, specificationAttribute);
                     if (continueEditing)
                     {
@@ -127,7 +128,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public HttpResponseMessage Update(HttpRequestMessage request, SpecificationAttributeVM model, bool continueEditing)
+        public HttpResponseMessage Update(HttpRequestMessage request, SpecificationAttributeVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -142,8 +143,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     if (specificationAttribute != null)
                     {
                         _specificationAttributeService.UpdateSpecificationAttribute(specificationAttribute);
+                        
                         //activity log
                         _customerActivityService.InsertActivity("EditSpecAttribute", _localizationService.GetResource("ActivityLog.EditSpecAttribute"), specificationAttribute.Name);
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<SpecificationAttribute>(HttpStatusCode.OK, specificationAttribute);
                         if (continueEditing)
                         {
@@ -176,6 +180,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         _specificationAttributeService.DeleteSpecificationAttribute(specificationAttribute);
                         //activity log
                         _customerActivityService.InsertActivity("DeleteSpecAttribute", _localizationService.GetResource("ActivityLog.DeleteSpecAttribute"), specificationAttribute.Name);
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<SpecificationAttribute>(HttpStatusCode.OK, specificationAttribute);
                     }
                 }
@@ -271,6 +277,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         _specificationAttributeService.InsertSpecificationAttributeOption(sao);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<SpecificationAttributeOption>(HttpStatusCode.Created, sao);
                     }
                 }
@@ -302,6 +309,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         _specificationAttributeService.UpdateSpecificationAttributeOption(sao);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<SpecificationAttributeOptionVM>(HttpStatusCode.OK, model);
                     }
                 }
@@ -328,6 +336,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _specificationAttributeService.DeleteSpecificationAttributeOption(sao);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<SpecificationAttributeOption>(HttpStatusCode.OK, sao);
                     }
                 }

@@ -20,7 +20,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
         private readonly IRepository<AclRecord> _aclRepository;
         private readonly IRepository<StoreMapping> _storeMappingRepository;
         private readonly ISettingService _settingService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly CatalogSettings _catalogSettings;
 
         #endregion
@@ -32,7 +32,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
             IRepository<AclRecord> aclRepository,
             IRepository<StoreMapping> storeMappingRepository,
             ISettingService settingService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             CatalogSettings catalogSettings)
         {
             this._manufacturerRepository = manufacturerRepository;
@@ -40,7 +40,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
             this._productRepository = productRepository;
             this._aclRepository = aclRepository;
             this._storeMappingRepository = storeMappingRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._settingService = settingService;
             this._catalogSettings = _settingService.LoadSetting<CatalogSettings>();
         }
@@ -59,7 +59,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
 
             manufacturer.Deleted = true;
             UpdateManufacturer(manufacturer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -143,7 +143,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("manufacturer");
 
             _manufacturerRepository.Insert(manufacturer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("manufacturer");
 
             _manufacturerRepository.Update(manufacturer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
 
@@ -170,7 +170,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("productManufacturer");
 
             _productManufacturerRepository.Delete(productManufacturer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("productManufacturer");
 
             _productManufacturerRepository.Insert(productManufacturer);
-            _unitOfWork.Commit();            
+            //_unitOfWork.Commit();            
         }
 
         /// <summary>
@@ -333,7 +333,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
 
             _productManufacturerRepository.Update(productManufacturer);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
 

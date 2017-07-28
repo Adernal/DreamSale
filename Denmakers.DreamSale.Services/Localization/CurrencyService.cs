@@ -39,13 +39,13 @@ namespace Denmakers.DreamSale.Services.Localization
         public CurrencyService(/*ICacheManager cacheManager,*/
             IRepository<Currency> currencyRepository,
             IStoreMappingService storeMappingService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             ISettingService settingService)
         {
             //this._cacheManager = cacheManager;
             this._currencyRepository = currencyRepository;
             this._storeMappingService = storeMappingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._settingService = settingService;
             this._currencySettings = _settingService.LoadSetting<CurrencySettings>();
         }
@@ -82,7 +82,7 @@ namespace Denmakers.DreamSale.Services.Localization
 
             _currencyRepository.Delete(currency);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Denmakers.DreamSale.Services.Localization
 
             _currencyRepository.Insert(currency);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Denmakers.DreamSale.Services.Localization
 
             _currencyRepository.Update(currency);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

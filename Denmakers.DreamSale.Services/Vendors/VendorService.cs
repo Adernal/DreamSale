@@ -27,7 +27,7 @@ namespace Denmakers.DreamSale.Services.Vendors
         {
             this._vendorRepository = vendorRepository;
             this._vendorNoteRepository = vendorNoteRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -58,7 +58,7 @@ namespace Denmakers.DreamSale.Services.Vendors
 
             vendor.Deleted = true;
             UpdateVendor(vendor);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         public virtual IPagedList<Vendor> GetAllVendors(string name = "", int pageIndex = 0, int pageSize = int.MaxValue, bool showHidden = false)
@@ -85,7 +85,7 @@ namespace Denmakers.DreamSale.Services.Vendors
                 throw new ArgumentNullException("vendor");
 
             _vendorRepository.Insert(vendor);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Denmakers.DreamSale.Services.Vendors
                 throw new ArgumentNullException("vendor");
 
             _vendorRepository.Update(vendor);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace Denmakers.DreamSale.Services.Vendors
                 throw new ArgumentNullException("vendorNote");
 
             _vendorNoteRepository.Delete(vendorNote);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

@@ -42,7 +42,7 @@ namespace Denmakers.DreamSale.Services.Media
             IRepository<ProductPicture> productPictureRepository,
             ISettingService settingService,
             IWebHelper webHelper,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             IDbContext dbContext,
             ILogger logger)
         {
@@ -52,7 +52,7 @@ namespace Denmakers.DreamSale.Services.Media
             this._webHelper = webHelper;
             this._logger = logger;
             this._dbContext = dbContext;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._mediaSettings = _settingService.LoadSetting<MediaSettings>();
         }
 
@@ -186,7 +186,7 @@ namespace Denmakers.DreamSale.Services.Media
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
             }
         }
 
@@ -198,13 +198,17 @@ namespace Denmakers.DreamSale.Services.Media
         {
             string filter = string.Format("{0}*.*", picture.Id.ToString("0000000"));
             var thumbDirectoryPath = CommonHelper.MapPath("~/content/images/thumbs");
-            string[] currentFiles = System.IO.Directory.GetFiles(thumbDirectoryPath, filter, SearchOption.AllDirectories);
-            foreach (string currentFileName in currentFiles)
+            if (System.IO.Directory.Exists(thumbDirectoryPath))
             {
-                var thumbFilePath = GetThumbLocalPath(currentFileName);
-                File.Delete(thumbFilePath);
+                string[] currentFiles = System.IO.Directory.GetFiles(thumbDirectoryPath, filter, SearchOption.AllDirectories);
+                foreach (string currentFileName in currentFiles)
+                {
+                    var thumbFilePath = GetThumbLocalPath(currentFileName);
+                    File.Delete(thumbFilePath);
+                }
+                //_unitOfWork.Commit();
             }
-            _unitOfWork.Commit();
+            
         }
 
         /// <summary>
@@ -604,7 +608,7 @@ namespace Denmakers.DreamSale.Services.Media
             //delete from database
             _pictureRepository.Delete(picture);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -684,7 +688,7 @@ namespace Denmakers.DreamSale.Services.Media
             if (!this.StoreInDb)
                 SavePictureInFile(picture.Id, pictureBinary, mimeType);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             return picture;
         }
@@ -733,7 +737,7 @@ namespace Denmakers.DreamSale.Services.Media
             if (!this.StoreInDb)
                 SavePictureInFile(picture.Id, pictureBinary, mimeType);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             return picture;
         }

@@ -21,7 +21,7 @@ namespace Denmakers.DreamSale.Services.Addresses
         {
             this._addressAttributeRepository = addressAttributeRepository;
             this._addressAttributeValueRepository = addressAttributeValueRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace Denmakers.DreamSale.Services.Addresses
 
             _addressAttributeRepository.Insert(addressAttribute);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Denmakers.DreamSale.Services.Addresses
                 throw new ArgumentNullException("addressAttribute");
 
             _addressAttributeRepository.Update(addressAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Denmakers.DreamSale.Services.Addresses
                 throw new ArgumentNullException("addressAttribute");
 
             _addressAttributeRepository.Delete(addressAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Denmakers.DreamSale.Services.Addresses
                 throw new ArgumentNullException("addressAttributeValue");
 
             _addressAttributeValueRepository.Insert(addressAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Denmakers.DreamSale.Services.Addresses
                 throw new ArgumentNullException("addressAttributeValue");
 
             _addressAttributeValueRepository.Delete(addressAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

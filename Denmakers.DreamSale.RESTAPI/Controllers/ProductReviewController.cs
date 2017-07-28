@@ -261,7 +261,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("Update")]
-        public HttpResponseMessage Update(HttpRequestMessage request, ProductReviewVM prodReviewVM, bool continueEditing)
+        public HttpResponseMessage Update(HttpRequestMessage request, ProductReviewVM prodReviewVM, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -305,6 +305,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update product totals
                             _productService.UpdateProductReviewTotals(productReview.Product);
                         }
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<ProductReview>(HttpStatusCode.OK, productReview);
                         if (continueEditing)
                         {
@@ -356,6 +358,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update product totals
                             _productService.UpdateProductReviewTotals(productReview.Product);
 
+                            _unitOfWork.Commit();
                             response = request.CreateResponse<ProductReview>(HttpStatusCode.OK, productReview);
                         }
                     }
@@ -393,6 +396,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         {
                             _productService.UpdateProductReviewTotals(product);
                         }
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -429,6 +434,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update product totals
                             _productService.UpdateProductReviewTotals(productReview.Product);
                         }
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -465,6 +472,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update product totals
                             _productService.UpdateProductReviewTotals(productReview.Product);
                         }
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }

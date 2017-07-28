@@ -1768,6 +1768,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("AddNewCustomer", _localizationService.GetResource("ActivityLog.AddNewCustomer"), customer.Id);
 
+                        _unitOfWork.Commit();
                         if (continueEditing)
                         {
                             string uri = Url.Link("GetCustomerById", new { id = customer.Id });

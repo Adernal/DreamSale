@@ -36,7 +36,7 @@ namespace Denmakers.DreamSale.Services.Localization
             this._storeMappingService = storeMappingService;
             this._settingService = settingService;
             this._localizationSettings = localizationSettings;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -67,7 +67,7 @@ namespace Denmakers.DreamSale.Services.Localization
             }
             
             _languageRepository.Delete(language);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Denmakers.DreamSale.Services.Localization
                 throw new ArgumentNullException("language");
 
             _languageRepository.Insert(language);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Denmakers.DreamSale.Services.Localization
             //update language
             _languageRepository.Update(language);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

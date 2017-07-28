@@ -18,7 +18,7 @@ namespace Denmakers.DreamSale.Services.Products
     public partial class CopyProductService : ICopyProductService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IProductService _productService;
         private readonly IProductAttributeService _productAttributeService;
         private readonly ILanguageService _languageService;
@@ -37,7 +37,7 @@ namespace Denmakers.DreamSale.Services.Products
         #endregion
 
         #region Ctor
-        public CopyProductService(IUnitOfWork unitOfWork,
+        public CopyProductService(/*IUnitOfWork unitOfWork,*/
             IProductService productService,
             IProductAttributeService productAttributeService,
             ILanguageService languageService,
@@ -54,7 +54,7 @@ namespace Denmakers.DreamSale.Services.Products
             ISettingService settingService
             )
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._productService = productService;
             this._productAttributeService = productAttributeService;
             this._languageService = languageService;
@@ -634,7 +634,7 @@ namespace Denmakers.DreamSale.Services.Products
                     _productService.UpdateProduct(productCopy);
                 }
             }
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return productCopy;
         }
 

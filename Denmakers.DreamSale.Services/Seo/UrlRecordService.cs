@@ -29,7 +29,7 @@ namespace Denmakers.DreamSale.Services.Seo
         #region Ctor
         public UrlRecordService(IRepository<UrlRecord> urlRecordRepository, ISettingService settingService, IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._urlRecordRepository = urlRecordRepository;
             this._settingService = settingService;
             this._localizationSettings = _settingService.LoadSetting<LocalizationSettings>();
@@ -105,7 +105,7 @@ namespace Denmakers.DreamSale.Services.Seo
                 throw new ArgumentNullException("urlRecord");
 
             _urlRecordRepository.Delete(urlRecord);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Denmakers.DreamSale.Services.Seo
                 throw new ArgumentNullException("urlRecords");
 
             _urlRecordRepository.Delete(urlRecords);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Denmakers.DreamSale.Services.Seo
                 throw new ArgumentNullException("urlRecord");
 
             _urlRecordRepository.Insert(urlRecord);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Denmakers.DreamSale.Services.Seo
                 throw new ArgumentNullException("urlRecord");
 
             _urlRecordRepository.Update(urlRecord);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

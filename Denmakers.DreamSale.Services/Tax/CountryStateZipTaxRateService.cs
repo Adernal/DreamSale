@@ -12,7 +12,7 @@ namespace Denmakers.DreamSale.Services.Tax
     public partial class CountryStateZipTaxRateService : ITaxRateService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<TaxRate> _taxRateRepository;
         private readonly ISettingService _settingService;
         private readonly FixedOrByCountryStateZipTaxSettings _countryStateZipSettings;
@@ -22,9 +22,9 @@ namespace Denmakers.DreamSale.Services.Tax
         #endregion
 
         #region Ctor
-        public CountryStateZipTaxRateService(IRepository<TaxRate> taxRateRepository, IUnitOfWork unitOfWork, IStoreContext storeContext, ISettingService settingService)
+        public CountryStateZipTaxRateService(IRepository<TaxRate> taxRateRepository, /*IUnitOfWork unitOfWork,*/ IStoreContext storeContext, ISettingService settingService)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._storeContext = storeContext;
             //this._cacheManager = cacheManager;
             this._taxRateRepository = taxRateRepository;
@@ -158,7 +158,7 @@ namespace Denmakers.DreamSale.Services.Tax
 
             _taxRateRepository.Insert(taxRate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Denmakers.DreamSale.Services.Tax
                 throw new ArgumentNullException("taxRate");
 
             _taxRateRepository.Update(taxRate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Denmakers.DreamSale.Services.Tax
 
             _taxRateRepository.Delete(taxRate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }

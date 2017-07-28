@@ -815,8 +815,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -884,7 +884,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No item found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(id);
                     bool isUnauthorizedVendor = _workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id;
@@ -911,7 +911,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //try to load a product entity
                     var product = _productService.GetProductBySku(sku);
@@ -942,7 +942,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = null;
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //validate maximum number of products per vendor
                     if (_vendorSettings.MaximumProductNumber > 0 &&
@@ -978,8 +978,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //validate maximum number of products per vendor
                     if (_vendorSettings.MaximumProductNumber > 0 &&
@@ -1039,6 +1039,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("AddNewProduct", _localizationService.GetResource("ActivityLog.AddNewProduct"), product.Name);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<Product>(HttpStatusCode.Created, product);
                         if (continueEditing)
                         {
@@ -1075,8 +1076,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound);
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(model.Id);
                     if ((product == null || product.Deleted) || _workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
@@ -1207,6 +1208,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditProduct", _localizationService.GetResource("ActivityLog.EditProduct"), product.Name);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<Product>(HttpStatusCode.Created, product);
                         if (continueEditing)
                         {
@@ -1246,7 +1248,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound);
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(id);
                     if (product == null || (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id))
@@ -1261,6 +1263,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("DeleteProduct", _localizationService.GetResource("ActivityLog.DeleteProduct"), product.Name);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse<Product>(HttpStatusCode.OK, product);
                 }
                 return response;
@@ -1273,12 +1276,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (selectedIds != null)
                     {
                         _productService.DeleteProducts(_productService.GetProductsByIds(selectedIds.ToArray()).Where(p => _workContext.CurrentVendor == null || p.VendorId == _workContext.CurrentVendor.Id).ToList());
+
+                        _unitOfWork.Commit();
                     }
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -1292,8 +1297,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var copyModel = model.CopyProductModel;
                     try
@@ -1309,6 +1314,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         }
 
                         var newProduct = _copyProductService.CopyProduct(originalProduct, copyModel.Name, copyModel.Published, copyModel.CopyImages);
+
+                        _unitOfWork.Commit();
                         string uri = Url.Link("GetProductByID", new { id = newProduct.Id });
                         response.Headers.Location = new Uri(uri);
                     }
@@ -1335,7 +1342,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var result = "";
 
@@ -1378,8 +1385,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
 
                     var model = new ProductVM.AddRequiredProductVM();
@@ -1427,8 +1434,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -1539,6 +1546,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productTag.Id = model.Id;
                         productTag.Name = model.Name;
                         _productTagService.InsertProductTag(productTag);
+
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<ProductTag>(HttpStatusCode.Created, productTag);
                     }
                 }
@@ -1565,6 +1574,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productTag.Name = model.Name;
                         _productTagService.UpdateProductTag(productTag);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<ProductTagVM>(HttpStatusCode.OK, model);
                     }
                 }
@@ -1591,6 +1601,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         if (tag != null)
                         {
                             _productTagService.DeleteProductTag(tag);
+
+                            _unitOfWork.Commit();
                             response = request.CreateResponse<ProductTag>(HttpStatusCode.OK, tag);
                         }
                     }
@@ -1609,7 +1621,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -1653,8 +1665,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var relatedProduct = _productService.GetRelatedProductById(model.Id);
                     if (relatedProduct == null)
@@ -1674,6 +1686,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     relatedProduct.DisplayOrder = model.DisplayOrder;
                     _productService.UpdateRelatedProduct(relatedProduct);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse<RelatedProduct>(HttpStatusCode.OK, relatedProduct);
                 }
                 return response;
@@ -1686,8 +1699,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var relatedProduct = _productService.GetRelatedProductById(id);
                     if (relatedProduct == null)
@@ -1707,6 +1720,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     _productService.DeleteRelatedProduct(relatedProduct);
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -1719,9 +1733,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                HttpResponseMessage response = null;
 
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var model = new ProductVM.AddRelatedProductVM();
                     string allText = _localizationService.GetResource("Admin.Common.All");
@@ -1767,8 +1781,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -1805,8 +1819,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (model.SelectedProductIds != null)
                     {
@@ -1829,6 +1843,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                             ProductId2 = id,
                                             DisplayOrder = 1
                                         });
+                                    _unitOfWork.Commit();
                                 }
                             }
                         }
@@ -1853,8 +1868,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -1897,8 +1912,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var crossSellProduct = _productService.GetCrossSellProductById(id);
                     if (crossSellProduct == null)
@@ -1918,6 +1933,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     _productService.DeleteCrossSellProduct(crossSellProduct);
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -1931,8 +1947,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var model = new ProductVM.AddCrossSellProductVM();
                     //a vendor should have access only to his products
@@ -1980,8 +1996,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -2016,8 +2032,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (model.SelectedProductIds != null)
                     {
@@ -2039,6 +2055,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                             ProductId1 = model.ProductId,
                                             ProductId2 = id,
                                         });
+                                    _unitOfWork.Commit();
                                 }
                             }
                         }
@@ -2065,7 +2082,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -2117,8 +2134,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var associatedProduct = _productService.GetProductById(model.Id);
                     if (associatedProduct == null)
@@ -2134,6 +2151,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     associatedProduct.DisplayOrder = model.DisplayOrder;
                     _productService.UpdateProduct(associatedProduct);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2148,8 +2166,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(id);
                     if (product == null)
@@ -2165,6 +2183,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         product.ParentGroupedProductId = 0;
                     _productService.UpdateProduct(product);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2179,8 +2198,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
 
                     var model = new ProductVM.AddAssociatedProductVM();
@@ -2228,8 +2247,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -2277,8 +2296,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (model.SelectedProductIds != null)
                     {
@@ -2318,7 +2337,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (pictureId == 0)
                         throw new ArgumentException();
@@ -2370,8 +2389,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -2424,8 +2443,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productPicture = _productService.GetProductPictureById(model.Id);
                     if (productPicture == null)
@@ -2455,6 +2474,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     productPicture.DisplayOrder = model.DisplayOrder;
                     _productService.UpdateProductPicture(productPicture);
+
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2469,8 +2490,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productPicture = _productService.GetProductPictureById(id);
                     if (productPicture == null)
@@ -2496,6 +2517,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No picture found with the specified id");
                     _pictureService.DeletePicture(picture);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -2514,7 +2536,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (_workContext.CurrentVendor != null)
                     {
@@ -2566,8 +2588,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
                     if (_workContext.CurrentVendor != null)
@@ -2638,8 +2660,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var psa = _specificationAttributeService.GetProductSpecificationAttributeById(model.Id);
                     if (psa == null)
@@ -2674,6 +2696,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     psa.DisplayOrder = model.DisplayOrder;
                     _specificationAttributeService.UpdateProductSpecificationAttribute(psa);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2688,8 +2711,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var psa = _specificationAttributeService.GetProductSpecificationAttributeById(id);
                     if (psa == null)
@@ -2710,6 +2733,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     _specificationAttributeService.DeleteProductSpecificationAttribute(psa);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2730,8 +2754,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(productId);
                     if (product == null)
@@ -2785,8 +2809,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     int vendorId = 0;
                     //a vendor should have access only to his products
@@ -2847,8 +2871,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(productId);
                     if (product == null)
@@ -2913,7 +2937,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(productId);
                     if (product == null)
@@ -3009,8 +3033,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(model.ProductId);
                     if (product == null)
@@ -3070,6 +3094,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 _localizedEntityService.SaveLocalizedValue(pav, x => x.Name, name, lang.Id);
                         }
                     }
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3083,8 +3108,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(model.Id);
                     if (productAttributeMapping == null)
@@ -3107,6 +3132,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     productAttributeMapping.AttributeControlTypeId = model.AttributeControlTypeId;
                     productAttributeMapping.DisplayOrder = model.DisplayOrder;
                     _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
+
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3120,8 +3147,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(id);
                     if (productAttributeMapping == null)
@@ -3142,7 +3169,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     _productAttributeService.DeleteProductAttributeMapping(productAttributeMapping);
 
-
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3159,8 +3186,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(id);
                     if (productAttributeMapping == null)
@@ -3210,8 +3237,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(model.Id);
                     if (productAttributeMapping == null)
@@ -3243,6 +3270,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productAttributeMapping.ValidationFileMaximumSize = model.ValidationFileMaximumSize;
                         productAttributeMapping.DefaultValue = model.DefaultValue;
                         _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
+
+                        _unitOfWork.Commit();
                     }
                     else
                     {
@@ -3267,7 +3296,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(productAttributeMappingId);
                     if (productAttributeMapping == null)
@@ -3391,8 +3420,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var productAttributeMapping = _productAttributeService.GetProductAttributeMappingById(model.ProductAttributeMappingId);
                     if (productAttributeMapping == null)
@@ -3507,6 +3536,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     productAttributeMapping.ConditionAttributeXml = attributesXml;
                     _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse<ProductAttributeConditionVM>(HttpStatusCode.OK, model);
                 }
                 return response;
@@ -3525,8 +3555,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //vendors cannot manage these settings
                     if (_workContext.CurrentVendor != null)
@@ -3540,6 +3570,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productEditorSettings = _settingService.LoadSetting<ProductEditorSettings>();
                     productEditorSettings = model.ProductEditorSettingsModel.ToEntity(productEditorSettings);
                     _settingService.SaveSetting(productEditorSettings);
+                    _unitOfWork.Commit();
 
                     //product list
                     if (String.IsNullOrEmpty(returnUrl))
@@ -3578,7 +3609,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(productId);
                     if (product == null)
@@ -3636,8 +3667,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var model = new ProductVM.TierPriceVM();
 
@@ -3666,8 +3697,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = null;
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(model.ProductId);
                     if (product == null)
@@ -3697,6 +3728,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //update "HasTierPrices" property
                         _productService.UpdateHasTierPricesProperty(product);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<ProductVM.TierPriceVM>(HttpStatusCode.OK, model);
                     }
                     else
@@ -3729,7 +3761,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var tierPrice = _productService.GetTierPriceById(id);
                     if (tierPrice == null)
@@ -3785,8 +3817,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var tierPrice = _productService.GetTierPriceById(model.Id);
                     if (tierPrice == null)
@@ -3815,6 +3847,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         tierPrice.StartDateTimeUtc = model.StartDateTimeUtc;
                         tierPrice.EndDateTimeUtc = model.EndDateTimeUtc;
                         _productService.UpdateTierPrice(tierPrice);
+                        _unitOfWork.Commit();
                     }
                     else
                     {
@@ -3844,8 +3877,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var tierPrice = _productService.GetTierPriceById(id);
                     if (tierPrice == null)
@@ -3866,7 +3899,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //update "HasTierPrices" property
                     _productService.UpdateHasTierPricesProperty(product);
-                    
+
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3885,8 +3919,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var model = new BulkEditListVM();
                     //categories
@@ -3913,12 +3947,12 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("BulkEditSelect")]
-        public HttpResponseMessage BulkEditSelect(HttpRequestMessage request, DataSourceRequest command, BulkEditListVM model)
+        public HttpResponseMessage BulkEditSelect(HttpRequestMessage request, BulkEditListVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     int vendorId = 0;
                     //a vendor should have access only to his products
@@ -3930,8 +3964,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         vendorId: vendorId,
                         productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
                         keywords: model.SearchProductName,
-                        pageIndex: command.Page - 1,
-                        pageSize: command.PageSize,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
                         showHidden: true);
 
                     var gridModel = new DataSourceResult();
@@ -3971,8 +4005,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (products != null)
                     {
@@ -4015,6 +4049,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                     product.WarehouseId, _localizationService.GetResource("Admin.StockQuantityHistory.Messages.Edit"));
                             }
                         }
+                        _unitOfWork.Commit();
                     }
 
                     response = request.CreateResponse(HttpStatusCode.OK);
@@ -4030,8 +4065,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true/*_permissionService.Authorize(StandardPermissionProvider.ManageProducts)*/)
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     if (products != null)
                     {
@@ -4048,6 +4083,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 _productService.DeleteProduct(product);
                             }
                         }
+                        _unitOfWork.Commit();
                     }
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }

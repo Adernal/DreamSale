@@ -23,7 +23,7 @@ namespace Denmakers.DreamSale.Services.Addresses
         {
             this._addressAttributeService = addressAttributeService;
             this._localizationService = localizationService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
         #endregion  
         /// <summary>

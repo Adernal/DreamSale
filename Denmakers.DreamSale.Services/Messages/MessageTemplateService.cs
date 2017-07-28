@@ -41,7 +41,7 @@ namespace Denmakers.DreamSale.Services.Messages
             this._storeMappingService = storeMappingService;
             this._messageTemplateRepository = messageTemplateRepository;
             this._settingService = settingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._catalogSettings = _settingService.LoadSetting<CatalogSettings>();
         }
 
@@ -189,7 +189,7 @@ namespace Denmakers.DreamSale.Services.Messages
                 throw new ArgumentNullException("messageTemplate");
 
             _messageTemplateRepository.Insert(messageTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Denmakers.DreamSale.Services.Messages
                 throw new ArgumentNullException("messageTemplate");
 
             _messageTemplateRepository.Update(messageTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -215,7 +215,7 @@ namespace Denmakers.DreamSale.Services.Messages
                 throw new ArgumentNullException("messageTemplate");
 
             _messageTemplateRepository.Delete(messageTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

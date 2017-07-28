@@ -34,7 +34,7 @@ namespace Denmakers.DreamSale.Services.Logging
         public CustomerActivityService(IRepository<ActivityLog> activityLogRepository,
             IRepository<ActivityLogType> activityLogTypeRepository,
             ISettingService settingService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             IWebHelper webHelper,
             IDbContext dbContext,
             IWorkContext workContext)
@@ -42,7 +42,7 @@ namespace Denmakers.DreamSale.Services.Logging
             this._activityLogRepository = activityLogRepository;
             this._activityLogTypeRepository = activityLogTypeRepository;
             this._settingService = settingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
             this._webHelper = webHelper;
             this._dbContext = dbContext;
@@ -103,7 +103,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 throw new ArgumentNullException("activityLogType");
 
             _activityLogTypeRepository.Insert(activityLogType);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 throw new ArgumentNullException("activityLogType");
 
             _activityLogTypeRepository.Delete(activityLogType);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Denmakers.DreamSale.Services.Logging
             activity.IpAddress = _webHelper.GetCurrentIpAddress();
 
             _activityLogRepository.Insert(activity);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return activity;
         }
 
@@ -216,7 +216,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 throw new ArgumentNullException("activityLog");
 
             _activityLogRepository.Delete(activityLog);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 var activityLog = _activityLogRepository.Table.ToList();
                 foreach (var activityLogItem in activityLog)
                     _activityLogRepository.Delete(activityLogItem);
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
             }
         }
         #endregion

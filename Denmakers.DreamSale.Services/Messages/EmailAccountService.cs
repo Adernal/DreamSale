@@ -13,14 +13,14 @@ namespace Denmakers.DreamSale.Services.Messages
         #region Fields
 
         private readonly IRepository<EmailAccount> _emailAccountRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         #endregion
 
         #region Ctor
         public EmailAccountService(IRepository<EmailAccount> emailAccountRepository, IUnitOfWork unitOfWork)
         {
             this._emailAccountRepository = emailAccountRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
         #endregion
 
@@ -54,7 +54,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _emailAccountRepository.Insert(emailAccount);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _emailAccountRepository.Update(emailAccount);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _emailAccountRepository.Delete(emailAccount);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

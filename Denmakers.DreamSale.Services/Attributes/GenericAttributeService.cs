@@ -24,7 +24,7 @@ namespace Denmakers.DreamSale.Services.Attributes
         public GenericAttributeService(IRepository<GenericAttribute> genericAttributeRepository, IUnitOfWork unitOfWork)
         {
             this._genericAttributeRepository = genericAttributeRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -38,7 +38,7 @@ namespace Denmakers.DreamSale.Services.Attributes
                 throw new ArgumentNullException("attribute");
 
             _genericAttributeRepository.Delete(attribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //cache
             //_cacheManager.RemoveByPattern(GENERICATTRIBUTE_PATTERN_KEY);
@@ -52,7 +52,7 @@ namespace Denmakers.DreamSale.Services.Attributes
                 throw new ArgumentNullException("attributes");
 
             _genericAttributeRepository.Delete(attributes);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //cache
             //_cacheManager.RemoveByPattern(GENERICATTRIBUTE_PATTERN_KEY);
@@ -80,7 +80,7 @@ namespace Denmakers.DreamSale.Services.Attributes
                 throw new ArgumentNullException("attribute");
 
             _genericAttributeRepository.Insert(attribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             //cache
             //_cacheManager.RemoveByPattern(GENERICATTRIBUTE_PATTERN_KEY);
 
@@ -133,14 +133,14 @@ namespace Denmakers.DreamSale.Services.Attributes
                 {
                     //delete
                     DeleteAttribute(prop);
-                    _unitOfWork.Commit();
+                    //_unitOfWork.Commit();
                 }
                 else
                 {
                     //update
                     prop.Value = valueStr;
                     UpdateAttribute(prop);
-                    _unitOfWork.Commit();
+                    //_unitOfWork.Commit();
                 }
             }
             else
@@ -158,7 +158,7 @@ namespace Denmakers.DreamSale.Services.Attributes
 
                     };
                     InsertAttribute(prop);
-                    _unitOfWork.Commit();
+                    //_unitOfWork.Commit();
                 }
             }
         }

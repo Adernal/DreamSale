@@ -307,11 +307,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
 
-                    
                     if (ModelState.IsValid)
                     {
                         var vendor = model.ToEntity();
@@ -341,6 +340,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //update picture seo file name
                         UpdatePictureSeoNames(vendor);
 
+                        _unitOfWork.Commit();
+                        response = request.CreateResponse<VendorVM>(HttpStatusCode.Created, model);
                         if (continueEditing)
                         {
                             string uri = Url.Link("GetVendorById", new { id = vendor.Id });
@@ -436,6 +437,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update picture seo file name
                             UpdatePictureSeoNames(vendor);
 
+                            _unitOfWork.Commit();
+                            response = request.CreateResponse<VendorVM>(HttpStatusCode.OK, model);
                             //SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
                             if (continueEditing)
                             {
@@ -505,6 +508,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 //activity log
                                 _customerActivityService.InsertActivity("DeleteVendor", _localizationService.GetResource("ActivityLog.DeleteVendor"), vendor.Id);
                             }
+                            _unitOfWork.Commit();
                             string uri = Url.Link("VendorList", null);
                             response.Headers.Location = new Uri(uri);
                         }
@@ -589,6 +593,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     vendor.VendorNotes.Add(vendorNote);
                     _vendorService.UpdateVendor(vendor);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK, new { Result = true });
                 }
                 return response;
@@ -616,6 +621,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No vendor note found with the specified id");
                     _vendorService.DeleteVendorNote(vendorNote);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;

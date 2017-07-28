@@ -38,7 +38,7 @@ namespace Denmakers.DreamSale.Services.Orders
             this._productRepository = productRepository;
             this._recurringPaymentRepository = recurringPaymentRepository;
             this._customerRepository = customerRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -127,7 +127,7 @@ namespace Denmakers.DreamSale.Services.Orders
             order.Deleted = true;
             UpdateOrder(order);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _orderRepository.Insert(order);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _orderRepository.Update(order);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _orderItemRepository.Delete(orderItem);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -374,7 +374,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _orderNoteRepository.Delete(orderNote);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -393,7 +393,7 @@ namespace Denmakers.DreamSale.Services.Orders
             recurringPayment.Deleted = true;
             UpdateRecurringPayment(recurringPayment);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -420,7 +420,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _recurringPaymentRepository.Insert(recurringPayment);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _recurringPaymentRepository.Update(recurringPayment);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

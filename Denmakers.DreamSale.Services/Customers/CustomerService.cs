@@ -50,7 +50,7 @@ namespace Denmakers.DreamSale.Services.Customers
             IRepository<CustomerRole> customerRoleRepository,
             IRepository<GenericAttribute> gaRepository,
             IRepository<Order> orderRepository,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             IDbContext dbContext,
             ISettingService settingService,
             //IRepository<ForumPost> forumPostRepository,
@@ -64,7 +64,7 @@ namespace Denmakers.DreamSale.Services.Customers
             IWebHelper webHelper
             )
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             //this._cacheManager = cacheManager;
             this._customerRepository = customerRepository;
             this._customerPasswordRepository = customerPasswordRepository;
@@ -305,7 +305,7 @@ namespace Denmakers.DreamSale.Services.Customers
             }
 
             UpdateCustomer(customer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //event notification
             //_eventPublisher.EntityDeleted(customer);
@@ -443,7 +443,7 @@ namespace Denmakers.DreamSale.Services.Customers
             customer.CustomerRoles.Add(guestRole);
 
             _customerRepository.Insert(customer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return customer;
         }
 
@@ -457,7 +457,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 throw new ArgumentNullException("customer");
 
             _customerRepository.Insert(customer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //event notification
             //_eventPublisher.EntityInserted(customer);
@@ -473,7 +473,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 throw new ArgumentNullException("customer");
 
             _customerRepository.Update(customer);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             //event notification
             //_eventPublisher.EntityUpdated(customer);
         }
@@ -636,7 +636,7 @@ namespace Denmakers.DreamSale.Services.Customers
                     Debug.WriteLine(exc);
                 }
             }
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return totalRecordsDeleted;
 
             #endregion
@@ -660,7 +660,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 throw new DreamSaleException("System role could not be deleted");
 
             _customerRoleRepository.Delete(customerRole);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //_cacheManager.RemoveByPattern(CUSTOMERROLES_PATTERN_KEY);
 
@@ -724,7 +724,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 throw new ArgumentNullException("customerRole");
 
             _customerRoleRepository.Insert(customerRole);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //_cacheManager.RemoveByPattern(CUSTOMERROLES_PATTERN_KEY);
 
@@ -804,7 +804,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 throw new ArgumentNullException("customerPassword");
 
             _customerPasswordRepository.Insert(customerPassword);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             //event notification
             //_eventPublisher.EntityInserted(customerPassword);

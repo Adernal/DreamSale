@@ -30,7 +30,7 @@ namespace Denmakers.DreamSale.Services.Products
             IRepository<PredefinedProductAttributeValue> predefinedProductAttributeValueRepository,
             IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._productAttributeRepository = productAttributeRepository;
             this._productAttributeMappingRepository = productAttributeMappingRepository;
             this._productAttributeCombinationRepository = productAttributeCombinationRepository;
@@ -54,7 +54,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttribute");
 
             _productAttributeRepository.Delete(productAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttribute");
 
             _productAttributeRepository.Insert(productAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttribute");
 
             _productAttributeRepository.Update(productAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttributeMapping");
 
             _productAttributeMappingRepository.Delete(productAttributeMapping);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttributeMapping");
 
             _productAttributeMappingRepository.Insert(productAttributeMapping);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttributeValue");
 
             _productAttributeValueRepository.Delete(productAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttributeValue");
 
             _productAttributeValueRepository.Insert(productAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -265,7 +265,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productAttributeValue");
 
             _productAttributeValueRepository.Update(productAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -282,7 +282,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("ppav");
 
             _predefinedProductAttributeValueRepository.Delete(ppav);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("ppav");
 
             _predefinedProductAttributeValueRepository.Insert(ppav);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("ppav");
 
             _predefinedProductAttributeValueRepository.Update(ppav);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -353,7 +353,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("combination");
 
             _productAttributeCombinationRepository.Delete(combination);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("combination");
 
             _productAttributeCombinationRepository.Insert(combination);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -430,7 +430,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("combination");
 
             _productAttributeCombinationRepository.Update(combination);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

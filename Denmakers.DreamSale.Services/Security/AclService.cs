@@ -30,7 +30,7 @@ namespace Denmakers.DreamSale.Services.Security
         public AclService(IRepository<AclRecord> aclRecordRepository, ISettingService settingService, IWorkContext workContext, IUnitOfWork unitOfWork)
         {
             this._aclRecordRepository = aclRecordRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._workContext = workContext;
             this._settingService = settingService;
             this._catalogSettings = _settingService.LoadSetting<CatalogSettings>();
@@ -86,7 +86,7 @@ namespace Denmakers.DreamSale.Services.Security
                 throw new ArgumentNullException("aclRecord");
 
             _aclRecordRepository.Insert(aclRecord);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Denmakers.DreamSale.Services.Security
 
             InsertAclRecord(aclRecord);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Denmakers.DreamSale.Services.Security
 
             _aclRecordRepository.Delete(aclRecord);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

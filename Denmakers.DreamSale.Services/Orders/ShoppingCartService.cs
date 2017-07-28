@@ -37,7 +37,7 @@ namespace Denmakers.DreamSale.Services.Orders
         private readonly ICheckoutAttributeParser _checkoutAttributeParser;
         private readonly IPriceFormatter _priceFormatter;
         private readonly ICustomerService _customerService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IPermissionService _permissionService;
         private readonly IAclService _aclService;
         private readonly IDateRangeService _dateRangeService;
@@ -63,7 +63,7 @@ namespace Denmakers.DreamSale.Services.Orders
             ICheckoutAttributeParser checkoutAttributeParser,
             IPriceFormatter priceFormatter,
             ICustomerService customerService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             IPermissionService permissionService,
             IAclService aclService,
             IDateRangeService dateRangeService,
@@ -86,7 +86,7 @@ namespace Denmakers.DreamSale.Services.Orders
             this._checkoutAttributeParser = checkoutAttributeParser;
             this._priceFormatter = priceFormatter;
             this._customerService = customerService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._permissionService = permissionService;
             this._aclService = aclService;
             this._dateRangeService = dateRangeService;
@@ -145,7 +145,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CheckoutAttributes, checkoutAttributesXml, storeId);
             }
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Denmakers.DreamSale.Services.Orders
             foreach (var cartItem in cartItems)
                 _sciRepository.Delete(cartItem);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return cartItems.Count;
         }
 
@@ -1106,7 +1106,7 @@ namespace Denmakers.DreamSale.Services.Orders
                     shoppingCartItem.UpdatedOnUtc = DateTime.UtcNow;
                     _customerService.UpdateCustomer(customer);
 
-                    _unitOfWork.Commit();
+                    //_unitOfWork.Commit();
                 }
             }
             else
@@ -1165,7 +1165,7 @@ namespace Denmakers.DreamSale.Services.Orders
                     customer.HasShoppingCartItems = customer.ShoppingCartItems.Any();
                     _customerService.UpdateCustomer(customer);
 
-                    _unitOfWork.Commit();
+                    //_unitOfWork.Commit();
                 }
             }
 
@@ -1221,7 +1221,7 @@ namespace Denmakers.DreamSale.Services.Orders
                         shoppingCartItem.UpdatedOnUtc = DateTime.UtcNow;
                         _customerService.UpdateCustomer(customer);
 
-                        _unitOfWork.Commit();
+                        //_unitOfWork.Commit();
                     }
                 }
                 else
@@ -1279,7 +1279,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 //save customer
                 _customerService.UpdateCustomer(toCustomer);
 
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
             }
         }
 

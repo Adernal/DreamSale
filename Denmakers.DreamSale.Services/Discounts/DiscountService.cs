@@ -22,7 +22,7 @@ namespace Denmakers.DreamSale.Services.Discounts
     public partial class DiscountService : IDiscountService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Discount> _discountRepository;
         private readonly IRepository<DiscountRequirement> _discountRequirementRepository;
         private readonly IRepository<DiscountUsageHistory> _discountUsageHistoryRepository;
@@ -47,7 +47,7 @@ namespace Denmakers.DreamSale.Services.Discounts
             ILocalizationService localizationService,
             ICategoryService categoryService,
             IGenericAttributeService genericAttributeService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             ISettingService settingService,
             //IPluginFinder pluginFinder,
             //IEventPublisher eventPublisher,
@@ -63,7 +63,7 @@ namespace Denmakers.DreamSale.Services.Discounts
             this._genericAttributeService = genericAttributeService;
             //this._pluginFinder = pluginFinder;
             //this._eventPublisher = eventPublisher;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._workContext = workContext;
             this._settingService = settingService;
             this._shoppingCartSettings = _settingService.LoadSetting<ShoppingCartSettings>();
@@ -187,7 +187,7 @@ namespace Denmakers.DreamSale.Services.Discounts
                 throw new ArgumentNullException("discount");
 
             _discountRepository.Delete(discount);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -254,7 +254,7 @@ namespace Denmakers.DreamSale.Services.Discounts
                 throw new ArgumentNullException("discount");
 
             _discountRepository.Insert(discount);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Denmakers.DreamSale.Services.Discounts
                 throw new ArgumentNullException("discount");
 
             _discountRepository.Update(discount);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -410,7 +410,7 @@ namespace Denmakers.DreamSale.Services.Discounts
                 throw new ArgumentNullException("discountUsageHistory");
 
             _discountUsageHistoryRepository.Insert(discountUsageHistory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -423,7 +423,7 @@ namespace Denmakers.DreamSale.Services.Discounts
                 throw new ArgumentNullException("discountUsageHistory");
 
             _discountUsageHistoryRepository.Update(discountUsageHistory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -436,7 +436,7 @@ namespace Denmakers.DreamSale.Services.Discounts
                 throw new ArgumentNullException("discountUsageHistory");
 
             _discountUsageHistoryRepository.Delete(discountUsageHistory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

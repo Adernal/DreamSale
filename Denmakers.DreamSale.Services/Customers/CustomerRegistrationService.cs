@@ -15,7 +15,7 @@ namespace Denmakers.DreamSale.Services.Customers
     public partial class CustomerRegistrationService : ICustomerRegistrationService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly ICustomerService _customerService;
         private readonly IEncryptionService _encryptionService;
         //private readonly INewsLetterSubscriptionService _newsLetterSubscriptionService;
@@ -32,7 +32,7 @@ namespace Denmakers.DreamSale.Services.Customers
         #endregion
 
         #region Ctor
-        public CustomerRegistrationService(IUnitOfWork unitOfWork,
+        public CustomerRegistrationService(/*IUnitOfWork unitOfWork,*/
             ICustomerService customerService,
             IEncryptionService encryptionService,
             //INewsLetterSubscriptionService newsLetterSubscriptionService,
@@ -44,7 +44,7 @@ namespace Denmakers.DreamSale.Services.Customers
             //IWorkflowMessageService workflowMessageService,
             ISettingService settingService)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._customerService = customerService;
             this._encryptionService = encryptionService;
             //this._newsLetterSubscriptionService = newsLetterSubscriptionService;
@@ -265,7 +265,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerService.UpdateCustomer(request.Customer);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             return result;
         }
@@ -348,7 +348,7 @@ namespace Denmakers.DreamSale.Services.Customers
             }
             _customerService.InsertCustomerPassword(customerPassword);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
 
             return result;
         }
@@ -389,7 +389,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 //email re-validation message
                 _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.EmailRevalidationToken, Guid.NewGuid().ToString());
                 //_workflowMessageService.SendCustomerEmailRevalidationMessage(customer, _workContext.WorkingLanguage.Id);
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
             }
             else
             {
@@ -409,7 +409,7 @@ namespace Denmakers.DreamSale.Services.Customers
                 //        }
                 //    }
                 //}
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
             }
         }
 
@@ -438,7 +438,7 @@ namespace Denmakers.DreamSale.Services.Customers
             customer.Username = newUsername;
             _customerService.UpdateCustomer(customer);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }
