@@ -437,16 +437,16 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                HttpResponseMessage response = null;//= request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
                 if (ModelState.IsValid)
                 {
                     var category = model.ToEntity();
                     category.CreatedOnUtc = DateTime.UtcNow;
                     category.UpdatedOnUtc = DateTime.UtcNow;
                     _categoryService.InsertCategory(category);
-                    _urlRecordService.SaveSlug(category, category.Name, 0);
+                    //_urlRecordService.SaveSlug(category, category.Name, 0);
                     //locales
-                    UpdateLocales(category, model);
+                    //UpdateLocales(category, model);
                     //discounts
                     var allDiscounts = _discountService.GetAllDiscounts(DiscountType.AssignedToCategories, showHidden: true);
                     foreach (var discount in allDiscounts)
@@ -456,7 +456,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     _categoryService.UpdateCategory(category);
 
                     //update picture seo file name
-                    UpdatePictureSeoNames(category);
+                    //UpdatePictureSeoNames(category);
                     //ACL (customer roles)
                     SaveCategoryAcl(category);
                     //Stores
@@ -531,7 +531,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         category.UpdatedOnUtc = DateTime.UtcNow;
                         _categoryService.UpdateCategory(category);
 
-                        _urlRecordService.SaveSlug(category, category.Name, 0);
+                        //_urlRecordService.SaveSlug(category, category.Name, 0);
 
                         //discounts
                         var allDiscounts = _discountService.GetAllDiscounts(DiscountType.AssignedToCategories, showHidden: true);
@@ -560,7 +560,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 _pictureService.DeletePicture(prevPicture);
                         }
                         //update picture seo file name
-                        UpdatePictureSeoNames(category);
+                        //UpdatePictureSeoNames(category);
                         //ACL
                         SaveCategoryAcl(category);
                         //Stores

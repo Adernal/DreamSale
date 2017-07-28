@@ -1,0 +1,4 @@
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\bin\Debug\Denmakers.DreamSale.Model.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\bin\Debug\Denmakers.DreamSale.Model.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\obj\Debug\Denmakers.DreamSale.Model.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\obj\Debug\Denmakers.DreamSale.Model.pdb

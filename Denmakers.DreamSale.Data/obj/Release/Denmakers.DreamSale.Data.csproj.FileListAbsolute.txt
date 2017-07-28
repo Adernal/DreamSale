@@ -10,3 +10,15 @@ C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTS
 C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\obj\Release\Denmakers.DreamSale.Data.csprojResolveAssemblyReference.cache
 C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\obj\Release\Denmakers.DreamSale.Data.dll
 C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\obj\Release\Denmakers.DreamSale.Data.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\Denmakers.DreamSale.Data.dll.config
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\Denmakers.DreamSale.Data.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\Denmakers.DreamSale.Data.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\Denmakers.DreamSale.Model.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\EntityFramework.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\EntityFramework.SqlServer.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\Denmakers.DreamSale.Model.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\EntityFramework.xml
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Release\EntityFramework.SqlServer.xml
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\obj\Release\Denmakers.DreamSale.Data.csprojResolveAssemblyReference.cache
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\obj\Release\Denmakers.DreamSale.Data.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\obj\Release\Denmakers.DreamSale.Data.pdb
