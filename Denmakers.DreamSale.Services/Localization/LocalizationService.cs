@@ -29,12 +29,12 @@ namespace Denmakers.DreamSale.Services.Localization
         #endregion
 
         #region Ctor
-        public LocalizationService(IRepository<LocaleStringResource> lsrRepository, ILanguageService languageService, IUnitOfWork unitOfWork, ISettingService settingService)
+        public LocalizationService(IRepository<LocaleStringResource> lsrRepository, ILanguageService languageService, /*IUnitOfWork unitOfWork,*/ ISettingService settingService)
         {
             this._lsrRepository = lsrRepository;
             this._languageService = languageService;
             this._settingService = settingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
             this._localizationSettings = _settingService.LoadSetting<LocalizationSettings>();
         }
@@ -54,7 +54,7 @@ namespace Denmakers.DreamSale.Services.Localization
 
             _lsrRepository.Delete(localeStringResource);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Denmakers.DreamSale.Services.Localization
             
             _lsrRepository.Insert(localeStringResource);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

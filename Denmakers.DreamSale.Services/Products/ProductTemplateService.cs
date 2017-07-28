@@ -12,7 +12,7 @@ namespace Denmakers.DreamSale.Services.Products
     public partial class ProductTemplateService : IProductTemplateService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<ProductTemplate> _productTemplateRepository;
 
         #endregion
@@ -21,7 +21,7 @@ namespace Denmakers.DreamSale.Services.Products
         public ProductTemplateService(IRepository<ProductTemplate> productTemplateRepository, IUnitOfWork unitOfWork)
         {
             this._productTemplateRepository = productTemplateRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             _productTemplateRepository.Insert(productTemplate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             _productTemplateRepository.Update(productTemplate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             _productTemplateRepository.Delete(productTemplate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }

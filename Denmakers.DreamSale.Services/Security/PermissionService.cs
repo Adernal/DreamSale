@@ -22,7 +22,7 @@ namespace Denmakers.DreamSale.Services.Security
         private readonly IWorkContext _workContext;
         private readonly ILocalizationService _localizationService;
         private readonly ILanguageService _languageService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace Denmakers.DreamSale.Services.Security
             this._workContext = workContext;
             this._localizationService = localizationService;
             this._languageService = languageService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace Denmakers.DreamSale.Services.Security
                 throw new ArgumentNullException("permission");
 
             _permissionRecordRepository.Delete(permission);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Denmakers.DreamSale.Services.Security
                 throw new ArgumentNullException("permission");
 
             _permissionRecordRepository.Insert(permission);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Denmakers.DreamSale.Services.Security
 
             _permissionRecordRepository.Update(permission);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         ///// <summary>

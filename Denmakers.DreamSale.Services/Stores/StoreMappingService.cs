@@ -19,7 +19,7 @@ namespace Denmakers.DreamSale.Services.Stores
         public StoreMappingService(IRepository<StoreMapping> storeMappingRepository, IUnitOfWork unitOfWork)
         {
             this._storeMappingRepository = storeMappingRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
         #endregion
 
@@ -91,7 +91,7 @@ namespace Denmakers.DreamSale.Services.Stores
                 throw new ArgumentNullException("storeMapping");
 
             _storeMappingRepository.Insert(storeMapping);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         public void InsertStoreMapping<T>(T entity, int storeId) where T : BaseEntity, IStoreMappingSupported
         {
@@ -126,7 +126,7 @@ namespace Denmakers.DreamSale.Services.Stores
                 throw new ArgumentNullException("storeMapping");
 
             _storeMappingRepository.Delete(storeMapping);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }

@@ -402,7 +402,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                HttpResponseMessage response = null;
                 if (ModelState.IsValid)
                 {
                     var manufacturer = model.ToEntity();
@@ -431,18 +431,20 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("AddNewManufacturer", _localizationService.GetResource("ActivityLog.AddNewManufacturer"), manufacturer.Name);
 
+                    _unitOfWork.Commit();
                     response = request.CreateResponse<Manufacturer>(HttpStatusCode.Created, manufacturer);
                     if (continueEditing)
                     {
-                        // Generate a link to the update item and set the Location header in the response.
-                        string uri = Url.Link("GetManufacturerById", new { id = manufacturer.Id });
+                        RedirectToRoute("GetManufacturerById", new { id = manufacturer.Id });
+                        //// Generate a link to the update item and set the Location header in the response.
+                        //string uri = Url.Link("GetManufacturerById", new { id = manufacturer.Id });
+                        //response.Headers.Location = new Uri(uri);
+                    }
+                    else
+                    {
+                        string uri = Url.Link("GetAll", null);
                         response.Headers.Location = new Uri(uri);
                     }
-                    //else
-                    //{
-                    //    string uri = Url.Link("GetAll", null);
-                    //    response.Headers.Location = new Uri(uri);
-                    //}
                 }
                 else
                 {
@@ -532,6 +534,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditManufacturer", _localizationService.GetResource("ActivityLog.EditManufacturer"), manufacturer.Name);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<Manufacturer>(HttpStatusCode.OK, manufacturer);
                         if (continueEditing)
                         {
@@ -566,6 +569,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("DeleteManufacturer", _localizationService.GetResource("ActivityLog.DeleteManufacturer"), manufacturer.Name);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<Manufacturer>(HttpStatusCode.OK, manufacturer);
                     }
                 }
@@ -632,12 +636,15 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                         IsFeaturedProduct = false,
                                         DisplayOrder = 1
                                     });
+
+                                _unitOfWork.Commit();
+                                response = request.CreateResponse<ManufacturerVM.AddManufacturerProductVM>(HttpStatusCode.Created, model);
                             }
                         }
                     }
                 }
 
-                response = request.CreateResponse<ManufacturerVM.AddManufacturerProductVM>(HttpStatusCode.Created, model);
+                
                 return response;
             });
         }
@@ -662,6 +669,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productManufacturer.DisplayOrder = model.DisplayOrder;
                         _manufacturerService.UpdateProductManufacturer(productManufacturer);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -687,6 +695,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _manufacturerService.DeleteProductManufacturer(productManufacturer);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }

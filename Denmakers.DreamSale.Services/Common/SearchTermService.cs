@@ -12,7 +12,7 @@ namespace Denmakers.DreamSale.Services.Common
         #region Fields
 
         private readonly IRepository<SearchTerm> _searchTermRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Denmakers.DreamSale.Services.Common
         public SearchTermService(IRepository<SearchTerm> searchTermRepository, IUnitOfWork unitOfWork)
         {
             this._searchTermRepository = searchTermRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -97,7 +97,7 @@ namespace Denmakers.DreamSale.Services.Common
 
             _searchTermRepository.Insert(searchTerm);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Denmakers.DreamSale.Services.Common
 
             _searchTermRepository.Update(searchTerm);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
 
@@ -126,7 +126,7 @@ namespace Denmakers.DreamSale.Services.Common
 
             _searchTermRepository.Delete(searchTerm);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }

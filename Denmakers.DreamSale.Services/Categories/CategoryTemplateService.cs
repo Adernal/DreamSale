@@ -21,7 +21,7 @@ namespace Denmakers.DreamSale.Services.Categories
         public CategoryTemplateService(IRepository<CategoryTemplate> categoryTemplateRepository, IUnitOfWork unitOfWork)
         {
             this._categoryTemplateRepository = categoryTemplateRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("categoryTemplate");
 
             _categoryTemplateRepository.Insert(categoryTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("categoryTemplate");
 
             _categoryTemplateRepository.Update(categoryTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("categoryTemplate");
 
             _categoryTemplateRepository.Delete(categoryTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

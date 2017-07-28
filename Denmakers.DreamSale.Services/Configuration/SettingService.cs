@@ -39,7 +39,7 @@ namespace Denmakers.DreamSale.Services.Configuration
         public SettingService(IRepository<Setting> settingRepository, IUnitOfWork unitOfWork)
         {
             this._settingRepository = settingRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -101,7 +101,7 @@ namespace Denmakers.DreamSale.Services.Configuration
 
             _settingRepository.Insert(setting);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Denmakers.DreamSale.Services.Configuration
 
             _settingRepository.Delete(setting);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Denmakers.DreamSale.Services.Configuration
 
             _settingRepository.Delete(settings);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -412,7 +412,7 @@ namespace Denmakers.DreamSale.Services.Configuration
                 SaveSetting(settings, keySelector, storeId, clearCache);
             else if (storeId > 0)
                 DeleteSetting(settings, keySelector, storeId);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -430,7 +430,7 @@ namespace Denmakers.DreamSale.Services.Configuration
             }
 
             DeleteSettings(settingsToDelete);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -456,7 +456,7 @@ namespace Denmakers.DreamSale.Services.Configuration
                 var setting = GetSettingById(settingForCaching.Id);
                 DeleteSetting(setting);
             }
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

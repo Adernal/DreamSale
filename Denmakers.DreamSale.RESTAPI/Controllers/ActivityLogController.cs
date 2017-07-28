@@ -90,7 +90,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         activityType.Enabled = checkedActivityTypes.Contains(activityType.Id);
                         _customerActivityService.UpdateActivityType(activityType);
                     }
-
+                    _unitOfWork.Commit();
                     var uri = Url.Link("ActivityListTypes", null);
                     response.Headers.Location = new Uri(uri);
                 }

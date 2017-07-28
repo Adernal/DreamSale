@@ -10,18 +10,18 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
     public partial class DateRangeService : IDateRangeService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<DeliveryDate> _deliveryDateRepository;
         private readonly IRepository<ProductAvailabilityRange> _productAvailabilityRangeRepository;
 
         #endregion
 
         #region Ctor
-        public DateRangeService(IUnitOfWork unitOfWork,
+        public DateRangeService(/*IUnitOfWork unitOfWork,*/
             IRepository<DeliveryDate> deliveryDateRepository,
             IRepository<ProductAvailabilityRange> productAvailabilityRangeRepository)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._deliveryDateRepository = deliveryDateRepository;
             this._productAvailabilityRangeRepository = productAvailabilityRangeRepository;
         }
@@ -69,7 +69,7 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
 
             _deliveryDateRepository.Insert(deliveryDate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
 
             _deliveryDateRepository.Update(deliveryDate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
 
             _deliveryDateRepository.Delete(deliveryDate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -137,7 +137,7 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
 
             _productAvailabilityRangeRepository.Insert(productAvailabilityRange);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
 
             _productAvailabilityRangeRepository.Update(productAvailabilityRange);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace Denmakers.DreamSale.Services.Shipping.Date
 
             _productAvailabilityRangeRepository.Delete(productAvailabilityRange);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

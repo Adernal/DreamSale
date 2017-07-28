@@ -18,7 +18,7 @@ namespace Denmakers.DreamSale.Services.Directory
         //private readonly ICacheManager _cacheManager;
         private readonly ISettingService _settingService;
         private readonly MeasureSettings _measureSettings;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -32,7 +32,7 @@ namespace Denmakers.DreamSale.Services.Directory
             //_cacheManager = cacheManager;
             this._measureDimensionRepository = measureDimensionRepository;
             this._measureWeightRepository = measureWeightRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._settingService = settingService;
             this._measureSettings = _settingService.LoadSetting<MeasureSettings>();
             
@@ -54,7 +54,7 @@ namespace Denmakers.DreamSale.Services.Directory
                 throw new ArgumentNullException("measureDimension");
 
             _measureDimensionRepository.Delete(measureDimension);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Denmakers.DreamSale.Services.Directory
                 throw new ArgumentNullException("measure");
 
             _measureDimensionRepository.Insert(measure);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Denmakers.DreamSale.Services.Directory
                 throw new ArgumentNullException("measureWeight");
 
             _measureWeightRepository.Delete(measureWeight);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Denmakers.DreamSale.Services.Directory
                 throw new ArgumentNullException("measure");
 
             _measureWeightRepository.Insert(measure);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

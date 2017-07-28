@@ -20,7 +20,7 @@ namespace Denmakers.DreamSale.Services.Stores
         public StoreService(IRepository<Store> storeRepository, IUnitOfWork unitOfWork)
         {
             this._storeRepository = storeRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -41,7 +41,7 @@ namespace Denmakers.DreamSale.Services.Stores
                 throw new Exception("You cannot delete the only configured store");
 
             _storeRepository.Delete(store);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Denmakers.DreamSale.Services.Stores
                 throw new ArgumentNullException("store");
 
             _storeRepository.Insert(store);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

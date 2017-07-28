@@ -47,7 +47,7 @@ namespace Denmakers.DreamSale.Services.Orders
             this._dateTimeHelper = dateTimeHelper;
             this._settingService = settingService;
             this._catalogSettings = _settingService.LoadSetting<CatalogSettings>();
-            //this._unitOfWork = unitOfWork;
+            ////this._unitOfWork = unitOfWork;
         }
 
         #endregion

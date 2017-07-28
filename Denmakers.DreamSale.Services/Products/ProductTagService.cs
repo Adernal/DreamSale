@@ -23,7 +23,7 @@ namespace Denmakers.DreamSale.Services.Products
         private readonly ISettingService _settingService;
         private readonly IProductService _productService;
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly CommonSettings _commonSettings;
         private readonly CatalogSettings _catalogSettings;
         //private readonly ICacheManager _cacheManager;
@@ -45,7 +45,7 @@ namespace Denmakers.DreamSale.Services.Products
             this._productService = productService;
             this._settingService = settingService;
             this._dbContext = dbContext;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
             this._catalogSettings = _settingService.LoadSetting<CatalogSettings>();
             //this._cacheManager = cacheManager;
@@ -138,7 +138,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productTag");
 
             _productTagRepository.Delete(productTag);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productTag");
 
             _productTagRepository.Insert(productTag);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -203,7 +203,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productTag");
 
             _productTagRepository.Update(productTag);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

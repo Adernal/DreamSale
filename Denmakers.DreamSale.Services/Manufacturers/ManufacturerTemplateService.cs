@@ -19,7 +19,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
         public ManufacturerTemplateService(IRepository<ManufacturerTemplate> manufacturerTemplateRepository, IUnitOfWork unitOfWork)
         {
             this._manufacturerTemplateRepository = manufacturerTemplateRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -36,7 +36,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("manufacturerTemplate");
 
             _manufacturerTemplateRepository.Delete(manufacturerTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("manufacturerTemplate");
 
             _manufacturerTemplateRepository.Insert(manufacturerTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Denmakers.DreamSale.Services.Manufacturers
                 throw new ArgumentNullException("manufacturerTemplate");
 
             _manufacturerTemplateRepository.Update(manufacturerTemplate);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

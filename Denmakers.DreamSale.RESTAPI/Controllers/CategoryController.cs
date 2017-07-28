@@ -430,6 +430,36 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("GetAddModel")]
+        public HttpResponseMessage GetAddModel(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                var model = new CategoryVM();
+               
+                //templates
+                PrepareTemplatesModel(model);
+                //categories
+                PrepareAllCategoriesModel(model);
+                //discounts
+                PrepareDiscountModel(model, null, true);
+                //ACL
+                PrepareAclModel(model, null, false);
+                //Stores
+                PrepareStoresMappingModel(model, null, false);
+                //default values
+                model.PageSize = _catalogSettings.DefaultCategoryPageSize;
+                model.PageSizeOptions = _catalogSettings.DefaultCategoryPageSizeOptions;
+                model.Published = true;
+                model.IncludeInTopMenu = true;
+                model.AllowCustomersToSelectPageSize = true;
+
+                response = request.CreateResponse<CategoryVM>(HttpStatusCode.OK, model);
+                return response;
+            });
+        }
 
         [HttpPost]
         [Route("Add")]
@@ -437,7 +467,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                HttpResponseMessage response = null;
                 if (ModelState.IsValid)
                 {
                     var category = model.ToEntity();
@@ -464,7 +494,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //activity log
                     _customerActivityService.InsertActivity("AddNewCategory", _localizationService.GetResource("ActivityLog.AddNewCategory"), category.Name);
-
+                    _unitOfWork.Commit();
                     response = request.CreateResponse<Category>(HttpStatusCode.Created, category);
                     if (continueEditing)
                     {
@@ -472,11 +502,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         string uri = Url.Link("GetCategoryById", new { id = category.Id });
                         response.Headers.Location = new Uri(uri);
                     }
-                    //else
-                    //{
-                    //    string uri = Url.Link("GetAll", null);
-                    //    response.Headers.Location = new Uri(uri);
-                    //}
+                    else
+                    {
+                        string uri = Url.Link("GetAll", null);
+                        response.Headers.Location = new Uri(uri);
+                    }
                 }
                 else
                 {
@@ -569,6 +599,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditCategory", _localizationService.GetResource("ActivityLog.EditCategory"), category.Name);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<Category>(HttpStatusCode.OK, category);
                         if (continueEditing)
                         {
@@ -603,6 +634,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("DeleteCategory", _localizationService.GetResource("ActivityLog.DeleteCategory"), category.Name);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse<Category>(HttpStatusCode.OK, category);
                     }
                 }
@@ -668,12 +700,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                         IsFeaturedProduct = false,
                                         DisplayOrder = 1
                                     });
+                                _unitOfWork.Commit();
+                                response = request.CreateResponse<CategoryVM.AddCategoryProductVM>(HttpStatusCode.Created, model);
                             }
                         }
                     }
                 }
 
-                response = request.CreateResponse<CategoryVM.AddCategoryProductVM>(HttpStatusCode.Created, model);
+                
                 return response;
             });
         }
@@ -698,6 +732,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productCategory.DisplayOrder = model.DisplayOrder;
                         _categoryService.UpdateProductCategory(productCategory);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -723,6 +758,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _categoryService.DeleteProductCategory(productCategory);
 
+                        _unitOfWork.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }

@@ -11,14 +11,14 @@ namespace Denmakers.DreamSale.Services.Shipping
     {
         #region Fields
         private readonly IRepository<Warehouse> _warehouseRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         #endregion
 
         #region Ctor
         public ShippingService(IRepository<Warehouse> warehouseRepository, IUnitOfWork unitOfWork)
         {
             this._warehouseRepository = warehouseRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
         #endregion
 
@@ -61,7 +61,7 @@ namespace Denmakers.DreamSale.Services.Shipping
 
             _warehouseRepository.Insert(warehouse);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Denmakers.DreamSale.Services.Shipping
 
             _warehouseRepository.Update(warehouse);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Denmakers.DreamSale.Services.Shipping
 
             _warehouseRepository.Delete(warehouse);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
         #endregion

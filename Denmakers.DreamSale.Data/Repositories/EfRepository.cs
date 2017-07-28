@@ -144,7 +144,7 @@ namespace Denmakers.DreamSale.Data.Repositories
                 if (entity == null)
                     throw new ArgumentNullException("entity");
                 
-                this.DbContext.Commit();
+                //this.DbContext.Commit();
             }
             catch (DbEntityValidationException dbEx)
             {
@@ -159,7 +159,7 @@ namespace Denmakers.DreamSale.Data.Repositories
                 if (entities == null)
                     throw new ArgumentNullException("entities");
 
-                this.DbContext.Commit();
+                //this.DbContext.Commit();
             }
             catch (DbEntityValidationException dbEx)
             {

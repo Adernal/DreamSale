@@ -55,7 +55,7 @@ namespace Denmakers.DreamSale.Services.Products
         #endregion
 
         #region Ctor
-        public ProductService(IUnitOfWork unitOfWork,
+        public ProductService(/*IUnitOfWork unitOfWork,*/
             ISettingService settingService,
             IRepository<Product> productRepository,
             IRepository<RelatedProduct> relatedProductRepository,
@@ -80,7 +80,7 @@ namespace Denmakers.DreamSale.Services.Products
             IAclService aclService,
             IStoreMappingService storeMappingService)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._productRepository = productRepository;
             this._relatedProductRepository = relatedProductRepository;
             this._crossSellProductRepository = crossSellProductRepository;
@@ -126,7 +126,7 @@ namespace Denmakers.DreamSale.Services.Products
             product.Deleted = true;
             //delete product
             UpdateProduct(product);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Denmakers.DreamSale.Services.Products
             //delete product
             UpdateProducts(products);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             //insert
             _productRepository.Insert(product);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             //update
             _productRepository.Update(product);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         public virtual void UpdateProducts(IList<Product> products)
@@ -238,7 +238,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             //update
             _productRepository.Update(products);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1269,7 +1269,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("relatedProduct");
 
             _relatedProductRepository.Delete(relatedProduct);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1315,7 +1315,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("relatedProduct");
 
             _relatedProductRepository.Insert(relatedProduct);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1328,7 +1328,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("relatedProduct");
 
             _relatedProductRepository.Update(relatedProduct);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -1345,7 +1345,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("crossSellProduct");
 
             _crossSellProductRepository.Delete(crossSellProduct);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1390,7 +1390,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("crossSellProduct");
 
             _crossSellProductRepository.Insert(crossSellProduct);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1467,7 +1467,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("tierPrice");
 
             _tierPriceRepository.Delete(tierPrice);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1493,7 +1493,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("tierPrice");
 
             _tierPriceRepository.Insert(tierPrice);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1522,7 +1522,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productPicture");
 
             _productPictureRepository.Delete(productPicture);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1563,7 +1563,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productPicture");
 
             _productPictureRepository.Insert(productPicture);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1576,7 +1576,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productPicture");
 
             _productPictureRepository.Update(productPicture);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1686,7 +1686,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productReview");
 
             _productReviewRepository.Delete(productReview);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -1699,7 +1699,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productReviews");
 
             _productReviewRepository.Delete(productReviews);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -1716,7 +1716,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("pwi");
 
             _productWarehouseInventoryRepository.Delete(pwi);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -1753,7 +1753,7 @@ namespace Denmakers.DreamSale.Services.Products
             };
 
             _stockQuantityHistoryRepository.Insert(historyEntry);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

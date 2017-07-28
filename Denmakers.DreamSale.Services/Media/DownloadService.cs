@@ -12,7 +12,7 @@ namespace Denmakers.DreamSale.Services.Media
     public partial class DownloadService : IDownloadService
     {
         #region Fields
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Download> _downloadRepository;
 
         #endregion
@@ -21,7 +21,7 @@ namespace Denmakers.DreamSale.Services.Media
         public DownloadService(IRepository<Download> downloadRepository, IUnitOfWork unitOfWork)
         {
             this._downloadRepository = downloadRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace Denmakers.DreamSale.Services.Media
 
             _downloadRepository.Delete(download);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Denmakers.DreamSale.Services.Media
 
             _downloadRepository.Insert(download);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Denmakers.DreamSale.Services.Media
 
             _downloadRepository.Update(download);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

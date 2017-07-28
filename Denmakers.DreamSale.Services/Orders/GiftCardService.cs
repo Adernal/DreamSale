@@ -17,16 +17,16 @@ namespace Denmakers.DreamSale.Services.Orders
 
         private readonly IRepository<GiftCard> _giftCardRepository;
         private readonly IGenericAttributeService _genericAttributeService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
         #region Ctor
-        public GiftCardService(IRepository<GiftCard> giftCardRepository, IGenericAttributeService genericAttributeService, IUnitOfWork unitOfWork)
+        public GiftCardService(IRepository<GiftCard> giftCardRepository, IGenericAttributeService genericAttributeService/*, IUnitOfWork unitOfWork*/)
         {
             this._giftCardRepository = giftCardRepository;
             this._genericAttributeService = genericAttributeService;
-            _unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _giftCardRepository.Delete(giftCard);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _giftCardRepository.Insert(giftCard);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
             _giftCardRepository.Update(giftCard);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

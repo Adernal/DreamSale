@@ -14,7 +14,7 @@ namespace Denmakers.DreamSale.Services.Affiliates
 
         private readonly IRepository<Affiliate> _affiliateRepository;
         private readonly IRepository<Order> _orderRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -25,7 +25,7 @@ namespace Denmakers.DreamSale.Services.Affiliates
         {
             this._affiliateRepository = affiliateRepository;
             this._orderRepository = orderRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Denmakers.DreamSale.Services.Affiliates
             UpdateAffiliate(affiliate);
 
             //event notification
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace Denmakers.DreamSale.Services.Affiliates
 
             _affiliateRepository.Insert(affiliate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Denmakers.DreamSale.Services.Affiliates
 
             _affiliateRepository.Update(affiliate);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

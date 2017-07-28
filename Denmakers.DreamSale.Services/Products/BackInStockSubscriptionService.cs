@@ -26,14 +26,14 @@ namespace Denmakers.DreamSale.Services.Products
 
         #region Ctor
         public BackInStockSubscriptionService(IRepository<BackInStockSubscription> backInStockSubscriptionRepository,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             IGenericAttributeService genericAttributeService
             ////IWorkflowMessageService workflowMessageService,
             //IEventPublisher eventPublisher
             )
         {
             this._backInStockSubscriptionRepository = backInStockSubscriptionRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._genericAttributeService = genericAttributeService;
             //this._workflowMessageService = workflowMessageService;
             //this._eventPublisher = eventPublisher;
@@ -54,7 +54,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             _backInStockSubscriptionRepository.Delete(subscription);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             _backInStockSubscriptionRepository.Insert(subscription);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Denmakers.DreamSale.Services.Products
 
             _backInStockSubscriptionRepository.Update(subscription);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

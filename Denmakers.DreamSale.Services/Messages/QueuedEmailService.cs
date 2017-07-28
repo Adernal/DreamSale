@@ -15,17 +15,17 @@ namespace Denmakers.DreamSale.Services.Messages
     {
         private readonly IRepository<QueuedEmail> _queuedEmailRepository;
         private readonly IDbContext _dbContext;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly ISettingService _settingService;
         private readonly CommonSettings _commonSettings;
 
         public QueuedEmailService(IRepository<QueuedEmail> queuedEmailRepository,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             IDbContext dbContext,
             ISettingService settingService)
         {
-            _queuedEmailRepository = queuedEmailRepository;
-            _unitOfWork = unitOfWork;
+            this._queuedEmailRepository = queuedEmailRepository;
+            //this._unitOfWork = unitOfWork;
             this._dbContext = dbContext;
             this._settingService = settingService;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
@@ -42,7 +42,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _queuedEmailRepository.Insert(queuedEmail);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _queuedEmailRepository.Update(queuedEmail);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _queuedEmailRepository.Delete(queuedEmail);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             _queuedEmailRepository.Delete(queuedEmails);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

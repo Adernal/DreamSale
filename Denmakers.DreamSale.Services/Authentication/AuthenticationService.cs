@@ -15,18 +15,18 @@ namespace Denmakers.DreamSale.Services.Authentication
         private readonly ICustomerService _customerService;
         private readonly ISettingService _settingService;
         private readonly CustomerSettings _customerSettings;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         private readonly TimeSpan _expirationTimeSpan;
         private Customer _cachedCustomer;
         #endregion
 
         #region Ctor
-        public FormsAuthenticationService(HttpContextBase httpContext, ICustomerService customerService, IUnitOfWork unitOfWork, ISettingService settingService)
+        public FormsAuthenticationService(HttpContextBase httpContext, ICustomerService customerService, /*IUnitOfWork unitOfWork,*/ ISettingService settingService)
         {
             this._httpContext = httpContext;
             this._customerService = customerService;
             this._settingService = settingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._customerSettings = _settingService.LoadSetting<CustomerSettings>();
             this._expirationTimeSpan = FormsAuthentication.Timeout;
         }

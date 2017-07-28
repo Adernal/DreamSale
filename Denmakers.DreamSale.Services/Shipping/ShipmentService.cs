@@ -17,7 +17,7 @@ namespace Denmakers.DreamSale.Services.Shipping
         private readonly IRepository<Shipment> _shipmentRepository;
         private readonly IRepository<ShipmentItem> _siRepository;
         private readonly IRepository<OrderItem> _orderItemRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace Denmakers.DreamSale.Services.Shipping
             this._shipmentRepository = shipmentRepository;
             this._siRepository = siRepository;
             this._orderItemRepository = orderItemRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace Denmakers.DreamSale.Services.Shipping
                 throw new ArgumentNullException("shipment");
 
             _shipmentRepository.Delete(shipment);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Denmakers.DreamSale.Services.Shipping
                 throw new ArgumentNullException("shipment");
 
             _shipmentRepository.Insert(shipment);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -173,7 +173,7 @@ namespace Denmakers.DreamSale.Services.Shipping
                 throw new ArgumentNullException("shipment");
 
             _shipmentRepository.Update(shipment);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
 
@@ -188,7 +188,7 @@ namespace Denmakers.DreamSale.Services.Shipping
                 throw new ArgumentNullException("shipmentItem");
 
             _siRepository.Delete(shipmentItem);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace Denmakers.DreamSale.Services.Shipping
                 throw new ArgumentNullException("shipmentItem");
 
             _siRepository.Insert(shipmentItem);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -227,7 +227,7 @@ namespace Denmakers.DreamSale.Services.Shipping
                 throw new ArgumentNullException("shipmentItem");
 
             _siRepository.Update(shipmentItem);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
 

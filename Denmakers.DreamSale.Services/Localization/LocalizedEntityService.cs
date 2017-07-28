@@ -27,7 +27,7 @@ namespace Denmakers.DreamSale.Services.Localization
         public LocalizedEntityService(IRepository<LocalizedProperty> localizedPropertyRepository, IUnitOfWork unitOfWork)
         {
             this._localizedPropertyRepository = localizedPropertyRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -109,7 +109,7 @@ namespace Denmakers.DreamSale.Services.Localization
                 throw new ArgumentNullException("localizedProperty");
 
             _localizedPropertyRepository.Delete(localizedProperty);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -160,7 +160,7 @@ namespace Denmakers.DreamSale.Services.Localization
 
             _localizedPropertyRepository.Insert(localizedProperty);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Denmakers.DreamSale.Services.Localization
                     InsertLocalizedProperty(prop);
                 }
             }
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

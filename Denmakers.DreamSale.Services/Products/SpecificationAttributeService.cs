@@ -22,15 +22,15 @@ namespace Denmakers.DreamSale.Services.Products
         #endregion
 
         #region Ctor
-        public SpecificationAttributeService(IUnitOfWork unitOfWork,
+        public SpecificationAttributeService(/*IUnitOfWork unitOfWork,*/
             IRepository<SpecificationAttribute> specificationAttributeRepository,
             IRepository<SpecificationAttributeOption> specificationAttributeOptionRepository,
             IRepository<ProductSpecificationAttribute> productSpecificationAttributeRepository)
         {
-            _unitOfWork = unitOfWork;
-            _specificationAttributeRepository = specificationAttributeRepository;
-            _specificationAttributeOptionRepository = specificationAttributeOptionRepository;
-            _productSpecificationAttributeRepository = productSpecificationAttributeRepository;
+            //this._unitOfWork = unitOfWork;
+            this._specificationAttributeRepository = specificationAttributeRepository;
+            this._specificationAttributeOptionRepository = specificationAttributeOptionRepository;
+            this._productSpecificationAttributeRepository = productSpecificationAttributeRepository;
         }
 
         #endregion
@@ -77,7 +77,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("specificationAttribute");
 
             _specificationAttributeRepository.Delete(specificationAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("specificationAttribute");
 
             _specificationAttributeRepository.Insert(specificationAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("specificationAttribute");
 
             _specificationAttributeRepository.Update(specificationAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -174,7 +174,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("specificationAttributeOption");
 
             _specificationAttributeOptionRepository.Delete(specificationAttributeOption);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("specificationAttributeOption");
 
             _specificationAttributeOptionRepository.Insert(specificationAttributeOption);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("specificationAttributeOption");
 
             _specificationAttributeOptionRepository.Update(specificationAttributeOption);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -217,7 +217,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productSpecificationAttribute");
 
             _productSpecificationAttributeRepository.Delete(productSpecificationAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -271,7 +271,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productSpecificationAttribute");
 
             _productSpecificationAttributeRepository.Insert(productSpecificationAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -284,7 +284,7 @@ namespace Denmakers.DreamSale.Services.Products
                 throw new ArgumentNullException("productSpecificationAttribute");
 
             _productSpecificationAttributeRepository.Update(productSpecificationAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

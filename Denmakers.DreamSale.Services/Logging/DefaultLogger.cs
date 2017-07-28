@@ -25,11 +25,11 @@ namespace Denmakers.DreamSale.Services.Logging
         #endregion
 
         #region Ctor
-        public DefaultLogger(IRepository<Log> logRepository, ISettingService settingService, IUnitOfWork unitOfWork, IWebHelper webHelper, IDbContext dbContext )
+        public DefaultLogger(IRepository<Log> logRepository, ISettingService settingService, /*IUnitOfWork unitOfWork,*/ IWebHelper webHelper, IDbContext dbContext )
         {
             this._logRepository = logRepository;
             this._settingService = settingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._webHelper = webHelper;
             this._dbContext = dbContext;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
@@ -174,7 +174,7 @@ namespace Denmakers.DreamSale.Services.Logging
             };
 
             _logRepository.Insert(log);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
             return log;
         }
 
@@ -189,7 +189,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 throw new ArgumentNullException("log");
 
             _logRepository.Delete(log);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -202,7 +202,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 throw new ArgumentNullException("logs");
 
             _logRepository.Delete(logs);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Denmakers.DreamSale.Services.Logging
                 var log = _logRepository.Table.ToList();
                 foreach (var logItem in log)
                     _logRepository.Delete(logItem);
-                _unitOfWork.Commit();
+                //_unitOfWork.Commit();
             }
         }
 

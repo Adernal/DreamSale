@@ -37,7 +37,7 @@ namespace Denmakers.DreamSale.Services.Directory
             IRepository<StoreMapping> storeMappingRepository,
             IStoreContext storeContext,
             ISettingService settingService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             ILanguageService languageService, 
             ILocalizedEntityService localizedEntityService
             )
@@ -48,7 +48,7 @@ namespace Denmakers.DreamSale.Services.Directory
             this._storeContext = storeContext;
             this._settingService = settingService;
             this._catalogSettings = _settingService.LoadSetting<CatalogSettings>();
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._languageService = languageService;
             this._localizedEntityService = localizedEntityService;
         }
@@ -68,7 +68,7 @@ namespace Denmakers.DreamSale.Services.Directory
 
             _countryRepository.Delete(country);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Denmakers.DreamSale.Services.Directory
 
             _countryRepository.Insert(country);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>

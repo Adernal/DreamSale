@@ -15,7 +15,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
         private readonly IRepository<CustomerAttribute> _customerAttributeRepository;
         private readonly IRepository<CustomerAttributeValue> _customerAttributeValueRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         //private readonly ICacheManager _cacheManager;
 
         #endregion
@@ -29,7 +29,7 @@ namespace Denmakers.DreamSale.Services.Customers
             //this._cacheManager = cacheManager;
             this._customerAttributeRepository = customerAttributeRepository;
             this._customerAttributeValueRepository = customerAttributeValueRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerAttributeRepository.Delete(customerAttribute);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerAttributeRepository.Insert(customerAttribute);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerAttributeRepository.Update(customerAttribute);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerAttributeValueRepository.Delete(customerAttributeValue);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerAttributeValueRepository.Insert(customerAttributeValue);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Denmakers.DreamSale.Services.Customers
 
             _customerAttributeValueRepository.Update(customerAttributeValue);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

@@ -15,7 +15,7 @@ namespace Denmakers.DreamSale.Services.Orders
         private readonly IRepository<CheckoutAttribute> _checkoutAttributeRepository;
         private readonly IRepository<CheckoutAttributeValue> _checkoutAttributeValueRepository;
         private readonly IStoreMappingService _storeMappingService;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         //private readonly ICacheManager _cacheManager;
 
         #endregion
@@ -31,7 +31,7 @@ namespace Denmakers.DreamSale.Services.Orders
             this._checkoutAttributeRepository = checkoutAttributeRepository;
             this._checkoutAttributeValueRepository = checkoutAttributeValueRepository;
             this._storeMappingService = storeMappingService;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -88,7 +88,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 throw new ArgumentNullException("checkoutAttribute");
 
             _checkoutAttributeRepository.Insert(checkoutAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 throw new ArgumentNullException("checkoutAttribute");
 
             _checkoutAttributeRepository.Update(checkoutAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion
@@ -118,7 +118,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 throw new ArgumentNullException("checkoutAttributeValue");
 
             _checkoutAttributeValueRepository.Delete(checkoutAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 throw new ArgumentNullException("checkoutAttributeValue");
 
             _checkoutAttributeValueRepository.Insert(checkoutAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 throw new ArgumentNullException("checkoutAttributeValue");
 
             _checkoutAttributeValueRepository.Update(checkoutAttributeValue);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Denmakers.DreamSale.Services.Orders
                 throw new ArgumentNullException("checkoutAttribute");
 
             _checkoutAttributeRepository.Delete(checkoutAttribute);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         #endregion

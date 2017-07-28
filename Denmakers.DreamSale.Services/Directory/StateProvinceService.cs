@@ -32,7 +32,7 @@ namespace Denmakers.DreamSale.Services.Directory
         {
             //_cacheManager = cacheManager;
             this._stateProvinceRepository = stateProvinceRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._languageService = languageService;
             this._localizedEntityService = localizedEntityService;
         }
@@ -121,7 +121,7 @@ namespace Denmakers.DreamSale.Services.Directory
 
             _stateProvinceRepository.Insert(stateProvince);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace Denmakers.DreamSale.Services.Directory
 
             _stateProvinceRepository.Update(stateProvince);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Denmakers.DreamSale.Services.Directory
 
             _stateProvinceRepository.Delete(stateProvince);
 
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }

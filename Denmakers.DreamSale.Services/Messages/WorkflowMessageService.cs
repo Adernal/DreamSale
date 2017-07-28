@@ -50,7 +50,7 @@ namespace Denmakers.DreamSale.Services.Messages
             IStoreService storeService,
             IStoreContext storeContext,
             ISettingService settingService,
-            IUnitOfWork unitOfWork,
+            //IUnitOfWork unitOfWork,
             HttpContextBase httpContext,
             ILocalizedEntityService localizedEntityService)
         {
@@ -63,7 +63,7 @@ namespace Denmakers.DreamSale.Services.Messages
             this._messageTokenProvider = messageTokenProvider;
             this._storeService = storeService;
             this._storeContext = storeContext;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._settingService = settingService;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
             this._emailAccountSettings = _settingService.LoadSetting<EmailAccountSettings>();

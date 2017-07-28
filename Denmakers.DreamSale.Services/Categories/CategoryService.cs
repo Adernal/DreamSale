@@ -36,9 +36,9 @@ namespace Denmakers.DreamSale.Services.Categories
         #endregion
 
         #region Ctor
-        public CategoryService(IRepository<Category> categoryRepository, IRepository<ProductCategory> productCategoryRepository, IRepository<Product> productRepository, IRepository<StoreMapping> storeMappingRepository, IStoreMappingService _storeMappingService, IRepository<AclRecord> aclRepository, IUnitOfWork unitOfWork, IWorkContext workContext, IStoreContext storeContext, ISettingService settingService, IAclService aclService)
+        public CategoryService(IRepository<Category> categoryRepository, IRepository<ProductCategory> productCategoryRepository, IRepository<Product> productRepository, IRepository<StoreMapping> storeMappingRepository, IStoreMappingService _storeMappingService, IRepository<AclRecord> aclRepository, /*IUnitOfWork unitOfWork,*/ IWorkContext workContext, IStoreContext storeContext, ISettingService settingService, IAclService aclService)
         {
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
             this._categoryRepository = categoryRepository;
             this._productCategoryRepository = productCategoryRepository;
             this._productRepository = productRepository;
@@ -207,7 +207,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("category");
 
             _categoryRepository.Insert(category);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         public void UpdateCategory(Category category)
         {
@@ -227,7 +227,7 @@ namespace Denmakers.DreamSale.Services.Categories
             }
 
             _categoryRepository.Update(category);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         public void DeleteCategory(Category category)
         {
@@ -244,7 +244,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 subcategory.ParentCategoryId = 0;
                 UpdateCategory(subcategory);
             }
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
 
@@ -351,7 +351,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("productCategory");
 
             _productCategoryRepository.Insert(productCategory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         public void UpdateProductCategory(ProductCategory productCategory)
         {
@@ -359,7 +359,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("productCategory");
 
             _productCategoryRepository.Update(productCategory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         public void DeleteProductCategory(ProductCategory productCategory)
         {
@@ -367,7 +367,7 @@ namespace Denmakers.DreamSale.Services.Categories
                 throw new ArgumentNullException("productCategory");
 
             _productCategoryRepository.Delete(productCategory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }

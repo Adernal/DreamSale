@@ -12,7 +12,7 @@ namespace Denmakers.DreamSale.Services.Tax
         #region Fields
 
         private readonly IRepository<TaxCategory> _taxCategoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        //private readonly IUnitOfWork _unitOfWork;
         //private readonly ICacheManager _cacheManager;
 
         #endregion
@@ -22,7 +22,7 @@ namespace Denmakers.DreamSale.Services.Tax
         {
             //_cacheManager = cacheManager;
             this._taxCategoryRepository = taxCategoryRepository;
-            this._unitOfWork = unitOfWork;
+            //this._unitOfWork = unitOfWork;
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace Denmakers.DreamSale.Services.Tax
                 throw new ArgumentNullException("taxCategory");
 
             _taxCategoryRepository.Insert(taxCategory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Denmakers.DreamSale.Services.Tax
                 throw new ArgumentNullException("taxCategory");
 
             _taxCategoryRepository.Delete(taxCategory);
-            _unitOfWork.Commit();
+            //_unitOfWork.Commit();
         }
         #endregion
     }
