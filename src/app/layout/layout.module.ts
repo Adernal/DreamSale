@@ -7,6 +7,8 @@ import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { HeaderComponent, SidebarComponent } from '../shared';
 
+// import { VendorsComponent } from './vendors/vendors.component';
+
 
 @NgModule({
     imports: [
@@ -19,7 +21,9 @@ import { HeaderComponent, SidebarComponent } from '../shared';
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
-      
+    
+
+
 
     ]
 })

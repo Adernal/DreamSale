@@ -8,7 +8,7 @@
         </a> -->
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')" >
-                <span><i class="fa fa-plus"></i>&nbsp;{{ 'Catalog' | translate }}</span>
+                <span><i class="fa fa-cart-arrow-down"></i>&nbsp;{{ 'Catalog' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
@@ -24,9 +24,9 @@
                     <li>
                         <a [routerLink]="['/specification-attributes']"><span>{{ 'Specification Attributes' | translate }}</span></a>
                     </li>
-                    <!-- <li>
-                        <a href="javascript:void(0)"><span>{{ 'Product Reviews' | translate }}</span></a>
-                    </li> -->
+                    <li>
+                        <a [routerLink]="['/product-reviews']"><span>{{ 'Product Reviews' | translate }}</span></a>
+                    </li>
                     <li>
                         <a [routerLink]="['/product-tags']" [routerLinkActive]="['router-link-active']"><span>{{ 'Product Tags' | translate }}</span></a>
                     </li>
@@ -36,12 +36,12 @@
                 </ul>
             </li>
         </div>
-        <!-- <a [routerLink]="['/tables']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Sales' | translate }}
-        </a> -->
-        <!-- <div class="nested-menu">
+        <a [routerLink]="['/vendors']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Vendors' | translate }}
+        </a>
+        <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('pages')" >
-                <span><i class="fa fa-plus"></i>&nbsp;{{ 'Sales' | translate }}</span>
+                <span><i class="fa fa-credit-card-alt"></i>&nbsp;{{ 'Sales' | translate }}</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
@@ -63,60 +63,10 @@
 
                 </ul>
             </li>
-        </div> -->
-        <!-- <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-edit"></i>&nbsp;{{ 'Customers' | translate }}
-        </a> -->
-        <!-- <div class="nested-menu">
-            <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']" class="list-group-item" (click)="addExpandClass('pages')" [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']">
-                <span><i class="fa fa-plus"></i>&nbsp;{{ 'Customers' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
-                <ul class="submenu">
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'submenu' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'submenu' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'submenu' | translate }}</span></a>
-                    </li>
-                </ul>
-            </li>
-        </div> -->
-        <!-- <a [routerLink]="['/bs-element']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'Promotions' | translate }}
+        </div>
+        <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Customers' | translate }}
         </a>
-        <a [routerLink]="['/grid']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-wrench"></i>&nbsp;{{ 'boostrapGrid' | translate }}
-        </a>
-        <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-th-list"></i>&nbsp;{{ 'component' | translate }}
-        </a>
-        <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')">
-                <span><i class="fa fa-plus"></i>&nbsp;{{ 'menu' | translate }}</span>
-            </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
-                <ul class="submenu">
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'submenu' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'submenu' | translate }}</span></a>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0)"><span>{{ 'submenu' | translate }}</span></a>
-                    </li>
-                </ul>
-            </li>
-        </div>-->
-        <!-- <a [routerLink]="['/blank-page']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-file-o"></i>&nbsp;{{ 'blankpage' | translate }}
-        </a>
-        <a class="list-group-item more-themes" href="http://www.strapui.com/" >
-            {{ 'moretheme' | translate }}
-        </a> -->
+    
     </ul>
 </nav>

@@ -9,7 +9,7 @@ import { ProductService } from './product.service';
     styleUrls: ['./products.component.scss']
 })
 
-
+/* This is still in development ! Has bugs ! */
 export class ProductsComponent implements OnInit {
     //@Input() categories :CategoryComponent;
     @ViewChild('f') productForm: NgForm;
