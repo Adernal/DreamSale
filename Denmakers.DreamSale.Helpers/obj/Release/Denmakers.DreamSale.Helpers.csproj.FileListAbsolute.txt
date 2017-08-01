@@ -5,3 +5,10 @@ C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTS
 C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\obj\Release\Denmakers.DreamSale.Helpers.csprojResolveAssemblyReference.cache
 C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\obj\Release\Denmakers.DreamSale.Helpers.dll
 C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\obj\Release\Denmakers.DreamSale.Helpers.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\bin\Release\Denmakers.DreamSale.Helpers.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\bin\Release\Denmakers.DreamSale.Helpers.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\bin\Release\Denmakers.DreamSale.Common.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\bin\Release\Denmakers.DreamSale.Common.pdb
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\obj\Release\Denmakers.DreamSale.Helpers.csprojResolveAssemblyReference.cache
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\obj\Release\Denmakers.DreamSale.Helpers.dll
+C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\obj\Release\Denmakers.DreamSale.Helpers.pdb
