@@ -5,10 +5,3 @@ C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\bin\Debug\Denm
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\obj\Debug\Denmakers.DreamSale.Helpers.csprojResolveAssemblyReference.cache
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\obj\Debug\Denmakers.DreamSale.Helpers.dll
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Helpers\obj\Debug\Denmakers.DreamSale.Helpers.pdb
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\bin\Debug\Denmakers.DreamSale.Helpers.dll
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\bin\Debug\Denmakers.DreamSale.Helpers.pdb
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\bin\Debug\Denmakers.DreamSale.Common.dll
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\bin\Debug\Denmakers.DreamSale.Common.pdb
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\obj\Debug\Denmakers.DreamSale.Helpers.csprojResolveAssemblyReference.cache
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\obj\Debug\Denmakers.DreamSale.Helpers.dll
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Helpers\obj\Debug\Denmakers.DreamSale.Helpers.pdb

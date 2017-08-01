@@ -202,7 +202,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             this._addressSettings = _settingService.LoadSetting<AddressSettings>();
         }
 
-        #endregion 
+        #endregion
 
         #region Utilities
 
