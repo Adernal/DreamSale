@@ -5,6 +5,7 @@ using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Catalog;
 using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Localization;
 using Denmakers.DreamSale.Services.Logging;
 using Denmakers.DreamSale.Services.Products;
@@ -35,7 +36,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion Fields
 
         #region Ctor
-        public ProductAttributeController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public ProductAttributeController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             IProductService productService,
             IProductAttributeService productAttributeService,
             ILanguageService languageService,
@@ -43,7 +44,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             ILocalizationService localizationService,
             ICustomerActivityService customerActivityService,
             IPermissionService permissionService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._productService = productService;
             this._productAttributeService = productAttributeService;
@@ -116,7 +117,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("AddNewProductAttribute", _localizationService.GetResource("ActivityLog.AddNewProductAttribute"), productAttribute.Name);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<ProductAttribute>(HttpStatusCode.Created, productAttribute);
                     if (continueEditing)
                     {
@@ -151,7 +152,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditProductAttribute", _localizationService.GetResource("ActivityLog.EditProductAttribute"), productAttribute.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<ProductAttribute>(HttpStatusCode.OK, productAttribute);
                         if (continueEditing)
                         {
@@ -185,7 +186,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("DeleteProductAttribute", _localizationService.GetResource("ActivityLog.DeleteProductAttribute"), productAttribute.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<ProductAttribute>(HttpStatusCode.OK, productAttribute);
                     }
                 }
@@ -338,7 +339,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         _productAttributeService.InsertPredefinedProductAttributeValue(ppav);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<PredefinedProductAttributeValue>(HttpStatusCode.Created, ppav);
                     }
                 }
@@ -371,7 +372,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         existingPpav.DisplayOrder = model.DisplayOrder;
                         _productAttributeService.UpdatePredefinedProductAttributeValue(existingPpav);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<PredefinedProductAttributeValueVM>(HttpStatusCode.OK, model);
                     }
                 }
@@ -398,7 +399,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _productAttributeService.DeletePredefinedProductAttributeValue(ppav);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<PredefinedProductAttributeValue>(HttpStatusCode.OK, ppav);
                     }
                 }

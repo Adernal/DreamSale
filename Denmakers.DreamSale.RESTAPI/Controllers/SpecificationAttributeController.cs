@@ -5,6 +5,7 @@ using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Catalog;
 using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Localization;
 using Denmakers.DreamSale.Services.Logging;
 using Denmakers.DreamSale.Services.Products;
@@ -34,14 +35,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion Fields
 
         #region Ctor
-        public SpecificationAttributeController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public SpecificationAttributeController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ISpecificationAttributeService specificationAttributeService,
             ILanguageService languageService,
             ILocalizedEntityService localizedEntityService,
             ILocalizationService localizationService,
             ICustomerActivityService customerActivityService,
             IPermissionService permissionService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._specificationAttributeService = specificationAttributeService;
             this._languageService = languageService;
@@ -112,7 +113,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("AddNewSpecAttribute", _localizationService.GetResource("ActivityLog.AddNewSpecAttribute"), specificationAttribute.Name);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<SpecificationAttribute>(HttpStatusCode.Created, specificationAttribute);
                     if (continueEditing)
                     {
@@ -147,7 +148,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditSpecAttribute", _localizationService.GetResource("ActivityLog.EditSpecAttribute"), specificationAttribute.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<SpecificationAttribute>(HttpStatusCode.OK, specificationAttribute);
                         if (continueEditing)
                         {
@@ -181,7 +182,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("DeleteSpecAttribute", _localizationService.GetResource("ActivityLog.DeleteSpecAttribute"), specificationAttribute.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<SpecificationAttribute>(HttpStatusCode.OK, specificationAttribute);
                     }
                 }
@@ -277,7 +278,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         _specificationAttributeService.InsertSpecificationAttributeOption(sao);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<SpecificationAttributeOption>(HttpStatusCode.Created, sao);
                     }
                 }
@@ -309,7 +310,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         _specificationAttributeService.UpdateSpecificationAttributeOption(sao);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<SpecificationAttributeOptionVM>(HttpStatusCode.OK, model);
                     }
                 }
@@ -336,7 +337,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _specificationAttributeService.DeleteSpecificationAttributeOption(sao);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<SpecificationAttributeOption>(HttpStatusCode.OK, sao);
                     }
                 }

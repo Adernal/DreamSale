@@ -5,12 +5,14 @@ using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Attributes;
 using Denmakers.DreamSale.Services.Configuration;
 using Denmakers.DreamSale.Services.Customers;
 using Denmakers.DreamSale.Services.Directory;
 using Denmakers.DreamSale.Services.Helpers;
 using Denmakers.DreamSale.Services.Localization;
+using Denmakers.DreamSale.Services.Logging;
 using Denmakers.DreamSale.Services.Security;
 using Denmakers.DreamSale.ViewModels.AdminVM.Customers;
 using System;
@@ -38,7 +40,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Constructors
 
-        public OnlineCustomerController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public OnlineCustomerController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ICustomerService customerService,
             IGeoLookupService geoLookupService, 
             IDateTimeHelper dateTimeHelper,
@@ -46,7 +48,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             ILocalizationService localizationService,
             IGenericAttributeService genericAttributeService,
             ISettingService settingService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._customerService = customerService;
             this._geoLookupService = geoLookupService;

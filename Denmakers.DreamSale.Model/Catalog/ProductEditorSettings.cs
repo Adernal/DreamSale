@@ -1,7 +1,4 @@
-﻿
-
-
-namespace Denmakers.DreamSale.Model.Catalog
+﻿namespace Denmakers.DreamSale.Model.Catalog
 {
     public class ProductEditorSettings : ISettings
     {

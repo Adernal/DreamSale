@@ -18,7 +18,11 @@ namespace Denmakers.DreamSale.Services
 
             var values = from TEnum enumValue in Enum.GetValues(typeof(TEnum))
                          where valuesToExclude == null || !valuesToExclude.Contains(Convert.ToInt32(enumValue))
-                         select new { ID = Convert.ToInt32(enumValue), Name = useLocalization ? enumValue.GetLocalizedEnum(localizationService, workContext) : CommonHelper.ConvertEnum(enumValue.ToString()) };
+                         select new {
+                                        ID = Convert.ToInt32(enumValue),
+                                        Name = useLocalization ? enumValue.GetLocalizedEnum(localizationService, workContext) : 
+                                                CommonHelper.ConvertEnum(enumValue.ToString())
+                                    };
             object selectedValue = null;
             if (markCurrentAsSelected)
                 selectedValue = Convert.ToInt32(enumObj);

@@ -109,7 +109,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Constructors
 
-        public CustomerController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public CustomerController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ICustomerService customerService,
             //INewsLetterSubscriptionService newsLetterSubscriptionService,
             IGenericAttributeService genericAttributeService,
@@ -151,7 +151,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             IManufacturerService manufacturerService,
             ISettingService settingService
             )
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._customerService = customerService;
             //this._newsLetterSubscriptionService = newsLetterSubscriptionService;
@@ -528,7 +528,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     model.TimeZoneId = customer.GetAttribute<string>(SystemCustomerAttributeNames.TimeZoneId, _genericAttributeService);
                     model.VatNumber = customer.GetAttribute<string>(SystemCustomerAttributeNames.VatNumber, _genericAttributeService);
                     model.VatNumberStatusNote = ((VatNumberStatus)customer.GetAttribute<int>(SystemCustomerAttributeNames.VatNumberStatusId, _genericAttributeService))
-                        .GetLocalizedEnum(_localizationService, _workContext);
+                        .GetLocalizedEnum(_localizationService, _baseService.WorkContext);
                     model.CreatedOn = _dateTimeHelper.ConvertToUserTime(customer.CreatedOnUtc, DateTimeKind.Utc);
                     model.LastActivityDate = _dateTimeHelper.ConvertToUserTime(customer.LastActivityDateUtc, DateTimeKind.Utc);
                     model.LastIpAddress = customer.LastIpAddress;
@@ -788,16 +788,16 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Activity log
 
-        [HttpPost]
-        [Route("ActivityLogs", Name = "CustomerActivityLogs")]
-        public HttpResponseMessage ListActivityLog(HttpRequestMessage request, DataSourceRequest command, int customerId)
+        [HttpGet]
+        [Route("ActivityLogs/{pageIndex:int=0}/{pageSize:int=2147483647}", Name = "CustomerActivityLogs")]
+        public HttpResponseMessage ListActivityLog(HttpRequestMessage request, int customerId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
-                    var activityLog = _customerActivityService.GetAllActivities(null, null, customerId, 0, command.Page - 1, command.PageSize);
+                    var activityLog = _customerActivityService.GetAllActivities(null, null, customerId, 0, pageIndex, pageSize);
                     var gridModel = new DataSourceResult
                     {
                         Data = activityLog.Select(x =>
@@ -831,6 +831,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #region Back in stock subscriptions
 
         [HttpPost]
+        [Route("BackInStockSubscriptionList", Name = "BackInStockSubscriptionList")]
         public HttpResponseMessage BackInStockSubscriptionList(HttpRequestMessage request, DataSourceRequest command, int customerId)
         {
             return CreateHttpResponse(request, () =>
@@ -869,8 +870,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Current shopping cart/ wishlist
 
-        [HttpPost]
-        [Route("GetCustomerCarts", Name = "GetCustomerCarts")]
+        [HttpGet]
+        [Route("GetCustomerCarts/{customerId:int}/{cartTypeId:int}", Name = "GetCustomerCarts")]
         public HttpResponseMessage GetCartList(HttpRequestMessage request, int customerId, int cartTypeId)
         {
             return CreateHttpResponse(request, () =>
@@ -918,7 +919,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Reports
-
+        [HttpGet]
+        [Route("Reports", Name = "CustomerReports")]
         public HttpResponseMessage Reports(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -929,20 +931,20 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var model = new CustomerReportsVM();
                     //customers by number of orders
                     model.BestCustomersByNumberOfOrders = new BestCustomersReportVM();
-                    model.BestCustomersByNumberOfOrders.AvailableOrderStatuses = OrderStatus.Pending.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.BestCustomersByNumberOfOrders.AvailableOrderStatuses = OrderStatus.Pending.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.BestCustomersByNumberOfOrders.AvailableOrderStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
-                    model.BestCustomersByNumberOfOrders.AvailablePaymentStatuses = PaymentStatus.Pending.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.BestCustomersByNumberOfOrders.AvailablePaymentStatuses = PaymentStatus.Pending.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.BestCustomersByNumberOfOrders.AvailablePaymentStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
-                    model.BestCustomersByNumberOfOrders.AvailableShippingStatuses = ShippingStatus.NotYetShipped.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.BestCustomersByNumberOfOrders.AvailableShippingStatuses = ShippingStatus.NotYetShipped.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.BestCustomersByNumberOfOrders.AvailableShippingStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
 
                     //customers by order total
                     model.BestCustomersByOrderTotal = new BestCustomersReportVM();
-                    model.BestCustomersByOrderTotal.AvailableOrderStatuses = OrderStatus.Pending.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.BestCustomersByOrderTotal.AvailableOrderStatuses = OrderStatus.Pending.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.BestCustomersByOrderTotal.AvailableOrderStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
-                    model.BestCustomersByOrderTotal.AvailablePaymentStatuses = PaymentStatus.Pending.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.BestCustomersByOrderTotal.AvailablePaymentStatuses = PaymentStatus.Pending.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.BestCustomersByOrderTotal.AvailablePaymentStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
-                    model.BestCustomersByOrderTotal.AvailableShippingStatuses = ShippingStatus.NotYetShipped.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.BestCustomersByOrderTotal.AvailableShippingStatuses = ShippingStatus.NotYetShipped.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.BestCustomersByOrderTotal.AvailableShippingStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
 
                     response = request.CreateResponse<CustomerReportsVM>(HttpStatusCode.OK, model);
@@ -953,7 +955,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage ReportBestCustomersByOrderTotalList(HttpRequestMessage request, DataSourceRequest command, BestCustomersReportVM model)
+        [Route("BestCustomersReportsByOrder", Name = "BestCustomersReportsByOrder")]
+        public HttpResponseMessage ReportBestCustomersByOrderTotalList(HttpRequestMessage request, BestCustomersReportVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
 
             return CreateHttpResponse(request, () =>
@@ -972,8 +975,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     ShippingStatus? shippingStatus = model.ShippingStatusId > 0 ? (ShippingStatus?)(model.ShippingStatusId) : null;
 
 
-                    var items = _customerReportService.GetBestCustomersReport(startDateValue, endDateValue,
-                        orderStatus, paymentStatus, shippingStatus, 1, command.Page - 1, command.PageSize);
+                    var items = _customerReportService.GetBestCustomersReport(startDateValue, endDateValue, orderStatus, paymentStatus, shippingStatus, 1, pageIndex, pageSize);
 
                     var gridModel = new DataSourceResult
                     {
@@ -1001,8 +1003,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
             });
         }
+
         [HttpPost]
-        public HttpResponseMessage ReportBestCustomersByNumberOfOrdersList(HttpRequestMessage request, DataSourceRequest command, BestCustomersReportVM model)
+        [Route("BestCustomersReportsByOrderNumber", Name = "BestCustomersReportsByOrderNumber")]
+        public HttpResponseMessage ReportBestCustomersByNumberOfOrdersList(HttpRequestMessage request, BestCustomersReportVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1020,8 +1024,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     ShippingStatus? shippingStatus = model.ShippingStatusId > 0 ? (ShippingStatus?)(model.ShippingStatusId) : null;
 
 
-                    var items = _customerReportService.GetBestCustomersReport(startDateValue, endDateValue,
-                        orderStatus, paymentStatus, shippingStatus, 2, command.Page - 1, command.PageSize);
+                    var items = _customerReportService.GetBestCustomersReport(startDateValue, endDateValue, orderStatus, paymentStatus, shippingStatus, 2, pageIndex, pageSize);
                     var gridModel = new DataSourceResult
                     {
                         Data = items.Select(x =>
@@ -1048,8 +1051,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
-        [HttpPost]
-        public HttpResponseMessage ReportRegisteredCustomersList(HttpRequestMessage request, DataSourceRequest command)
+        [HttpGet]
+        [Route("RegisteredCustomersReports", Name = "RegisteredCustomersReports")]
+        public HttpResponseMessage ReportRegisteredCustomersList(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1070,6 +1074,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("LoadCustomerStatistics/{period}", Name = "LoadCustomerStatistics")]
         public HttpResponseMessage LoadCustomerStatistics(HttpRequestMessage request, string period)
         {
             return CreateHttpResponse(request, () =>
@@ -1084,7 +1090,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var timeZone = _dateTimeHelper.CurrentTimeZone;
                     var searchCustomerRoleIds = new[] { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id };
 
-                    var culture = new CultureInfo(_workContext.WorkingLanguage.LanguageCulture);
+                    var culture = new CultureInfo(_baseService.WorkContext.WorkingLanguage.LanguageCulture);
 
                     switch (period)
                     {
@@ -1173,8 +1179,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Orders
 
-        [HttpPost]
-        public HttpResponseMessage OrderList(HttpRequestMessage request, int customerId, DataSourceRequest command)
+        [HttpGet]
+        [Route("Orders/{customerId:int}/{pageIndex:int=0}/{pageSize:int=2147483647}", Name = "CustomerOrders")]
+        public HttpResponseMessage OrderList(HttpRequestMessage request, int customerId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1185,17 +1192,17 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     var gridModel = new DataSourceResult
                     {
-                        Data = orders.Skip((command.Page - 1) * command.PageSize).Take(command.PageSize)
+                        Data = orders.Skip((pageIndex) * pageSize).Take(pageSize)
                             .Select(order =>
                             {
                                 var store = _storeService.GetStoreById(order.StoreId);
                                 var orderModel = new CustomerVM.OrderVM
                                 {
                                     Id = order.Id,
-                                    OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _workContext),
+                                    OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
                                     OrderStatusId = order.OrderStatusId,
-                                    PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _workContext),
-                                    ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext),
+                                    PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
+                                    ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
                                     OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false),
                                     StoreName = store != null ? store.Name : "Unknown",
                                     CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc),
@@ -1217,8 +1224,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Addresses
 
-        [HttpPost]
-        public HttpResponseMessage AddressesSelect(HttpRequestMessage request, int customerId, DataSourceRequest command)
+        [HttpGet]
+        [Route("{customerId:int}/Addresses", Name = "CustomerAddresses")]
+        public HttpResponseMessage AddressesSelect(HttpRequestMessage request, int customerId)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1272,6 +1280,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
+        [Route("DeleteAddress")]
         public HttpResponseMessage AddressDelete(HttpRequestMessage request, int id, int customerId)
         {
             return CreateHttpResponse(request, () =>
@@ -1288,7 +1297,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     if (address == null)
                     {
                         //No customer found with the specified id
-                        response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No customer found with the specified id");
+                        response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This customer does not have this address");
                         return response;
                     }
                     customer.RemoveAddress(address);
@@ -1296,6 +1305,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //now delete the address record
                     _addressService.DeleteAddress(address);
 
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -1303,6 +1313,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("{customerId:int}/CreateAddressModal")]
         public HttpResponseMessage AddressCreate(HttpRequestMessage request, int customerId)
         {
             return CreateHttpResponse(request, () =>
@@ -1330,8 +1342,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        [System.Web.Mvc.ValidateInput(false)]
-        public HttpResponseMessage AddressCreate(HttpRequestMessage request, CustomerAddressVM model, System.Web.Mvc.FormCollection form)
+        [Route("CreateAddress")]
+        public HttpResponseMessage AddressCreate(HttpRequestMessage request, CustomerAddressVM model)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1368,6 +1380,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         customer.Addresses.Add(address);
                         _customerService.UpdateCustomer(customer);
 
+                        _baseService.Commit();
                         string uri = Url.Link("CustomerAddressEdit", new { addressId = address.Id, customerId = model.CustomerId });
                         response.Headers.Location = new Uri(uri);
                         return response;
@@ -1385,7 +1398,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         }
 
-        [Route("AddressEdit", Name = "CustomerAddressEdit")]
+        [HttpGet]
+        [Route("{customerId:int}/AddressEditModal/{addressId:int}", Name = "CustomerAddressEdit")]
         public HttpResponseMessage AddressEdit(HttpRequestMessage request, int addressId, int customerId)
         {
             return CreateHttpResponse(request, () =>
@@ -1422,8 +1436,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        [System.Web.Mvc.ValidateInput(false)]
-        public HttpResponseMessage AddressEdit(HttpRequestMessage request, CustomerAddressVM model, System.Web.Mvc.FormCollection form)
+        //[System.Web.Mvc.ValidateInput(false)]
+        [Route("EditAddress")]
+        public HttpResponseMessage AddressEdit(HttpRequestMessage request, CustomerAddressVM model/*, System.Web.Mvc.FormCollection form*/)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1461,6 +1476,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         address = model.Address.ToEntity(address);
                         //address.CustomAttributes = customAttributes;
                         _addressService.UpdateAddress(address);
+
+                        _baseService.Commit();
                         string uri = Url.Link("CustomerAddressEdit", new { addressId = model.Address.Id, customerId = model.CustomerId });
                         response.Headers.Location = new Uri(uri);
                         return response;
@@ -1518,7 +1535,37 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("GetCustomerById/{customerId:int}", Name = "GetCustomerById")]
+        public HttpResponseMessage GetCustomerById(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                {
+                    var customer = _customerService.GetCustomerById(id);
+                    if (customer == null || customer.Deleted)
+                    {
+                        //No customer found with the specified id
+                        string uri = Url.Link("DefaultCustomerPageLoad", null);
+                        response.Headers.Location = new Uri(uri);
+                    }
+
+                    var model = new CustomerVM();
+                    PrepareCustomerModel(model, customer, false);
+
+                    response = request.CreateResponse<CustomerVM>(HttpStatusCode.OK, model);
+                }
+                return response;
+
+            });
+
+
+        }
+
         [HttpPost]
+        [Route("SearchCustomer")]
         public HttpResponseMessage CustomerList(HttpRequestMessage request, CustomerListVM model, int[] searchCustomerRoleIds, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             //we use own own binder for searchCustomerRoleIds property 
@@ -1563,6 +1610,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         }
 
+        [HttpGet]
+        [Route("CreateCustomerModal")]
         public HttpResponseMessage Create(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -1583,7 +1632,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Create(HttpRequestMessage request, CustomerVM model, bool continueEditing, System.Web.Mvc.FormCollection form)
+        [Route("CreateCustomer")]
+        public HttpResponseMessage Create(HttpRequestMessage request, CustomerVM model, bool continueEditing = false, System.Web.Mvc.FormCollection form = null)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1625,8 +1675,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     //custom customer attributes
-                    var customerAttributesXml = ParseCustomCustomerAttributes(form);
-                    if (newCustomerRoles.Any() && newCustomerRoles.FirstOrDefault(c => c.SystemName == SystemCustomerRoleNames.Registered) != null)
+                    var customerAttributesXml = form == null ? null : ParseCustomCustomerAttributes(form);
+                    if (customerAttributesXml != null && newCustomerRoles.Any() && newCustomerRoles.FirstOrDefault(c => c.SystemName == SystemCustomerRoleNames.Registered) != null)
                     {
                         var customerAttributeWarnings = _customerAttributeParser.GetAttributeWarnings(customerAttributesXml);
                         foreach (var error in customerAttributeWarnings)
@@ -1681,7 +1731,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Fax, model.Fax);
 
                         //custom customer attributes
-                        _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributesXml);
+                        if (customerAttributesXml != null)
+                        {
+                            _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributesXml);
+                        }
+
 
 
                         //newsletter subscriptions
@@ -1736,7 +1790,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         {
                             //ensure that the current customer cannot add to "Administrators" system role if he's not an admin himself
                             if (customerRole.SystemName == SystemCustomerRoleNames.Administrators &&
-                                !_workContext.CurrentCustomer.IsAdmin())
+                                !_baseService.WorkContext.CurrentCustomer.IsAdmin())
                                 continue;
 
                             customer.CustomerRoles.Add(customerRole);
@@ -1768,7 +1822,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("AddNewCustomer", _localizationService.GetResource("ActivityLog.AddNewCustomer"), customer.Id);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         if (continueEditing)
                         {
                             string uri = Url.Link("GetCustomerById", new { id = customer.Id });
@@ -1790,41 +1844,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 return response;
 
             });
-
-
-        }
-
-        [HttpGet]
-        [Route("GetCustomerById/{customerId:int}", Name = "GetCustomerById")]
-        public HttpResponseMessage Edit(HttpRequestMessage request, int id)
-        {
-            return CreateHttpResponse(request, () =>
-            {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var customer = _customerService.GetCustomerById(id);
-                    if (customer == null || customer.Deleted)
-                    {
-                        //No customer found with the specified id
-                        string uri = Url.Link("DefaultCustomerPageLoad", null);
-                        response.Headers.Location = new Uri(uri);
-                    }
-
-                    var model = new CustomerVM();
-                    PrepareCustomerModel(model, customer, false);
-
-                    response = request.CreateResponse<CustomerVM>(HttpStatusCode.OK, model);
-                }
-                return response;
-
-            });
-
-
         }
 
         [HttpPost]
-        public HttpResponseMessage Edit(HttpRequestMessage request, CustomerVM model, bool continueEditing, System.Web.Mvc.FormCollection form)
+        [Route("EditCustomer")]
+        public HttpResponseMessage Edit(HttpRequestMessage request, CustomerVM model, bool continueEditing = false, System.Web.Mvc.FormCollection form = null)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -1862,8 +1886,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     //custom customer attributes
-                    var customerAttributesXml = ParseCustomCustomerAttributes(form);
-                    if (newCustomerRoles.Any() && newCustomerRoles.FirstOrDefault(c => c.SystemName == SystemCustomerRoleNames.Registered) != null)
+                    var customerAttributesXml = form == null ? null : ParseCustomCustomerAttributes(form);
+                    if (customerAttributesXml != null && newCustomerRoles.Any() && newCustomerRoles.FirstOrDefault(c => c.SystemName == SystemCustomerRoleNames.Registered) != null)
                     {
                         var customerAttributeWarnings = _customerAttributeParser.GetAttributeWarnings(customerAttributesXml);
                         foreach (var error in customerAttributeWarnings)
@@ -1964,7 +1988,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.Fax, model.Fax);
 
                             //custom customer attributes
-                            _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributesXml);
+                            if (customerAttributesXml != null)
+                                _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.CustomCustomerAttributes, customerAttributesXml);
 
                             //newsletter subscriptions
                             //if (!String.IsNullOrEmpty(customer.Email))
@@ -2008,7 +2033,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 //ensure that the current customer cannot add/remove to/from "Administrators" system role
                                 //if he's not an admin himself
                                 if (customerRole.SystemName == SystemCustomerRoleNames.Administrators &&
-                                    !_workContext.CurrentCustomer.IsAdmin())
+                                    !_baseService.WorkContext.CurrentCustomer.IsAdmin())
                                     continue;
 
                                 if (model.SelectedCustomerRoleIds.Contains(customerRole.Id))
@@ -2059,6 +2084,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //activity log
                             _customerActivityService.InsertActivity("EditCustomer", _localizationService.GetResource("ActivityLog.EditCustomer"), customer.Id);
 
+                            _baseService.Commit();
                             if (continueEditing)
                             {
                                 string uri = Url.Link("GetCustomerById", new { id = customer.Id });
@@ -2092,115 +2118,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         }
 
-        [HttpPost, ActionName("Edit")]
-        public HttpResponseMessage ChangePassword(HttpRequestMessage request, CustomerVM model)
-        {
-            return CreateHttpResponse(request, () =>
-            {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var customer = _customerService.GetCustomerById(model.Id);
-                    if (customer == null)
-                    {
-                        //No customer found with the specified id
-                        string newUri = Url.Link("DefaultCustomerPageLoad", null);
-                        response.Headers.Location = new Uri(newUri);
-                        return response;
-                    }
-
-                    //ensure that the current customer cannot change passwords of "Administrators" if he's not an admin himself
-                    if (customer.IsAdmin() && !_workContext.CurrentCustomer.IsAdmin())
-                    {
-                        LogError(_localizationService.GetResource("Admin.Customers.Customers.OnlyAdminCanChangePassword"));
-                        string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
-                        response.Headers.Location = new Uri(newUri);
-                        //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
-                        return response;
-                    }
-
-                    if (ModelState.IsValid)
-                    {
-                        var changePassRequest = new ChangePasswordRequest(model.Email,
-                            false, _customerSettings.DefaultPasswordFormat, model.Password);
-                        var changePassResult = _customerRegistrationService.ChangePassword(changePassRequest);
-                        if (!changePassResult.Success)
-                            foreach (var error in changePassResult.Errors)
-                                LogError(error);
-                    }
-                    string uri = Url.Link("GetCustomerById", new { id = customer.Id });
-                    response = request.CreateResponse(HttpStatusCode.OK);
-                    response.Headers.Location = new Uri(uri);
-                    return response;
-                }
-                return response;
-
-            });
-        }
-
         [HttpPost]
-        public HttpResponseMessage MarkVatNumberAsValid(HttpRequestMessage request, CustomerVM model)
-        {
-            return CreateHttpResponse(request, () =>
-            {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var customer = _customerService.GetCustomerById(model.Id);
-                    if (customer == null)
-                    {
-                        //No customer found with the specified id
-                        string nUri = Url.Link("DefaultCustomerPageLoad", null);
-                        response = request.CreateResponse(HttpStatusCode.OK, new { Success = false, RedirectUrl = nUri });
-                        return response;
-                    }
-
-                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.VatNumberStatusId, (int)VatNumberStatus.Valid);
-
-                    string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
-                    response.Headers.Location = new Uri(newUri);
-                    //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
-                    return response;
-                }
-                return response;
-
-            });
-        }
-
-        [HttpPost, ActionName("Edit")]
-        public HttpResponseMessage RemoveAffiliate(HttpRequestMessage request, CustomerVM model)
-        {
-            return CreateHttpResponse(request, () =>
-            {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-
-                    var customer = _customerService.GetCustomerById(model.Id);
-                    if (customer == null)
-                    {
-                        //No customer found with the specified id
-                        string nUri = Url.Link("DefaultCustomerPageLoad", null);
-                        response = request.CreateResponse(HttpStatusCode.OK, new { Success = false, RedirectUrl = nUri });
-                        return response;
-                    }
-
-                    customer.AffiliateId = 0;
-                    _customerService.UpdateCustomer(customer);
-
-                    string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
-                    response.Headers.Location = new Uri(newUri);
-                    //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
-                    return response;
-                }
-                return response;
-
-            });
-
-
-        }
-
-        [HttpPost]
+        [Route("DeleteCustomer")]
         public HttpResponseMessage Delete(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -2231,7 +2150,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         }
 
                         //ensure that the current customer cannot delete "Administrators" if he's not an admin himself
-                        if (customer.IsAdmin() && !_workContext.CurrentCustomer.IsAdmin())
+                        if (customer.IsAdmin() && !_baseService.WorkContext.CurrentCustomer.IsAdmin())
                         {
                             LogError(_localizationService.GetResource("Admin.Customers.Customers.OnlyAdminCanDeleteAdmin"));
                             string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
@@ -2253,6 +2172,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         //activity log
                         _customerActivityService.InsertActivity("DeleteCustomer", _localizationService.GetResource("ActivityLog.DeleteCustomer"), customer.Id);
+
+                        _baseService.Commit();
                         {
                             //No customer found with the specified id
                             string nUri = Url.Link("DefaultCustomerPageLoad", null);
@@ -2263,6 +2184,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     catch (Exception exc)
                     {
                         LogError(exc);
+                        _baseService.Commit();
                         string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
                         response.Headers.Location = new Uri(newUri);
                         //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
@@ -2274,7 +2196,123 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
-        [HttpPost, ActionName("Edit")]
+        [HttpPost]
+        [Route("ChangePassword", Name = "ChangePassword")]
+        public HttpResponseMessage ChangePassword(HttpRequestMessage request, CustomerVM model)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                {
+                    var customer = _customerService.GetCustomerById(model.Id);
+                    if (customer == null)
+                    {
+                        //No customer found with the specified id
+                        string newUri = Url.Link("DefaultCustomerPageLoad", null);
+                        response.Headers.Location = new Uri(newUri);
+                        return response;
+                    }
+
+                    //ensure that the current customer cannot change passwords of "Administrators" if he's not an admin himself
+                    if (customer.IsAdmin() && !_baseService.WorkContext.CurrentCustomer.IsAdmin())
+                    {
+                        LogError(_localizationService.GetResource("Admin.Customers.Customers.OnlyAdminCanChangePassword"));
+                        string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
+                        response.Headers.Location = new Uri(newUri);
+                        //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
+                        return response;
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                        var changePassRequest = new ChangePasswordRequest(model.Email, false, _customerSettings.DefaultPasswordFormat, model.Password);
+                        var changePassResult = _customerRegistrationService.ChangePassword(changePassRequest);
+                        if (!changePassResult.Success)
+                        {
+                            foreach (var error in changePassResult.Errors)
+                                LogError(error);
+                        }
+                        _baseService.Commit();
+                    }
+                    string uri = Url.Link("GetCustomerById", new { id = customer.Id });
+                    response = request.CreateResponse(HttpStatusCode.OK);
+                    response.Headers.Location = new Uri(uri);
+                    return response;
+                }
+                return response;
+
+            });
+        }
+
+        [HttpPost]
+        [Route("MarkVatNumberAsValid", Name = "MarkVatNumberAsValid")]
+        public HttpResponseMessage MarkVatNumberAsValid(HttpRequestMessage request, CustomerVM model)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                {
+                    var customer = _customerService.GetCustomerById(model.Id);
+                    if (customer == null)
+                    {
+                        //No customer found with the specified id
+                        string nUri = Url.Link("DefaultCustomerPageLoad", null);
+                        response = request.CreateResponse(HttpStatusCode.OK, new { Success = false, RedirectUrl = nUri });
+                        return response;
+                    }
+
+                    _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.VatNumberStatusId, (int)VatNumberStatus.Valid);
+
+                    _baseService.Commit();
+                    string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
+                    response.Headers.Location = new Uri(newUri);
+                    //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
+                    return response;
+                }
+                return response;
+
+            });
+        }
+
+        [HttpPost]
+        [Route("RemoveAffiliate", Name = "RemoveAffiliate")]
+        public HttpResponseMessage RemoveAffiliate(HttpRequestMessage request, CustomerVM model)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                {
+
+                    var customer = _customerService.GetCustomerById(model.Id);
+                    if (customer == null)
+                    {
+                        //No customer found with the specified id
+                        string nUri = Url.Link("DefaultCustomerPageLoad", null);
+                        response = request.CreateResponse(HttpStatusCode.OK, new { Success = false, RedirectUrl = nUri });
+                        return response;
+                    }
+
+                    customer.AffiliateId = 0;
+                    _customerService.UpdateCustomer(customer);
+
+                    _baseService.Commit();
+                    string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
+                    response.Headers.Location = new Uri(newUri);
+                    //response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = uri });
+                    return response;
+                }
+                return response;
+
+            });
+
+
+        }
+
+        [HttpPost]
+        [Route("Impersonate", Name = "Impersonate")]
         public HttpResponseMessage Impersonate(HttpRequestMessage request, int id)
         {
             return CreateHttpResponse(request, () =>
@@ -2294,7 +2332,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //ensure that a non-admin user cannot impersonate as an administrator
                     //otherwise, that user can simply impersonate as an administrator and gain additional administrative privileges
-                    if (!_workContext.CurrentCustomer.IsAdmin() && customer.IsAdmin())
+                    if (!_baseService.WorkContext.CurrentCustomer.IsAdmin() && customer.IsAdmin())
                     {
                         LogError(_localizationService.GetResource("Admin.Customers.Customers.NonAdminNotImpersonateAsAdminError"));
                         string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
@@ -2305,12 +2343,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //activity log
                     _customerActivityService.InsertActivity("Impersonation.Started", _localizationService.GetResource("ActivityLog.Impersonation.Started.StoreOwner"), customer.Email, customer.Id);
-                    _customerActivityService.InsertActivity(customer, "Impersonation.Started", _localizationService.GetResource("ActivityLog.Impersonation.Started.Customer"), _workContext.CurrentCustomer.Email, _workContext.CurrentCustomer.Id);
+                    _customerActivityService.InsertActivity(customer, "Impersonation.Started", _localizationService.GetResource("ActivityLog.Impersonation.Started.Customer"), _baseService.WorkContext.CurrentCustomer.Email, _baseService.WorkContext.CurrentCustomer.Id);
 
                     //ensure login is not required
                     customer.RequireReLogin = false;
                     _customerService.UpdateCustomer(customer);
-                    _genericAttributeService.SaveAttribute<int?>(_workContext.CurrentCustomer, SystemCustomerAttributeNames.ImpersonatedCustomerId, customer.Id);
+                    _genericAttributeService.SaveAttribute<int?>(_baseService.WorkContext.CurrentCustomer, SystemCustomerAttributeNames.ImpersonatedCustomerId, customer.Id);
+
+                    _baseService.Commit();
 
                     var newUrl = this.Url.Link("Default", new { Controller = "Home", Action = "Index", Area = "" });
                     response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = newUrl });
@@ -2321,7 +2361,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
-        [HttpPost, ActionName("Edit")]
+        [HttpPost]
+        [Route("SendWelcomeMessage", Name = "SendWelcomeMessage")]
         public HttpResponseMessage SendWelcomeMessage(HttpRequestMessage request, CustomerVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2339,7 +2380,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         return response;
                     }
 
-                    //_workflowMessageService.SendCustomerWelcomeMessage(customer, _workContext.WorkingLanguage.Id);
+                    //_workflowMessageService.SendCustomerWelcomeMessage(customer, _baseService.WorkContext.WorkingLanguage.Id);
 
                     //SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.SendWelcomeMessage.Success"));
 
@@ -2355,7 +2396,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         }
 
-        [HttpPost, ActionName("Edit")]
+        [HttpPost]
+        [Route("ReSendActivationMessage", Name = "ReSendActivationMessage")]
         public HttpResponseMessage ReSendActivationMessage(HttpRequestMessage request, CustomerVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2375,7 +2417,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //email validation message
                     _genericAttributeService.SaveAttribute(customer, SystemCustomerAttributeNames.AccountActivationToken, Guid.NewGuid().ToString());
-                    //_workflowMessageService.SendCustomerEmailValidationMessage(customer, _workContext.WorkingLanguage.Id);
+                    //_workflowMessageService.SendCustomerEmailValidationMessage(customer, _baseService.WorkContext.WorkingLanguage.Id);
 
                     //SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.ReSendActivationMessage.Success"));
 
@@ -2387,10 +2429,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 return response;
 
             });
-
-
         }
 
+        [HttpPost]
+        [Route("SendEmail", Name = "SendEmail")]
         public HttpResponseMessage SendEmail(HttpRequestMessage request, CustomerVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2439,11 +2481,13 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 null : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.SendEmail.DontSendBeforeDate.Value)
                         };
                         _queuedEmailService.InsertQueuedEmail(email);
+                        _baseService.Commit();
                         //SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.SendEmail.Queued"));
                     }
                     catch (Exception exc)
                     {
                         LogError(exc);
+                        _baseService.Commit();
                     }
 
                     string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
@@ -2456,6 +2500,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpPost]
+        [Route("SendPm", Name = "SendPm")]
         public HttpResponseMessage SendPm(HttpRequestMessage request, CustomerVM model)
         {
             return CreateHttpResponse(request, () =>
@@ -2489,7 +2535,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         {
                             StoreId = _storeContext.CurrentStore.Id,
                             ToCustomerId = customer.Id,
-                            FromCustomerId = _workContext.CurrentCustomer.Id,
+                            FromCustomerId = _baseService.WorkContext.CurrentCustomer.Id,
                             Subject = model.SendPm.Subject,
                             Text = model.SendPm.Message,
                             IsDeletedByAuthor = false,
@@ -2500,10 +2546,12 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         //_forumService.InsertPrivateMessage(privateMessage);
                         //SuccessNotification(_localizationService.GetResource("Admin.Customers.Customers.SendPM.Sent"));
+                        _baseService.Commit();
                     }
                     catch (Exception exc)
                     {
                         LogError(exc);
+                        _baseService.Commit();
                     }
 
                     string newUri = Url.Link("GetCustomerById", new { id = customer.Id });
@@ -2572,7 +2620,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetCreateRole")]
+        [Route("CreateRoleModal")]
         public HttpResponseMessage GetCreateRole(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -2593,7 +2641,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("AddCustomerRole")]
-        public HttpResponseMessage AddCustomerRole(HttpRequestMessage request, CustomerRoleVM model, bool continueEditing)
+        public HttpResponseMessage AddCustomerRole(HttpRequestMessage request, CustomerRoleVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -2608,6 +2656,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("AddNewCustomerRole", _localizationService.GetResource("ActivityLog.AddNewCustomerRole"), customerRole.Name);
 
+                        _baseService.Commit();
                         //SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Added"));
                         if (continueEditing)
                         {
@@ -2630,11 +2679,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         [HttpPost]
         [Route("EditCustomerRole")]
-        public HttpResponseMessage EditCustomerRole(HttpRequestMessage request, CustomerRoleVM model, bool continueEditing)
+        public HttpResponseMessage EditCustomerRole(HttpRequestMessage request, CustomerRoleVM model, bool continueEditing = false)
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
@@ -2667,6 +2716,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //activity log
                             _customerActivityService.InsertActivity("EditCustomerRole", _localizationService.GetResource("ActivityLog.EditCustomerRole"), customerRole.Name);
 
+                            _baseService.Commit();
                             //SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Updated"));
                             if (continueEditing)
                             {
@@ -2690,6 +2740,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     catch (Exception exc)
                     {
                         LogError(exc);
+                        _baseService.Commit();
                         string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
                         response.Headers.Location = new Uri(uri);
                         return response;
@@ -2723,6 +2774,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 _customerService.DeleteCustomerRole(customerRole);
                                 //activity log
                                 _customerActivityService.InsertActivity("DeleteCustomerRole", _localizationService.GetResource("ActivityLog.DeleteCustomerRole"), customerRole.Name);
+
+                                _baseService.Commit();
                             }
                             string uri = Url.Link("CustomerRoles", null);
                             response.Headers.Location = new Uri(uri);
@@ -2730,6 +2783,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         catch (Exception exc)
                         {
                             LogError(exc);
+                            _baseService.Commit();
                             string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
                             response.Headers.Location = new Uri(uri);
                         }
@@ -2741,6 +2795,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             });
         }
 
+        [HttpGet]
+        [Route("AssociateProductToCustomerRoleModal", Name = "AssociateProductToCustomerRoleModal")]
         public HttpResponseMessage AssociateProductToCustomerRolePopup(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -2750,7 +2806,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     var model = new CustomerRoleVM.AssociateProductToCustomerRoleVM();
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
                     string allText = _localizationService.GetResource("Admin.Common.All");
 
                     //categories
@@ -2777,7 +2833,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         model.AvailableVendors.Add(v);
 
                     //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
 
                     response = request.CreateResponse<CustomerRoleVM.AssociateProductToCustomerRoleVM>(HttpStatusCode.OK, model);
@@ -2786,10 +2842,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
             });
 
-            
+
         }
 
         [HttpPost]
+        [Route("AssociateProductToCustomerRolePopupList", Name = "AssociateProductToCustomerRolePopupList")]
         public HttpResponseMessage AssociateProductToCustomerRolePopupList(HttpRequestMessage request, CustomerRoleVM.AssociateProductToCustomerRoleVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
@@ -2798,9 +2855,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        model.SearchVendorId = _workContext.CurrentVendor.Id;
+                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var products = _productService.SearchProducts(
@@ -2826,8 +2883,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage AssociateProductToCustomerRolePopup(HttpRequestMessage request,
-            string productNameInput, CustomerRoleVM.AssociateProductToCustomerRoleVM model)
+        [Route("AssociateProductToCustomerRolePopup", Name = "AssociateProductToCustomerRolePopup")]
+        public HttpResponseMessage AssociateProductToCustomerRolePopup(HttpRequestMessage request, string productNameInput, CustomerRoleVM.AssociateProductToCustomerRoleVM model)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -2842,14 +2899,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && associatedProduct.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && associatedProduct.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
                     }
 
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
                     response = request.CreateResponse<CustomerRoleVM.AssociateProductToCustomerRoleVM>(HttpStatusCode.OK, model);
                 }
@@ -2857,7 +2914,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
             });
 
-           
+
         }
         #endregion
 

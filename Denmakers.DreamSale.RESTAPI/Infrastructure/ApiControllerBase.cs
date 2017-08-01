@@ -1,9 +1,8 @@
-﻿using Denmakers.DreamSale.Data.Context;
-using Denmakers.DreamSale.Data.Infrastructure;
-using Denmakers.DreamSale.Data.Repositories;
-using Denmakers.DreamSale.Helpers;
+﻿using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Logging;
+using Denmakers.DreamSale.Services;
+using Denmakers.DreamSale.Services.Logging;
 using System;
 using System.Data.Entity.Infrastructure;
 using System.Net;
@@ -15,18 +14,16 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure
     public class ApiControllerBase : ApiController
     {
         #region Fields
-        protected readonly IRepository<Log> _logRepository;
-        protected readonly IUnitOfWork _unitOfWork;
-        protected readonly IWorkContext _workContext;
+        protected readonly IBaseService _baseService;
+        protected readonly ILogger _logger;
         protected readonly IWebHelper _webHelper;
         #endregion
 
         #region Ctor
-        public ApiControllerBase(IRepository<Log> errorsRepository, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper)
+        public ApiControllerBase(IBaseService baseService, ILogger logger, IWebHelper webHelper)
         {
-            this._logRepository = errorsRepository;
-            this._unitOfWork = unitOfWork;
-            this._workContext = workContext;
+            this._baseService = baseService;
+            this._logger = logger;
             this._webHelper = webHelper;
         }
         #endregion
@@ -36,20 +33,8 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure
         {
             try
             {
-                Log error = new Log()
-                {
-                    LogLevel = logLevel,
-                    ShortMessage = ex.Message,
-                    FullMessage = ex.StackTrace,
-                    IpAddress = _webHelper.GetCurrentIpAddress(),
-                    Customer = customer ?? _workContext.CurrentCustomer,
-                    PageUrl = _webHelper.GetThisPageUrl(true),
-                    ReferrerUrl = _webHelper.GetUrlReferrer(),
-                    CreatedOnUtc = DateTime.UtcNow
-                };
-
-                _logRepository.Insert(error);
-                _unitOfWork.Commit();
+                _logger.InsertLog(logLevel, ex.Message, ex.StackTrace, customer ?? _baseService.WorkContext.CurrentCustomer);
+                _baseService.Commit();
             }
             catch (Exception e)
             {
@@ -60,20 +45,8 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure
         {
             try
             {
-                Log error = new Log()
-                {
-                    LogLevel = logLevel,
-                    ShortMessage = msg,
-                    FullMessage = null,
-                    IpAddress = _webHelper.GetCurrentIpAddress(),
-                    Customer = customer ?? _workContext.CurrentCustomer,
-                    PageUrl = _webHelper.GetThisPageUrl(true),
-                    ReferrerUrl = _webHelper.GetUrlReferrer(),
-                    CreatedOnUtc = DateTime.UtcNow
-                };
-
-                _logRepository.Insert(error);
-                _unitOfWork.Commit();
+                _logger.InsertLog(logLevel, msg, null, customer ?? _baseService.WorkContext.CurrentCustomer);
+                _baseService.Commit();
             }
             catch (Exception e)
             {

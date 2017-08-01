@@ -60,7 +60,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Constructors
 
-        public CategoryController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public CategoryController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ICategoryService categoryService, ICategoryTemplateService categoryTemplateService,
             IManufacturerService manufacturerService, IProductService productService,
             ICustomerService customerService,
@@ -79,7 +79,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             IVendorService vendorService,
             ICustomerActivityService customerActivityService,
             ISettingService settingService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._categoryService = categoryService;
             this._categoryTemplateService = categoryTemplateService;
@@ -494,7 +494,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //activity log
                     _customerActivityService.InsertActivity("AddNewCategory", _localizationService.GetResource("ActivityLog.AddNewCategory"), category.Name);
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<Category>(HttpStatusCode.Created, category);
                     if (continueEditing)
                     {
@@ -599,7 +599,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditCategory", _localizationService.GetResource("ActivityLog.EditCategory"), category.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<Category>(HttpStatusCode.OK, category);
                         if (continueEditing)
                         {
@@ -634,7 +634,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("DeleteCategory", _localizationService.GetResource("ActivityLog.DeleteCategory"), category.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<Category>(HttpStatusCode.OK, category);
                     }
                 }
@@ -700,7 +700,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                         IsFeaturedProduct = false,
                                         DisplayOrder = 1
                                     });
-                                _unitOfWork.Commit();
+                                _baseService.Commit();
                                 response = request.CreateResponse<CategoryVM.AddCategoryProductVM>(HttpStatusCode.Created, model);
                             }
                         }
@@ -732,7 +732,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productCategory.DisplayOrder = model.DisplayOrder;
                         _categoryService.UpdateProductCategory(productCategory);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -758,7 +758,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _categoryService.DeleteProductCategory(productCategory);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -799,7 +799,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     model.AvailableVendors.Add(v);
 
                 //product types
-                model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                 model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allString, Value = "0" });
 
 

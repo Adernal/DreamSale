@@ -1,11 +1,8 @@
-﻿using Denmakers.DreamSale.Data.Context;
-using Denmakers.DreamSale.Data.Infrastructure;
-using Denmakers.DreamSale.Data.Repositories;
-using Denmakers.DreamSale.Helpers;
+﻿using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Catalog;
 using Denmakers.DreamSale.Model.Discounts;
-using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Categories;
 using Denmakers.DreamSale.Services.Configuration;
 using Denmakers.DreamSale.Services.Customers;
@@ -58,7 +55,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Constructors
-        public ManufacturerController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public ManufacturerController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ICategoryService categoryService, IProductService productService,
             ICustomerService customerService,
             IUrlRecordService urlRecordService,
@@ -79,7 +76,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             IManufacturerTemplateService manufacturerTemplateService,
             IManufacturerService manufacturerService
             )
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._categoryService = categoryService;
             this._manufacturerTemplateService = manufacturerTemplateService;
@@ -431,7 +428,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("AddNewManufacturer", _localizationService.GetResource("ActivityLog.AddNewManufacturer"), manufacturer.Name);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<Manufacturer>(HttpStatusCode.Created, manufacturer);
                     if (continueEditing)
                     {
@@ -534,7 +531,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditManufacturer", _localizationService.GetResource("ActivityLog.EditManufacturer"), manufacturer.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<Manufacturer>(HttpStatusCode.OK, manufacturer);
                         if (continueEditing)
                         {
@@ -569,7 +566,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("DeleteManufacturer", _localizationService.GetResource("ActivityLog.DeleteManufacturer"), manufacturer.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<Manufacturer>(HttpStatusCode.OK, manufacturer);
                     }
                 }
@@ -637,7 +634,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                         DisplayOrder = 1
                                     });
 
-                                _unitOfWork.Commit();
+                                _baseService.Commit();
                                 response = request.CreateResponse<ManufacturerVM.AddManufacturerProductVM>(HttpStatusCode.Created, model);
                             }
                         }
@@ -669,7 +666,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productManufacturer.DisplayOrder = model.DisplayOrder;
                         _manufacturerService.UpdateProductManufacturer(productManufacturer);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -695,7 +692,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     {
                         _manufacturerService.DeleteProductManufacturer(productManufacturer);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -736,7 +733,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         //            model.AvailableVendors.Add(v);
 
         //        //product types
-        //        model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+        //        model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
         //        model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allString, Value = "0" });
 
 

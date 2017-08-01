@@ -100,7 +100,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Constructors
 
-        public ProductController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public ProductController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             IProductService productService,
             IProductTemplateService productTemplateService,
             ICategoryService categoryService,
@@ -141,7 +141,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             IDownloadService downloadService,
             ISettingService settingService
             )
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._productService = productService;
             this._productTemplateService = productTemplateService;
@@ -170,6 +170,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             this._dateRangeService = dateRangeService;
             this._shippingService = shippingService;
             this._shipmentService = shipmentService;
+            this._currencyService = currencyService;
             this._measureService = measureService;
             //this._cacheManager = cacheManager;
             this._dateTimeHelper = dateTimeHelper;
@@ -486,8 +487,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 model.CreatedOn = _dateTimeHelper.ConvertToUserTime(product.CreatedOnUtc, DateTimeKind.Utc);
                 model.UpdatedOn = _dateTimeHelper.ConvertToUserTime(product.UpdatedOnUtc, DateTimeKind.Utc);
             }
-
-            model.PrimaryStoreCurrencyCode = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId).CurrencyCode;
+            var currencyId = _currencyService.GetCurrencyById(_currencySettings.PrimaryStoreCurrencyId);
+            model.PrimaryStoreCurrencyCode = currencyId != null ? currencyId.CurrencyCode : "";
             model.BaseWeightIn = _measureService.GetMeasureWeightById(_measureSettings.BaseWeightId).Name;
             model.BaseDimensionIn = _measureService.GetMeasureDimensionById(_measureSettings.BaseDimensionId).Name;
 
@@ -554,26 +555,27 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 });
             }
             //supported product types
-            foreach (var productType in ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList())
+            var simpleProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
+            foreach (var productType in simpleProductTypes)
             {
                 var productTypeId = int.Parse(productType.Value);
                 model.ProductsTypesSupportedByProductTemplates.Add(productTypeId, new List<System.Web.Mvc.SelectListItem>());
-                foreach (var template in templates)
-                {
-                    if (String.IsNullOrEmpty(template.IgnoredProductTypes) ||
-                        !((IList<int>)TypeDescriptor.GetConverter(typeof(List<int>)).ConvertFrom(template.IgnoredProductTypes)).Contains(productTypeId))
-                    {
-                        model.ProductsTypesSupportedByProductTemplates[productTypeId].Add(new System.Web.Mvc.SelectListItem
-                        {
-                            Text = template.Name,
-                            Value = template.Id.ToString()
-                        });
-                    }
-                }
+                //foreach (var template in templates)
+                //{
+                //    if (String.IsNullOrEmpty(template.IgnoredProductTypes) ||
+                //        !((IList<int>)TypeDescriptor.GetConverter(typeof(List<int>)).ConvertFrom(template.IgnoredProductTypes)).Contains(productTypeId))
+                //    {
+                //        model.ProductsTypesSupportedByProductTemplates[productTypeId].Add(new System.Web.Mvc.SelectListItem
+                //        {
+                //            Text = template.Name,
+                //            Value = template.Id.ToString()
+                //        });
+                //    }
+                //}
             }
 
             //vendors
-            model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+            model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
             model.AvailableVendors.Add(new System.Web.Mvc.SelectListItem
             {
                 Text = _localizationService.GetResource("Admin.Catalog.Products.Fields.Vendor.None"),
@@ -760,7 +762,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 string allText = _localizationService.GetResource("Admin.Common.All");
                 var model = new ProductListVM();
                 //a vendor should have access only to his products
-                model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
                 model.AllowVendorsToImportProducts = _vendorSettings.AllowVendorsToImportProducts;
 
                 //categories
@@ -792,7 +794,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     model.AvailableVendors.Add(v);
 
                 //product types
-                model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                 model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
 
                 //"published" property
@@ -819,9 +821,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        model.SearchVendorId = _workContext.CurrentVendor.Id;
+                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var categoryIds = new List<int> { model.SearchCategoryId };
@@ -862,7 +864,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         var defaultProductPicture = _pictureService.GetPicturesByProductId(x.Id, 1).FirstOrDefault();
                         productModel.PictureThumbnailUrl = _pictureService.GetPictureUrl(defaultProductPicture, 75, true);
                         //product type
-                        productModel.ProductTypeName = x.ProductType.GetLocalizedEnum(_localizationService, _workContext);
+                        productModel.ProductTypeName = x.ProductType.GetLocalizedEnum(_localizationService, _baseService.WorkContext);
                         //friendly stock qantity
                         //if a simple product AND "manage inventory" is "Track inventory", then display
                         if (x.ProductType == ProductType.SimpleProduct && x.ManageInventoryMethod == ManageInventoryMethod.ManageStock)
@@ -887,7 +889,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(id);
-                    bool isUnauthorizedVendor = _workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id;
+                    bool isUnauthorizedVendor = _baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id;
                     if ((product != null && !product.Deleted) || isUnauthorizedVendor)
                     {
                         var model = product.ToModel();
@@ -946,8 +948,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     //validate maximum number of products per vendor
                     if (_vendorSettings.MaximumProductNumber > 0 &&
-                        _workContext.CurrentVendor != null &&
-                        _productService.GetNumberOfProductsByVendorId(_workContext.CurrentVendor.Id) >= _vendorSettings.MaximumProductNumber)
+                        _baseService.WorkContext.CurrentVendor != null &&
+                        _productService.GetNumberOfProductsByVendorId(_baseService.WorkContext.CurrentVendor.Id) >= _vendorSettings.MaximumProductNumber)
                     {
                         LogError(string.Format(_localizationService.GetResource("Admin.Catalog.Products.ExceededMaximumNumber"), _vendorSettings.MaximumProductNumber));
 
@@ -981,10 +983,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 HttpResponseMessage response = null;
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
+                    var vendor = _baseService.WorkContext.CurrentVendor;
                     //validate maximum number of products per vendor
                     if (_vendorSettings.MaximumProductNumber > 0 &&
-                        _workContext.CurrentVendor != null &&
-                        _productService.GetNumberOfProductsByVendorId(_workContext.CurrentVendor.Id) >= _vendorSettings.MaximumProductNumber)
+                        vendor != null &&
+                        _productService.GetNumberOfProductsByVendorId(_baseService.WorkContext.CurrentVendor.Id) >= _vendorSettings.MaximumProductNumber)
                     {
                         LogError(string.Format(_localizationService.GetResource("Admin.Catalog.Products.ExceededMaximumNumber"), _vendorSettings.MaximumProductNumber));
 
@@ -996,13 +999,13 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     if (ModelState.IsValid)
                     {
                         //a vendor should have access only to his products
-                        if (_workContext.CurrentVendor != null)
+                        if (vendor != null)
                         {
-                            model.VendorId = _workContext.CurrentVendor.Id;
+                            model.VendorId = vendor.Id;
                         }
 
                         //vendors cannot edit "Show on home page" property
-                        if (_workContext.CurrentVendor != null && model.ShowOnHomePage)
+                        if (vendor != null && model.ShowOnHomePage)
                         {
                             model.ShowOnHomePage = false;
                         }
@@ -1039,7 +1042,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("AddNewProduct", _localizationService.GetResource("ActivityLog.AddNewProduct"), product.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<Product>(HttpStatusCode.Created, product);
                         if (continueEditing)
                         {
@@ -1080,7 +1083,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(model.Id);
-                    if ((product == null || product.Deleted) || _workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if ((product == null || product.Deleted) || _baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         string uri = Url.Link("DefaultProductPageLoad", null);
                         response.Headers.Location = new Uri(uri);
@@ -1101,15 +1104,15 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     if (ModelState.IsValid)
                     {
                         //a vendor should have access only to his products
-                        if (_workContext.CurrentVendor != null)
+                        if (_baseService.WorkContext.CurrentVendor != null)
                         {
-                            model.VendorId = _workContext.CurrentVendor.Id;
+                            model.VendorId = _baseService.WorkContext.CurrentVendor.Id;
                         }
 
                         //we do not validate maximum number of products per vendor when editing existing products (only during creation of new products)
 
                         //vendors cannot edit "Show on home page" property
-                        if (_workContext.CurrentVendor != null && model.ShowOnHomePage != product.ShowOnHomePage)
+                        if (_baseService.WorkContext.CurrentVendor != null && model.ShowOnHomePage != product.ShowOnHomePage)
                         {
                             model.ShowOnHomePage = product.ShowOnHomePage;
                         }
@@ -1208,7 +1211,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //activity log
                         _customerActivityService.InsertActivity("EditProduct", _localizationService.GetResource("ActivityLog.EditProduct"), product.Name);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<Product>(HttpStatusCode.Created, product);
                         if (continueEditing)
                         {
@@ -1251,7 +1254,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     var product = _productService.GetProductById(id);
-                    if (product == null || (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id))
+                    if (product == null || (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id))
                     {
                         string uri = Url.Link("DefaultProductPageLoad", null);
                         response.Headers.Location = new Uri(uri);
@@ -1263,7 +1266,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //activity log
                     _customerActivityService.InsertActivity("DeleteProduct", _localizationService.GetResource("ActivityLog.DeleteProduct"), product.Name);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<Product>(HttpStatusCode.OK, product);
                 }
                 return response;
@@ -1281,9 +1284,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     if (selectedIds != null)
                     {
-                        _productService.DeleteProducts(_productService.GetProductsByIds(selectedIds.ToArray()).Where(p => _workContext.CurrentVendor == null || p.VendorId == _workContext.CurrentVendor.Id).ToList());
+                        _productService.DeleteProducts(_productService.GetProductsByIds(selectedIds.ToArray()).Where(p => _baseService.WorkContext.CurrentVendor == null || p.VendorId == _baseService.WorkContext.CurrentVendor.Id).ToList());
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                     }
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -1306,7 +1309,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         var originalProduct = _productService.GetProductById(copyModel.Id);
 
                         //a vendor should have access only to his products
-                        if (_workContext.CurrentVendor != null && originalProduct.VendorId != _workContext.CurrentVendor.Id)
+                        if (_baseService.WorkContext.CurrentVendor != null && originalProduct.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             string link = Url.Link("DefaultProductPageLoad", null);
                             response.Headers.Location = new Uri(link);
@@ -1315,7 +1318,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                         var newProduct = _copyProductService.CopyProduct(originalProduct, copyModel.Name, copyModel.Published, copyModel.CopyImages);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         string uri = Url.Link("GetProductByID", new { id = newProduct.Id });
                         response.Headers.Location = new Uri(uri);
                     }
@@ -1391,7 +1394,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     var model = new ProductVM.AddRequiredProductVM();
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //categories
@@ -1418,7 +1421,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         model.AvailableVendors.Add(v);
 
                     //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
 
 
@@ -1438,9 +1441,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        model.SearchVendorId = _workContext.CurrentVendor.Id;
+                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var products = _productService.SearchProducts(
@@ -1547,7 +1550,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productTag.Name = model.Name;
                         _productTagService.InsertProductTag(productTag);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<ProductTag>(HttpStatusCode.Created, productTag);
                     }
                 }
@@ -1574,7 +1577,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productTag.Name = model.Name;
                         _productTagService.UpdateProductTag(productTag);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<ProductTagVM>(HttpStatusCode.OK, model);
                     }
                 }
@@ -1602,7 +1605,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         {
                             _productTagService.DeleteProductTag(tag);
 
-                            _unitOfWork.Commit();
+                            _baseService.Commit();
                             response = request.CreateResponse<ProductTag>(HttpStatusCode.OK, tag);
                         }
                     }
@@ -1624,10 +1627,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -1673,10 +1676,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No related product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(relatedProduct.ProductId1);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -1686,7 +1689,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     relatedProduct.DisplayOrder = model.DisplayOrder;
                     _productService.UpdateRelatedProduct(relatedProduct);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<RelatedProduct>(HttpStatusCode.OK, relatedProduct);
                 }
                 return response;
@@ -1709,10 +1712,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productId = relatedProduct.ProductId1;
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -1720,7 +1723,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     _productService.DeleteRelatedProduct(relatedProduct);
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -1740,7 +1743,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var model = new ProductVM.AddRelatedProductVM();
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
@@ -1766,7 +1769,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         model.AvailableVendors.Add(v);
 
                     //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
 
                     response = request.CreateResponse<ProductVM.AddRelatedProductVM>(HttpStatusCode.OK, model);
@@ -1785,9 +1788,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        model.SearchVendorId = _workContext.CurrentVendor.Id;
+                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var products = _productService.SearchProducts(
@@ -1830,7 +1833,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             if (product != null)
                             {
                                 //a vendor should have access only to his products
-                                if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                                if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                                     continue;
 
                                 var existingRelatedProducts = _productService.GetRelatedProductsByProductId1(model.ProductId);
@@ -1843,14 +1846,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                             ProductId2 = id,
                                             DisplayOrder = 1
                                         });
-                                    _unitOfWork.Commit();
+                                    _baseService.Commit();
                                 }
                             }
                         }
                     }
 
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
                     response = request.CreateResponse<ProductVM.AddRelatedProductVM>(HttpStatusCode.OK, model);
                 }
@@ -1872,10 +1875,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -1922,10 +1925,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productId = crossSellProduct.ProductId1;
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -1933,7 +1936,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     _productService.DeleteCrossSellProduct(crossSellProduct);
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -1952,7 +1955,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     var model = new ProductVM.AddCrossSellProductVM();
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
@@ -1978,7 +1981,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         model.AvailableVendors.Add(v);
 
                     //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
 
                     response = request.CreateResponse<ProductVM.AddCrossSellProductVM>(HttpStatusCode.OK, model);
@@ -2000,9 +2003,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        model.SearchVendorId = _workContext.CurrentVendor.Id;
+                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var products = _productService.SearchProducts(
@@ -2043,7 +2046,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             if (product != null)
                             {
                                 //a vendor should have access only to his products
-                                if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                                if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                                     continue;
 
                                 var existingCrossSellProducts = _productService.GetCrossSellProductsByProductId1(model.ProductId);
@@ -2055,14 +2058,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                             ProductId1 = model.ProductId,
                                             ProductId2 = id,
                                         });
-                                    _unitOfWork.Commit();
+                                    _baseService.Commit();
                                 }
                             }
                         }
                     }
 
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
                     response = request.CreateResponse<ProductVM.AddCrossSellProductVM>(HttpStatusCode.OK, model);
 
                 }
@@ -2085,10 +2088,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2097,9 +2100,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //a vendor should have access only to his products
                     var vendorId = 0;
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        vendorId = _workContext.CurrentVendor.Id;
+                        vendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var associatedProducts = _productService.GetAssociatedProducts(parentGroupedProductId: productId,
@@ -2142,7 +2145,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No associated product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && associatedProduct.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && associatedProduct.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -2151,7 +2154,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     associatedProduct.DisplayOrder = model.DisplayOrder;
                     _productService.UpdateProduct(associatedProduct);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2174,7 +2177,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No associated product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -2183,7 +2186,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         product.ParentGroupedProductId = 0;
                     _productService.UpdateProduct(product);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2204,7 +2207,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     var model = new ProductVM.AddAssociatedProductVM();
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
@@ -2230,7 +2233,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         model.AvailableVendors.Add(v);
 
                     //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
 
                     response = request.CreateResponse<ProductVM.AddAssociatedProductVM>(HttpStatusCode.OK, model);
@@ -2251,9 +2254,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
-                        model.SearchVendorId = _workContext.CurrentVendor.Id;
+                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                     }
 
                     var products = _productService.SearchProducts(
@@ -2307,7 +2310,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             if (product != null)
                             {
                                 //a vendor should have access only to his products
-                                if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                                if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                                     continue;
 
                                 product.ParentGroupedProductId = model.ProductId;
@@ -2317,7 +2320,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     }
 
                     //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
                     response = request.CreateResponse<ProductVM.AddAssociatedProductVM>(HttpStatusCode.OK, model);
 
                 }
@@ -2347,7 +2350,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         string uri = Url.Link("DefaultProductPageLoad", null);
                         response.Headers.Location = new Uri(uri);
@@ -2393,10 +2396,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2451,10 +2454,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product picture found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productPicture.ProductId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2475,7 +2478,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     productPicture.DisplayOrder = model.DisplayOrder;
                     _productService.UpdateProductPicture(productPicture);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2500,10 +2503,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productId = productPicture.ProductId;
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2517,7 +2520,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No picture found with the specified id");
                     _pictureService.DeletePicture(picture);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -2538,10 +2541,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             string uri = Url.Link("DefaultProductPageLoad", null);
                             response.Headers.Location = new Uri(uri);
@@ -2592,10 +2595,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2611,7 +2614,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             {
                                 Id = x.Id,
                                 AttributeTypeId = x.AttributeTypeId,
-                                AttributeTypeName = x.AttributeType.GetLocalizedEnum(_localizationService, _workContext),
+                                AttributeTypeName = x.AttributeType.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
                                 AttributeId = x.SpecificationAttributeOption.SpecificationAttribute.Id,
                                 AttributeName = x.SpecificationAttributeOption.SpecificationAttribute.Name,
                                 AllowFiltering = x.AllowFiltering,
@@ -2673,10 +2676,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productId = psa.Product.Id;
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2696,7 +2699,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     psa.DisplayOrder = model.DisplayOrder;
                     _specificationAttributeService.UpdateProductSpecificationAttribute(psa);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2721,10 +2724,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productId = psa.ProductId;
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         var product = _productService.GetProductById(productId);
-                        if (product != null && product.VendorId != _workContext.CurrentVendor.Id)
+                        if (product != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                             return response;
@@ -2733,7 +2736,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     _specificationAttributeService.DeleteProductSpecificationAttribute(psa);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
 
                 }
@@ -2762,7 +2765,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
 
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
@@ -2782,9 +2785,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             {
                                 Id = x.Id,
                                 StoreName = store != null ? store.Name : "Unknown",
-                                OrderStatus = x.OrderStatus.GetLocalizedEnum(_localizationService, _workContext),
-                                PaymentStatus = x.PaymentStatus.GetLocalizedEnum(_localizationService, _workContext),
-                                ShippingStatus = x.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext),
+                                OrderStatus = x.OrderStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
+                                PaymentStatus = x.PaymentStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
+                                ShippingStatus = x.ShippingStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
                                 CustomerEmail = x.BillingAddress.Email,
                                 CreatedOn = _dateTimeHelper.ConvertToUserTime(x.CreatedOnUtc, DateTimeKind.Utc),
                                 CustomOrderNumber = x.CustomOrderNumber
@@ -2814,8 +2817,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     int vendorId = 0;
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
-                        vendorId = _workContext.CurrentVendor.Id;
+                    if (_baseService.WorkContext.CurrentVendor != null)
+                        vendorId = _baseService.WorkContext.CurrentVendor.Id;
 
                     IList<Product> products = _productService.GetLowStockProducts(vendorId);
                     IList<ProductAttributeCombination> combinations = _productService.GetLowStockProductCombinations(vendorId);
@@ -2828,7 +2831,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         {
                             Id = product.Id,
                             Name = product.Name,
-                            ManageInventoryMethod = product.ManageInventoryMethod.GetLocalizedEnum(_localizationService, _workContext.WorkingLanguage.Id),
+                            ManageInventoryMethod = product.ManageInventoryMethod.GetLocalizedEnum(_localizationService, _baseService.WorkContext.WorkingLanguage.Id),
                             StockQuantity = product.GetTotalStockQuantity(),
                             Published = product.Published
                         };
@@ -2842,8 +2845,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         {
                             Id = product.Id,
                             Name = product.Name,
-                            Attributes = _productAttributeFormatter.FormatAttributes(product, combination.AttributesXml, _workContext.CurrentCustomer, "<br />", true, true, true, false),
-                            ManageInventoryMethod = product.ManageInventoryMethod.GetLocalizedEnum(_localizationService, _workContext.WorkingLanguage.Id),
+                            Attributes = _productAttributeFormatter.FormatAttributes(product, combination.AttributesXml, _baseService.WorkContext.CurrentCustomer, "<br />", true, true, true, false),
+                            ManageInventoryMethod = product.ManageInventoryMethod.GetLocalizedEnum(_localizationService, _baseService.WorkContext.WorkingLanguage.Id),
                             StockQuantity = combination.StockQuantity,
                             Published = product.Published
                         };
@@ -2879,7 +2882,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -2903,7 +2906,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             {
                                 var combination = _productAttributeService.GetProductAttributeCombinationById(historyEntry.CombinationId.Value);
                                 attributesXml = combination == null ? string.Empty :
-                                    _productAttributeFormatter.FormatAttributes(historyEntry.Product, combination.AttributesXml, _workContext.CurrentCustomer, renderGiftCardAttributes: false);
+                                    _productAttributeFormatter.FormatAttributes(historyEntry.Product, combination.AttributesXml, _baseService.WorkContext.CurrentCustomer, renderGiftCardAttributes: false);
                             }
 
                             return new ProductVM.StockQuantityHistoryVM
@@ -2944,7 +2947,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -2962,7 +2965,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 ProductAttributeId = x.ProductAttributeId,
                                 TextPrompt = x.TextPrompt,
                                 IsRequired = x.IsRequired,
-                                AttributeControlType = x.AttributeControlType.GetLocalizedEnum(_localizationService, _workContext),
+                                AttributeControlType = x.AttributeControlType.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
                                 AttributeControlTypeId = x.AttributeControlTypeId,
                                 DisplayOrder = x.DisplayOrder
                             };
@@ -3041,7 +3044,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -3094,7 +3097,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 _localizedEntityService.SaveLocalizedValue(pav, x => x.Name, name, lang.Id);
                         }
                     }
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3120,7 +3123,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -3133,7 +3136,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     productAttributeMapping.DisplayOrder = model.DisplayOrder;
                     _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3161,7 +3164,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -3169,7 +3172,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     _productAttributeService.DeleteProductAttributeMapping(productAttributeMapping);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3203,7 +3206,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         //No attribute value found with the specified id
                         string uri = Url.Link("DefaultProductPageLoad", null);
@@ -3254,7 +3257,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         //No attribute value found with the specified id
                         string uri = Url.Link("DefaultProductPageLoad", null);
@@ -3271,7 +3274,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         productAttributeMapping.DefaultValue = model.DefaultValue;
                         _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                     }
                     else
                     {
@@ -3312,7 +3315,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         //No attribute value found with the specified id
                         string uri = Url.Link("DefaultProductPageLoad", null);
@@ -3437,7 +3440,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         //No attribute value found with the specified id
                         string uri = Url.Link("DefaultProductPageLoad", null);
@@ -3536,7 +3539,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     productAttributeMapping.ConditionAttributeXml = attributesXml;
                     _productAttributeService.UpdateProductAttributeMapping(productAttributeMapping);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse<ProductAttributeConditionVM>(HttpStatusCode.OK, model);
                 }
                 return response;
@@ -3559,7 +3562,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageProducts))
                 {
                     //vendors cannot manage these settings
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                     {
                         //No attribute value found with the specified id
                         string uri = Url.Link("DefaultProductPageLoad", null);
@@ -3570,7 +3573,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var productEditorSettings = _settingService.LoadSetting<ProductEditorSettings>();
                     productEditorSettings = model.ProductEditorSettingsModel.ToEntity(productEditorSettings);
                     _settingService.SaveSetting(productEditorSettings);
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
 
                     //product list
                     if (String.IsNullOrEmpty(returnUrl))
@@ -3616,7 +3619,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -3705,7 +3708,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         string uri = Url.Link("DefaultProductPageLoad", null);
                         response.Headers.Location = new Uri(uri);
@@ -3728,7 +3731,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //update "HasTierPrices" property
                         _productService.UpdateHasTierPricesProperty(product);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<ProductVM.TierPriceVM>(HttpStatusCode.OK, model);
                     }
                     else
@@ -3775,7 +3778,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         string uri = Url.Link("DefaultProductPageLoad", null);
                         response.Headers.Location = new Uri(uri);
@@ -3832,7 +3835,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         string uri = Url.Link("DefaultProductPageLoad", null);
                         response.Headers.Location = new Uri(uri);
@@ -3847,7 +3850,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         tierPrice.StartDateTimeUtc = model.StartDateTimeUtc;
                         tierPrice.EndDateTimeUtc = model.EndDateTimeUtc;
                         _productService.UpdateTierPrice(tierPrice);
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                     }
                     else
                     {
@@ -3889,7 +3892,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No product found with the specified id");
 
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
                         return response;
@@ -3900,7 +3903,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     //update "HasTierPrices" property
                     _productService.UpdateHasTierPricesProperty(product);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;
@@ -3936,7 +3939,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         model.AvailableManufacturers.Add(m);
 
                     //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _workContext, false).ToList();
+                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
                     model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
 
                     response = request.CreateResponse<BulkEditListVM>(HttpStatusCode.OK, model);
@@ -3956,8 +3959,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 {
                     int vendorId = 0;
                     //a vendor should have access only to his products
-                    if (_workContext.CurrentVendor != null)
-                        vendorId = _workContext.CurrentVendor.Id;
+                    if (_baseService.WorkContext.CurrentVendor != null)
+                        vendorId = _baseService.WorkContext.CurrentVendor.Id;
 
                     var products = _productService.SearchProducts(categoryIds: new List<int> { model.SearchCategoryId },
                         manufacturerId: model.SearchManufacturerId,
@@ -3978,7 +3981,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             Sku = x.Sku,
                             OldPrice = x.OldPrice,
                             Price = x.Price,
-                            ManageInventoryMethod = x.ManageInventoryMethod.GetLocalizedEnum(_localizationService, _workContext.WorkingLanguage.Id),
+                            ManageInventoryMethod = x.ManageInventoryMethod.GetLocalizedEnum(_localizationService, _baseService.WorkContext.WorkingLanguage.Id),
                             StockQuantity = x.StockQuantity,
                             Published = x.Published
                         };
@@ -4017,7 +4020,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             if (product != null)
                             {
                                 //a vendor should have access only to his products
-                                if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                                if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                                     continue;
 
                                 var prevTotalStockQuantity = product.GetTotalStockQuantity();
@@ -4049,7 +4052,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                     product.WarehouseId, _localizationService.GetResource("Admin.StockQuantityHistory.Messages.Edit"));
                             }
                         }
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                     }
 
                     response = request.CreateResponse(HttpStatusCode.OK);
@@ -4077,13 +4080,13 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             if (product != null)
                             {
                                 //a vendor should have access only to his products
-                                if (_workContext.CurrentVendor != null && product.VendorId != _workContext.CurrentVendor.Id)
+                                if (_baseService.WorkContext.CurrentVendor != null && product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                                     continue;
 
                                 _productService.DeleteProduct(product);
                             }
                         }
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                     }
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }

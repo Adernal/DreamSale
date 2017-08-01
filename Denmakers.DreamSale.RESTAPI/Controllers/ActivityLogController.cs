@@ -4,6 +4,7 @@ using Denmakers.DreamSale.Data.Repositories;
 using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Helpers;
 using Denmakers.DreamSale.Services.Localization;
 using Denmakers.DreamSale.Services.Logging;
@@ -32,11 +33,11 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Constructors
 
-        public ActivityLogController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public ActivityLogController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ICustomerActivityService customerActivityService,
             IDateTimeHelper dateTimeHelper, ILocalizationService localizationService,
             IPermissionService permissionService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._customerActivityService = customerActivityService;
             this._dateTimeHelper = dateTimeHelper;
@@ -90,7 +91,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         activityType.Enabled = checkedActivityTypes.Contains(activityType.Id);
                         _customerActivityService.UpdateActivityType(activityType);
                     }
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     var uri = Url.Link("ActivityListTypes", null);
                     response.Headers.Location = new Uri(uri);
                 }

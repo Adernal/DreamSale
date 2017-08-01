@@ -19,6 +19,8 @@ using System.Net;
 using System.Collections.Generic;
 using System.Linq;
 using Denmakers.DreamSale.ViewModels.AdminVM.Catalog;
+using Denmakers.DreamSale.Services;
+
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/ProductReviews")]
@@ -35,14 +37,14 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion Fields
 
         #region Constructors
-        public ProductReviewController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public ProductReviewController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             IProductService productService,
             IDateTimeHelper dateTimeHelper,
             ILocalizationService localizationService,
             IPermissionService permissionService,
             IStoreService storeService,
             ICustomerActivityService customerActivityService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._productService = productService;
             this._dateTimeHelper = dateTimeHelper;
@@ -91,7 +93,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             }
 
             //a vendor should have access only to his products
-            model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+            model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
         }
 
@@ -108,7 +110,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                 var model = new ProductReviewListVM();
                 //a vendor should have access only to his products
-                model.IsLoggedInAsVendor = _workContext.CurrentVendor != null;
+                model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
                 model.AvailableStores.Add(new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
                 var stores = _storeService.GetAllStores().Select(st => new System.Web.Mvc.SelectListItem() { Text = st.Name, Value = st.Id.ToString() });
@@ -195,7 +197,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 var productReview = _productService.GetProductReviewById(id);
                 if (productReview != null)
                 {
-                    if (_workContext.CurrentVendor != null && productReview.Product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && productReview.Product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "A vendor should only edit his products reviews");
                     }
@@ -231,9 +233,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                 //a vendor should have access only to his products
                 var vendorId = 0;
-                if (_workContext.CurrentVendor != null)
+                if (_baseService.WorkContext.CurrentVendor != null)
                 {
-                    vendorId = _workContext.CurrentVendor.Id;
+                    vendorId = _baseService.WorkContext.CurrentVendor.Id;
                 }
 
                 //products
@@ -275,13 +277,13 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 }
                 else if (productReview != null)
                 {
-                    if (_workContext.CurrentVendor != null && productReview.Product.VendorId != _workContext.CurrentVendor.Id)
+                    if (_baseService.WorkContext.CurrentVendor != null && productReview.Product.VendorId != _baseService.WorkContext.CurrentVendor.Id)
                     {
                         response = request.CreateErrorResponse(HttpStatusCode.NotFound, "A vendor should have access only to his products");
                     }
                     else
                     {
-                        var isLoggedInAsVendor = _workContext.CurrentVendor != null;
+                        var isLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
 
                         var previousIsApproved = productReview.IsApproved;
                         //vendor can edit "Reply text" only
@@ -306,7 +308,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             _productService.UpdateProductReviewTotals(productReview.Product);
                         }
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<ProductReview>(HttpStatusCode.OK, productReview);
                         if (continueEditing)
                         {
@@ -344,7 +346,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     if (productReview != null)
                     {
                         //a vendor does not have access to delete functionality
-                        if (_workContext.CurrentVendor != null)
+                        if (_baseService.WorkContext.CurrentVendor != null)
                         {
                             response = request.CreateErrorResponse(HttpStatusCode.BadRequest, "A vendor can not delete his products reviews");
                         }
@@ -358,7 +360,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update product totals
                             _productService.UpdateProductReviewTotals(productReview.Product);
 
-                            _unitOfWork.Commit();
+                            _baseService.Commit();
                             response = request.CreateResponse<ProductReview>(HttpStatusCode.OK, productReview);
                         }
                     }
@@ -381,7 +383,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 else
                 {
                     //a vendor does not have access to this functionality
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                         response = request.CreateErrorResponse(HttpStatusCode.BadRequest, "A vendor can not delete his products reviews");
 
                     else if (selectedIds != null)
@@ -397,7 +399,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             _productService.UpdateProductReviewTotals(product);
                         }
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -419,7 +421,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 else
                 {
                     //a vendor does not have access to this functionality
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                         response = request.CreateErrorResponse(HttpStatusCode.BadRequest, "A vendor can not approve his products reviews");
 
                     else if (selectedIds != null)
@@ -435,7 +437,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             _productService.UpdateProductReviewTotals(productReview.Product);
                         }
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }
@@ -457,7 +459,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 else
                 {
                     //a vendor does not have access to this functionality
-                    if (_workContext.CurrentVendor != null)
+                    if (_baseService.WorkContext.CurrentVendor != null)
                         response = request.CreateErrorResponse(HttpStatusCode.BadRequest, "A vendor can not disapprove his products reviews");
 
                     else if (selectedIds != null)
@@ -473,7 +475,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             _productService.UpdateProductReviewTotals(productReview.Product);
                         }
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse(HttpStatusCode.OK);
                     }
                 }

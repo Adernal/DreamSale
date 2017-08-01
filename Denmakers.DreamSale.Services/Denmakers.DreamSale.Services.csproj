@@ -130,6 +130,7 @@
     <Compile Include="Customers\ICustomerRegistrationService.cs" />
     <Compile Include="Customers\ICustomerReportService.cs" />
     <Compile Include="Customers\ICustomerService.cs" />
+    <Compile Include="IBaseService.cs" />
     <Compile Include="BaseService.cs" />
     <Compile Include="Directory\GeoLookupService.cs" />
     <Compile Include="Directory\IMeasureService.cs" />

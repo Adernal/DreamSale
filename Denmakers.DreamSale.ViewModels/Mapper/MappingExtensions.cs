@@ -87,11 +87,18 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
         #endregion
 
         #region Product Editor Settings
-        //product editor settings
         public static ProductEditorSettingsVM ToModel(this ProductEditorSettings entity)
         {
+            //var newModel = AutoMapperConfiguration.Mapper.Map(entity, typeof(ProductEditorSettings), typeof(ProductEditorSettingsVM));
+            //return (ProductEditorSettingsVM)newModel;
             return entity.MapTo<ProductEditorSettings, ProductEditorSettingsVM>();
         }
+
+        public static ProductEditorSettings ToEntity(this ProductEditorSettingsVM model)
+        {
+            return model.MapTo<ProductEditorSettingsVM, ProductEditorSettings>();
+        }
+
         public static ProductEditorSettings ToEntity(this ProductEditorSettingsVM model, ProductEditorSettings destination)
         {
             return model.MapTo(destination);

@@ -8,6 +8,7 @@ using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.Model.Seo;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
+using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Addresses;
 using Denmakers.DreamSale.Services.Configuration;
 using Denmakers.DreamSale.Services.Customers;
@@ -58,7 +59,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Constructors
 
-        public VendorController(IRepository<Log> log, IUnitOfWork unitOfWork, IWorkContext workContext, IWebHelper webHelper,
+        public VendorController(IBaseService baseService, ILogger logger, IWebHelper webHelper,
             ICustomerService customerService,
             ILocalizationService localizationService,
             IVendorService vendorService,
@@ -73,7 +74,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             ICountryService countryService,
             IStateProvinceService stateProvinceService,
             ISettingService settingService)
-            : base(log, unitOfWork, workContext, webHelper)
+            : base(baseService, logger, webHelper)
         {
             this._customerService = customerService;
             this._localizationService = localizationService;
@@ -340,7 +341,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         //update picture seo file name
                         UpdatePictureSeoNames(vendor);
 
-                        _unitOfWork.Commit();
+                        _baseService.Commit();
                         response = request.CreateResponse<VendorVM>(HttpStatusCode.Created, model);
                         if (continueEditing)
                         {
@@ -437,7 +438,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                             //update picture seo file name
                             UpdatePictureSeoNames(vendor);
 
-                            _unitOfWork.Commit();
+                            _baseService.Commit();
                             response = request.CreateResponse<VendorVM>(HttpStatusCode.OK, model);
                             //SuccessNotification(_localizationService.GetResource("Admin.Vendors.Updated"));
                             if (continueEditing)
@@ -508,7 +509,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                                 //activity log
                                 _customerActivityService.InsertActivity("DeleteVendor", _localizationService.GetResource("ActivityLog.DeleteVendor"), vendor.Id);
                             }
-                            _unitOfWork.Commit();
+                            _baseService.Commit();
                             string uri = Url.Link("VendorList", null);
                             response.Headers.Location = new Uri(uri);
                         }
@@ -593,7 +594,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     vendor.VendorNotes.Add(vendorNote);
                     _vendorService.UpdateVendor(vendor);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK, new { Result = true });
                 }
                 return response;
@@ -621,7 +622,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         throw new ArgumentException("No vendor note found with the specified id");
                     _vendorService.DeleteVendorNote(vendorNote);
 
-                    _unitOfWork.Commit();
+                    _baseService.Commit();
                     response = request.CreateResponse(HttpStatusCode.OK);
                 }
                 return response;

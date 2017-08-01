@@ -8,6 +8,7 @@ using Denmakers.DreamSale.ViewModels.AdminVM.Customers;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.ViewModels.AdminVM.Vendors;
 using Denmakers.DreamSale.Model.Vendors;
+using Denmakers.DreamSale.ViewModels.AdminVM.Settings;
 
 namespace Denmakers.DreamSale.ViewModels.Mapper
 {
@@ -240,6 +241,18 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
                     .ForMember(dest => dest.VendorNotes, mo => mo.Ignore())
                     .ForMember(dest => dest.Deleted, mo => mo.Ignore());
                 #endregion
+
+                #region Settings
+
+                #region Product Editor Settings
+                cfg.CreateMap<ProductEditorSettings, ProductEditorSettingsVM>()
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<ProductEditorSettingsVM, ProductEditorSettings>();
+                #endregion
+
+
+                #endregion
+
             };
             return action;
         }
