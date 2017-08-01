@@ -2,3 +2,8 @@ C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Common\bin\Debug\Denma
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Common\bin\Debug\Denmakers.DreamSale.Common.pdb
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Common\obj\Debug\Denmakers.DreamSale.Common.dll
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Common\obj\Debug\Denmakers.DreamSale.Common.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\bin\Debug\Denmakers.DreamSale.Common.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\bin\Debug\Denmakers.DreamSale.Common.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\obj\Debug\Denmakers.DreamSale.Common.csprojResolveAssemblyReference.cache
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\obj\Debug\Denmakers.DreamSale.Common.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Common\obj\Debug\Denmakers.DreamSale.Common.pdb

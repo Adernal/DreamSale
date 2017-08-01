@@ -42,3 +42,47 @@ C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Services\bin\Debug\Ent
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Services\obj\Debug\Denmakers.DreamSale.Services.csprojResolveAssemblyReference.cache
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Services\obj\Debug\Denmakers.DreamSale.Services.dll
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Services\obj\Debug\Denmakers.DreamSale.Services.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Services.dll.config
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Services.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Services.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Common.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Data.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Helpers.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Model.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\EPPlus.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\ImageResizer.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\ImageResizer.Plugins.PrettyGifs.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\itextsharp.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\MaxMind.Db.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\MaxMind.GeoIP2.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Microsoft.Web.Infrastructure.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Newtonsoft.Json.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Linq.Dynamic.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.Helpers.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.Mvc.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.Razor.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.WebPages.Deployment.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.WebPages.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.WebPages.Razor.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\EntityFramework.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Common.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Data.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Helpers.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Denmakers.DreamSale.Model.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\EPPlus.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\ImageResizer.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\ImageResizer.Plugins.PrettyGifs.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\itextsharp.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\MaxMind.Db.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\MaxMind.GeoIP2.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\Newtonsoft.Json.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.Helpers.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.Mvc.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.Razor.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.WebPages.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.WebPages.Deployment.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\System.Web.WebPages.Razor.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\bin\Debug\EntityFramework.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\obj\Debug\Denmakers.DreamSale.Services.csprojResolveAssemblyReference.cache
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\obj\Debug\Denmakers.DreamSale.Services.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Services\obj\Debug\Denmakers.DreamSale.Services.pdb

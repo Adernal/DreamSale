@@ -10,3 +10,15 @@ C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\bin\Debug\EntityF
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\obj\Debug\Denmakers.DreamSale.Data.csprojResolveAssemblyReference.cache
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\obj\Debug\Denmakers.DreamSale.Data.dll
 C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Data\obj\Debug\Denmakers.DreamSale.Data.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\Denmakers.DreamSale.Data.dll.config
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\Denmakers.DreamSale.Data.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\Denmakers.DreamSale.Data.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\Denmakers.DreamSale.Model.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\EntityFramework.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\Denmakers.DreamSale.Model.pdb
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\EntityFramework.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\obj\Debug\Denmakers.DreamSale.Data.csprojResolveAssemblyReference.cache
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\obj\Debug\Denmakers.DreamSale.Data.dll
+C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Data\obj\Debug\Denmakers.DreamSale.Data.pdb
