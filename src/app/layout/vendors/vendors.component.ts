@@ -7,14 +7,18 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./vendors.component.scss']
 })
 
-/* This is still in development ! Has a bugs ! */
+/* This is still in development ! Has a lot bugs ! */
 export class VendorsComponent implements OnInit {
     @ViewChild('f') vendorForm: NgForm;
     submitted = false;
     vendor = [];
-    vendor_id: Number;
-    vendor_name = '';
-    vendor_description:String;
+    Id: Number;
+    Name = '';
+    Description:string;
+    Email:string;
+    AdminComment:string;
+    Address:string;
+    active:Number;
     editMode = false;
     products;
     filteredvendor='';
@@ -34,18 +38,26 @@ export class VendorsComponent implements OnInit {
         }
         else {
           if (this.vendor.length == 0) {
-                    this.vendor_id = 1;
+                    this.Id = 1;
                 }
                 else {
-                    this.vendor_id = +this.vendor[this.vendor.length - 1].vendor_id + 1;
+                    this.Id = +this.vendor[this.vendor.length - 1].Id + 1;
                 }
-                this.vendor_name = this.vendorForm.value.vendor_name;
-                this.vendor_description = this.vendorForm.value.vendor_description;
+                this.Name = this.vendorForm.value.Name;
+                this.Description = this.vendorForm.value.Description;
+                this.Email = this.vendorForm.value.Email;
+                this.AdminComment = this.vendorForm.value.AdminComment;
+                this.Address = this.vendorForm.value.Address;
+                this.active = this.vendorForm.value.active;
 
             this.vendor.push({
-                'vendor_id': this.vendor_id,
-                'vendor_name': this.vendor_name,
-                'vendor_description':this.vendor_description
+                'Id': this.Id,
+                'Name': this.Name,
+                'Description':this.Description,
+                'Email':this.Email,
+                'AdminComment':this.AdminComment,
+                'Address':this.Address,
+                'Active':this.active
 
             });
             localStorage.setItem("vendors", JSON.stringify(this.vendor));
@@ -57,29 +69,33 @@ export class VendorsComponent implements OnInit {
     }
     editVendor() {
         this.editMode = false;
-        this.vendor_name = this.vendorForm.value.vendor_name;
-        this.vendor[+this.vendor_id].vendor_name = this.vendor_name;
-        this.vendor[+this.vendor_id].vendor_description = this.vendor_description;
+        this.Name = this.vendorForm.value.Name;
+        this.vendor[+this.Id].Name = this.Name;
+        this.vendor[+this.Id].Description = this.Description;
         localStorage.setItem("vendors", JSON.stringify(this.vendor));
         alert("Edited !");
 
     }
     editVendorMode(id: HTMLFormElement) {
         this.editMode = true;
-        this.vendor_id = +id.name;
-        console.log(this.vendor_id);
-        // console.log(this.vendor[1].vendor_name);
-        this.vendor_name = this.vendor[+this.vendor_id].vendor_name;
-        this.vendor_description = this.vendor[+this.vendor_id].vendor_description;
+        this.Id = +id.name;
+        console.log(this.Id);
+        // console.log(this.vendor[1].Name);
+        this.Name = this.vendor[+this.Id].Name;
+        this.Description = this.vendor[+this.Id].Description;
+        this.Email = this.vendor[+this.Id].Email;
+        this.Address = this.vendor[+this.Id].Address;
+        this.active = this.vendor[+this.Id].Active;
+        this.AdminComment = this.vendor[+this.Id].AdminComment;
 
 
     }
     deleteVendor(id:HTMLFormElement){
         var confirmation = confirm("Are you sure you want to delete ?");
       if(confirmation){
-        this.vendor_id = +id.name;
+        this.Id = +id.name;
         this.vendor = JSON.parse(localStorage.getItem("vendors"));
-        this.vendor.splice(+this.vendor_id,1);
+        this.vendor.splice(+this.Id,1);
         localStorage.setItem("vendors",JSON.stringify(this.vendor));
         this.vendorForm.reset();
         if(this.editMode){
