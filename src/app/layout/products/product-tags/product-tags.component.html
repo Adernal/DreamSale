@@ -7,14 +7,14 @@
       <form role="form" (ngSubmit)="addTag(f)" #f="ngForm" class="container">
         <div class="row">
           <div class="col-lg-6">
-            <fieldset class="form-group">
-                <label>Product Tag</label>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Product Tag</label>
                 <input class="form-control" ngModel name="tag_name" required placeholder="Enter Tag Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="tag_name" name="tag_name" required value="{{tag_name}}" *ngIf="editMode">
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
             </fieldset>
-            <fieldset class="form-group">
-              <label>Tag Description</label>
+            <fieldset class="form-group card mb-3">
+              <label class="card-header">Tag Description</label>
               <textarea class="form-control" rows="3"
 
               ngModel
@@ -51,7 +51,8 @@
 
             <div class="card mb-3">
                 <div class="card-header">
-                    Tag List<input type="text" placeholder="Search Tag" [(ngModel)]="filteredTag">
+                    <h2>Tag List</h2>
+                    <input type="text" placeholder="Search Tag" [(ngModel)]="filteredTag" style="width:100%;">
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -60,8 +61,8 @@
                             <th>Tag Id</th>
                             <th>Tag Name</th>
                             <th>Tag Descriptions</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Action</th>
+
 
                         </tr>
                         </thead>
@@ -72,8 +73,8 @@
                           <td>{{tag.tag_name}}</td>
                           <td>{{tag.tag_description}}</td>
 
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editTagMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
-                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteTag(d)" #d><i class="fa fa-edit"></i>Delete</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editTagMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteTag(d)" #d><i class="fa fa-times"></i></button></td>
                         </tr>
 
                         <!-- <tr>

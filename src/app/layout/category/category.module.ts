@@ -13,7 +13,7 @@ import { CategoryService } from './category.service';
     CategoryRoutingModule,
     FormsModule
   ],
-  providers:[CategoryService],
+  providers: [CategoryService],
   declarations: [CategoryComponent, FilterPipe]
 })
 export class CategoryModule { }

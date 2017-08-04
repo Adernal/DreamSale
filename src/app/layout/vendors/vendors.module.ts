@@ -5,6 +5,9 @@ import { VendorsRoutingModule } from './vendors-routing.module';
 import { VendorsComponent } from './vendors.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
+import { FilterPipe } from './filter.pipe';
+
+import { VendorService } from './vendor.service';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { Vendorservice } from './product.service';
@@ -23,7 +26,7 @@ import { FormsModule } from '@angular/forms';
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  //providers:[Vendorservice],
-  declarations: [VendorsComponent]
+  providers:[VendorService],
+  declarations: [VendorsComponent, FilterPipe ]
 })
 export class VendorsModule { }

@@ -7,14 +7,14 @@
       <form role="form" (ngSubmit)="addVendor(f)" #f="ngForm" class="container">
         <div class="row">
           <div class="col-lg-6">
-            <fieldset class="form-group">
-                <label>Vendor</label>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Vendor</label>
                 <input class="form-control" ngModel name="Name" required placeholder="Enter Vendor Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
             </fieldset>
-            <fieldset class="form-group">
-              <label>Vendor Description</label>
+            <fieldset class="form-group card mb-3">
+              <label class="card-header">Vendor Description</label>
                 <textarea class="form-control" rows="3"
 
                 ngModel
@@ -34,15 +34,26 @@
 
                 value="{{Description}}" *ngIf="editMode"></textarea>
           </fieldset>
-          <fieldset class="form-group">
+          <fieldset class="form-group card mb-3">
 
-            <label>Display Order</label>
+            <label class="card-header">Display Order</label>
             <input type="number" class="form-control" ngModel name="Display_Order" required placeholder="Enter Display Order" min="1" step="1"
             *ngIf="!editMode">
             <input type="number" class="form-control" [(ngModel)]="Display_Order" name="Display_Order" required placeholder="Enter Display Order" min="1" step="1"
             *ngIf="editMode">
           </fieldset>
+          <fieldset class="form-group card mb-3">
+  <label class="card-header">Active</label>
+            <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
 
+              <input type="checkbox" class="form-control" ngModel name="Active">
+            </div>
+
+            <div *ngIf="editMode"  class="checkbox" style="float:left; margin:5px;">
+              <input type="checkbox" class="form-control" [(ngModel)]="Active" name="Active">
+            </div>
+
+          </fieldset>
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Vendor</button>
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Vendor</button>
@@ -50,8 +61,8 @@
 
         </div>
         <div class="col-lg-6">
-          <fieldset class="form-group">
-            <label>Email</label>
+          <fieldset class="form-group card mb-3">
+            <label class="card-header">Email</label>
 
             <input type="email" class="form-control" ngModel name="Email" required placeholder="Email" min="1" step="1"
             *ngIf="!editMode">
@@ -60,8 +71,8 @@
 
           </fieldset>
 
-          <fieldset class="form-group">
-            <label>Address</label>
+          <fieldset class="form-group card mb-3">
+            <label class="card-header">Address</label>
 
                         <input type="text" class="form-control" ngModel name="Address" required placeholder="Address" min="1" step="1"
                         *ngIf="!editMode">
@@ -70,8 +81,8 @@
 
 
           </fieldset>
-          <fieldset class="form-group">
-            <label>Admin Comment</label>
+          <fieldset class="form-group card mb-3">
+            <label class="card-header">Admin Comment</label>
             <textarea class="form-control" ngModel name="AdminComment" required placeholder="AdminComment" rows="3"
             *ngIf="!editMode"></textarea>
             <textarea class="form-control" [(ngModel)]="AdminComment" name="AdminComment" required placeholder="AdminComment"
@@ -79,6 +90,7 @@
           </textarea>
 
           </fieldset>
+
 
 
         </div>
@@ -89,35 +101,48 @@
 
 </form>
   </div>
+  </div>
  <hr>
     <div class="row">
 
 
             <div class="card mb-3">
                 <div class="card-header">
-                    Vendor List<input type="text" placeholder="Search vendor" [(ngModel)]="filteredVendor">
+                  <h2>Vendor List</h2>
+                  <input type="text" placeholder="Search By Name or Email" [(ngModel)]="filteredVendor" style="width:100%;">
                 </div>
-                <div class="card-block table-responsive" style="width:100%;">
+                <div class="card-block" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
                         <thead class="thead-inverse">
                         <tr>
                             <th>Vendor Id</th>
-                            <th>Vendor Name</th>
-                            <th>Vendor Descriptions</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Vendor Name   </th>
+                            <th>Vendor Description</th>
+                            <th>Display Order</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Admin Comment</th>
+                            <th>Active</th>
+                            <th>Action</th>
+
 
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index ;let vendor of vendor ">
+                          <tr *ngFor =" let i = index ;let vendor of vendor | filter: filteredVendor: 'Name':'Email'" >
 
-                          <td>{{vendor.vendor_id}}</td>
+                          <td>{{vendor.Id}}</td>
                           <td>{{vendor.Name}}</td>
                           <td>{{vendor.Description}}</td>
+                          <td>{{vendor.DisplayOrder}}</td>
+                          <td>{{vendor.Email}}</td>
+                          <td>{{vendor.Address}}</td>
+                          <td>{{vendor.AdminComment}}</td>
+                          <td *ngIf="vendor.Active">Yes</td>
+                          <td *ngIf="!vendor.Active">No</td>
 
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editVendorMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
-                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteVendor(d)" #d><i class="fa fa-edit"></i>Delete</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editVendorMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteVendor(d)" #d><i class="fa fa-times"></i></button></td>
                         </tr>
 
                         </tbody>
@@ -128,4 +153,3 @@
 
 
     </div>
-</div>

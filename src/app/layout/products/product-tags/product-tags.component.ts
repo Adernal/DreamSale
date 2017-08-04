@@ -12,15 +12,15 @@ export class ProductTagsComponent implements OnInit {
     tag = [];
     tag_id: Number;
     tag_name = '';
-    tag_description:String;
+    tag_description: string;
     editMode = false;
     products;
-    filteredTag='';
+    filteredTag= '';
 
     constructor() { }
 
     ngOnInit() {
-        if(localStorage.getItem("tags")!=null){
+        if (localStorage.getItem('tags') != null) {
         this.tag = JSON.parse(localStorage.getItem("tags"));
 
       }

@@ -97,7 +97,7 @@ select.form-control {
 .col-form-label {
   padding-top: calc(#{$input-padding-y} - #{$input-btn-border-width} * 2);
   padding-bottom: calc(#{$input-padding-y} - #{$input-btn-border-width} * 2);
-  margin-bottom: 0; // Override the `<label>` default
+  margin-bottom: 0; // Override the `<label class="card-header">` default
 }
 
 .col-form-label-lg {
@@ -215,7 +215,7 @@ select.form-control-lg {
 
 .form-check-label {
   padding-left: $form-check-input-gutter;
-  margin-bottom: 0; // Override default `<label>` bottom margin
+  margin-bottom: 0; // Override default `<label class="card-header">` bottom margin
   cursor: pointer;
 }
 

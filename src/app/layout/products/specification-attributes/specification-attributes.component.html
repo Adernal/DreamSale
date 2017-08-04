@@ -7,8 +7,8 @@
       <form role="form" (ngSubmit)="addAttribute(f)" #f="ngForm" class="container">
         <div class="row">
           <div class="col-lg-6">
-            <fieldset class="form-group">
-                <label>Specification Attribute</label>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Specification Attribute</label>
                 <input class="form-control" ngModel name="Name" required placeholder="Enter Attribute Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
@@ -30,7 +30,8 @@
 
             <div class="card mb-3">
                 <div class="card-header">
-                    Attribute List<input type="text" placeholder="Search Attribute" [(ngModel)]="filteredSpecificationAttribute">
+                    <h2>Attribute List</h2>
+                    <input type="text" placeholder="Search Attribute" [(ngModel)]="filteredSpecificationAttribute" style="width:100%;">
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -38,8 +39,8 @@
                         <tr>
                             <th>Attribute Id</th>
                             <th>Attribute Name</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Action</th>
+
 
                         </tr>
                         </thead>
@@ -49,8 +50,8 @@
                           <td>{{attribute.Id}}</td>
                           <td>{{attribute.Name}}</td>
 
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editAttributeMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
-                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteAttribute(d)" #d><i class="fa fa-edit"></i>Delete</button></td>
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editAttributeMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteAttribute(d)" #d><i class="fa fa-times"></i></button></td>
                         </tr>
 
 

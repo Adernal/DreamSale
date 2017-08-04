@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { ImageUploadModule } from '../../node_modules/angular2-image-upload/src/image-upload.module';
+// import { ImageUploadModule } from '../../node_modules/angular-4-data-table/src/image-upload.module';
 
 
 // AoT requires an exported function for factories

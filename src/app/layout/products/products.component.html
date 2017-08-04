@@ -9,8 +9,8 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <fieldset class="form-group">
-                        <label>Product Name</label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Product Name</label>
                         <input class="form-control" ngModel name="product_name" required placeholder="Enter Product Name" *ngIf="!editMode">
                         <!-- <p class="help-block">Example block-level help text here.</p> -->
                         <input class="form-control" [(ngModel)]="product_name" name="product_name" required value="{{product_name}}" *ngIf="editMode">
@@ -19,27 +19,27 @@
 
 
 
-                    <fieldset class="form-group">
-                        <label>Product Description</label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Product Description</label>
                         <textarea class="form-control" rows="3" ngModel name="product_description" required placeholder="Enter Product Description" *ngIf="!editMode"></textarea>
                         <textarea class="form-control" rows="3" [(ngModel)]="product_description" name="product_description" required value="{{product_description}}" *ngIf="editMode"></textarea>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <label>Price</label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Price</label>
                         <input type="number" class="form-control" ngModel name="product_price" required placeholder="Enter Price" *ngIf="!editMode">
                         <input type="number" class="form-control" [(ngModel)]="product_price" name="product_price" required *ngIf="editMode" value="{{product_price}}">
                     </fieldset>
-                    <fieldset class="form-group">
-                        <label>Product Attributes <span style="color:grey;">(Select Multiple)</span></label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Product Attributes <span style="color:grey;">(Select Multiple)</span></label>
                         <select class="form-control" *ngIf="!editMode" ngModel name="prod_attributes" required multiple>
               <option *ngFor="let attribute of product_attribute">
                 {{attribute.Name}}
-              </option>
+              <hr></option>
             </select>
                         <select class="form-control" [(ngModel)]="product_attribute" name="prod_attributes" required *ngIf="editMode" multiple>
               <option *ngFor="let attribute of product_attribute">
                 {{attribute.Name}}
-              </option>
+              <hr></option>
             </select>
                     </fieldset>
 
@@ -50,43 +50,43 @@
 
                 </div>
                 <div class="col-lg-6">
-                    <fieldset class="form-group">
-                        <label>Category</label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Category</label>
                         <select class="form-control" *ngIf="!editMode" ngModel name="category" required size="4">
                           <option *ngFor="let category of categories">
                             {{category.Name}}
-                          </option>
+                          <hr></option>
             </select>
                         <select class="form-control" [(ngModel)]="category" name="category" required *ngIf="editMode" size="4">
                           <option *ngFor="let category of categories">
                             {{category.Name}}
-                          </option>
+                          <hr></option>
             </select>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <label>Product Tags <span style="color:grey;">(Select Multiple)</span></label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Product Tags <span style="color:grey;">(Select Multiple)</span></label>
                         <select class="form-control" *ngIf="!editMode" ngModel name="tag_name" required multiple>
               <option *ngFor="let tag of tags">
                 {{tag.tag_name}}
-              </option>
+              <hr></option>
             </select>
                         <select class="form-control" [(ngModel)]="tag" name="tag_name" required *ngIf="editMode" multiple>
               <option *ngFor="let tag of tags">
                 {{tag.tag_name}}
-              </option>
+              <hr></option>
             </select>
                     </fieldset>
-                    <fieldset class="form-group">
-                        <label>Specification Attributes <span style="color:grey;">(Select Multiple)</span></label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Specification Attributes <span style="color:grey;">(Select Multiple)</span></label>
                         <select class="form-control" *ngIf="!editMode" ngModel name="spec_attributes" required multiple>
               <option *ngFor="let attribute of specification_attribute">
                 {{attribute.Name}}
-              </option>
+              <hr></option>
             </select>
                         <select class="form-control" [(ngModel)]="specification_attribute" name="spec_attributes" required *ngIf="editMode" multiple>
               <option *ngFor="let attribute of specification_attribute">
                 {{attribute.Name}}
-              </option>
+              <hr></option>
             </select>
                     </fieldset>
 
@@ -100,85 +100,73 @@
 
     </div>
 </div>
-    <hr>
-    <div class="row">
+<hr>
+<div class="row">
 
 
-        <div class="card mb-3">
-            <div class="card-header">
-                Product List <input type="text" placeholder="Search Product" [(ngModel)]="filteredProduct">
-            </div>
-            <div class="card-block table-responsive" style="width:100%;">
-                <table class="table table-bordered table-hover" style="table-layout:fixed">
-                    <thead class="thead-inverse">
-                        <tr>
-                            <th>Product ID</th>
-                            <th>Product Name</th>
-                            <th>Product Description</th>
-                            <th>Price</th>
-                            <th>Product Category</th>
-                            <th>Tags</th>
-                            <th>Product Attributes</th>
-                            <th>Specification Attributes</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let i = index ;let product of product | filter: filteredProduct:'product_name'">
-                            <td>{{product.product_id}}</td>
-                            <td>{{product.product_name}}</td>
-                            <td>{{product.product_description}}</td>
-                            <td>{{product.product_price}}</td>
-                            <td>{{product.category}}</td>
-                            <td >
-                                <ul>
-                                    <li *ngFor="let t of product.tag" style="list-style:none;">
-                                    {{t}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td >
-                                <ul>
-                                    <li *ngFor="let a of product.product_attributes" style="list-style:none;">
-                                    {{a}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td >
-                                <ul>
-                                    <li *ngFor="let j of product.specification_attributes" style="list-style:none;">
-                                    {{j}}
-                                    </li>
-                                </ul>
-                            </td>
-                            <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i>Edit</button></td>
-                            <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times">Delete</i></button></td>
-                        </tr>
-                        <!-- <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr> -->
-                    </tbody>
-                </table>
-            </div>
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>Product List </h2>
+            <input type="text" placeholder="Search by Product Name or Category" [(ngModel)]="filteredProduct" style="width:100%;">
         </div>
+        <div class="card-block table-responsive" style="width:100%;">
+            <table class="table table-bordered table-hover" style="table-layout:fixed">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Product Description</th>
+                        <th>Price</th>
+                        <th>Product Category</th>
+                        <th>Tags</th>
+                        <th>Product Attributes</th>
+                        <th>Specification Attributes</th>
+                        <th>Action</th>
 
 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'product_name':'category'">
+                        <td>{{product.product_id}}</td>
+                        <td>{{product.product_name}}</td>
+                        <td>{{product.product_description}}</td>
+                        <td>{{product.product_price}}</td>
+                        <td>{{product.category}}</td>
+                        <td>
+                            <select>
+                                <option *ngFor="let t of product.tag" style="list-style:none;">
+                                    {{t}}
 
+                                <hr></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select>
+                                <option *ngFor="let rowIndex = index;let a of product.product_attributes" style="list-style:none;">
+                                    <a style="cursor:pointer" (click)="editProductAttribute()">{{a}}</a>
+
+
+                                <hr></option>
+                            </select>
+                        </td>
+                        <td>
+                            <select>
+                                <option *ngFor="let j of product.specification_attributes" style="list-style:none;">
+                                    {{j}}
+
+                                <hr></option>
+                            </select>
+                        </td>
+                        <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i></button>
+                            <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
     </div>
+
+
+
+</div>

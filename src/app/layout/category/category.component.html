@@ -7,16 +7,16 @@
       <form role="form" (ngSubmit)="addCategory(f)" #f="ngForm" class="container">
         <div class="row">
           <div class="col-lg-6">
-            <fieldset class="form-group">
-                <label>Category Name</label>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Category Name</label>
                 <input class="form-control" ngModel name="Name" required placeholder="Enter Category Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
             </fieldset>
 
 
-            <fieldset class="form-group">
-              <label>Category Description</label>
+            <fieldset class="form-group card mb-3">
+              <label class="card-header">Category Description</label>
               <textarea class="form-control" rows="3"
 
               ngModel
@@ -37,11 +37,11 @@
               value="{{Description}}" *ngIf="editMode"></textarea>
           </fieldset>
 
-          <fieldset class="form-group">
-            <label>Display Order</label>
-            <input type="number" class="form-control" ngModel name="Display_Order" required placeholder="Enter Display Order" min="1" step="1"
+          <fieldset class="form-group card mb-3">
+            <label class="card-header">Display Order</label>
+            <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
             *ngIf="!editMode">
-            <input type="number" class="form-control" [(ngModel)]="Display_Order" name="Display_Order" required placeholder="Enter Display Order" min="1" step="1"
+            <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
             *ngIf="editMode">
         </fieldset>
 
@@ -62,7 +62,8 @@
 
             <div class="card mb-3">
                 <div class="card-header">
-                    Category List <input type="text" placeholder="Search Category" [(ngModel)]="filteredCategory">
+                    <h2>Category List</h2>
+                    <input type="text" placeholder="Search Category" [(ngModel)]="filteredCategory" style="width:100%">
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -72,8 +73,8 @@
                             <th>Catgory Name</th>
                             <th>Category Description</th>
                             <th>Display Order</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
+                            <th>Action</th>
+
 
 
                         </tr>
@@ -84,9 +85,9 @@
                           <td>{{category.Id}}</td>
                           <td>{{category.Name}}</td>
                           <td>{{category.Description}}</td>
-                          <td>{{category.Display_Order}}</td>
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
-                          <td><button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCategory(d)" #d><i class="fa fa-delete"></i>Delete</button></td>
+                          <td>{{category.DisplayOrder}}</td>
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCategory(d)" #d><i class="fa fa-times"></i></button></td>
 
                         </tr>
 

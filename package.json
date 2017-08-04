@@ -25,6 +25,7 @@
         "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.26",
         "@ngx-translate/core": "^7.0.0",
         "@ngx-translate/http-loader": "^0.1.0",
+        "angular-4-data-table": "^0.2.3",
         "angular2-image-upload": "^0.6.6",
         "core-js": "^2.4.1",
         "font-awesome": "^4.7.0",
