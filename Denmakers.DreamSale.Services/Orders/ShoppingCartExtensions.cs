@@ -98,5 +98,36 @@ namespace Denmakers.DreamSale.Services.Orders
 
             return "";
         }
+
+        /// <summary>
+        /// Gets a value indicating whether shopping cart is recurring
+        /// </summary>
+        /// <param name="shoppingCart">Shopping cart</param>
+        /// <returns>Result</returns>
+        public static bool IsRecurring(this IList<ShoppingCartItem> shoppingCart)
+        {
+            foreach (ShoppingCartItem sci in shoppingCart)
+            {
+                var product = sci.Product;
+                if (product != null && product.IsRecurring)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Gets a number of product in the cart
+        /// </summary>
+        /// <param name="shoppingCart">Shopping cart</param>
+        /// <returns>Result</returns>
+        public static int GetTotalProducts(this IList<ShoppingCartItem> shoppingCart)
+        {
+            int result = 0;
+            foreach (ShoppingCartItem sci in shoppingCart)
+            {
+                result += sci.Quantity;
+            }
+            return result;
+        }
     }
 }

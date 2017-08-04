@@ -37,13 +37,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDomainTypeFinder.cs" />
     <Compile Include="CommonHelper.cs" />
     <Compile Include="DreamSaleException.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IPagedList.cs" />
+    <Compile Include="ITypeFinder.cs" />
     <Compile Include="MimeTypes.cs" />
     <Compile Include="PagedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebAppTypeFinder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

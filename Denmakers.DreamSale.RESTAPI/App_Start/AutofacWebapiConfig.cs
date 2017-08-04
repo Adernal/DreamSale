@@ -24,6 +24,7 @@ using Denmakers.DreamSale.Services.Addresses;
 using Denmakers.DreamSale.Services.Logging;
 using Denmakers.DreamSale.Services.Products;
 using Denmakers.DreamSale.Services.Helpers;
+using Denmakers.DreamSale.Common;
 
 namespace Denmakers.DreamSale.RESTAPI
 {
@@ -49,6 +50,10 @@ namespace Denmakers.DreamSale.RESTAPI
         {
             //builder.RegisterControllers(Assembly.GetExecutingAssembly()); //Register MVC Controllers
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()); //Register WebApi Controllers
+
+            //type finder
+            var typeFinder = new WebAppTypeFinder();
+            builder.RegisterInstance(typeFinder).As<ITypeFinder>().SingleInstance();
 
             // EF DbContext
             builder.RegisterGeneric(typeof(EfRepository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();

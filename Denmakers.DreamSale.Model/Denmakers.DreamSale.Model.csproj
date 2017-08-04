@@ -210,6 +210,7 @@
     <Compile Include="Orders\ShoppingCartType.cs" />
     <Compile Include="Payments\PaymentSettings.cs" />
     <Compile Include="Payments\PaymentStatus.cs" />
+    <Compile Include="Pickup\StorePickupPoint.cs" />
     <Compile Include="Polls\Poll.cs" />
     <Compile Include="Polls\PollAnswer.cs" />
     <Compile Include="Polls\PollVotingRecord.cs" />

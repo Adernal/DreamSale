@@ -1,4 +1,5 @@
-﻿using Denmakers.DreamSale.Model.Customers;
+﻿using Denmakers.DreamSale.Model.Common;
+using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Services.Attributes;
 using System;
 using System.Collections.Generic;

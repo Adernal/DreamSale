@@ -1,8 +1,0 @@
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Model\bin\Release\Denmakers.DreamSale.Model.dll
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Model\bin\Release\Denmakers.DreamSale.Model.pdb
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Model\obj\Release\Denmakers.DreamSale.Model.dll
-C:\Users\sandeepd492\Downloads\Shopping Cart\DreamSale\Denmakers.DreamSale.RESTService\Denmakers.DreamSale.Model\obj\Release\Denmakers.DreamSale.Model.pdb
-C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\bin\Release\Denmakers.DreamSale.Model.dll
-C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\bin\Release\Denmakers.DreamSale.Model.pdb
-C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\obj\Release\Denmakers.DreamSale.Model.dll
-C:\project\DreamSale\Source\DreamSale\Denmakers.DreamSale.Model\obj\Release\Denmakers.DreamSale.Model.pdb

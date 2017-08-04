@@ -2,12 +2,16 @@
 using Denmakers.DreamSale.Model.Common;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Logging;
+using Denmakers.DreamSale.Model.Orders;
+using Denmakers.DreamSale.Model.Shipping;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.Services.Addresses;
 using Denmakers.DreamSale.ViewModels.AdminVM.Addresses;
 using Denmakers.DreamSale.ViewModels.AdminVM.Catalog;
+using Denmakers.DreamSale.ViewModels.AdminVM.Common;
 using Denmakers.DreamSale.ViewModels.AdminVM.Customers;
 using Denmakers.DreamSale.ViewModels.AdminVM.Logging;
+using Denmakers.DreamSale.ViewModels.AdminVM.Orders;
 using Denmakers.DreamSale.ViewModels.AdminVM.Settings;
 using Denmakers.DreamSale.ViewModels.AdminVM.Vendors;
 using System;
@@ -86,25 +90,6 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
 
         #endregion
 
-        #region Product Editor Settings
-        public static ProductEditorSettingsVM ToModel(this ProductEditorSettings entity)
-        {
-            //var newModel = AutoMapperConfiguration.Mapper.Map(entity, typeof(ProductEditorSettings), typeof(ProductEditorSettingsVM));
-            //return (ProductEditorSettingsVM)newModel;
-            return entity.MapTo<ProductEditorSettings, ProductEditorSettingsVM>();
-        }
-
-        public static ProductEditorSettings ToEntity(this ProductEditorSettingsVM model)
-        {
-            return model.MapTo<ProductEditorSettingsVM, ProductEditorSettings>();
-        }
-
-        public static ProductEditorSettings ToEntity(this ProductEditorSettingsVM model, ProductEditorSettings destination)
-        {
-            return model.MapTo(destination);
-        }
-        #endregion
-
         #region Product attributes
 
         public static ProductAttributeVM ToModel(this ProductAttribute entity)
@@ -157,6 +142,62 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
         {
             return model.MapTo(destination);
         }
+        #endregion
+
+        #region Checkout attributes
+
+        //attributes
+        public static CheckoutAttributeVM ToModel(this CheckoutAttribute entity)
+        {
+            return entity.MapTo<CheckoutAttribute, CheckoutAttributeVM>();
+        }
+
+        public static CheckoutAttribute ToEntity(this CheckoutAttributeVM model)
+        {
+            return model.MapTo<CheckoutAttributeVM, CheckoutAttribute>();
+        }
+
+        public static CheckoutAttribute ToEntity(this CheckoutAttributeVM model, CheckoutAttribute destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Customer attributes
+        public static CustomerAttributeVM ToModel(this CustomerAttribute entity)
+        {
+            return entity.MapTo<CustomerAttribute, CustomerAttributeVM>();
+        }
+
+        public static CustomerAttribute ToEntity(this CustomerAttributeVM model)
+        {
+            return model.MapTo<CustomerAttributeVM, CustomerAttribute>();
+        }
+
+        public static CustomerAttribute ToEntity(this CustomerAttributeVM model, CustomerAttribute destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Address attributes
+        public static AddressAttributeVM ToModel(this AddressAttribute entity)
+        {
+            return entity.MapTo<AddressAttribute, AddressAttributeVM>();
+        }
+
+        public static AddressAttribute ToEntity(this AddressAttributeVM model)
+        {
+            return model.MapTo<AddressAttributeVM, AddressAttribute>();
+        }
+
+        public static AddressAttribute ToEntity(this AddressAttributeVM model, AddressAttribute destination)
+        {
+            return model.MapTo(destination);
+        }
+
         #endregion
 
         #region Log
@@ -332,6 +373,64 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
         }
 
         public static Vendor ToEntity(this VendorVM model, Vendor destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Settings
+
+        #region Product Editor Settings
+        public static ProductEditorSettingsVM ToModel(this ProductEditorSettings entity)
+        {
+            //var newModel = AutoMapperConfiguration.Mapper.Map(entity, typeof(ProductEditorSettings), typeof(ProductEditorSettingsVM));
+            //return (ProductEditorSettingsVM)newModel;
+            return entity.MapTo<ProductEditorSettings, ProductEditorSettingsVM>();
+        }
+
+        public static ProductEditorSettings ToEntity(this ProductEditorSettingsVM model)
+        {
+            return model.MapTo<ProductEditorSettingsVM, ProductEditorSettings>();
+        }
+
+        public static ProductEditorSettings ToEntity(this ProductEditorSettingsVM model, ProductEditorSettings destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+        public static ShippingSettingsVM ToModel(this ShippingSettings entity)
+        {
+            return entity.MapTo<ShippingSettings, ShippingSettingsVM>();
+        }
+        public static ShippingSettings ToEntity(this ShippingSettingsVM model, ShippingSettings destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        public static VendorSettingsVM ToModel(this VendorSettings entity)
+        {
+            return entity.MapTo<VendorSettings, VendorSettingsVM>();
+        }
+        public static VendorSettings ToEntity(this VendorSettingsVM model, VendorSettings destination)
+        {
+            return model.MapTo(destination);
+        }
+        #endregion
+
+        #region Return request reason
+
+        public static ReturnRequestReasonVM ToModel(this ReturnRequestReason entity)
+        {
+            return entity.MapTo<ReturnRequestReason, ReturnRequestReasonVM>();
+        }
+
+        public static ReturnRequestReason ToEntity(this ReturnRequestReasonVM model)
+        {
+            return model.MapTo<ReturnRequestReasonVM, ReturnRequestReason>();
+        }
+
+        public static ReturnRequestReason ToEntity(this ReturnRequestReasonVM model, ReturnRequestReason destination)
         {
             return model.MapTo(destination);
         }

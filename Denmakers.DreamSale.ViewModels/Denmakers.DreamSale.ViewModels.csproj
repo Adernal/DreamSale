@@ -101,9 +101,11 @@
     <Compile Include="AdminVM\Catalog\ProductVM.cs" />
     <Compile Include="AdminVM\Catalog\SpecificationAttributeOptionVM.cs" />
     <Compile Include="AdminVM\Catalog\SpecificationAttributeVM.cs" />
+    <Compile Include="AdminVM\Common\AddressAttributeVM.cs" />
     <Compile Include="AdminVM\Customers\BestCustomerReportLineVM.cs" />
     <Compile Include="AdminVM\Customers\BestCustomersReportVM.cs" />
     <Compile Include="AdminVM\Customers\CustomerAddressVM.cs" />
+    <Compile Include="AdminVM\Customers\CustomerAttributeVM.cs" />
     <Compile Include="AdminVM\Customers\CustomerListVM.cs" />
     <Compile Include="AdminVM\Customers\CustomerReportsVM.cs" />
     <Compile Include="AdminVM\Customers\CustomerRoleVM.cs" />
@@ -113,10 +115,23 @@
     <Compile Include="AdminVM\Logging\ActivityLogTypeVM.cs" />
     <Compile Include="AdminVM\Logging\ActivityLogVM.cs" />
     <Compile Include="AdminVM\Logging\LogVM.cs" />
+    <Compile Include="AdminVM\Orders\BestsellersReportLineVM.cs" />
+    <Compile Include="AdminVM\Orders\BestsellersReportVM.cs" />
+    <Compile Include="AdminVM\Orders\CheckoutAttributeVM.cs" />
+    <Compile Include="AdminVM\Orders\NeverSoldReportLineVM.cs" />
+    <Compile Include="AdminVM\Orders\NeverSoldReportVM.cs" />
+    <Compile Include="AdminVM\Orders\OrderAddressVM.cs" />
+    <Compile Include="AdminVM\Orders\OrderAverageReportLineSummaryVM.cs" />
+    <Compile Include="AdminVM\Orders\OrderIncompleteReportLineVM.cs" />
+    <Compile Include="AdminVM\Orders\OrderListVM.cs" />
     <Compile Include="AdminVM\Orders\OrderVM.cs" />
     <Compile Include="AdminVM\Settings\ProductEditorSettingsVM.cs" />
+    <Compile Include="AdminVM\Settings\ReturnRequestReasonVM.cs" />
     <Compile Include="AdminVM\Settings\SettingVM.cs" />
+    <Compile Include="AdminVM\Settings\ShippingSettingsVM.cs" />
+    <Compile Include="AdminVM\Settings\VendorSettingsVM.cs" />
     <Compile Include="AdminVM\ShoppingCart\ShoppingCartItemVM.cs" />
+    <Compile Include="AdminVM\ShoppingCart\ShoppingCartVM.cs" />
     <Compile Include="AdminVM\Vendors\VendorVM.cs" />
     <Compile Include="Mapper\AdminMapperConfiguration.cs" />
     <Compile Include="Mapper\AutoMapperConfiguration.cs" />
@@ -134,22 +149,28 @@
     <Compile Include="Validators\Catalog\ProductValidator.cs" />
     <Compile Include="Validators\Catalog\SpecificationAttributeOptionValidator.cs" />
     <Compile Include="Validators\Catalog\SpecificationAttributeValidator.cs" />
+    <Compile Include="Validators\Addresses\AddressAttributeValidator.cs" />
     <Compile Include="Validators\Core\BaseValidator.cs" />
     <Compile Include="Validators\Core\CreditCardPropertyValidator.cs" />
     <Compile Include="Validators\Core\DecimalPropertyValidator.cs" />
     <Compile Include="Validators\Core\ValidatorExtensions.cs" />
     <Compile Include="Validators\Core\ValidatorUtilities.cs" />
+    <Compile Include="Validators\Customers\CustomerAttributeValidator.cs" />
     <Compile Include="Validators\Customers\CustomerRoleValidator.cs" />
     <Compile Include="Validators\Customers\CustomerValidator.cs" />
+    <Compile Include="Validators\Orders\CheckoutAttributeValidator.cs" />
+    <Compile Include="Validators\Settings\ReturnRequestReasonValidator.cs" />
     <Compile Include="Validators\Settings\SettingValidator.cs" />
     <Compile Include="Validators\Vendors\VendorListVM.cs" />
     <Compile Include="Validators\Vendors\VendorValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NonAdminVM\" />
+    <Folder Include="Validators\Common\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Denmakers.DreamSale.Data\Denmakers.DreamSale.Data.csproj">

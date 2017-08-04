@@ -9,6 +9,10 @@ using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.ViewModels.AdminVM.Vendors;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.ViewModels.AdminVM.Settings;
+using Denmakers.DreamSale.Model.Shipping;
+using Denmakers.DreamSale.Model.Orders;
+using Denmakers.DreamSale.ViewModels.AdminVM.Orders;
+using Denmakers.DreamSale.ViewModels.AdminVM.Common;
 
 namespace Denmakers.DreamSale.ViewModels.Mapper
 {
@@ -176,6 +180,33 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
                     .ForMember(dest => dest.SpecificationAttribute, mo => mo.Ignore());
                 #endregion
 
+                #region checkout attributes
+                cfg.CreateMap<CheckoutAttribute, CheckoutAttributeVM>()
+                    .ForMember(dest => dest.AvailableTaxCategories, mo => mo.Ignore())
+                    .ForMember(dest => dest.AttributeControlTypeName, mo => mo.Ignore())
+                    .ForMember(dest => dest.Locales, mo => mo.Ignore())
+                    .ForMember(dest => dest.AvailableStores, mo => mo.Ignore())
+                    .ForMember(dest => dest.SelectedStoreIds, mo => mo.Ignore())
+                    .ForMember(dest => dest.ConditionAllowed, mo => mo.Ignore())
+                    .ForMember(dest => dest.ConditionVM, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<CheckoutAttributeVM, CheckoutAttribute>()
+                    .ForMember(dest => dest.AttributeControlType, mo => mo.Ignore())
+                    .ForMember(dest => dest.ConditionAttributeXml, mo => mo.Ignore())
+                    .ForMember(dest => dest.CheckoutAttributeValues, mo => mo.Ignore())
+                    .ForMember(dest => dest.LimitedToStores, mo => mo.Ignore());
+                #endregion
+
+                #region customer attributes
+                cfg.CreateMap<CustomerAttribute, CustomerAttributeVM>()
+                   .ForMember(dest => dest.AttributeControlTypeName, mo => mo.Ignore())
+                   .ForMember(dest => dest.Locales, mo => mo.Ignore())
+                   .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<CustomerAttributeVM, CustomerAttribute>()
+                    .ForMember(dest => dest.AttributeControlType, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomerAttributeValues, mo => mo.Ignore());
+                #endregion
+
                 #region Address
                 //address
                 cfg.CreateMap<Address, AddressVM>()
@@ -220,6 +251,16 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
 
                 #endregion
 
+                #region address attributes
+                cfg.CreateMap<AddressAttribute, AddressAttributeVM>()
+                    .ForMember(dest => dest.AttributeControlTypeName, mo => mo.Ignore())
+                    .ForMember(dest => dest.Locales, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<AddressAttributeVM, AddressAttribute>()
+                    .ForMember(dest => dest.AttributeControlType, mo => mo.Ignore())
+                    .ForMember(dest => dest.AddressAttributeValues, mo => mo.Ignore());
+                #endregion
+
                 #region Customer Roles
                 //customer roles
                 cfg.CreateMap<CustomerRole, CustomerRoleVM>()
@@ -250,7 +291,60 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
                 cfg.CreateMap<ProductEditorSettingsVM, ProductEditorSettings>();
                 #endregion
 
+                #region VendorSettings
+                cfg.CreateMap<VendorSettings, VendorSettingsVM>()
+                    .ForMember(dest => dest.ActiveStoreScopeConfiguration, mo => mo.Ignore())
+                    .ForMember(dest => dest.VendorsBlockItemsToDisplay_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.ShowVendorOnProductDetailsPage_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.AllowCustomersToContactVendors_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.AllowCustomersToApplyForVendorAccount_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.AllowSearchByVendor_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.AllowVendorsToEditInfo_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.NotifyStoreOwnerAboutVendorInformationChange_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore())
+                    .ForMember(dest => dest.MaximumProductNumber_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.AllowVendorsToImportProducts_OverrideForStore, mo => mo.Ignore());
+                cfg.CreateMap<VendorSettingsVM, VendorSettings>()
+                    .ForMember(dest => dest.DefaultVendorPageSizeOptions, mo => mo.Ignore());
 
+                #endregion
+
+                #region Shippings
+                cfg.CreateMap<ShippingSettings, ShippingSettingsVM>()
+                    .ForMember(dest => dest.ShippingOriginAddress, mo => mo.Ignore())
+                    .ForMember(dest => dest.ActiveStoreScopeConfiguration, mo => mo.Ignore())
+                    .ForMember(dest => dest.AllowPickUpInStore_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.ShipToSameAddress_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.DisplayPickupPointsOnMap_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.GoogleMapsApiKey_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.UseWarehouseLocation_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.NotifyCustomerAboutShippingFromMultipleLocations_OverrideForStore,
+                        mo => mo.Ignore())
+                    .ForMember(dest => dest.FreeShippingOverXEnabled_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.FreeShippingOverXValue_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.FreeShippingOverXIncludingTax_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.EstimateShippingEnabled_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.DisplayShipmentEventsToCustomers_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.DisplayShipmentEventsToStoreOwner_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.HideShippingTotal_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.BypassShippingMethodSelectionIfOnlyOne_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.ConsiderAssociatedProductsDimensions_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.ShippingOriginAddress_OverrideForStore, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<ShippingSettingsVM, ShippingSettings>()
+                    .ForMember(dest => dest.ActiveShippingRateComputationMethodSystemNames, mo => mo.Ignore())
+                    .ForMember(dest => dest.ActivePickupPointProviderSystemNames, mo => mo.Ignore())
+                    .ForMember(dest => dest.ReturnValidOptionsIfThereAreAny, mo => mo.Ignore())
+                    .ForMember(dest => dest.UseCubeRootMethod, mo => mo.Ignore());
+                #endregion
+
+                #endregion
+
+                #region Return request reason
+                cfg.CreateMap<ReturnRequestReason, ReturnRequestReasonVM>()
+                    .ForMember(dest => dest.Locales, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<ReturnRequestReasonVM, ReturnRequestReason>();
                 #endregion
 
             };
