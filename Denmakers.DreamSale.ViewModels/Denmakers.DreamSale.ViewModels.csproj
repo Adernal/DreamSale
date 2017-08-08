@@ -114,7 +114,11 @@
     <Compile Include="AdminVM\Customers\RegisteredCustomerReportLineVM.cs" />
     <Compile Include="AdminVM\Logging\ActivityLogTypeVM.cs" />
     <Compile Include="AdminVM\Logging\ActivityLogVM.cs" />
+    <Compile Include="AdminVM\Logging\LogListVM.cs" />
     <Compile Include="AdminVM\Logging\LogVM.cs" />
+    <Compile Include="AdminVM\Messages\EmailAccountVM.cs" />
+    <Compile Include="AdminVM\Messages\QueuedEmailListVM.cs" />
+    <Compile Include="AdminVM\Messages\QueuedEmailVM.cs" />
     <Compile Include="AdminVM\Orders\BestsellersReportLineVM.cs" />
     <Compile Include="AdminVM\Orders\BestsellersReportVM.cs" />
     <Compile Include="AdminVM\Orders\CheckoutAttributeVM.cs" />
@@ -125,6 +129,10 @@
     <Compile Include="AdminVM\Orders\OrderIncompleteReportLineVM.cs" />
     <Compile Include="AdminVM\Orders\OrderListVM.cs" />
     <Compile Include="AdminVM\Orders\OrderVM.cs" />
+    <Compile Include="AdminVM\Orders\ReturnRequestListVM.cs" />
+    <Compile Include="AdminVM\Orders\ReturnRequestVM.cs" />
+    <Compile Include="AdminVM\Security\PermissionMappingVM.cs" />
+    <Compile Include="AdminVM\Security\PermissionRecordVM.cs" />
     <Compile Include="AdminVM\Settings\ProductEditorSettingsVM.cs" />
     <Compile Include="AdminVM\Settings\ReturnRequestReasonVM.cs" />
     <Compile Include="AdminVM\Settings\SettingVM.cs" />
@@ -132,6 +140,7 @@
     <Compile Include="AdminVM\Settings\VendorSettingsVM.cs" />
     <Compile Include="AdminVM\ShoppingCart\ShoppingCartItemVM.cs" />
     <Compile Include="AdminVM\ShoppingCart\ShoppingCartVM.cs" />
+    <Compile Include="AdminVM\Stores\StoreVM.cs" />
     <Compile Include="AdminVM\Vendors\VendorVM.cs" />
     <Compile Include="Mapper\AdminMapperConfiguration.cs" />
     <Compile Include="Mapper\AutoMapperConfiguration.cs" />
@@ -158,9 +167,13 @@
     <Compile Include="Validators\Customers\CustomerAttributeValidator.cs" />
     <Compile Include="Validators\Customers\CustomerRoleValidator.cs" />
     <Compile Include="Validators\Customers\CustomerValidator.cs" />
+    <Compile Include="Validators\Messages\EmailAccountValidator.cs" />
+    <Compile Include="Validators\Messages\QueuedEmailValidator.cs" />
     <Compile Include="Validators\Orders\CheckoutAttributeValidator.cs" />
+    <Compile Include="Validators\Orders\ReturnRequestValidator.cs" />
     <Compile Include="Validators\Settings\ReturnRequestReasonValidator.cs" />
     <Compile Include="Validators\Settings\SettingValidator.cs" />
+    <Compile Include="Validators\Stores\StoreValidator.cs" />
     <Compile Include="Validators\Vendors\VendorListVM.cs" />
     <Compile Include="Validators\Vendors\VendorValidator.cs" />
   </ItemGroup>

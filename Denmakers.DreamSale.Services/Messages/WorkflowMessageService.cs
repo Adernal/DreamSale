@@ -7,9 +7,14 @@ using Denmakers.DreamSale.Model.Common;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Messages;
 using Denmakers.DreamSale.Model.News;
+using Denmakers.DreamSale.Model.Orders;
+using Denmakers.DreamSale.Model.Shipping;
 using Denmakers.DreamSale.Model.Vendors;
+using Denmakers.DreamSale.Services.Attributes;
 using Denmakers.DreamSale.Services.Configuration;
+using Denmakers.DreamSale.Services.Customers;
 using Denmakers.DreamSale.Services.Localization;
+using Denmakers.DreamSale.Services.Products;
 using Denmakers.DreamSale.Services.Stores;
 using System;
 using System.Collections.Generic;
@@ -24,12 +29,11 @@ namespace Denmakers.DreamSale.Services.Messages
     {
         #region Fields
         private readonly ISettingService _settingService;
-        protected readonly IUnitOfWork _unitOfWork;
         private readonly IMessageTemplateService _messageTemplateService;
-        //private readonly IQueuedEmailService _queuedEmailService;
+        private readonly IQueuedEmailService _queuedEmailService;
         private readonly ILanguageService _languageService;
         private readonly ITokenizer _tokenizer;
-        //private readonly IEmailAccountService _emailAccountService;
+        private readonly IEmailAccountService _emailAccountService;
         private readonly IMessageTokenProvider _messageTokenProvider;
         private readonly IStoreService _storeService;
         private readonly IStoreContext _storeContext;
@@ -37,33 +41,39 @@ namespace Denmakers.DreamSale.Services.Messages
         private readonly EmailAccountSettings _emailAccountSettings;
         private readonly HttpContextBase _httpContext;
         private readonly ILocalizedEntityService _localizedEntityService;
+        private readonly IGenericAttributeService _genericAttributeService;
+        private readonly IProductAttributeFormatter _productAttributeFormatter;
         #endregion
 
         #region Ctor
 
         public WorkflowMessageService(IMessageTemplateService messageTemplateService,
-            //IQueuedEmailService queuedEmailService,
+            IQueuedEmailService queuedEmailService,
             ILanguageService languageService,
             ITokenizer tokenizer,
-            //IEmailAccountService emailAccountService,
+            IEmailAccountService emailAccountService,
             IMessageTokenProvider messageTokenProvider,
             IStoreService storeService,
             IStoreContext storeContext,
             ISettingService settingService,
-            //IUnitOfWork unitOfWork,
+            IGenericAttributeService genericAttributeService,
             HttpContextBase httpContext,
-            ILocalizedEntityService localizedEntityService)
+            ILocalizedEntityService localizedEntityService,
+            IProductAttributeFormatter productAttributeFormatter
+            )
         {
             this._messageTemplateService = messageTemplateService;
             this._languageService = languageService;
             this._localizedEntityService = localizedEntityService;
-            //this._queuedEmailService = queuedEmailService;
+            this._queuedEmailService = queuedEmailService;
             this._tokenizer = tokenizer;
-            //this._emailAccountService = emailAccountService;
+            this._emailAccountService = emailAccountService;
             this._messageTokenProvider = messageTokenProvider;
             this._storeService = storeService;
             this._storeContext = storeContext;
             //this._unitOfWork = unitOfWork;
+            this._genericAttributeService = genericAttributeService;
+            this._productAttributeFormatter = productAttributeFormatter;
             this._settingService = settingService;
             this._commonSettings = _settingService.LoadSetting<CommonSettings>();
             this._emailAccountSettings = _settingService.LoadSetting<EmailAccountSettings>();
@@ -130,7 +140,6 @@ namespace Denmakers.DreamSale.Services.Messages
 
         #endregion
 
-        /*
         #region Methods
 
         #region Customer workflow
@@ -143,29 +152,29 @@ namespace Denmakers.DreamSale.Services.Messages
         /// <returns>Queued email identifier</returns>
         public virtual int SendCustomerRegisteredNotificationMessage(Customer customer, int languageId)
         {
-            //if (customer == null)
-            //    throw new ArgumentNullException("customer");
+            if (customer == null)
+                throw new ArgumentNullException("customer");
 
-            //var store = _storeContext.CurrentStore;
-            //languageId = EnsureLanguageIsActive(languageId, store.Id);
+            var store = _storeContext.CurrentStore;
+            languageId = EnsureLanguageIsActive(languageId, store.Id);
 
-            //var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.CustomerRegisteredNotification, store.Id);
-            //if (messageTemplate == null)
-            //    return 0;
+            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.CustomerRegisteredNotification, store.Id);
+            if (messageTemplate == null)
+                return 0;
 
-            ////email account
-            //var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+            //email account
+            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //    //tokens
-            //    //var tokens = new List<Token>();
-            //    //_messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            //    //_messageTokenProvider.AddCustomerTokens(tokens, customer);
+            //tokens
+            //var tokens = new List<Token>();
+            //_messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+            //_messageTokenProvider.AddCustomerTokens(tokens, customer);
 
 
-            //var toEmail = emailAccount.Email;
-            //var toName = emailAccount.DisplayName;
+            var toEmail = emailAccount.Email;
+            var toName = emailAccount.DisplayName;
 
-            //return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
+            return SendNotification(messageTemplate, emailAccount, languageId, null, toEmail, toName);
             throw new NotImplementedException();
         }
 
@@ -196,10 +205,10 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
-            var toName = customer.GetFullName();
+            var toName = customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
@@ -232,10 +241,10 @@ namespace Denmakers.DreamSale.Services.Messages
 
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
-            var toName = customer.GetFullName();
+            var toName = customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
@@ -268,11 +277,11 @@ namespace Denmakers.DreamSale.Services.Messages
 
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             //email to re-validate
             var toEmail = customer.EmailToRevalidate;
-            var toName = customer.GetFullName();
+            var toName = customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
@@ -305,10 +314,10 @@ namespace Denmakers.DreamSale.Services.Messages
 
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = customer.Email;
-            var toName = customer.GetFullName();
+            var toName = customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
@@ -349,7 +358,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
@@ -385,7 +394,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -421,7 +430,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -460,7 +469,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -501,7 +510,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
@@ -540,7 +549,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -582,7 +591,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, shipment.Order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -623,7 +632,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, shipment.Order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -662,7 +671,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -699,7 +708,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -737,7 +746,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -775,7 +784,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -814,7 +823,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, orderNote.Order.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = order.BillingAddress.Email;
             var toName = string.Format("{0} {1}", order.BillingAddress.FirstName, order.BillingAddress.LastName);
@@ -851,7 +860,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddRecurringPaymentTokens(tokens, recurringPayment);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -888,7 +897,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddRecurringPaymentTokens(tokens, recurringPayment);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = recurringPayment.InitialOrder.BillingAddress.Email;
             var toName = string.Format("{0} {1}",
@@ -926,7 +935,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddRecurringPaymentTokens(tokens, recurringPayment);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = recurringPayment.InitialOrder.BillingAddress.Email;
             var toName = string.Format("{0} {1}",
@@ -937,73 +946,73 @@ namespace Denmakers.DreamSale.Services.Messages
 
         #endregion
 
-        #region Newsletter workflow
+        //#region Newsletter workflow
 
-        /// <summary>
-        /// Sends a newsletter subscription activation message
-        /// </summary>
-        /// <param name="subscription">Newsletter subscription</param>
-        /// <param name="languageId">Language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public virtual int SendNewsLetterSubscriptionActivationMessage(NewsLetterSubscription subscription, int languageId)
-        {
-            if (subscription == null)
-                throw new ArgumentNullException("subscription");
+        ///// <summary>
+        ///// Sends a newsletter subscription activation message
+        ///// </summary>
+        ///// <param name="subscription">Newsletter subscription</param>
+        ///// <param name="languageId">Language identifier</param>
+        ///// <returns>Queued email identifier</returns>
+        //public virtual int SendNewsLetterSubscriptionActivationMessage(NewsLetterSubscription subscription, int languageId)
+        //{
+        //    if (subscription == null)
+        //        throw new ArgumentNullException("subscription");
 
-            var store = _storeContext.CurrentStore;
-            languageId = EnsureLanguageIsActive(languageId, store.Id);
+        //    var store = _storeContext.CurrentStore;
+        //    languageId = EnsureLanguageIsActive(languageId, store.Id);
 
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewsletterSubscriptionActivationMessage, store.Id);
-            if (messageTemplate == null)
-                return 0;
+        //    var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewsletterSubscriptionActivationMessage, store.Id);
+        //    if (messageTemplate == null)
+        //        return 0;
 
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+        //    //email account
+        //    var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //tokens
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddNewsLetterSubscriptionTokens(tokens, subscription);
+        //    //tokens
+        //    var tokens = new List<Token>();
+        //    _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+        //    _messageTokenProvider.AddNewsLetterSubscriptionTokens(tokens, subscription);
 
-            //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+        //    //event notification
+        //    //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, subscription.Email, string.Empty);
-        }
+        //    return SendNotification(messageTemplate, emailAccount, languageId, tokens, subscription.Email, string.Empty);
+        //}
 
-        /// <summary>
-        /// Sends a newsletter subscription deactivation message
-        /// </summary>
-        /// <param name="subscription">Newsletter subscription</param>
-        /// <param name="languageId">Language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public virtual int SendNewsLetterSubscriptionDeactivationMessage(NewsLetterSubscription subscription, int languageId)
-        {
-            if (subscription == null)
-                throw new ArgumentNullException("subscription");
+        ///// <summary>
+        ///// Sends a newsletter subscription deactivation message
+        ///// </summary>
+        ///// <param name="subscription">Newsletter subscription</param>
+        ///// <param name="languageId">Language identifier</param>
+        ///// <returns>Queued email identifier</returns>
+        //public virtual int SendNewsLetterSubscriptionDeactivationMessage(NewsLetterSubscription subscription, int languageId)
+        //{
+        //    if (subscription == null)
+        //        throw new ArgumentNullException("subscription");
 
-            var store = _storeContext.CurrentStore;
-            languageId = EnsureLanguageIsActive(languageId, store.Id);
+        //    var store = _storeContext.CurrentStore;
+        //    languageId = EnsureLanguageIsActive(languageId, store.Id);
 
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewsletterSubscriptionDeactivationMessage, store.Id);
-            if (messageTemplate == null)
-                return 0;
+        //    var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewsletterSubscriptionDeactivationMessage, store.Id);
+        //    if (messageTemplate == null)
+        //        return 0;
 
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+        //    //email account
+        //    var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //tokens
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddNewsLetterSubscriptionTokens(tokens, subscription);
+        //    //tokens
+        //    var tokens = new List<Token>();
+        //    _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+        //    _messageTokenProvider.AddNewsLetterSubscriptionTokens(tokens, subscription);
 
-            //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+        //    //event notification
+        //    //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, subscription.Email, string.Empty);
-        }
+        //    return SendNotification(messageTemplate, emailAccount, languageId, tokens, subscription.Email, string.Empty);
+        //}
 
-        #endregion
+        //#endregion
 
         #region Send a message to a friend
 
@@ -1045,7 +1054,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("EmailAFriend.Email", customerEmail));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, friendsEmail, string.Empty);
         }
@@ -1083,7 +1092,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("Wishlist.Email", customerEmail));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            ////_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, friendsEmail, string.Empty);
         }
@@ -1121,7 +1130,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddReturnRequestTokens(tokens, returnRequest, orderItem);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1158,14 +1167,14 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddReturnRequestTokens(tokens, returnRequest, orderItem);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = returnRequest.Customer.IsGuest() ?
                 orderItem.Order.BillingAddress.Email :
                 returnRequest.Customer.Email;
             var toName = returnRequest.Customer.IsGuest() ?
                 orderItem.Order.BillingAddress.FirstName :
-                returnRequest.Customer.GetFullName();
+                returnRequest.Customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
@@ -1199,138 +1208,138 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddReturnRequestTokens(tokens, returnRequest, orderItem);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             string toEmail = returnRequest.Customer.IsGuest() ?
                 orderItem.Order.BillingAddress.Email :
                 returnRequest.Customer.Email;
             var toName = returnRequest.Customer.IsGuest() ?
                 orderItem.Order.BillingAddress.FirstName :
-                returnRequest.Customer.GetFullName();
+                returnRequest.Customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
 
         #endregion
 
-        #region Forum Notifications
+        //#region Forum Notifications
 
-        /// <summary>
-        /// Sends a forum subscription message to a customer
-        /// </summary>
-        /// <param name="customer">Customer instance</param>
-        /// <param name="forumTopic">Forum Topic</param>
-        /// <param name="forum">Forum</param>
-        /// <param name="languageId">Message language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public int SendNewForumTopicMessage(Customer customer, ForumTopic forumTopic, Forum forum, int languageId)
-        {
-            if (customer == null)
-                throw new ArgumentNullException("customer");
+        ///// <summary>
+        ///// Sends a forum subscription message to a customer
+        ///// </summary>
+        ///// <param name="customer">Customer instance</param>
+        ///// <param name="forumTopic">Forum Topic</param>
+        ///// <param name="forum">Forum</param>
+        ///// <param name="languageId">Message language identifier</param>
+        ///// <returns>Queued email identifier</returns>
+        //public int SendNewForumTopicMessage(Customer customer, ForumTopic forumTopic, Forum forum, int languageId)
+        //{
+        //    if (customer == null)
+        //        throw new ArgumentNullException("customer");
 
-            var store = _storeContext.CurrentStore;
+        //    var store = _storeContext.CurrentStore;
 
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewForumTopicMessage, store.Id);
-            if (messageTemplate == null)
-                return 0;
+        //    var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewForumTopicMessage, store.Id);
+        //    if (messageTemplate == null)
+        //        return 0;
 
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+        //    //email account
+        //    var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //tokens
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddForumTopicTokens(tokens, forumTopic);
-            _messageTokenProvider.AddForumTokens(tokens, forumTopic.Forum);
-            _messageTokenProvider.AddCustomerTokens(tokens, customer);
+        //    //tokens
+        //    var tokens = new List<Token>();
+        //    _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+        //    _messageTokenProvider.AddForumTopicTokens(tokens, forumTopic);
+        //    _messageTokenProvider.AddForumTokens(tokens, forumTopic.Forum);
+        //    _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
-            //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+        //    //event notification
+        //    //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
-            var toEmail = customer.Email;
-            var toName = customer.GetFullName();
+        //    var toEmail = customer.Email;
+        //    var toName = customer.GetFullName(_genericAttributeService);
 
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
-        }
+        //    return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
+        //}
 
-        /// <summary>
-        /// Sends a forum subscription message to a customer
-        /// </summary>
-        /// <param name="customer">Customer instance</param>
-        /// <param name="forumPost">Forum post</param>
-        /// <param name="forumTopic">Forum Topic</param>
-        /// <param name="forum">Forum</param>
-        /// <param name="friendlyForumTopicPageIndex">Friendly (starts with 1) forum topic page to use for URL generation</param>
-        /// <param name="languageId">Message language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public int SendNewForumPostMessage(Customer customer, ForumPost forumPost, ForumTopic forumTopic,
-            Forum forum, int friendlyForumTopicPageIndex, int languageId)
-        {
-            if (customer == null)
-                throw new ArgumentNullException("customer");
+        ///// <summary>
+        ///// Sends a forum subscription message to a customer
+        ///// </summary>
+        ///// <param name="customer">Customer instance</param>
+        ///// <param name="forumPost">Forum post</param>
+        ///// <param name="forumTopic">Forum Topic</param>
+        ///// <param name="forum">Forum</param>
+        ///// <param name="friendlyForumTopicPageIndex">Friendly (starts with 1) forum topic page to use for URL generation</param>
+        ///// <param name="languageId">Message language identifier</param>
+        ///// <returns>Queued email identifier</returns>
+        //public int SendNewForumPostMessage(Customer customer, ForumPost forumPost, ForumTopic forumTopic,
+        //    Forum forum, int friendlyForumTopicPageIndex, int languageId)
+        //{
+        //    if (customer == null)
+        //        throw new ArgumentNullException("customer");
 
-            var store = _storeContext.CurrentStore;
+        //    var store = _storeContext.CurrentStore;
 
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewForumPostMessage, store.Id);
-            if (messageTemplate == null)
-                return 0;
+        //    var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.NewForumPostMessage, store.Id);
+        //    if (messageTemplate == null)
+        //        return 0;
 
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+        //    //email account
+        //    var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //tokens
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddForumPostTokens(tokens, forumPost);
-            _messageTokenProvider.AddForumTopicTokens(tokens, forumPost.ForumTopic, friendlyForumTopicPageIndex, forumPost.Id);
-            _messageTokenProvider.AddForumTokens(tokens, forumPost.ForumTopic.Forum);
-            _messageTokenProvider.AddCustomerTokens(tokens, customer);
+        //    //tokens
+        //    var tokens = new List<Token>();
+        //    _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+        //    _messageTokenProvider.AddForumPostTokens(tokens, forumPost);
+        //    _messageTokenProvider.AddForumTopicTokens(tokens, forumPost.ForumTopic, friendlyForumTopicPageIndex, forumPost.Id);
+        //    _messageTokenProvider.AddForumTokens(tokens, forumPost.ForumTopic.Forum);
+        //    _messageTokenProvider.AddCustomerTokens(tokens, customer);
 
-            //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+        //    //event notification
+        //    //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
-            var toEmail = customer.Email;
-            var toName = customer.GetFullName();
+        //    var toEmail = customer.Email;
+        //    var toName = customer.GetFullName(_genericAttributeService);
 
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
-        }
+        //    return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
+        //}
 
-        /// <summary>
-        /// Sends a private message notification
-        /// </summary>
-        /// <param name="privateMessage">Private message</param>
-        /// <param name="languageId">Message language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public int SendPrivateMessageNotification(PrivateMessage privateMessage, int languageId)
-        {
-            if (privateMessage == null)
-                throw new ArgumentNullException("privateMessage");
+        ///// <summary>
+        ///// Sends a private message notification
+        ///// </summary>
+        ///// <param name="privateMessage">Private message</param>
+        ///// <param name="languageId">Message language identifier</param>
+        ///// <returns>Queued email identifier</returns>
+        //public int SendPrivateMessageNotification(PrivateMessage privateMessage, int languageId)
+        //{
+        //    if (privateMessage == null)
+        //        throw new ArgumentNullException("privateMessage");
 
-            var store = _storeService.GetStoreById(privateMessage.StoreId) ?? _storeContext.CurrentStore;
+        //    var store = _storeService.GetStoreById(privateMessage.StoreId) ?? _storeContext.CurrentStore;
 
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.PrivateMessageNotification, store.Id);
-            if (messageTemplate == null)
-                return 0;
+        //    var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.PrivateMessageNotification, store.Id);
+        //    if (messageTemplate == null)
+        //        return 0;
 
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
+        //    //email account
+        //    var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //tokens
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddPrivateMessageTokens(tokens, privateMessage);
-            _messageTokenProvider.AddCustomerTokens(tokens, privateMessage.ToCustomer);
+        //    //tokens
+        //    var tokens = new List<Token>();
+        //    _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
+        //    _messageTokenProvider.AddPrivateMessageTokens(tokens, privateMessage);
+        //    _messageTokenProvider.AddCustomerTokens(tokens, privateMessage.ToCustomer);
 
-            //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+        //    //event notification
+        //    //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
-            var toEmail = privateMessage.ToCustomer.Email;
-            var toName = privateMessage.ToCustomer.GetFullName();
+        //    var toEmail = privateMessage.ToCustomer.Email;
+        //    var toName = privateMessage.Tocustomer.GetFullName(_genericAttributeService);
 
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
-        }
+        //    return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
+        //}
 
-        #endregion
+        //#endregion
 
         #region Misc
 
@@ -1366,7 +1375,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddVendorTokens(tokens, vendor);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1401,7 +1410,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddVendorTokens(tokens, vendor);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1438,7 +1447,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddGiftCardTokens(tokens, giftCard);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = giftCard.RecipientEmail;
             var toName = giftCard.RecipientName;
@@ -1474,7 +1483,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddCustomerTokens(tokens, productReview.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1508,7 +1517,7 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddProductTokens(tokens, product, languageId);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1542,10 +1551,10 @@ namespace Denmakers.DreamSale.Services.Messages
             var tokens = new List<Token>();
             _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
             _messageTokenProvider.AddProductTokens(tokens, product, languageId);
-            _messageTokenProvider.AddAttributeCombinationTokens(tokens, combination, languageId);
+            _messageTokenProvider.AddAttributeCombinationTokens(tokens, combination, languageId, _productAttributeFormatter);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1585,7 +1594,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("VatValidationResult.Address", vatAddress));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1617,11 +1626,11 @@ namespace Denmakers.DreamSale.Services.Messages
             //tokens
             var tokens = new List<Token>();
             _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddBlogCommentTokens(tokens, blogComment);
+            //_messageTokenProvider.AddBlogCommentTokens(tokens, blogComment);
             _messageTokenProvider.AddCustomerTokens(tokens, blogComment.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1653,11 +1662,11 @@ namespace Denmakers.DreamSale.Services.Messages
             //tokens
             var tokens = new List<Token>();
             _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddNewsCommentTokens(tokens, newsComment);
+            //_messageTokenProvider.AddNewsCommentTokens(tokens, newsComment);
             _messageTokenProvider.AddCustomerTokens(tokens, newsComment.Customer);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1693,11 +1702,11 @@ namespace Denmakers.DreamSale.Services.Messages
             _messageTokenProvider.AddBackInStockTokens(tokens, subscription);
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var customer = subscription.Customer;
             var toEmail = customer.Email;
-            var toName = customer.GetFullName();
+            var toName = customer.GetFullName(_genericAttributeService);
 
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
@@ -1748,7 +1757,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("ContactUs.Body", body, true));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = emailAccount.Email;
             var toName = emailAccount.DisplayName;
@@ -1811,7 +1820,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("ContactUs.Body", body, true));
 
             //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
+            //_eventPublisher.MessageTokensAdded(messageTemplate, tokens);
 
             var toEmail = vendor.Email;
             var toName = vendor.Name;
@@ -1841,149 +1850,7 @@ namespace Denmakers.DreamSale.Services.Messages
             //email account
             var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
 
-            //event notification
-            _eventPublisher.MessageTokensAdded(messageTemplate, tokens);
-
             return SendNotification(messageTemplate, emailAccount, languageId, tokens, sendToEmail, null);
-        }
-
-        /// <summary>
-        /// Send notification
-        /// </summary>
-        /// <param name="messageTemplate">Message template</param>
-        /// <param name="emailAccount">Email account</param>
-        /// <param name="languageId">Language identifier</param>
-        /// <param name="tokens">Tokens</param>
-        /// <param name="toEmailAddress">Recipient email address</param>
-        /// <param name="toName">Recipient name</param>
-        /// <param name="attachmentFilePath">Attachment file path</param>
-        /// <param name="attachmentFileName">Attachment file name</param>
-        /// <param name="replyToEmailAddress">"Reply to" email</param>
-        /// <param name="replyToName">"Reply to" name</param>
-        /// <param name="fromEmail">Sender email. If specified, then it overrides passed "emailAccount" details</param>
-        /// <param name="fromName">Sender name. If specified, then it overrides passed "emailAccount" details</param>
-        /// <param name="subject">Subject. If specified, then it overrides subject of a message template</param>
-        /// <returns>Queued email identifier</returns>
-        public virtual int SendNotification(MessageTemplate messageTemplate,
-            EmailAccount emailAccount, int languageId, IEnumerable<Token> tokens,
-            string toEmailAddress, string toName,
-            string attachmentFilePath = null, string attachmentFileName = null,
-            string replyToEmailAddress = null, string replyToName = null,
-            string fromEmail = null, string fromName = null, string subject = null)
-        {
-            if (messageTemplate == null)
-                throw new ArgumentNullException("messageTemplate");
-
-            if (emailAccount == null)
-                throw new ArgumentNullException("emailAccount");
-
-            //retrieve localized message template data
-            var bcc = messageTemplate.GetLocalized(mt => mt.BccEmailAddresses, languageId);
-            if (String.IsNullOrEmpty(subject))
-                subject = messageTemplate.GetLocalized(mt => mt.Subject, languageId);
-            var body = messageTemplate.GetLocalized(mt => mt.Body, languageId);
-
-            //Replace subject and body tokens 
-            var subjectReplaced = _tokenizer.Replace(subject, tokens, false);
-            var bodyReplaced = _tokenizer.Replace(body, tokens, true);
-
-            //limit name length
-            toName = CommonHelper.EnsureMaximumLength(toName, 300);
-
-            var email = new QueuedEmail
-            {
-                Priority = QueuedEmailPriority.High,
-                From = !string.IsNullOrEmpty(fromEmail) ? fromEmail : emailAccount.Email,
-                FromName = !string.IsNullOrEmpty(fromName) ? fromName : emailAccount.DisplayName,
-                To = toEmailAddress,
-                ToName = toName,
-                ReplyTo = replyToEmailAddress,
-                ReplyToName = replyToName,
-                CC = string.Empty,
-                Bcc = bcc,
-                Subject = subjectReplaced,
-                Body = bodyReplaced,
-                AttachmentFilePath = attachmentFilePath,
-                AttachmentFileName = attachmentFileName,
-                AttachedDownloadId = messageTemplate.AttachedDownloadId,
-                CreatedOnUtc = DateTime.UtcNow,
-                EmailAccountId = emailAccount.Id,
-                DontSendBeforeDateUtc = !messageTemplate.DelayBeforeSend.HasValue ? null
-                    : (DateTime?)(DateTime.UtcNow + TimeSpan.FromHours(messageTemplate.DelayPeriod.ToHours(messageTemplate.DelayBeforeSend.Value)))
-            };
-
-            _queuedEmailService.InsertQueuedEmail(email);
-            return email.Id;
-        }
-
-        #endregion
-
-        #endregion
-        */
-
-        /// <summary>
-        /// Sends a "quantity below" notification to a store owner
-        /// </summary>
-        /// <param name="product">Product</param>
-        /// <param name="languageId">Message language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public virtual int SendQuantityBelowStoreOwnerNotification(Product product, int languageId)
-        {
-            if (product == null)
-                throw new ArgumentNullException("product");
-
-            var store = _storeContext.CurrentStore;
-            languageId = EnsureLanguageIsActive(languageId, store.Id);
-
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.QuantityBelowStoreOwnerNotification, store.Id);
-            if (messageTemplate == null)
-                return 0;
-
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
-
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddProductTokens(tokens, product, languageId);
-
-            var toEmail = emailAccount.Email;
-            var toName = emailAccount.DisplayName;
-
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
-        }
-
-        /// <summary>
-        /// Sends a "quantity below" notification to a store owner
-        /// </summary>
-        /// <param name="combination">Attribute combination</param>
-        /// <param name="languageId">Message language identifier</param>
-        /// <returns>Queued email identifier</returns>
-        public virtual int SendQuantityBelowStoreOwnerNotification(ProductAttributeCombination combination, int languageId)
-        {
-            if (combination == null)
-                throw new ArgumentNullException("combination");
-
-            var store = _storeContext.CurrentStore;
-            languageId = EnsureLanguageIsActive(languageId, store.Id);
-
-            var messageTemplate = GetActiveMessageTemplate(MessageTemplateSystemNames.QuantityBelowAttributeCombinationStoreOwnerNotification, store.Id);
-            if (messageTemplate == null)
-                return 0;
-
-            //email account
-            var emailAccount = GetEmailAccountOfMessageTemplate(messageTemplate, languageId);
-
-            var product = combination.Product;
-
-            var tokens = new List<Token>();
-            _messageTokenProvider.AddStoreTokens(tokens, store, emailAccount);
-            _messageTokenProvider.AddProductTokens(tokens, product, languageId);
-            _messageTokenProvider.AddAttributeCombinationTokens(tokens, combination, languageId);
-
-            var toEmail = emailAccount.Email;
-            var toName = emailAccount.DisplayName;
-
-            return SendNotification(messageTemplate, emailAccount, languageId, tokens, toEmail, toName);
         }
 
         /// <summary>
@@ -2051,9 +1918,12 @@ namespace Denmakers.DreamSale.Services.Messages
                     : (DateTime?)(DateTime.UtcNow + TimeSpan.FromHours(messageTemplate.DelayPeriod.ToHours(messageTemplate.DelayBeforeSend.Value)))
             };
 
-            //_queuedEmailService.InsertQueuedEmail(email);
+            _queuedEmailService.InsertQueuedEmail(email);
             return email.Id;
         }
 
+        #endregion
+
+        #endregion
     }
 }

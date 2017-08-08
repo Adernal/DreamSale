@@ -1,4 +1,5 @@
 ﻿using Denmakers.DreamSale.Data.Context;
+using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model;
 using Denmakers.DreamSale.Model.Blogs;
 using Denmakers.DreamSale.Model.Catalog;
@@ -14,6 +15,7 @@ using Denmakers.DreamSale.Model.Stores;
 using Denmakers.DreamSale.Model.Tax;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.Services.Addresses;
+using Denmakers.DreamSale.Services.Attributes;
 using Denmakers.DreamSale.Services.Catalog;
 using Denmakers.DreamSale.Services.Configuration;
 using Denmakers.DreamSale.Services.Customers;
@@ -21,7 +23,9 @@ using Denmakers.DreamSale.Services.Helpers;
 using Denmakers.DreamSale.Services.Localization;
 using Denmakers.DreamSale.Services.Media;
 using Denmakers.DreamSale.Services.Orders;
+using Denmakers.DreamSale.Services.Payments;
 using Denmakers.DreamSale.Services.Products;
+using Denmakers.DreamSale.Services.Shipping;
 using Denmakers.DreamSale.Services.Stores;
 using System;
 using System.Collections.Generic;
@@ -44,13 +48,14 @@ namespace Denmakers.DreamSale.Services.Messages
         private readonly IDownloadService _downloadService;
         private readonly IOrderService _orderService;
         //private readonly IPaymentService _paymentService;
-        //private readonly IShippingService _shippingService;
+        private readonly IShippingService _shippingService;
         private readonly IProductAttributeParser _productAttributeParser;
         private readonly IAddressAttributeFormatter _addressAttributeFormatter;
         private readonly ICustomerAttributeFormatter _customerAttributeFormatter;
         private readonly IStoreService _storeService;
         private readonly IStoreContext _storeContext;
         private readonly IWorkContext _workContext;
+        private readonly IGenericAttributeService _genericAttributeService;
         private readonly ISettingService _settingService;
 
         private readonly MessageTemplatesSettings _templatesSettings;
@@ -75,11 +80,13 @@ namespace Denmakers.DreamSale.Services.Messages
             IDownloadService downloadService,
             IOrderService orderService,
             //IPaymentService paymentService,
+            IShippingService shippingService,
             IStoreService storeService,
             IStoreContext storeContext,
             IProductAttributeParser productAttributeParser,
             IAddressAttributeFormatter addressAttributeFormatter,
             ICustomerAttributeFormatter customerAttributeFormatter,
+            IGenericAttributeService genericAttributeService,
             ISettingService settingService)
         {
             this._languageService = languageService;
@@ -92,11 +99,13 @@ namespace Denmakers.DreamSale.Services.Messages
             this._downloadService = downloadService;
             this._orderService = orderService;
             //this._paymentService = paymentService;
+            this._shippingService = shippingService;
             this._productAttributeParser = productAttributeParser;
             this._addressAttributeFormatter = addressAttributeFormatter;
             this._customerAttributeFormatter = customerAttributeFormatter;
             this._storeService = storeService;
             this._storeContext = storeContext;
+            this._genericAttributeService = genericAttributeService;
             this._settingService = settingService;
 
             this._templatesSettings = _settingService.LoadSetting<MessageTemplatesSettings>();
@@ -750,7 +759,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
                 sb.AppendLine(string.Format("<tr style=\"background-color: {0};text-align: center;\">", _templatesSettings.Color2));
                 //product name
-                string productName = product.GetLocalized(x => x.Name, languageId);
+                string productName = product.GetLocalized(x => x.Name, languageId, _languageService, _localizedEntityService);
 
                 sb.AppendLine("<td style=\"padding: 0.6em 0.4em;text-align: left;\">" + HttpUtility.HtmlEncode(productName));
                 //attributes
@@ -884,18 +893,18 @@ namespace Denmakers.DreamSale.Services.Messages
             //var paymentMethod = _paymentService.LoadPaymentMethodBySystemName(order.PaymentMethodSystemName);
             //var paymentMethodName = paymentMethod != null ? paymentMethod.GetLocalizedFriendlyName(_localizationService, _workContext.WorkingLanguage.Id) : order.PaymentMethodSystemName;
             //tokens.Add(new Token("Order.PaymentMethod", paymentMethodName));
-            //tokens.Add(new Token("Order.VatNumber", order.VatNumber));
-            //var sbCustomValues = new StringBuilder();
-            //var customValues = order.DeserializeCustomValues();
-            //if (customValues != null)
-            //{
-            //    foreach (var item in customValues)
-            //    {
-            //        sbCustomValues.AppendFormat("{0}: {1}", HttpUtility.HtmlEncode(item.Key), HttpUtility.HtmlEncode(item.Value != null ? item.Value.ToString() : string.Empty));
-            //        sbCustomValues.Append("<br />");
-            //    }
-            //}
-            //tokens.Add(new Token("Order.CustomValues", sbCustomValues.ToString(), true));
+            tokens.Add(new Token("Order.VatNumber", order.VatNumber));
+            var sbCustomValues = new StringBuilder();
+            var customValues = order.DeserializeCustomValues();
+            if (customValues != null)
+            {
+                foreach (var item in customValues)
+                {
+                    sbCustomValues.AppendFormat("{0}: {1}", HttpUtility.HtmlEncode(item.Key), HttpUtility.HtmlEncode(item.Value != null ? item.Value.ToString() : string.Empty));
+                    sbCustomValues.Append("<br />");
+                }
+            }
+            tokens.Add(new Token("Order.CustomValues", sbCustomValues.ToString(), true));
 
 
 
@@ -934,7 +943,7 @@ namespace Denmakers.DreamSale.Services.Messages
 
             tokens.Add(new Token("Order.AmountRefunded", refundedAmountStr));
 
-            
+
         }
 
         /// <summary>
@@ -952,16 +961,16 @@ namespace Denmakers.DreamSale.Services.Messages
             {
                 //we cannot inject IShippingService into constructor because it'll cause circular references.
                 //that's why we resolve it here this way
-                var shipmentTracker = shipment.GetShipmentTracker(EngineContext.Current.Resolve<IShippingService>(), _shippingSettings);
-                if (shipmentTracker != null)
-                    trackingNumberUrl = shipmentTracker.GetUrl(shipment.TrackingNumber);
+                //var shipmentTracker = shipment.GetShipmentTracker(EngineContext.Current.Resolve<IShippingService>(), _shippingSettings);
+                //if (shipmentTracker != null)
+                //    trackingNumberUrl = shipmentTracker.GetUrl(shipment.TrackingNumber);
             }
             tokens.Add(new Token("Shipment.TrackingNumberURL", trackingNumberUrl, true));
             tokens.Add(new Token("Shipment.Product(s)", ProductListToHtmlTable(shipment, languageId), true));
             tokens.Add(new Token("Shipment.URLForCustomer", string.Format("{0}orderdetails/shipment/{1}", GetStoreUrl(shipment.Order.StoreId), shipment.Id), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(shipment, tokens);
+            //_eventPublisher.EntityTokensAdded(shipment, tokens);
         }
 
         /// <summary>
@@ -975,7 +984,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("Order.OrderNoteAttachmentUrl", string.Format("{0}download/ordernotefile/{1}", GetStoreUrl(orderNote.Order.StoreId), orderNote.Id), true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(orderNote, tokens);
+            //_eventPublisher.EntityTokensAdded(orderNote, tokens);
         }
 
         /// <summary>
@@ -988,11 +997,11 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("RecurringPayment.ID", recurringPayment.Id));
             tokens.Add(new Token("RecurringPayment.CancelAfterFailedPayment",
                 recurringPayment.LastPaymentFailed && _paymentSettings.CancelRecurringPaymentsAfterFailedPayment));
-            if (recurringPayment.InitialOrder != null)
-                tokens.Add(new Token("RecurringPayment.RecurringPaymentType", _paymentService.GetRecurringPaymentType(recurringPayment.InitialOrder.PaymentMethodSystemName).ToString()));
+            //if (recurringPayment.InitialOrder != null)
+            //    tokens.Add(new Token("RecurringPayment.RecurringPaymentType", _paymentService.GetRecurringPaymentType(recurringPayment.InitialOrder.PaymentMethodSystemName).ToString()));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(recurringPayment, tokens);
+            //_eventPublisher.EntityTokensAdded(recurringPayment, tokens);
         }
 
         /// <summary>
@@ -1014,7 +1023,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("ReturnRequest.Status", returnRequest.ReturnRequestStatus.GetLocalizedEnum(_localizationService, _workContext)));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(returnRequest, tokens);
+            //_eventPublisher.EntityTokensAdded(returnRequest, tokens);
         }
 
         /// <summary>
@@ -1037,7 +1046,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("GiftCard.Message", giftCardMesage, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(giftCard, tokens);
+            //_eventPublisher.EntityTokensAdded(giftCard, tokens);
         }
 
         /// <summary>
@@ -1049,21 +1058,21 @@ namespace Denmakers.DreamSale.Services.Messages
         {
             tokens.Add(new Token("Customer.Email", customer.Email));
             tokens.Add(new Token("Customer.Username", customer.Username));
-            tokens.Add(new Token("Customer.FullName", customer.GetFullName()));
-            tokens.Add(new Token("Customer.FirstName", customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName)));
-            tokens.Add(new Token("Customer.LastName", customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName)));
-            tokens.Add(new Token("Customer.VatNumber", customer.GetAttribute<string>(SystemCustomerAttributeNames.VatNumber)));
-            tokens.Add(new Token("Customer.VatNumberStatus", ((VatNumberStatus)customer.GetAttribute<int>(SystemCustomerAttributeNames.VatNumberStatusId)).ToString()));
+            tokens.Add(new Token("Customer.FullName", customer.GetFullName(_genericAttributeService)));
+            tokens.Add(new Token("Customer.FirstName", customer.GetAttribute<string>(SystemCustomerAttributeNames.FirstName, _genericAttributeService)));
+            tokens.Add(new Token("Customer.LastName", customer.GetAttribute<string>(SystemCustomerAttributeNames.LastName, _genericAttributeService)));
+            tokens.Add(new Token("Customer.VatNumber", customer.GetAttribute<string>(SystemCustomerAttributeNames.VatNumber, _genericAttributeService)));
+            tokens.Add(new Token("Customer.VatNumberStatus", ((VatNumberStatus)customer.GetAttribute<int>(SystemCustomerAttributeNames.VatNumberStatusId, _genericAttributeService)).ToString()));
 
-            var customAttributesXml = customer.GetAttribute<string>(SystemCustomerAttributeNames.CustomCustomerAttributes);
+            var customAttributesXml = customer.GetAttribute<string>(SystemCustomerAttributeNames.CustomCustomerAttributes, _genericAttributeService);
             tokens.Add(new Token("Customer.CustomAttributes", _customerAttributeFormatter.FormatAttributes(customAttributesXml), true));
 
 
             //note: we do not use SEO friendly URLS because we can get errors caused by having .(dot) in the URL (from the email address)
             //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
-            var passwordRecoveryUrl = string.Format("{0}passwordrecovery/confirm?token={1}&email={2}", GetStoreUrl(), customer.GetAttribute<string>(SystemCustomerAttributeNames.PasswordRecoveryToken), HttpUtility.UrlEncode(customer.Email));
-            var accountActivationUrl = string.Format("{0}customer/activation?token={1}&email={2}", GetStoreUrl(), customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountActivationToken), HttpUtility.UrlEncode(customer.Email));
-            var emailRevalidationUrl = string.Format("{0}customer/revalidateemail?token={1}&email={2}", GetStoreUrl(), customer.GetAttribute<string>(SystemCustomerAttributeNames.EmailRevalidationToken), HttpUtility.UrlEncode(customer.Email));
+            var passwordRecoveryUrl = string.Format("{0}passwordrecovery/confirm?token={1}&email={2}", GetStoreUrl(), customer.GetAttribute<string>(SystemCustomerAttributeNames.PasswordRecoveryToken, _genericAttributeService), HttpUtility.UrlEncode(customer.Email));
+            var accountActivationUrl = string.Format("{0}customer/activation?token={1}&email={2}", GetStoreUrl(), customer.GetAttribute<string>(SystemCustomerAttributeNames.AccountActivationToken, _genericAttributeService), HttpUtility.UrlEncode(customer.Email));
+            var emailRevalidationUrl = string.Format("{0}customer/revalidateemail?token={1}&email={2}", GetStoreUrl(), customer.GetAttribute<string>(SystemCustomerAttributeNames.EmailRevalidationToken, _genericAttributeService), HttpUtility.UrlEncode(customer.Email));
             var wishlistUrl = string.Format("{0}wishlist/{1}", GetStoreUrl(), customer.CustomerGuid);
 
             tokens.Add(new Token("Customer.PasswordRecoveryURL", passwordRecoveryUrl, true));
@@ -1072,7 +1081,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("Wishlist.URLForCustomer", wishlistUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(customer, tokens);
+            //_eventPublisher.EntityTokensAdded(customer, tokens);
         }
 
         /// <summary>
@@ -1086,30 +1095,30 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("Vendor.Email", vendor.Email));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(vendor, tokens);
+            //_eventPublisher.EntityTokensAdded(vendor, tokens);
         }
 
-        /// <summary>
-        /// Add newsletter subscription tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="subscription">Newsletter subscription</param>
-        public virtual void AddNewsLetterSubscriptionTokens(IList<Token> tokens, NewsLetterSubscription subscription)
-        {
-            tokens.Add(new Token("NewsLetterSubscription.Email", subscription.Email));
+        ///// <summary>
+        ///// Add newsletter subscription tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="subscription">Newsletter subscription</param>
+        //public virtual void AddNewsLetterSubscriptionTokens(IList<Token> tokens, NewsLetterSubscription subscription)
+        //{
+        //    tokens.Add(new Token("NewsLetterSubscription.Email", subscription.Email));
 
 
-            const string urlFormat = "{0}newsletter/subscriptionactivation/{1}/{2}";
+        //    const string urlFormat = "{0}newsletter/subscriptionactivation/{1}/{2}";
 
-            var activationUrl = String.Format(urlFormat, GetStoreUrl(), subscription.NewsLetterSubscriptionGuid, "true");
-            tokens.Add(new Token("NewsLetterSubscription.ActivationUrl", activationUrl, true));
+        //    var activationUrl = String.Format(urlFormat, GetStoreUrl(), subscription.NewsLetterSubscriptionGuid, "true");
+        //    tokens.Add(new Token("NewsLetterSubscription.ActivationUrl", activationUrl, true));
 
-            var deActivationUrl = String.Format(urlFormat, GetStoreUrl(), subscription.NewsLetterSubscriptionGuid, "false");
-            tokens.Add(new Token("NewsLetterSubscription.DeactivationUrl", deActivationUrl, true));
+        //    var deActivationUrl = String.Format(urlFormat, GetStoreUrl(), subscription.NewsLetterSubscriptionGuid, "false");
+        //    tokens.Add(new Token("NewsLetterSubscription.DeactivationUrl", deActivationUrl, true));
 
-            //event notification
-            _eventPublisher.EntityTokensAdded(subscription, tokens);
-        }
+        //    //event notification
+        //    _eventPublisher.EntityTokensAdded(subscription, tokens);
+        //}
 
         /// <summary>
         /// Add product review tokens
@@ -1121,7 +1130,7 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("ProductReview.ProductName", productReview.Product.Name));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(productReview, tokens);
+            //_eventPublisher.EntityTokensAdded(productReview, tokens);
         }
 
         /// <summary>
@@ -1134,21 +1143,21 @@ namespace Denmakers.DreamSale.Services.Messages
             tokens.Add(new Token("BlogComment.BlogPostTitle", blogComment.BlogPost.Title));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(blogComment, tokens);
+            //_eventPublisher.EntityTokensAdded(blogComment, tokens);
         }
 
-        /// <summary>
-        /// Add news comment tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="newsComment">News comment</param>
-        public virtual void AddNewsCommentTokens(IList<Token> tokens, NewsComment newsComment)
-        {
-            tokens.Add(new Token("NewsComment.NewsTitle", newsComment.NewsItem.Title));
+        ///// <summary>
+        ///// Add news comment tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="newsComment">News comment</param>
+        //public virtual void AddNewsCommentTokens(IList<Token> tokens, NewsComment newsComment)
+        //{
+        //    tokens.Add(new Token("NewsComment.NewsTitle", newsComment.NewsItem.Title));
 
-            //event notification
-            _eventPublisher.EntityTokensAdded(newsComment, tokens);
-        }
+        //    //event notification
+        //    _eventPublisher.EntityTokensAdded(newsComment, tokens);
+        //}
 
         /// <summary>
         /// Add product tokens
@@ -1159,17 +1168,17 @@ namespace Denmakers.DreamSale.Services.Messages
         public virtual void AddProductTokens(IList<Token> tokens, Product product, int languageId)
         {
             tokens.Add(new Token("Product.ID", product.Id));
-            tokens.Add(new Token("Product.Name", product.GetLocalized(x => x.Name, languageId)));
-            tokens.Add(new Token("Product.ShortDescription", product.GetLocalized(x => x.ShortDescription, languageId), true));
+            tokens.Add(new Token("Product.Name", product.GetLocalized(x => x.Name, languageId, _languageService, _localizedEntityService)));
+            tokens.Add(new Token("Product.ShortDescription", product.GetLocalized(x => x.ShortDescription, languageId, _languageService, _localizedEntityService), true));
             tokens.Add(new Token("Product.SKU", product.Sku));
             tokens.Add(new Token("Product.StockQuantity", product.GetTotalStockQuantity()));
 
             //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
-            var productUrl = string.Format("{0}{1}", GetStoreUrl(), product.GetSeName());
+            var productUrl = string.Format("{0}{1}", GetStoreUrl(), product.Name);
             tokens.Add(new Token("Product.ProductURLForCustomer", productUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(product, tokens);
+            //_eventPublisher.EntityTokensAdded(product, tokens);
         }
 
         /// <summary>
@@ -1178,95 +1187,90 @@ namespace Denmakers.DreamSale.Services.Messages
         /// <param name="tokens">List of already added tokens</param>
         /// <param name="combination">Product attribute combination</param>
         /// <param name="languageId">Language identifier</param>
-        public virtual void AddAttributeCombinationTokens(IList<Token> tokens, ProductAttributeCombination combination, int languageId)
+        public virtual void AddAttributeCombinationTokens(IList<Token> tokens, ProductAttributeCombination combination, int languageId, IProductAttributeFormatter productAttributeFormatter)
         {
             //attributes
-            //we cannot inject IProductAttributeFormatter into constructor because it'll cause circular references.
-            //that's why we resolve it here this way
-            var productAttributeFormatter = EngineContext.Current.Resolve<IProductAttributeFormatter>();
             string attributes = productAttributeFormatter.FormatAttributes(combination.Product,
                 combination.AttributesXml,
                 _workContext.CurrentCustomer,
                 renderPrices: false);
-
-
 
             tokens.Add(new Token("AttributeCombination.Formatted", attributes, true));
             tokens.Add(new Token("AttributeCombination.SKU", combination.Product.FormatSku(combination.AttributesXml, _productAttributeParser)));
             tokens.Add(new Token("AttributeCombination.StockQuantity", combination.StockQuantity));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(combination, tokens);
+            //_eventPublisher.EntityTokensAdded(combination, tokens);
         }
 
-        /// <summary>
-        /// Add forum topic tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="forumTopic">Forum topic</param>
-        /// <param name="friendlyForumTopicPageIndex">Friendly (starts with 1) forum topic page to use for URL generation</param>
-        /// <param name="appendedPostIdentifierAnchor">Forum post identifier</param>
-        public virtual void AddForumTopicTokens(IList<Token> tokens, ForumTopic forumTopic,
-            int? friendlyForumTopicPageIndex = null, int? appendedPostIdentifierAnchor = null)
-        {
-            //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
-            string topicUrl;
-            if (friendlyForumTopicPageIndex.HasValue && friendlyForumTopicPageIndex.Value > 1)
-                topicUrl = string.Format("{0}boards/topic/{1}/{2}/page/{3}", GetStoreUrl(), forumTopic.Id, forumTopic.GetSeName(), friendlyForumTopicPageIndex.Value);
-            else
-                topicUrl = string.Format("{0}boards/topic/{1}/{2}", GetStoreUrl(), forumTopic.Id, forumTopic.GetSeName());
-            if (appendedPostIdentifierAnchor.HasValue && appendedPostIdentifierAnchor.Value > 0)
-                topicUrl = string.Format("{0}#{1}", topicUrl, appendedPostIdentifierAnchor.Value);
-            tokens.Add(new Token("Forums.TopicURL", topicUrl, true));
-            tokens.Add(new Token("Forums.TopicName", forumTopic.Subject));
+        ///// <summary>
+        ///// Add forum topic tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="forumTopic">Forum topic</param>
+        ///// <param name="friendlyForumTopicPageIndex">Friendly (starts with 1) forum topic page to use for URL generation</param>
+        ///// <param name="appendedPostIdentifierAnchor">Forum post identifier</param>
+        //public virtual void AddForumTopicTokens(IList<Token> tokens, ForumTopic forumTopic,
+        //    int? friendlyForumTopicPageIndex = null, int? appendedPostIdentifierAnchor = null)
+        //{
+        //    //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
+        //    string topicUrl;
+        //    if (friendlyForumTopicPageIndex.HasValue && friendlyForumTopicPageIndex.Value > 1)
+        //        topicUrl = string.Format("{0}boards/topic/{1}/{2}/page/{3}", GetStoreUrl(), forumTopic.Id, forumTopic.GetSeName(), friendlyForumTopicPageIndex.Value);
+        //    else
+        //        topicUrl = string.Format("{0}boards/topic/{1}/{2}", GetStoreUrl(), forumTopic.Id, forumTopic.GetSeName());
+        //    if (appendedPostIdentifierAnchor.HasValue && appendedPostIdentifierAnchor.Value > 0)
+        //        topicUrl = string.Format("{0}#{1}", topicUrl, appendedPostIdentifierAnchor.Value);
+        //    tokens.Add(new Token("Forums.TopicURL", topicUrl, true));
+        //    tokens.Add(new Token("Forums.TopicName", forumTopic.Subject));
 
-            //event notification
-            _eventPublisher.EntityTokensAdded(forumTopic, tokens);
-        }
+        //    //event notification
+        //    _eventPublisher.EntityTokensAdded(forumTopic, tokens);
+        //}
 
-        /// <summary>
-        /// Add forum post tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="forumPost">Forum post</param>
-        public virtual void AddForumPostTokens(IList<Token> tokens, ForumPost forumPost)
-        {
-            tokens.Add(new Token("Forums.PostAuthor", forumPost.Customer.FormatUserName()));
-            tokens.Add(new Token("Forums.PostBody", forumPost.FormatPostText(), true));
+        ///// <summary>
+        ///// Add forum post tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="forumPost">Forum post</param>
+        //public virtual void AddForumPostTokens(IList<Token> tokens, ForumPost forumPost)
+        //{
+        //    tokens.Add(new Token("Forums.PostAuthor", forumPost.Customer.FormatUserName()));
+        //    tokens.Add(new Token("Forums.PostBody", forumPost.FormatPostText(), true));
 
-            //event notification
-            _eventPublisher.EntityTokensAdded(forumPost, tokens);
-        }
+        //    //event notification
+        //    _eventPublisher.EntityTokensAdded(forumPost, tokens);
+        //}
 
-        /// <summary>
-        /// Add forum tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="forum">Forum</param>
-        public virtual void AddForumTokens(IList<Token> tokens, Forum forum)
-        {
-            //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
-            var forumUrl = string.Format("{0}boards/forum/{1}/{2}", GetStoreUrl(), forum.Id, forum.GetSeName());
-            tokens.Add(new Token("Forums.ForumURL", forumUrl, true));
-            tokens.Add(new Token("Forums.ForumName", forum.Name));
+        ///// <summary>
+        ///// Add forum tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="forum">Forum</param>
+        //public virtual void AddForumTokens(IList<Token> tokens, Forum forum)
+        //{
+        //    //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
+        //    var forumUrl = string.Format("{0}boards/forum/{1}/{2}", GetStoreUrl(), forum.Id, forum.GetSeName());
+        //    tokens.Add(new Token("Forums.ForumURL", forumUrl, true));
+        //    tokens.Add(new Token("Forums.ForumName", forum.Name));
 
-            //event notification
-            _eventPublisher.EntityTokensAdded(forum, tokens);
-        }
+        //    //event notification
+        //    _eventPublisher.EntityTokensAdded(forum, tokens);
+        //}
 
-        /// <summary>
-        /// Add private message tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="privateMessage">Private message</param>
-        public virtual void AddPrivateMessageTokens(IList<Token> tokens, PrivateMessage privateMessage)
-        {
-            tokens.Add(new Token("PrivateMessage.Subject", privateMessage.Subject));
-            tokens.Add(new Token("PrivateMessage.Text", privateMessage.FormatPrivateMessageText(), true));
+        ///// <summary>
+        ///// Add private message tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="privateMessage">Private message</param>
+        //public virtual void AddPrivateMessageTokens(IList<Token> tokens, PrivateMessage privateMessage)
+        //{
+        //    tokens.Add(new Token("PrivateMessage.Subject", privateMessage.Subject));
+        //    tokens.Add(new Token("PrivateMessage.Text", privateMessage.FormatPrivateMessageText(), true));
 
-            //event notification
-            _eventPublisher.EntityTokensAdded(privateMessage, tokens);
-        }
+        //    //event notification
+        //    _eventPublisher.EntityTokensAdded(privateMessage, tokens);
+        //}
 
         /// <summary>
         /// Add tokens of BackInStock subscription
@@ -1277,27 +1281,27 @@ namespace Denmakers.DreamSale.Services.Messages
         {
             tokens.Add(new Token("BackInStockSubscription.ProductName", subscription.Product.Name));
             //TODO add a method for getting URL (use routing because it handles all SEO friendly URLs)
-            var productUrl = string.Format("{0}{1}", GetStoreUrl(subscription.StoreId), subscription.Product.GetSeName());
+            var productUrl = string.Format("{0}{1}", GetStoreUrl(subscription.StoreId), /*subscription.Product.GetSeName()*/ subscription.Product.Name);
             tokens.Add(new Token("BackInStockSubscription.ProductUrl", productUrl, true));
 
             //event notification
-            _eventPublisher.EntityTokensAdded(subscription, tokens);
+            //_eventPublisher.EntityTokensAdded(subscription, tokens);
         }
 
-        /// <summary>
-        /// Get collection of allowed (supported) message tokens for campaigns
-        /// </summary>
-        /// <returns>Collection of allowed (supported) message tokens for campaigns</returns>
-        public virtual IEnumerable<string> GetListOfCampaignAllowedTokens()
-        {
-            var additionTokens = new CampaignAdditionTokensAddedEvent();
-            _eventPublisher.Publish(additionTokens);
+        ///// <summary>
+        ///// Get collection of allowed (supported) message tokens for campaigns
+        ///// </summary>
+        ///// <returns>Collection of allowed (supported) message tokens for campaigns</returns>
+        //public virtual IEnumerable<string> GetListOfCampaignAllowedTokens()
+        //{
+        //    var additionTokens = new CampaignAdditionTokensAddedEvent();
+        //    _eventPublisher.Publish(additionTokens);
 
-            var allowedTokens = GetListOfAllowedTokens(new[] { TokenGroupNames.StoreTokens, TokenGroupNames.SubscriptionTokens }).ToList();
-            allowedTokens.AddRange(additionTokens.AdditionTokens);
+        //    var allowedTokens = GetListOfAllowedTokens(new[] { TokenGroupNames.StoreTokens, TokenGroupNames.SubscriptionTokens }).ToList();
+        //    allowedTokens.AddRange(additionTokens.AdditionTokens);
 
-            return allowedTokens.Distinct();
-        }
+        //    return allowedTokens.Distinct();
+        //}
 
         /// <summary>
         /// Get collection of allowed (supported) message tokens
@@ -1307,7 +1311,7 @@ namespace Denmakers.DreamSale.Services.Messages
         public virtual IEnumerable<string> GetListOfAllowedTokens(IEnumerable<string> tokenGroups = null)
         {
             var additionTokens = new AdditionTokensAddedEvent();
-            _eventPublisher.Publish(additionTokens);
+            //_eventPublisher.Publish(additionTokens);
 
             var allowedTokens = AllowedTokens.Where(x => tokenGroups == null || tokenGroups.Contains(x.Key))
                 .SelectMany(x => x.Value).ToList();

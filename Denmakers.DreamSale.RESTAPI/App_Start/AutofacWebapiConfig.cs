@@ -1,30 +1,18 @@
 ﻿using Autofac;
-using Autofac.Core;
 using Autofac.Features.ResolveAnything;
 using Autofac.Integration.WebApi;
 using Denmakers.DreamSale.Data.Context;
 using Denmakers.DreamSale.Data.Infrastructure;
 using Denmakers.DreamSale.Data.Repositories;
-//using Denmakers.DreamSale.Model.Customers;
-//using Denmakers.DreamSale.RESTAPI.Controllers;
-//using Denmakers.DreamSale.Services.Attributes;
-//using Denmakers.DreamSale.Services.Categories;
-//using Denmakers.DreamSale.Services.Configuration;
-//using Denmakers.DreamSale.Services.Customers;
-//using Denmakers.DreamSale.Services.Localization;
-//using Denmakers.DreamSale.Services.Stores;
-//using Denmakers.DreamSale.Services.Vendors;
 using System.Reflection;
 using System.Web.Http;
-using System.Configuration;
 using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.RESTAPI.Infrastructure.WebContext;
 using System.Web;
-using Denmakers.DreamSale.Services.Addresses;
 using Denmakers.DreamSale.Services.Logging;
-using Denmakers.DreamSale.Services.Products;
 using Denmakers.DreamSale.Services.Helpers;
 using Denmakers.DreamSale.Common;
+using Denmakers.DreamSale.Services.Messages;
 
 namespace Denmakers.DreamSale.RESTAPI
 {
@@ -111,27 +99,10 @@ namespace Denmakers.DreamSale.RESTAPI
                     //.AsSelf()
                     .InstancePerLifetimeScope();
 
-            //helpers
-            builder.RegisterType<DateTimeHelper>().As<IDateTimeHelper>().InstancePerLifetimeScope();
-            builder.RegisterType<DateTimeSettings>().AsSelf();
-            //builder.RegisterType<GenericAttributeService>().As<IGenericAttributeService>().InstancePerLifetimeScope();
-            //builder.RegisterType<CustomerService>().As<ICustomerService>().InstancePerLifetimeScope();
-            //builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerLifetimeScope();
-            //builder.RegisterType<SettingService>().As<ISettingService>().InstancePerLifetimeScope();
-            //builder.RegisterType<LocalizationService>().As<ILocalizationService>().InstancePerLifetimeScope();
-            //builder.RegisterType<LocalizedEntityService>().As<ILocalizedEntityService>().InstancePerLifetimeScope();
-            //builder.RegisterType<LanguageService>().As<ILanguageService>().InstancePerLifetimeScope();
-            //builder.RegisterType<StoreMappingService>().As<IStoreMappingService>().InstancePerLifetimeScope();
-            //builder.RegisterType<VendorService>().As<IVendorService>().InstancePerLifetimeScope();
-
             //builder.RegisterType<MyAuthorizationServerProvider>()
             //    .As<IOAuthAuthorizationServerProvider>()
             //    .PropertiesAutowired() // to automatically resolve IUserService
             //    .InstancePerLifetimeScope();
-
-            // formatter and parser
-            //builder.RegisterType<CustomerAttributeFormatter>().As<ICustomerAttributeFormatter>().InstancePerLifetimeScope();
-            //builder.RegisterType<CustomerAttributeParser>().As<ICustomerAttributeParser>().InstancePerLifetimeScope();
 
             builder.RegisterAssemblyTypes(Assembly.Load("Denmakers.DreamSale.Services"))
                     .Where(t => t.Name.EndsWith("Formatter"))
@@ -150,9 +121,18 @@ namespace Denmakers.DreamSale.RESTAPI
 
             //builder.RegisterType<ProductAttributeParser>().As<IProductAttributeParser>().InstancePerLifetimeScope();
             //builder.RegisterType<ProductAttributeFormatter>().As<IProductAttributeFormatter>().InstancePerLifetimeScope();
+            //builder.RegisterType<CustomerAttributeFormatter>().As<ICustomerAttributeFormatter>().InstancePerLifetimeScope();
+            //builder.RegisterType<CustomerAttributeParser>().As<ICustomerAttributeParser>().InstancePerLifetimeScope();
 
             // logger
             builder.RegisterType<DefaultLogger>().As<ILogger>().InstancePerLifetimeScope();
+
+            //Misc
+            builder.RegisterType<DateTimeHelper>().As<IDateTimeHelper>().InstancePerLifetimeScope();
+            builder.RegisterType<DateTimeSettings>().AsSelf();
+            builder.RegisterType<Tokenizer>().As<ITokenizer>().InstancePerLifetimeScope();
+            builder.RegisterType<EmailSender>().As<IEmailSender>().InstancePerLifetimeScope();
+            builder.RegisterType<MessageTokenProvider>().As<IMessageTokenProvider>().InstancePerLifetimeScope();
 
             Container = builder.Build();
 

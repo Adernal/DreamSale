@@ -78,11 +78,19 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure
             return response;
         }
 
-        //protected virtual ActionResult AccessDeniedView()
-        //{
-        //    //return new HttpUnauthorizedResult();
-        //    return RedirectToAction("AccessDenied", "Security", new { pageUrl = this.Request.RawUrl });
-        //}
+        protected HttpResponseMessage AccessDeniedView(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                
+                Url.Route("AccessDenied", new { pageUrl = request.GetRouteData() });
+                string uri = Url.Link("AccessDenied", new { pageUrl = request.GetRouteData() });
+                response.Headers.Location = new Uri(uri);
+                return response;
+
+            });
+        }
         #endregion
 
 

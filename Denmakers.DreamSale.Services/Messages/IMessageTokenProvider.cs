@@ -6,6 +6,7 @@ using Denmakers.DreamSale.Model.Orders;
 using Denmakers.DreamSale.Model.Shipping;
 using Denmakers.DreamSale.Model.Stores;
 using Denmakers.DreamSale.Model.Vendors;
+using Denmakers.DreamSale.Services.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,12 +93,12 @@ namespace Denmakers.DreamSale.Services.Messages
         /// <param name="vendor">Vendor</param>
         void AddVendorTokens(IList<Token> tokens, Vendor vendor);
 
-        /// <summary>
-        /// Add newsletter subscription tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="subscription">Newsletter subscription</param>
-        //void AddNewsLetterSubscriptionTokens(IList<Token> tokens, NewsLetterSubscription subscription);
+        ///// <summary>
+        ///// Add newsletter subscription tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="subscription">Newsletter subscription</param>
+        ////void AddNewsLetterSubscriptionTokens(IList<Token> tokens, NewsLetterSubscription subscription);
 
         /// <summary>
         /// Add product review tokens
@@ -106,19 +107,19 @@ namespace Denmakers.DreamSale.Services.Messages
         /// <param name="productReview">Product review</param>
         void AddProductReviewTokens(IList<Token> tokens, ProductReview productReview);
 
-        /// <summary>
-        /// Add blog comment tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="blogComment">Blog post comment</param>
-        //void AddBlogCommentTokens(IList<Token> tokens, BlogComment blogComment);
+        ///// <summary>
+        ///// Add blog comment tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="blogComment">Blog post comment</param>
+        ////void AddBlogCommentTokens(IList<Token> tokens, BlogComment blogComment);
 
-        /// <summary>
-        /// Add news comment tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="newsComment">News comment</param>
-        //void AddNewsCommentTokens(IList<Token> tokens, NewsComment newsComment);
+        ///// <summary>
+        ///// Add news comment tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="newsComment">News comment</param>
+        ////void AddNewsCommentTokens(IList<Token> tokens, NewsComment newsComment);
 
         /// <summary>
         /// Add product tokens
@@ -134,37 +135,38 @@ namespace Denmakers.DreamSale.Services.Messages
         /// <param name="tokens">List of already added tokens</param>
         /// <param name="combination">Product attribute combination</param>
         /// <param name="languageId">Language identifier</param>
-        void AddAttributeCombinationTokens(IList<Token> tokens, ProductAttributeCombination combination, int languageId);
+        /// <param name="productAttributeFormatter">Product Attribute Formatter</param>
+        void AddAttributeCombinationTokens(IList<Token> tokens, ProductAttributeCombination combination, int languageId, IProductAttributeFormatter productAttributeFormatter);
 
-        /// <summary>
-        /// Add forum tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="forum">Forum</param>
-        //void AddForumTokens(IList<Token> tokens, Forum forum);
+        ///// <summary>
+        ///// Add forum tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="forum">Forum</param>
+        ////void AddForumTokens(IList<Token> tokens, Forum forum);
 
-        /// <summary>
-        /// Add forum topic tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="forumTopic">Forum topic</param>
-        /// <param name="friendlyForumTopicPageIndex">Friendly (starts with 1) forum topic page to use for URL generation</param>
-        /// <param name="appendedPostIdentifierAnchor">Forum post identifier</param>
-        //void AddForumTopicTokens(IList<Token> tokens, ForumTopic forumTopic, int? friendlyForumTopicPageIndex = null, int? appendedPostIdentifierAnchor = null);
+        ///// <summary>
+        ///// Add forum topic tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="forumTopic">Forum topic</param>
+        ///// <param name="friendlyForumTopicPageIndex">Friendly (starts with 1) forum topic page to use for URL generation</param>
+        ///// <param name="appendedPostIdentifierAnchor">Forum post identifier</param>
+        ////void AddForumTopicTokens(IList<Token> tokens, ForumTopic forumTopic, int? friendlyForumTopicPageIndex = null, int? appendedPostIdentifierAnchor = null);
 
-        /// <summary>
-        /// Add forum post tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="forumPost">Forum post</param>
-        //void AddForumPostTokens(IList<Token> tokens, ForumPost forumPost);
+        ///// <summary>
+        ///// Add forum post tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="forumPost">Forum post</param>
+        ////void AddForumPostTokens(IList<Token> tokens, ForumPost forumPost);
 
-        /// <summary>
-        /// Add private message tokens
-        /// </summary>
-        /// <param name="tokens">List of already added tokens</param>
-        /// <param name="privateMessage">Private message</param>
-        void AddPrivateMessageTokens(IList<Token> tokens, PrivateMessage privateMessage);
+        ///// <summary>
+        ///// Add private message tokens
+        ///// </summary>
+        ///// <param name="tokens">List of already added tokens</param>
+        ///// <param name="privateMessage">Private message</param>
+        //void AddPrivateMessageTokens(IList<Token> tokens, PrivateMessage privateMessage);
 
         /// <summary>
         /// Add tokens of BackInStock subscription
@@ -173,11 +175,11 @@ namespace Denmakers.DreamSale.Services.Messages
         /// <param name="subscription">BackInStock subscription</param>
         void AddBackInStockTokens(IList<Token> tokens, BackInStockSubscription subscription);
 
-        /// <summary>
-        /// Get collection of allowed (supported) message tokens for campaigns
-        /// </summary>
-        /// <returns>Collection of allowed (supported) message tokens for campaigns</returns>
-        //IEnumerable<string> GetListOfCampaignAllowedTokens();
+        ///// <summary>
+        ///// Get collection of allowed (supported) message tokens for campaigns
+        ///// </summary>
+        ///// <returns>Collection of allowed (supported) message tokens for campaigns</returns>
+        ////IEnumerable<string> GetListOfCampaignAllowedTokens();
 
         /// <summary>
         /// Get collection of allowed (supported) message tokens

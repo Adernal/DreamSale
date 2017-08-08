@@ -247,7 +247,7 @@ namespace Denmakers.DreamSale.Services.Products
             _productService.InsertProduct(productCopy);
 
             //search engine name
-            _urlRecordService.SaveSlug(productCopy, productCopy.ValidateSeName("", productCopy.Name, true, _urlRecordService, _seoSettings), 0);
+            //_urlRecordService.SaveSlug(productCopy, productCopy.ValidateSeName("", productCopy.Name, true, _urlRecordService, _seoSettings), 0);
 
             var languages = _languageService.GetAllLanguages(true);
 
@@ -279,7 +279,7 @@ namespace Denmakers.DreamSale.Services.Products
                     _localizedEntityService.SaveLocalizedValue(productCopy, x => x.MetaTitle, metaTitle, lang.Id);
 
                 //search engine name
-                _urlRecordService.SaveSlug(productCopy, productCopy.ValidateSeName("", name, false, _urlRecordService, _seoSettings), lang.Id);
+                //_urlRecordService.SaveSlug(productCopy, productCopy.ValidateSeName("", name, false, _urlRecordService, _seoSettings), lang.Id);
             }
 
             //product tags

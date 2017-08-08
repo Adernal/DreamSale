@@ -221,49 +221,49 @@ namespace Denmakers.DreamSale.Services.Localization
 
 
 
-        ///// <summary>
-        ///// Get localized value of permission
-        ///// We don't have UI to manage permission localizable name. That's why we're using this extension method
-        ///// </summary>
-        ///// <param name="permissionRecord">Permission record</param>
-        ///// <param name="localizationService">Localization service</param>
-        ///// <param name="workContext">Work context</param>
-        ///// <returns>Localized value</returns>
-        //public static string GetLocalizedPermissionName(this PermissionRecord permissionRecord,
-        //    ILocalizationService localizationService, IWorkContext workContext)
-        //{
-        //    if (workContext == null)
-        //        throw new ArgumentNullException("workContext");
+        /// <summary>
+        /// Get localized value of permission
+        /// We don't have UI to manage permission localizable name. That's why we're using this extension method
+        /// </summary>
+        /// <param name="permissionRecord">Permission record</param>
+        /// <param name="localizationService">Localization service</param>
+        /// <param name="workContext">Work context</param>
+        /// <returns>Localized value</returns>
+        public static string GetLocalizedPermissionName(this PermissionRecord permissionRecord,
+            ILocalizationService localizationService, IWorkContext workContext)
+        {
+            if (workContext == null)
+                throw new ArgumentNullException("workContext");
 
-        //    return GetLocalizedPermissionName(permissionRecord, localizationService, workContext.WorkingLanguage.Id);
-        //}
-        ///// <summary>
-        ///// Get localized value of enum
-        ///// We don't have UI to manage permission localizable name. That's why we're using this extension method
-        ///// </summary>
-        ///// <param name="permissionRecord">Permission record</param>
-        ///// <param name="localizationService">Localization service</param>
-        ///// <param name="languageId">Language identifier</param>
-        ///// <returns>Localized value</returns>
-        //public static string GetLocalizedPermissionName(this PermissionRecord permissionRecord, 
-        //    ILocalizationService localizationService, int languageId)
-        //{
-        //    if (permissionRecord == null)
-        //        throw new ArgumentNullException("permissionRecord");
+            return GetLocalizedPermissionName(permissionRecord, localizationService, workContext.WorkingLanguage.Id);
+        }
+        /// <summary>
+        /// Get localized value of enum
+        /// We don't have UI to manage permission localizable name. That's why we're using this extension method
+        /// </summary>
+        /// <param name="permissionRecord">Permission record</param>
+        /// <param name="localizationService">Localization service</param>
+        /// <param name="languageId">Language identifier</param>
+        /// <returns>Localized value</returns>
+        public static string GetLocalizedPermissionName(this PermissionRecord permissionRecord,
+            ILocalizationService localizationService, int languageId)
+        {
+            if (permissionRecord == null)
+                throw new ArgumentNullException("permissionRecord");
 
-        //    if (localizationService == null)
-        //        throw new ArgumentNullException("localizationService");
+            if (localizationService == null)
+                throw new ArgumentNullException("localizationService");
 
-        //    //localized value
-        //    string resourceName = string.Format("Permission.{0}", permissionRecord.SystemName);
-        //    string result = localizationService.GetResource(resourceName, languageId, false, "", true);
+            //localized value
+            string resourceName = string.Format("Permission.{0}", permissionRecord.SystemName);
+            string result = localizationService.GetResource(resourceName, languageId, false, "", true);
 
-        //    //set default value if required
-        //    if (String.IsNullOrEmpty(result))
-        //        result = permissionRecord.Name;
+            //set default value if required
+            if (String.IsNullOrEmpty(result))
+                result = permissionRecord.Name;
 
-        //    return result;
-        //}
+            return result;
+        }
         ///// <summary>
         ///// Save localized name of a permission
         ///// </summary>

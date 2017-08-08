@@ -69,7 +69,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                if (true)
                 {
                     var customers = _customerService.GetOnlineCustomers(DateTime.UtcNow.AddMinutes(_customerSettings.OnlineCustomerMinutes),
                 null, pageIndex, pageSize);

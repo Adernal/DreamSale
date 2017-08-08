@@ -13,6 +13,10 @@ using Denmakers.DreamSale.Model.Shipping;
 using Denmakers.DreamSale.Model.Orders;
 using Denmakers.DreamSale.ViewModels.AdminVM.Orders;
 using Denmakers.DreamSale.ViewModels.AdminVM.Common;
+using Denmakers.DreamSale.Model.Messages;
+using Denmakers.DreamSale.ViewModels.AdminVM.Messages;
+using Denmakers.DreamSale.Model.Stores;
+using Denmakers.DreamSale.ViewModels.AdminVM.Stores;
 
 namespace Denmakers.DreamSale.ViewModels.Mapper
 {
@@ -281,6 +285,46 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
                 cfg.CreateMap<VendorVM, Vendor>()
                     .ForMember(dest => dest.VendorNotes, mo => mo.Ignore())
                     .ForMember(dest => dest.Deleted, mo => mo.Ignore());
+                #endregion
+
+                #region Queued email
+                cfg.CreateMap<QueuedEmail, QueuedEmailVM>()
+                    .ForMember(dest => dest.EmailAccountName,
+                        mo => mo.MapFrom(src => src.EmailAccount != null ? src.EmailAccount.FriendlyName : string.Empty))
+                    .ForMember(dest => dest.CreatedOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.PriorityName, mo => mo.Ignore())
+                    .ForMember(dest => dest.DontSendBeforeDate, mo => mo.Ignore())
+                    .ForMember(dest => dest.SendImmediately, mo => mo.Ignore())
+                    .ForMember(dest => dest.SentOn, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<QueuedEmailVM, QueuedEmail>()
+                    .ForMember(dest => dest.Priority, dt => dt.Ignore())
+                    .ForMember(dest => dest.PriorityId, dt => dt.Ignore())
+                    .ForMember(dest => dest.CreatedOnUtc, dt => dt.Ignore())
+                    .ForMember(dest => dest.DontSendBeforeDateUtc, mo => mo.Ignore())
+                    .ForMember(dest => dest.SentOnUtc, mo => mo.Ignore())
+                    .ForMember(dest => dest.EmailAccount, mo => mo.Ignore())
+                    .ForMember(dest => dest.EmailAccountId, mo => mo.Ignore())
+                    .ForMember(dest => dest.AttachmentFilePath, mo => mo.Ignore())
+                    .ForMember(dest => dest.AttachmentFileName, mo => mo.Ignore());
+                #endregion
+
+                #region Email Account
+                cfg.CreateMap<EmailAccount, EmailAccountVM>()
+                    .ForMember(dest => dest.Password, mo => mo.Ignore())
+                    .ForMember(dest => dest.IsDefaultEmailAccount, mo => mo.Ignore())
+                    .ForMember(dest => dest.SendTestEmailTo, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<EmailAccountVM, EmailAccount>()
+                    .ForMember(dest => dest.Password, mo => mo.Ignore());
+                #endregion
+
+                #region Stores
+                cfg.CreateMap<Store, StoreVM>()
+                    .ForMember(dest => dest.AvailableLanguages, mo => mo.Ignore())
+                    .ForMember(dest => dest.Locales, mo => mo.Ignore())
+                    .ForMember(dest => dest.CustomProperties, mo => mo.Ignore());
+                cfg.CreateMap<StoreVM, Store>();
                 #endregion
 
                 #region Settings

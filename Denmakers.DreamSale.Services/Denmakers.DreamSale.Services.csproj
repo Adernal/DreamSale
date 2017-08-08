@@ -209,7 +209,9 @@
     <Compile Include="Media\ResizeType.cs" />
     <Compile Include="Directory\CountryService.cs" />
     <Compile Include="Messages\EmailAccountService.cs" />
+    <Compile Include="Messages\EmailSender.cs" />
     <Compile Include="Messages\IEmailAccountService.cs" />
+    <Compile Include="Messages\IEmailSender.cs" />
     <Compile Include="Messages\IMessageTemplateService.cs" />
     <Compile Include="Messages\IMessageTokenProvider.cs" />
     <Compile Include="Messages\IQueuedEmailService.cs" />
@@ -217,6 +219,7 @@
     <Compile Include="Messages\IWorkflowMessageService.cs" />
     <Compile Include="Messages\MessageTemplateExtensions.cs" />
     <Compile Include="Messages\MessageTemplateService.cs" />
+    <Compile Include="Messages\MessageTokenProvider.cs" />
     <Compile Include="Messages\QueuedEmailService.cs" />
     <Compile Include="Messages\Token.cs" />
     <Compile Include="Messages\TokenGroupNames.cs" />

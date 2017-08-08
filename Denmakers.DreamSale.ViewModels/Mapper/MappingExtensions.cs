@@ -2,8 +2,10 @@
 using Denmakers.DreamSale.Model.Common;
 using Denmakers.DreamSale.Model.Customers;
 using Denmakers.DreamSale.Model.Logging;
+using Denmakers.DreamSale.Model.Messages;
 using Denmakers.DreamSale.Model.Orders;
 using Denmakers.DreamSale.Model.Shipping;
+using Denmakers.DreamSale.Model.Stores;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.Services.Addresses;
 using Denmakers.DreamSale.ViewModels.AdminVM.Addresses;
@@ -11,8 +13,10 @@ using Denmakers.DreamSale.ViewModels.AdminVM.Catalog;
 using Denmakers.DreamSale.ViewModels.AdminVM.Common;
 using Denmakers.DreamSale.ViewModels.AdminVM.Customers;
 using Denmakers.DreamSale.ViewModels.AdminVM.Logging;
+using Denmakers.DreamSale.ViewModels.AdminVM.Messages;
 using Denmakers.DreamSale.ViewModels.AdminVM.Orders;
 using Denmakers.DreamSale.ViewModels.AdminVM.Settings;
+using Denmakers.DreamSale.ViewModels.AdminVM.Stores;
 using Denmakers.DreamSale.ViewModels.AdminVM.Vendors;
 using System;
 using System.Collections.Generic;
@@ -373,6 +377,63 @@ namespace Denmakers.DreamSale.ViewModels.Mapper
         }
 
         public static Vendor ToEntity(this VendorVM model, Vendor destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Email account
+
+        public static EmailAccountVM ToModel(this EmailAccount entity)
+        {
+            return entity.MapTo<EmailAccount, EmailAccountVM>();
+        }
+
+        public static EmailAccount ToEntity(this EmailAccountVM model)
+        {
+            return model.MapTo<EmailAccountVM, EmailAccount>();
+        }
+
+        public static EmailAccount ToEntity(this EmailAccountVM model, EmailAccount destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Stores
+
+        public static StoreVM ToModel(this Store entity)
+        {
+            return entity.MapTo<Store, StoreVM>();
+        }
+
+        public static Store ToEntity(this StoreVM model)
+        {
+            return model.MapTo<StoreVM, Store>();
+        }
+
+        public static Store ToEntity(this StoreVM model, Store destination)
+        {
+            return model.MapTo(destination);
+        }
+
+        #endregion
+
+        #region Queued email
+
+        public static QueuedEmailVM ToModel(this QueuedEmail entity)
+        {
+            return entity.MapTo<QueuedEmail, QueuedEmailVM>();
+        }
+
+        public static QueuedEmail ToEntity(this QueuedEmailVM model)
+        {
+            return model.MapTo<QueuedEmailVM, QueuedEmail>();
+        }
+
+        public static QueuedEmail ToEntity(this QueuedEmailVM model, QueuedEmail destination)
         {
             return model.MapTo(destination);
         }
