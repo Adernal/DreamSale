@@ -25,6 +25,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/ReturnRequest")]
+    [Infrastructure.Securities.AdminAuthorize]
     public partial class ReturnRequestController : ApiControllerBase
     {
         #region Fields

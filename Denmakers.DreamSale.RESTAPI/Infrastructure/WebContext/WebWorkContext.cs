@@ -175,6 +175,7 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure.WebContext
         {
             get
             {
+
                 if (_cachedCustomer != null)
                     return _cachedCustomer;
 
@@ -184,6 +185,11 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure.WebContext
                     //check whether request is made by a background task
                     //in this case return built-in customer record for background task
                     customer = _customerService.GetCustomerBySystemName(SystemCustomerNames.BackgroundTask);
+                }
+                else if (_httpContext != null)
+                {
+                    var userName = _httpContext.User.Identity.Name;
+                    customer = _customerService.GetCustomerByUsername(userName);
                 }
 
                 //check whether request is made by a search engine

@@ -22,6 +22,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/SpecificationAttribute")]
+    [Infrastructure.Securities.AdminAuthorize]
     public class SpecificationAttributeController : ApiControllerBase
     {
         #region Fields

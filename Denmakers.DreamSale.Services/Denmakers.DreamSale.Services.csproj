@@ -126,7 +126,7 @@
     <Compile Include="Addresses\IAddressAttributeParser.cs" />
     <Compile Include="Addresses\IAddressAttributeService.cs" />
     <Compile Include="Attributes\IGenericAttributeService.cs" />
-    <Compile Include="Authentication\AuthenticationService.cs" />
+    <Compile Include="Authentication\FormsAuthenticationService.cs" />
     <Compile Include="Authentication\IAuthenticationService.cs" />
     <Compile Include="Catalog\IPriceCalculationService.cs" />
     <Compile Include="Catalog\IPriceFormatter.cs" />

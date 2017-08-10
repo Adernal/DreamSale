@@ -1,10 +1,5 @@
-﻿using Denmakers.DreamSale.Common;
-using Denmakers.DreamSale.Data.Context;
-using Denmakers.DreamSale.Data.Infrastructure;
-using Denmakers.DreamSale.Data.Repositories;
-using Denmakers.DreamSale.Helpers;
+﻿using Denmakers.DreamSale.Helpers;
 using Denmakers.DreamSale.Model.Directory;
-using Denmakers.DreamSale.Model.Logging;
 using Denmakers.DreamSale.Model.Seo;
 using Denmakers.DreamSale.Model.Vendors;
 using Denmakers.DreamSale.RESTAPI.Infrastructure;
@@ -32,7 +27,9 @@ using System.Web.Http;
 
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
-    [RoutePrefix("api/Vendor")]
+    [RoutePrefix("api/Vendors")]
+    //[Infrastructure.Securities.AdminAuthorize/*(Roles = "Administrators, Vendors")*/]
+    [Infrastructure.Securities.AdminAuthorize]
     public class VendorController : ApiControllerBase
     {
         #region Fields
@@ -208,7 +205,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var model = new VendorListVM();
                     response = request.CreateResponse<VendorListVM>(HttpStatusCode.OK, model);
@@ -225,7 +222,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var vendors = _vendorService.GetAllVendors(name, pageIndex, pageSize, true);
                     var gridModel = new DataSourceResult
@@ -252,7 +249,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var vendor = _vendorService.GetVendorById(id);
                     if (vendor == null || vendor.Deleted)
@@ -281,7 +278,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var model = new VendorVM();
                     PrepareVendorModel(model, null, false, true);
@@ -309,7 +306,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
 
                     if (ModelState.IsValid)
@@ -370,7 +367,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
 
                     var vendor = _vendorService.GetVendorById(model.Id);
@@ -482,7 +479,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound);
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     if (!ModelState.IsValid)
                     {
@@ -538,7 +535,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var vendor = _vendorService.GetVendorById(vendorId);
                     if (vendor == null)
@@ -577,7 +574,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var vendor = _vendorService.GetVendorById(vendorId);
                     if (vendor == null)
@@ -611,7 +608,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageVendors))
                 {
                     var vendor = _vendorService.GetVendorById(vendorId);
                     if (vendor == null)

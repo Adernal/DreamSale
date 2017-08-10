@@ -21,6 +21,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/ActivityLog")]
+    [Infrastructure.Securities.AdminAuthorize]
     public class ActivityLogController : ApiControllerBase
     {
         #region Fields
@@ -55,7 +56,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageActivityLog))
                 {
                     var model = _customerActivityService
                                 .GetAllActivityTypes()
@@ -77,7 +78,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageActivityLog))
                 {
                     //activity log
                     _customerActivityService.InsertActivity("EditActivityLogTypes", _localizationService.GetResource("ActivityLog.EditActivityLogTypes"));

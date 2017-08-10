@@ -23,6 +23,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/ShoppingCart")]
+    [Infrastructure.Securities.AdminAuthorize]
     public class ShoppingCartController : ApiControllerBase
     {
         #region Fields
@@ -74,7 +75,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCurrentCarts))
                 {
                     var customers = _customerService.GetAllCustomers(
                                                                         loadOnlyWithShoppingCart: true,
@@ -111,7 +112,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCurrentCarts))
                 {
                     var customer = _customerService.GetCustomerById(customerId);
                     var cart = customer.ShoppingCartItems.Where(x => x.ShoppingCartType == ShoppingCartType.ShoppingCart).ToList();
@@ -157,7 +158,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCurrentCarts))
                 {
                     var customers = _customerService.GetAllCustomers(
                                                                         loadOnlyWithShoppingCart: true,
@@ -193,7 +194,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (true)
+                if (_permissionService.Authorize(StandardPermissionProvider.ManageCurrentCarts))
                 {
                     var customer = _customerService.GetCustomerById(customerId);
                     var cart = customer.ShoppingCartItems.Where(x => x.ShoppingCartType == ShoppingCartType.Wishlist).ToList();

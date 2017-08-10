@@ -18,6 +18,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/Security")]
+    [Infrastructure.Securities.AdminAuthorize]
     public class SecurityController : ApiControllerBase
     {
         #region Fields

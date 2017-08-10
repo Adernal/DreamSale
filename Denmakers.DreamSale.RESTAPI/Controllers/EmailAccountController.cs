@@ -20,6 +20,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/EmailAccounts")]
+    [Infrastructure.Securities.AdminAuthorize]
     public partial class EmailAccountController : ApiControllerBase
     {
         #region Fields

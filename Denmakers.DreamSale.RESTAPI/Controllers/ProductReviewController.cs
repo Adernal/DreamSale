@@ -24,6 +24,7 @@ using Denmakers.DreamSale.Services;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/ProductReviews")]
+    [Infrastructure.Securities.AdminAuthorize]
     public class ProductReviewController : ApiControllerBase
     {
         #region Fields

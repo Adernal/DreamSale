@@ -9,8 +9,8 @@ namespace Denmakers.DreamSale.RESTAPI
         {
             // Web API configuration and services
             //enable cors
-            EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "GET,POST");
-            config.EnableCors(cors);
+            //EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "GET,POST");
+            //config.EnableCors(cors);
 
 
             // Web API routes
