@@ -20,10 +20,13 @@ const routes: Routes = [
             { path: 'product-tags', loadChildren: './products/product-tags/product-tags.module#ProductTagsModule' },
             { path: 'product-attributes', loadChildren: './products/product-attributes/product-attributes.module#ProductAttributesModule' },
             { path: 'link-product-attribute', loadChildren: './products/link-product-attribute/link-product-attribute.module#LinkProductAttributeModule' },
-        
+            { path: 'customers', loadChildren: './customers/customers.module#CustomersModule' },
+            { path: 'orders', loadChildren: './orders/orders.module#OrdersModule'},
             { path: 'product-reviews', loadChildren: './products/product-reviews/product-reviews.module#ProductReviewsModule' },
             { path: 'vendors', loadChildren: './vendors/vendors.module#VendorsModule' },
             { path: 'customers', loadChildren: './customers/customers.module#CustomersModule' },
+            { path: 'return-requests', loadChildren: './return-requests/return-requests.module#ReturnRequestsModule' },
+            { path: 'stores', loadChildren: './stores/stores.module#StoresModule' },
             { path: 'specification-attributes', loadChildren: './products/specification-attributes/specification-attributes.module#SpecificationAttributesModule' }
 
 

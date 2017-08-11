@@ -48,6 +48,10 @@
                     <li>
                         <a [routerLink]="['/product-attributes']"><span>{{ 'Product Attributes' | translate }}</span></a>
                     </li>
+                    <li>
+                        <a [routerLink]="['/stores']"><span>{{ 'Stores' | translate }}</span></a>
+                    </li>
+
 
                 </ul>
             </li>
@@ -60,13 +64,13 @@
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']"><span>{{ 'Orders' | translate }}</span></a>
+                        <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']"><span>{{ 'Orders' | translate }}</span></a>
                     </li>
                     <li>
                         <a href="javascript:void(0)"><span>{{ 'Shipments' | translate }}</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)"><span>{{ 'Return Requests' | translate }}</span></a>
+                        <a [routerLink]="['/return-requests']" [routerLinkActive]="['router-link-active']"><span>{{ 'Return Requests' | translate }}</span></a>
                     </li>
                     <li>
                         <a href="javascript:void(0)"><span>{{ 'Recurring Payments' | translate }}</span></a>
@@ -86,7 +90,7 @@
             <li class="nested" [class.expand]="showMenu === 'pages'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/forms']" [routerLinkActive]="['router-link-active']"><span>{{ 'Customers' | translate }}</span></a>
+                        <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']"><span>{{ 'Customers' | translate }}</span></a>
                     </li>
                     <li>
                         <a href="javascript:void(0)"><span>{{ 'Customer Roles' | translate }}</span></a>
@@ -105,7 +109,7 @@
                 </ul>
             </li>
         </div>
-        
+
 
     </ul>
 </nav>

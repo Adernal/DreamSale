@@ -1,7 +1,7 @@
 <div class="container">
 <h1>  Product Reviews Management </h1>
      <hr>
-    <div class="row" *ngIf="editMode">
+    <!-- <div class="row" *ngIf="editMode">
 
 
       <form role="form" (ngSubmit)="addAttribute(f)" #f="ngForm" class="container">
@@ -11,7 +11,7 @@
                 <label class="card-header">Product Review</label>
                 <input class="form-control" ngModel name="attribute_name" required placeholder="Enter Attribute Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="attribute_name" name="attribute_name" required value="{{attribute_name}}" *ngIf="editMode">
-                <!-- <p class="help-block">Example block-level help text here.</p> -->
+
             </fieldset>
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Attribute</button>
@@ -23,7 +23,7 @@
 
   </div>
 </form>
-  </div>
+  </div> -->
  <hr>
     <div class="row">
 
@@ -49,11 +49,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let product of products">
-
-
-                          <td><button type="button" name="{{attribute.attribute_id}}" class="btn" (click)="editAttributeMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
-                        </tr>
+                    
 
 
                         </tbody>

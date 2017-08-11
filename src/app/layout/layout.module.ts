@@ -6,11 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { HeaderComponent, SidebarComponent } from '../shared';
-import { CustomerComponent } from './customer/customer.component';
-import { OrdersComponent } from './orders/orders.component';
-import { StoresComponent } from './stores/stores.component';
-import { LogComponent } from './log/log.component';
-import { ReturnRequestsComponent } from './return-requests/return-requests.component';
+import { ShipmentsComponent } from './shipments/shipments.component';
+import { GiftCardsComponent } from './gift-cards/gift-cards.component';
+import { CustomerRolesComponent } from './customer-roles/customer-roles.component';
+import { RecurringPaymentsComponent } from './recurring-payments/recurring-payments.component';
+
 
 // import { VendorsComponent } from './vendors/vendors.component';
 
@@ -26,15 +26,10 @@ import { ReturnRequestsComponent } from './return-requests/return-requests.compo
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
-        CustomerComponent,
-        OrdersComponent,
-        StoresComponent,
-        LogComponent,
-        ReturnRequestsComponent,
-    
-
-
-
-    ]
+        ShipmentsComponent,
+        GiftCardsComponent,
+        CustomerRolesComponent,
+        RecurringPaymentsComponent,
+      ]
 })
 export class LayoutModule { }

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomersRoutingModule } from './customers-routing.module';
-import { CustomersComponent } from './customers.component';
+
+import { OrdersRoutingModule } from './orders-routing.module';
+import { OrdersComponent } from './orders.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
 //import { FilterPipe } from './filter.pipe';
@@ -16,13 +17,13 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
-    CustomersRoutingModule,
+    OrdersRoutingModule,
     PageHeaderModule,
     FormsModule,
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
   //providers:[customerservice],
-  declarations: [CustomersComponent]
+  declarations: [OrdersComponent]
 })
-export class CustomersModule { }
+export class OrdersModule { }
