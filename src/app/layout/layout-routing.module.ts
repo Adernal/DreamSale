@@ -19,6 +19,8 @@ const routes: Routes = [
             { path: 'products', loadChildren: './products/products.module#ProductsModule' },
             { path: 'product-tags', loadChildren: './products/product-tags/product-tags.module#ProductTagsModule' },
             { path: 'product-attributes', loadChildren: './products/product-attributes/product-attributes.module#ProductAttributesModule' },
+            { path: 'link-product-attribute', loadChildren: './products/link-product-attribute/link-product-attribute.module#LinkProductAttributeModule' },
+        
             { path: 'product-reviews', loadChildren: './products/product-reviews/product-reviews.module#ProductReviewsModule' },
             { path: 'vendors', loadChildren: './vendors/vendors.module#VendorsModule' },
             { path: 'customers', loadChildren: './customers/customers.module#CustomersModule' },

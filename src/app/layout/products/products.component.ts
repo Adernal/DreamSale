@@ -205,22 +205,27 @@ export class ProductsComponent implements OnInit {
         this.getSpecAttributes();
         this.getCategory();
     }
-    // editProductAttribute(prod_id,attr_id){
-    //   console.log(prod_id,attr_id);
+    // showAttributeDescription(){
+    //     alert("HI");
     //   this.editAttributeMode=true;
-    //   this.current_product_id =prod_id;
-    //   this.current_attribute_id =attr_id;
-    //   this.current_attribute = this.product[+prod_id].product_attributes[attr_id];
-    //   this.current_attribute_description = this.product[+prod_id].product_attributes[attr_id].description;
-    //   console.log(this.current_attribute);
-    // }
-    // saveAttribute(){
-    //   this.current_attribute_description = this.attributeForm.value.prod_attrib;
-    //   this.product[+this.current_product_id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
-    //   localStorage.setItem("products",JSON.stringify(this.product));
-    //   console.log("Up")
     //
     // }
+    editProductAttribute(prod_id,attr_id){
+      console.log(prod_id,attr_id);
+      this.editAttributeMode=true;
+      this.current_product_id =prod_id;
+      this.current_attribute_id =attr_id;
+      this.current_attribute = this.product[prod_id].product_attributes[attr_id];
+      this.current_attribute_description = this.product[prod_id].product_attributes[attr_id].description;
+      console.log(this.current_attribute);
+    }
+    saveAttribute(){
+      this.current_attribute_description = this.attributeForm.value.prod_attrib;
+      this.product[+this.current_product_id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
+      localStorage.setItem("products",JSON.stringify(this.product));
+      console.log("Up")
+
+    }
 
 
 }

@@ -109,16 +109,16 @@
             <h2>Product List </h2>
             <input type="text" placeholder="Search by Product Name or Category" [(ngModel)]="filteredProduct" style="width:100%;">
         </div>
-        <div class="card-block table-responsive" style="width:100%;">
+        <div class="card-block" style="width:100%;">
             <table class="table table-bordered table-hover" style="table-layout:fixed">
                 <thead class="thead-inverse">
                     <tr>
                         <th>Product ID</th>
                         <th>Product Name</th>
-                        <th>Product Description</th>
+
                         <th>Price</th>
                         <th>Product Category</th>
-                        <th>Tags</th>
+
                         <th>Product Attributes</th>
                         <th>Specification Attributes</th>
                         <th>Action</th>
@@ -130,26 +130,25 @@
                     <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'product_name':'category'">
                         <td>{{product.product_id}}</td>
                         <td>{{product.product_name}}</td>
-                        <td>{{product.product_description}}</td>
+
                         <td>{{product.product_price}}</td>
                         <td>{{product.category}}</td>
-                        <td>
-                            <select>
-                                <option *ngFor="let t of product.tag" style="list-style:none;">
-                                    {{t}}
 
-                                <hr></option>
-                            </select>
-                        </td>
                         <td>
                             <select>
-                                <option *ngFor="let rowIndex = index;let a of product.product_attributes" style="list-style:none;">
-                                    <a style="cursor:pointer" (click)="editProductAttribute()">{{a}}</a>
+                                <option *ngFor="let rowIndex = index;let a of product.product_attributes" style="list-style:none;"
+                                (click)="editProductAttribute(i,rowIndex)">
+                                    <a style="cursor:pointer" >{{a}}</a>
 
 
                                 <hr></option>
+
                             </select>
+                            <div *ngIf="editAttributeMode">
+                              <input type="text" placeholder="Enter Value" style="width:100%">
+                            </div>
                         </td>
+
                         <td>
                             <select>
                                 <option *ngFor="let j of product.specification_attributes" style="list-style:none;">
@@ -158,6 +157,7 @@
                                 <hr></option>
                             </select>
                         </td>
+
                         <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i></button>
                             <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button></td>
                     </tr>

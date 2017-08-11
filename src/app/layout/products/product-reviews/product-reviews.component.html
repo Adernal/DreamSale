@@ -1,14 +1,14 @@
 <div class="container">
-<h1>  Product Attributes Management </h1>
+<h1>  Product Reviews Management </h1>
      <hr>
-    <div class="row">
+    <div class="row" *ngIf="editMode">
 
 
       <form role="form" (ngSubmit)="addAttribute(f)" #f="ngForm" class="container">
         <div class="row">
           <div class="col-lg-6">
             <fieldset class="form-group card mb-3">
-                <label class="card-header">Product Attribute</label>
+                <label class="card-header">Product Review</label>
                 <input class="form-control" ngModel name="attribute_name" required placeholder="Enter Attribute Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="attribute_name" name="attribute_name" required value="{{attribute_name}}" *ngIf="editMode">
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
@@ -30,23 +30,27 @@
 
             <div class="card mb-3">
                 <div class="card-header">
-                    Attribute List
+                    Review List
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
                         <thead class="thead-inverse">
                         <tr>
-                            <th>Attribute Id</th>
-                            <th>Attribute Name</th>
-                            <th>Edit</th>
+                            <th>Store</th>
+                            <th>Product</th>
+                            <th>Customer</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Rating</th>
+                            <th>Approved</th>
+                            <th>Created On</th>
+                            <th>Action</th>
 
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let attribute of attribute">
+                          <tr *ngFor =" let product of products">
 
-                          <td>{{attribute.attribute_id}}</td>
-                          <td>{{attribute.attribute_name}}</td>
 
                           <td><button type="button" name="{{attribute.attribute_id}}" class="btn" (click)="editAttributeMode(c)" #c><i class="fa fa-edit"></i>Edit</button></td>
                         </tr>

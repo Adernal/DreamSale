@@ -6,6 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LayoutRoutingModule } from './layout-routing.module';
 import { LayoutComponent } from './layout.component';
 import { HeaderComponent, SidebarComponent } from '../shared';
+import { CustomerComponent } from './customer/customer.component';
+import { OrdersComponent } from './orders/orders.component';
+import { StoresComponent } from './stores/stores.component';
+import { LogComponent } from './log/log.component';
+import { ReturnRequestsComponent } from './return-requests/return-requests.component';
 
 // import { VendorsComponent } from './vendors/vendors.component';
 
@@ -21,6 +26,11 @@ import { HeaderComponent, SidebarComponent } from '../shared';
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
+        CustomerComponent,
+        OrdersComponent,
+        StoresComponent,
+        LogComponent,
+        ReturnRequestsComponent,
     
 
 
