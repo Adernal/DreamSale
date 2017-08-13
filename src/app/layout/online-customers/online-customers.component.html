@@ -1,0 +1,43 @@
+<div class="container">
+<h1> Customer Role Management </h1>
+     <hr>
+    <div class="row">
+        <div class="card mb-3">
+                <div class="card-header">
+                  <h2>Online Customers</h2>
+                </div>
+                <div class="card-block" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+
+                            <th>Customer Info</th>
+                            <th>IP Address</th>
+                            <th>Location</th>
+                            <th>Last Activity</th>
+                            <th>Last Visited Page</th>
+
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor =" let i = index ;let online_customer of online_customer" >
+
+
+                          <td>{{online_customer.CustomerInfo}}</td>
+                          <td>{{online_customer.IpAddress}}</td>
+                          <td>{{online_customer.Location}}</td>
+                          <td>{{online_customer.LastActivity}}</td>
+                          <td>{{online_customer.LastVisitedPage}}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>
+  </div>

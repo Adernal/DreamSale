@@ -1,3 +1,134 @@
-<p>
-  customer-roles works!
-</p>
+<div class="container">
+<h1> Customer Role Management </h1>
+     <hr>
+    <div class="row">
+
+
+      <form role="form" (ngSubmit)="addCustomerRole(f)" #f="ngForm" class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Customer Role</label>
+                <input class="form-control" ngModel name="Name" required placeholder="Enter Customer Role Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+            <label class="card-header">Free Shipping</label>
+              <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
+
+                <input type="checkbox" class="form-control" ngModel name="FreeShipping">
+              </div>
+
+              <div *ngIf="editMode"  class="checkbox" style="float:left; margin:5px;">
+                <input type="checkbox" class="form-control" [(ngModel)]="FreeShipping" name="Active">
+              </div>
+
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+            <label class="card-header">Tax Exempt</label>
+              <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
+
+                <input type="checkbox" class="form-control" ngModel name="TaxExempt">
+              </div>
+
+              <div *ngIf="editMode"  class="checkbox" style="float:left; margin:5px;">
+                <input type="checkbox" class="form-control" [(ngModel)]="TaxExempt" name="Active">
+              </div>
+
+            </fieldset>
+
+
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Customer Role</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Customer Role</button>
+            <button type="reset" class="btn btn-danger">Reset Details</button>
+
+        </div>
+        <div class="col-lg-6">
+
+            <fieldset class="form-group card mb-3">
+            <label class="card-header">Active</label>
+              <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
+
+                <input type="checkbox" class="form-control" ngModel name="Active">
+              </div>
+
+              <div *ngIf="editMode"  class="checkbox" style="float:left; margin:5px;">
+                <input type="checkbox" class="form-control" [(ngModel)]="Active" name="Active">
+              </div>
+
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+            <label class="card-header">Is System Role</label>
+              <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
+
+                <input type="checkbox" class="form-control" ngModel name="IsSystemRole">
+              </div>
+
+              <div *ngIf="editMode"  class="checkbox" style="float:left; margin:5px;">
+                <input type="checkbox" class="form-control" [(ngModel)]="IsSystemRole" name="Active">
+              </div>
+
+            </fieldset>
+
+
+
+        </div>
+
+
+  </div>
+
+
+</form>
+  </div>
+  </div>
+ <hr>
+    <div class="row">
+
+
+            <div class="card mb-3">
+                <div class="card-header">
+                  <h2>Customer Role List</h2>
+                  <!-- <input type="text" placeholder="Search By Name or Email" [(ngModel)]="filteredCustomer Role" style="width:100%;"> -->
+                </div>
+                <div class="card-block" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+
+                            <th>Customer Role</th>
+                            <th>Free Shipping</th>
+                            <th>Tax Exempt</th>
+                            <th>Active</th>
+                            <th>Is System Role</th>
+
+                            <th>Action</th>
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor =" let i = index ;let customer_role of customer_role" >
+
+
+                          <td>{{customer_role.Name}}</td>
+                          <td>{{customer_role.FreeShipping}}</td>
+                          <td>{{customer_role.TaxExempt}}</td>
+                          <td>{{customer_role.Active}}</td>
+                          <td>{{customer_role.IsSystemRole}}</td>
+
+
+
+
+                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editCustomerRoleMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCustomerRole(d)" #d><i class="fa fa-times"></i></button></td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>

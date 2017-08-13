@@ -7,29 +7,17 @@
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Catalog' | translate }}
         </a> -->
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')" >
+            <a class="list-group-item" (click)="addExpandClass('catalog')" >
                 <span><i class="fa fa-cart-arrow-down"></i>&nbsp;{{ 'Catalog' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'catalog'">
                 <ul class="submenu">
-
                     <li>
-                    <div class="nested-menu">
-                        <a class="list-group-item" (click)="addExpandClass('products')" >
-                            <span>{{ 'Products' | translate }}</span>
-                        </a>
-                        <li class="nested" [class.expand]="showMenu === 'products'">
-                            <ul class="submenu">
-                                <li>
-                                    <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']"><span>{{ 'Products' | translate }}</span></a>
-                                </li>
-                              <li>
-                                  <a [routerLink]="['/link-product-attribute']"><span>{{ 'Link Attributes to Products' | translate }}</span></a>
-                              </li>
-                            </ul>
-                          </li>
-                        </div>
-                      </li>
+                        <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']"><span>{{ 'Products' | translate }}</span></a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/link-product-attribute']"><span>{{ 'Link Attributes to Products' | translate }}</span></a>
+                    </li>
                     <li>
                         <a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']"><span>{{ 'Categories' | translate }}</span></a>
                     </li>
@@ -58,10 +46,10 @@
         </div>
 
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')" >
+            <a class="list-group-item" (click)="addExpandClass('sales')" >
                 <span><i class="fa fa-credit-card-alt"></i>&nbsp;{{ 'Sales' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'sales'">
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']"><span>{{ 'Orders' | translate }}</span></a>
@@ -84,19 +72,19 @@
             </li>
         </div>
         <div class="nested-menu">
-            <a class="list-group-item" (click)="addExpandClass('pages')" >
+            <a class="list-group-item" (click)="addExpandClass('customers')" >
                 <span><i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Customers' | translate }}</span>
             </a>
-            <li class="nested" [class.expand]="showMenu === 'pages'">
+            <li class="nested" [class.expand]="showMenu === 'customers'">
                 <ul class="submenu">
                     <li>
                         <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']"><span>{{ 'Customers' | translate }}</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)"><span>{{ 'Customer Roles' | translate }}</span></a>
+                        <a [routerLink]="['/customer-roles']" [routerLinkActive]="['router-link-active']"><span>{{ 'Customer Roles' | translate }}</span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)"><span>{{ 'Online Customers' | translate }}</span></a>
+                        <a [routerLink]="['/online_customers']" [routerLinkActive]="['router-link-active']"><span>{{ 'Online Customers' | translate }}</span></a>
                     </li>
                     <li>
                         <a href="javascript:void(0)"><span>{{ 'Vendors' | translate }}</span></a>

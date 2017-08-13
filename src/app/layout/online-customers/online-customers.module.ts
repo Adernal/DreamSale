@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomersRoutingModule } from './customers-routing.module';
-import { CustomersComponent } from './customers.component';
+
+import { OnlineCustomersRoutingModule } from './online-customers-routing.module';
+import { OnlineCustomersComponent } from './online-customers.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
-import { FilterPipe } from './filter.pipe';
+import { OnlineCustomersService } from './online-customers.service';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { customerservice } from './product.service';
@@ -17,13 +18,13 @@ import { FilterPipe } from './filter.pipe';
 @NgModule({
   imports: [
     CommonModule,
-    CustomersRoutingModule,
+    OnlineCustomersRoutingModule,
     PageHeaderModule,
     FormsModule,
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  //providers:[customerservice],
-  declarations: [CustomersComponent, FilterPipe]
+  providers:[OnlineCustomersService],
+  declarations: [OnlineCustomersComponent]
 })
-export class CustomersModule { }
+export class OnlineCustomersModule { }
