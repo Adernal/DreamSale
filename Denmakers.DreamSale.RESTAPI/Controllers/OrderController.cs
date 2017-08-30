@@ -64,7 +64,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         private readonly IWorkContext _workContext;
         private readonly ICurrencyService _currencyService;
         private readonly IEncryptionService _encryptionService;
-        private readonly IPaymentService _paymentService;
+        //private readonly IPaymentService _paymentService;
         private readonly IMeasureService _measureService;
         //private readonly IPdfService _pdfService;
         private readonly IAddressService _addressService;
@@ -121,7 +121,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             ILocalizedEntityService localizedEntityService,
             ICurrencyService currencyService,
             IEncryptionService encryptionService,
-            IPaymentService paymentService,
+            //IPaymentService paymentService,
             IMeasureService measureService,
             //IPdfService pdfService,
             IAddressService addressService,
@@ -169,7 +169,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             this._workContext = base._baseService.WorkContext;
             this._currencyService = currencyService;
             this._encryptionService = encryptionService;
-            this._paymentService = paymentService;
+            //this._paymentService = paymentService;
             this._measureService = measureService;
             //this._pdfService = pdfService;
             this._addressService = addressService;
@@ -559,7 +559,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             model.BillingAddress.FaxEnabled = _addressSettings.FaxEnabled;
             model.BillingAddress.FaxRequired = _addressSettings.FaxRequired;
 
-            model.ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext); ;
+            model.ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _workContext);
             if (order.ShippingStatus != ShippingStatus.ShippingNotRequired)
             {
                 model.IsShippable = true;
@@ -708,12 +708,26 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
         #region Orders List
         [HttpGet]
-        [Route("", Name = "OrderDefaultModel")]
+        [Route("")]
+        public virtual HttpResponseMessage Index(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK);
+                Url.Route("OrderDefaultModel", null);
+                string uri = uri = Url.Link("OrderDefaultModel", null);
+                response.Headers.Location = new Uri(uri);
+                Redirect(response.Headers.Location);
+                return response;
+            });
+        }
+
+        [Route("OrderDefaultModel", Name = "OrderDefaultModel")]
         public HttpResponseMessage OrderDeafultModel(HttpRequestMessage request, List<string> orderStatusIds = null, List<string> paymentStatusIds = null, List<string> shippingStatusIds = null)
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
                 if (_permissionService.Authorize(StandardPermissionProvider.ManageOrders))
                 {
                     //order statuses

@@ -312,6 +312,11 @@ namespace Denmakers.DreamSale.Services.Media
         /// <param name="binary">Picture binary</param>
         protected virtual void SaveThumb(string thumbFilePath, string thumbFileName, string mimeType, byte[] binary)
         {
+            string tempPath = thumbFilePath.Replace(thumbFileName, "");
+            if (!System.IO.Directory.Exists(tempPath))
+            {
+                System.IO.Directory.CreateDirectory(tempPath);
+            }
             File.WriteAllBytes(thumbFilePath, binary);
         }
 

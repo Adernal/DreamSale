@@ -204,6 +204,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         UpdateAttributeLocales(store, model);
 
                         _baseService.Commit();
+                        response = request.CreateErrorResponse(HttpStatusCode.Created, "Store created successfully");
                         if (continueEditing)
                         {
                             Url.Route("GetStoreById", new { id = store.Id });
@@ -269,6 +270,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         UpdateAttributeLocales(store, model);
 
                         _baseService.Commit();
+                        response = request.CreateErrorResponse(HttpStatusCode.OK, "Store updated successfully");
                         //SuccessNotification(_localizationService.GetResource("Admin.Configuration.Stores.Updated"));
                         if (continueEditing)
                         {
@@ -343,7 +345,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         }
 
                         _baseService.Commit();
-
+                        response = request.CreateErrorResponse(HttpStatusCode.Created, "Store deleted successfully");
                         //SuccessNotification(_localizationService.GetResource("Admin.Configuration.Stores.Deleted"));
 
                         Url.Route("StoreList", null);
