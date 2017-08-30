@@ -186,8 +186,9 @@ namespace Denmakers.DreamSale.RESTAPI.Infrastructure.WebContext
                     //in this case return built-in customer record for background task
                     customer = _customerService.GetCustomerBySystemName(SystemCustomerNames.BackgroundTask);
                 }
-                else if (_httpContext != null)
+                else if (_httpContext != null && _httpContext.User != null && _httpContext.User.Identity != null)
                 {
+                    // get the customer from the authenticated context
                     var userName = _httpContext.User.Identity.Name;
                     customer = _customerService.GetCustomerByUsername(userName);
                 }

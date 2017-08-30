@@ -326,8 +326,8 @@ namespace Denmakers.DreamSale.RESTAPI.Areas.HelpPage
                         CultureInfo.CurrentCulture,
                         "Failed to generate the sample for media type '{0}'. Cannot use formatter '{1}' to write type '{2}'.",
                         mediaType,
-                        formatter.GetType().Name,
-                        type.Name));
+                        formatter.GetType().FullName,
+                        type.FullName));
                 }
             }
             catch (Exception e)
@@ -335,7 +335,7 @@ namespace Denmakers.DreamSale.RESTAPI.Areas.HelpPage
                 sample = new InvalidSample(String.Format(
                     CultureInfo.CurrentCulture,
                     "An exception has occurred while using the formatter '{0}' to generate sample for media type '{1}'. Exception message: {2}",
-                    formatter.GetType().Name,
+                    formatter.GetType().FullName,
                     mediaType.MediaType,
                     UnwrapException(e).Message));
             }

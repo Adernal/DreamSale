@@ -3035,34 +3035,34 @@ namespace Denmakers.DreamSale.Services.Orders
         //    _genericAttributeService.SaveAttribute(order.Customer, SystemCustomerAttributeNames.CheckoutAttributes, order.CheckoutAttributesXml, order.StoreId);
         //}
 
-        ///// <summary>
-        ///// Check whether return request is allowed
-        ///// </summary>
-        ///// <param name="order">Order</param>
-        ///// <returns>Result</returns>
-        //public virtual bool IsReturnRequestAllowed(Order order)
-        //{
-        //    if (!_orderSettings.ReturnRequestsEnabled)
-        //        return false;
+        /// <summary>
+        /// Check whether return request is allowed
+        /// </summary>
+        /// <param name="order">Order</param>
+        /// <returns>Result</returns>
+        public virtual bool IsReturnRequestAllowed(Order order)
+        {
+            if (!_orderSettings.ReturnRequestsEnabled)
+                return false;
 
-        //    if (order == null || order.Deleted)
-        //        return false;
+            if (order == null || order.Deleted)
+                return false;
 
-        //    //status should be compelte
-        //    if (order.OrderStatus != OrderStatus.Complete)
-        //        return false;
+            //status should be compelte
+            if (order.OrderStatus != OrderStatus.Complete)
+                return false;
 
-        //    //validate allowed number of days
-        //    if (_orderSettings.NumberOfDaysReturnRequestAvailable > 0)
-        //    {
-        //        var daysPassed = (DateTime.UtcNow - order.CreatedOnUtc).TotalDays;
-        //        if (daysPassed >= _orderSettings.NumberOfDaysReturnRequestAvailable)
-        //            return false;
-        //    }
+            //validate allowed number of days
+            if (_orderSettings.NumberOfDaysReturnRequestAvailable > 0)
+            {
+                var daysPassed = (DateTime.UtcNow - order.CreatedOnUtc).TotalDays;
+                if (daysPassed >= _orderSettings.NumberOfDaysReturnRequestAvailable)
+                    return false;
+            }
 
-        //    //ensure that we have at least one returnable product
-        //    return order.OrderItems.Any(oi => !oi.Product.NotReturnable);
-        //}
+            //ensure that we have at least one returnable product
+            return order.OrderItems.Any(oi => !oi.Product.NotReturnable);
+        }
 
 
 

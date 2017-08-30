@@ -1,5 +1,6 @@
 ﻿using Denmakers.DreamSale.Model.Catalog;
 using Denmakers.DreamSale.Services.Localization;
+using Denmakers.DreamSale.Services.Security;
 using Denmakers.DreamSale.Services.Stores;
 using System;
 using System.Collections.Generic;
@@ -73,60 +74,188 @@ namespace Denmakers.DreamSale.Services.Categories
         //    return result;
         //}
 
-        public static string GetFormattedBreadCrumb(this Category category, IList<Category> allCategories, string separator = ">>", StringBuilder result = default(StringBuilder))
-        {
-            if (category.Name == "Jeans")
-            {
+        //public static string GetFormattedBreadCrumb(this Category category, IList<Category> allCategories, string separator = ">>", StringBuilder result = default(StringBuilder))
+        //{
+            
+        //    if (string.IsNullOrWhiteSpace(Convert.ToString(result)))
+        //    {
+        //        result = new StringBuilder();
+        //        result.Append(category.Name);
+        //    }
+        //    var parenrCategory = allCategories.FirstOrDefault(c => c.Id == category.ParentCategoryId);
+        //    if ((parenrCategory == null || category.ParentCategoryId == 0) 
+        //        && (!string.IsNullOrWhiteSpace(Convert.ToString(result)) && Convert.ToString(result).Contains(category.Name))
+        //        )
+        //    {
+        //        return Convert.ToString(result);
+        //    }
+        //    if (parenrCategory == null || category.ParentCategoryId == 0)
+        //    {
+        //        return category.Name;
+        //    }
+        //    string text = string.Format("{0} {1} {2}", parenrCategory.Name, separator, Convert.ToString(result));
+        //    if (!text.Contains(result.ToString()))
+        //    {
+        //        result.Append(text);
+        //    }
+        //    else
+        //    {
+        //        result.Length = 0;
+        //        result.Append(text);
+        //    }
+        //    return parenrCategory.GetFormattedBreadCrumb(allCategories, separator, result);
+        //}
+        //public static string GetFormattedBreadCrumb(this Category category, ICategoryService categoryService, string separator = ">>", StringBuilder result = default(StringBuilder))
+        //{
+        //    if (string.IsNullOrWhiteSpace(Convert.ToString(result)))
+        //    {
+        //        result = new StringBuilder();
+        //    }
+        //    var parenrCategory = categoryService.GetCategoryById(category.ParentCategoryId);
+        //    if ((parenrCategory == null || category.ParentCategoryId == 0)
+        //        && (!string.IsNullOrWhiteSpace(Convert.ToString(result)) && Convert.ToString(result).Contains(category.Name))
+        //        )
+        //    {
+        //        return Convert.ToString(result);
+        //    }
+        //    if (parenrCategory == null || category.ParentCategoryId == 0)
+        //    {
+        //        return category.Name;
+        //    }
+        //    string text = string.Format("{0} {1} {2}", parenrCategory.Name, separator, result.ToString());
+        //    return parenrCategory.GetFormattedBreadCrumb(categoryService, separator, result.Append(text));
+        //}
 
-            }
-            if (string.IsNullOrWhiteSpace(Convert.ToString(result)))
-            {
-                result = new StringBuilder();
-                result.Append(category.Name);
-            }
-            var parenrCategory = allCategories.FirstOrDefault(c => c.Id == category.ParentCategoryId);
-            if ((parenrCategory == null || category.ParentCategoryId == 0) 
-                && (!string.IsNullOrWhiteSpace(Convert.ToString(result)) && Convert.ToString(result).Contains(category.Name))
-                )
-            {
-                return Convert.ToString(result);
-            }
-            if (parenrCategory == null || category.ParentCategoryId == 0)
-            {
-                return category.Name;
-            }
-            string text = string.Format("{0} {1} {2}", parenrCategory.Name, separator, Convert.ToString(result));
-            if (!text.Contains(result.ToString()))
-            {
-                result.Append(text);
-            }
-            else
-            {
-                result.Length = 0;
-                result.Append(text);
-            }
-            return parenrCategory.GetFormattedBreadCrumb(allCategories, separator, result);
-        }
-        public static string GetFormattedBreadCrumb(this Category category, ICategoryService categoryService, string separator = ">>", StringBuilder result = default(StringBuilder))
+        /// <summary>
+        /// Get formatted category breadcrumb 
+        /// Note: ACL and store mapping is ignored
+        /// </summary>
+        /// <param name="category">Category</param>
+        /// <param name="categoryService">Category service</param>
+        /// <param name="separator">Separator</param>
+        /// <param name="languageId">Language identifier for localization</param>
+        /// <returns>Formatted breadcrumb</returns>
+        public static string GetFormattedBreadCrumb(this Category category,
+            ICategoryService categoryService,
+            ILanguageService languageService,
+            ILocalizedEntityService localizedEntityService,
+            string separator = ">>", int languageId = 0)
         {
-            if (string.IsNullOrWhiteSpace(Convert.ToString(result)))
+            string result = string.Empty;
+
+            var breadcrumb = GetCategoryBreadCrumb(category, categoryService, null, null, true);
+            for (int i = 0; i <= breadcrumb.Count - 1; i++)
             {
-                result = new StringBuilder();
+                var categoryName = breadcrumb[i].GetLocalized(x => x.Name, languageId, languageService, localizedEntityService);
+                result = String.IsNullOrEmpty(result)
+                    ? categoryName
+                    : string.Format("{0} {1} {2}", result, separator, categoryName);
             }
-            var parenrCategory = categoryService.GetCategoryById(category.ParentCategoryId);
-            if ((parenrCategory == null || category.ParentCategoryId == 0)
-                && (!string.IsNullOrWhiteSpace(Convert.ToString(result)) && Convert.ToString(result).Contains(category.Name))
-                )
-            {
-                return Convert.ToString(result);
-            }
-            if (parenrCategory == null || category.ParentCategoryId == 0)
-            {
-                return category.Name;
-            }
-            string text = string.Format("{0} {1} {2}", parenrCategory.Name, separator, result.ToString());
-            return parenrCategory.GetFormattedBreadCrumb(categoryService, separator, result.Append(text));
+
+            return result;
         }
 
+        /// <summary>
+        /// Get formatted category breadcrumb 
+        /// Note: ACL and store mapping is ignored
+        /// </summary>
+        /// <param name="category">Category</param>
+        /// <param name="allCategories">All categories</param>
+        /// <param name="separator">Separator</param>
+        /// <param name="languageId">Language identifier for localization</param>
+        /// <returns>Formatted breadcrumb</returns>
+        public static string GetFormattedBreadCrumb(this Category category,
+            IList<Category> allCategories,
+            ILanguageService languageService,
+            ILocalizedEntityService localizedEntityService,
+            string separator = ">>", int languageId = 0)
+        {
+            string result = string.Empty;
+
+            var breadcrumb = GetCategoryBreadCrumb(category, allCategories, null, null, true);
+            for (int i = 0; i <= breadcrumb.Count - 1; i++)
+            {
+                var categoryName = breadcrumb[i].GetLocalized(x => x.Name, languageId, languageService, localizedEntityService);
+                result = String.IsNullOrEmpty(result)
+                    ? categoryName
+                    : string.Format("{0} {1} {2}", result, separator, categoryName);
+            }
+
+            return result;
+        }
+
+
+        public static IList<Category> GetCategoryBreadCrumb(this Category category,
+            ICategoryService categoryService,
+            IAclService aclService,
+            IStoreMappingService storeMappingService,
+            bool showHidden = false)
+        {
+            if (category == null)
+                throw new ArgumentNullException("category");
+
+            var result = new List<Category>();
+
+            //used to prevent circular references
+            var alreadyProcessedCategoryIds = new List<int>();
+
+            while (category != null && //not null
+                !category.Deleted && //not deleted
+                (showHidden || category.Published) && //published
+                (showHidden || aclService.Authorize(category)) && //ACL
+                (showHidden || storeMappingService.Authorize(category)) && //Store mapping
+                !alreadyProcessedCategoryIds.Contains(category.Id)) //prevent circular references
+            {
+                result.Add(category);
+
+                alreadyProcessedCategoryIds.Add(category.Id);
+
+                category = categoryService.GetCategoryById(category.ParentCategoryId);
+            }
+            result.Reverse();
+            return result;
+        }
+
+        /// <summary>
+        /// Get category breadcrumb 
+        /// </summary>
+        /// <param name="category">Category</param>
+        /// <param name="allCategories">All categories</param>
+        /// <param name="aclService">ACL service</param>
+        /// <param name="storeMappingService">Store mapping service</param>
+        /// <param name="showHidden">A value indicating whether to load hidden records</param>
+        /// <returns>Category breadcrumb </returns>
+        public static IList<Category> GetCategoryBreadCrumb(this Category category,
+            IList<Category> allCategories,
+            IAclService aclService,
+            IStoreMappingService storeMappingService,
+            bool showHidden = false)
+        {
+            if (category == null)
+                throw new ArgumentNullException("category");
+
+            var result = new List<Category>();
+
+            //used to prevent circular references
+            var alreadyProcessedCategoryIds = new List<int>();
+
+            while (category != null && //not null
+                !category.Deleted && //not deleted
+                (showHidden || category.Published) && //published
+                (showHidden || aclService.Authorize(category)) && //ACL
+                (showHidden || storeMappingService.Authorize(category)) && //Store mapping
+                !alreadyProcessedCategoryIds.Contains(category.Id)) //prevent circular references
+            {
+                result.Add(category);
+
+                alreadyProcessedCategoryIds.Add(category.Id);
+
+                category = (from c in allCategories
+                            where c.Id == category.ParentCategoryId
+                            select c).FirstOrDefault();
+            }
+            result.Reverse();
+            return result;
+        }
     }
 }

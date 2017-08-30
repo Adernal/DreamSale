@@ -295,7 +295,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             if (!excludeProperties && product != null)
                 model.SelectedCategoryIds = _categoryService.GetProductCategoriesByProductId(product.Id, true).Select(c => c.CategoryId).ToList();
 
-            var allCategories = SelectListHelper.GetCategoryList(_categoryService, true);
+            var allCategories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
             foreach (var c in allCategories)
             {
                 c.Selected = model.SelectedCategoryIds.Contains(int.Parse(c.Value));
@@ -768,7 +768,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                 //categories
                 model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                 foreach (var c in categories)
                     model.AvailableCategories.Add(c);
 
@@ -813,8 +813,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         }
 
         [HttpPost]
-        [Route("", Name = "ProductList")]
-        public HttpResponseMessage ProductList(HttpRequestMessage request, ProductListVM model, DataSourceRequest command)
+        [Route("{pageIndex:int=0}/{pageSize:int=2147493645}", Name = "ProductList")]
+        public HttpResponseMessage ProductList(HttpRequestMessage request, ProductListVM model, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             return CreateHttpResponse(request, () =>
             {
@@ -849,8 +849,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         warehouseId: model.SearchWarehouseId,
                         productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
                         keywords: model.SearchProductName,
-                        pageIndex: command.Page - 1,
-                        pageSize: command.PageSize,
+                        pageIndex: pageIndex,
+                        pageSize: pageSize,
                         showHidden: true,
                         overridePublished: overridePublished
                     );
@@ -1400,7 +1400,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 
@@ -1748,7 +1748,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 
@@ -1960,7 +1960,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 
@@ -2212,7 +2212,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     string allText = _localizationService.GetResource("Admin.Common.All");
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 
@@ -3929,7 +3929,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     var model = new BulkEditListVM();
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 

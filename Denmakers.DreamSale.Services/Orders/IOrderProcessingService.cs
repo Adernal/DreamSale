@@ -156,7 +156,7 @@ namespace Denmakers.DreamSale.Services.Orders
         ///// <param name="notifyCustomer">True to notify customer</param>
         //void Deliver(Shipment shipment, bool notifyCustomer);
 
-        
+
 
         ///// <summary>
         ///// Cancels order
@@ -173,7 +173,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
 
 
-        
+
 
         ///// <summary>
         ///// Capture an order (from admin panel)
@@ -182,7 +182,7 @@ namespace Denmakers.DreamSale.Services.Orders
         ///// <returns>A list of errors; empty list if no errors</returns>
         //IList<string> Capture(Order order);
 
-        
+
 
         ///// <summary>
         ///// Marks order as paid
@@ -192,7 +192,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
 
 
-       
+
 
         ///// <summary>
         ///// Refunds an order (from admin panel)
@@ -202,14 +202,14 @@ namespace Denmakers.DreamSale.Services.Orders
         //IList<string> Refund(Order order);
 
 
-        
+
         ///// <summary>
         ///// Refunds an order (offline)
         ///// </summary>
         ///// <param name="order">Order</param>
         //void RefundOffline(Order order);
 
-        
+
 
         ///// <summary>
         ///// Partially refunds an order (from admin panel)
@@ -219,7 +219,7 @@ namespace Denmakers.DreamSale.Services.Orders
         ///// <returns>A list of errors; empty list if no errors</returns>
         //IList<string> PartiallyRefund(Order order, decimal amountToRefund);
 
-        
+
 
         ///// <summary>
         ///// Partially refunds an order (offline)
@@ -230,7 +230,7 @@ namespace Denmakers.DreamSale.Services.Orders
 
 
 
-        
+
 
         ///// <summary>
         ///// Voids order (from admin panel)
@@ -239,7 +239,7 @@ namespace Denmakers.DreamSale.Services.Orders
         ///// <returns>Voided order</returns>
         //IList<string> Void(Order order);
 
-        
+
         ///// <summary>
         ///// Voids order (offline)
         ///// </summary>
@@ -255,12 +255,12 @@ namespace Denmakers.DreamSale.Services.Orders
         ///// <param name="order">The order</param>
         //void ReOrder(Order order);
 
-        ///// <summary>
-        ///// Check whether return request is allowed
-        ///// </summary>
-        ///// <param name="order">Order</param>
-        ///// <returns>Result</returns>
-        //bool IsReturnRequestAllowed(Order order);
+        /// <summary>
+        /// Check whether return request is allowed
+        /// </summary>
+        /// <param name="order">Order</param>
+        /// <returns>Result</returns>
+        bool IsReturnRequestAllowed(Order order);
 
 
 

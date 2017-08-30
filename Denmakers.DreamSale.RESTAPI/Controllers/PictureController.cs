@@ -5,9 +5,7 @@ using Denmakers.DreamSale.Services;
 using Denmakers.DreamSale.Services.Logging;
 using Denmakers.DreamSale.Services.Media;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -15,6 +13,7 @@ using System.Web.Http;
 
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
+    [RoutePrefix("api/Pictures")]
     public partial class PictureController : ApiControllerBase
     {
         #region Fields
@@ -30,6 +29,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         #endregion
 
         #region Methods
+        [Route("upload")]
         public HttpResponseMessage AsyncUpload(HttpRequestMessage request)
         {
             return CreateHttpResponse(request, () =>
@@ -40,10 +40,10 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 Stream stream = null;
                 var fileName = "";
                 var contentType = "";
-                if (string.IsNullOrEmpty(Request["qqfile"]))
+                if (string.IsNullOrEmpty(HttpContext.Current.Request["qqfile"]))
                 {
                     // IE
-                    HttpPostedFileBase httpPostedFile = Request.Files[0];
+                    var httpPostedFile = HttpContext.Current.Request.Files[0];
                     if (httpPostedFile == null)
                         throw new ArgumentException("No file uploaded");
                     stream = httpPostedFile.InputStream;
@@ -53,8 +53,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 else
                 {
                     //Webkit, Mozilla
-                    stream = Request.InputStream;
-                    fileName = Request["qqfile"];
+                    stream = HttpContext.Current.Request.InputStream;
+                    fileName = HttpContext.Current.Request["qqfile"];
                 }
 
                 var fileBinary = new byte[stream.Length];
