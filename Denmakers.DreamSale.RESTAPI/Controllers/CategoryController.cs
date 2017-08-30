@@ -215,7 +215,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 Text = _localizationService.GetResource("Admin.Catalog.Categories.Fields.Parent.None"),
                 Value = "0"
             });
-            var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+            var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
             foreach (var c in categories)
                 model.AvailableCategories.Add(c);
         }
@@ -337,7 +337,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         Data = categories.Select(x =>
                         {
                             var categoryModel = x.ToModel();
-                            categoryModel.Breadcrumb = x.GetFormattedBreadCrumb(_categoryService);
+                            categoryModel.Breadcrumb = x.GetFormattedBreadCrumb(_categoryService, _languageService, _localizedEntityService);
                             return categoryModel;
                         }),
                         Total = categories.TotalCount
@@ -390,7 +390,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         Data = categories.Select(x =>
                         {
                             var categoryModel = x.ToModel();
-                            categoryModel.Breadcrumb = x.GetFormattedBreadCrumb(_categoryService);
+                            categoryModel.Breadcrumb = x.GetFormattedBreadCrumb(_categoryService, _languageService, _localizedEntityService);
                             return categoryModel;
                         }),
                         Total = categories.TotalCount
@@ -778,7 +778,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                 string allString = _localizationService.GetResource("Admin.Common.All");
                 //categories
                 model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allString, Value = "0" });
-                var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                 foreach (var c in categories)
                     model.AvailableCategories.Add(c);
 

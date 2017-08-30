@@ -64,7 +64,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         private readonly ICustomerRegistrationService _customerRegistrationService;
         private readonly ICustomerReportService _customerReportService;
         private readonly IDateTimeHelper _dateTimeHelper;
+        private readonly ILanguageService _languageService;
         private readonly ILocalizationService _localizationService;
+        private readonly ILocalizedEntityService _localizedEntityService;
 
         private readonly ICountryService _countryService;
         private readonly IStateProvinceService _stateProvinceService;
@@ -117,7 +119,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             ICustomerRegistrationService customerRegistrationService,
             ICustomerReportService customerReportService,
             IDateTimeHelper dateTimeHelper,
+            ILanguageService languageService,
             ILocalizationService localizationService,
+            ILocalizedEntityService localizedEntityService,
             DateTimeSettings dateTimeSettings,
             ICountryService countryService,
             IStateProvinceService stateProvinceService,
@@ -161,6 +165,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             this._customerReportService = customerReportService;
             this._dateTimeHelper = dateTimeHelper;
             this._localizationService = localizationService;
+            this._languageService = languageService;
+            this._localizedEntityService = localizedEntityService;
             this._dateTimeSettings = dateTimeSettings;
             this._countryService = countryService;
             this._stateProvinceService = stateProvinceService;
@@ -796,32 +802,33 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var activityLog = _customerActivityService.GetAllActivities(null, null, customerId, 0, pageIndex, pageSize);
-                    var gridModel = new DataSourceResult
-                    {
-                        Data = activityLog.Select(x =>
-                        {
-                            var m = new CustomerVM.ActivityLogVM
-                            {
-                                Id = x.Id,
-                                ActivityLogTypeName = x.ActivityLogType.Name,
-                                Comment = x.Comment,
-                                CreatedOn = _dateTimeHelper.ConvertToUserTime(x.CreatedOnUtc, DateTimeKind.Utc),
-                                IpAddress = x.IpAddress
-                            };
-                            return m;
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                        }),
-                        Total = activityLog.TotalCount
-                    };
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
-                else
+                //}
+                //else
+                //{
+                //    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
+                //}
+                var activityLog = _customerActivityService.GetAllActivities(null, null, customerId, 0, pageIndex, pageSize);
+                var gridModel = new DataSourceResult
                 {
-                    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
-                }
+                    Data = activityLog.Select(x =>
+                    {
+                        var m = new CustomerVM.ActivityLogVM
+                        {
+                            Id = x.Id,
+                            ActivityLogTypeName = x.ActivityLogType.Name,
+                            Comment = x.Comment,
+                            CreatedOn = _dateTimeHelper.ConvertToUserTime(x.CreatedOnUtc, DateTimeKind.Utc),
+                            IpAddress = x.IpAddress
+                        };
+                        return m;
+
+                    }),
+                    Total = activityLog.TotalCount
+                };
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -838,30 +845,31 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var subscriptions = _backInStockSubscriptionService.GetAllSubscriptionsByCustomerId(customerId, 0, command.Page - 1, command.PageSize);
-                    var gridModel = new DataSourceResult
-                    {
-                        Data = subscriptions.Select(x =>
-                        {
-                            var store = _storeService.GetStoreById(x.StoreId);
-                            var product = x.Product;
-                            var m = new CustomerVM.BackInStockSubscriptionVM
-                            {
-                                Id = x.Id,
-                                StoreName = store != null ? store.Name : "Unknown",
-                                ProductId = x.ProductId,
-                                ProductName = product != null ? product.Name : "Unknown",
-                                CreatedOn = _dateTimeHelper.ConvertToUserTime(x.CreatedOnUtc, DateTimeKind.Utc)
-                            };
-                            return m;
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                        }),
-                        Total = subscriptions.TotalCount
-                    };
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
+                //}
+                var subscriptions = _backInStockSubscriptionService.GetAllSubscriptionsByCustomerId(customerId, 0, command.Page - 1, command.PageSize);
+                var gridModel = new DataSourceResult
+                {
+                    Data = subscriptions.Select(x =>
+                    {
+                        var store = _storeService.GetStoreById(x.StoreId);
+                        var product = x.Product;
+                        var m = new CustomerVM.BackInStockSubscriptionVM
+                        {
+                            Id = x.Id,
+                            StoreName = store != null ? store.Name : "Unknown",
+                            ProductId = x.ProductId,
+                            ProductName = product != null ? product.Name : "Unknown",
+                            CreatedOn = _dateTimeHelper.ConvertToUserTime(x.CreatedOnUtc, DateTimeKind.Utc)
+                        };
+                        return m;
+
+                    }),
+                    Total = subscriptions.TotalCount
+                };
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -878,40 +886,41 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var customer = _customerService.GetCustomerById(customerId);
-                    var cart = customer.ShoppingCartItems.Where(x => x.ShoppingCartTypeId == cartTypeId).ToList();
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                    var gridModel = new DataSourceResult
+                //}
+                //else
+                //{
+                //    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
+                //}
+                var customer = _customerService.GetCustomerById(customerId);
+                var cart = customer.ShoppingCartItems.Where(x => x.ShoppingCartTypeId == cartTypeId).ToList();
+
+                var gridModel = new DataSourceResult
+                {
+                    Data = cart.Select(sci =>
                     {
-                        Data = cart.Select(sci =>
+                        decimal taxRate;
+                        var store = _storeService.GetStoreById(sci.StoreId);
+                        var sciModel = new ShoppingCartItemVM
                         {
-                            decimal taxRate;
-                            var store = _storeService.GetStoreById(sci.StoreId);
-                            var sciModel = new ShoppingCartItemVM
-                            {
-                                Id = sci.Id,
-                                Store = store != null ? store.Name : "Unknown",
-                                ProductId = sci.ProductId,
-                                Quantity = sci.Quantity,
-                                ProductName = sci.Product.Name,
-                                AttributeInfo = _productAttributeFormatter.FormatAttributes(sci.Product, sci.AttributesXml),
-                                UnitPrice = _priceFormatter.FormatPrice(_taxService.GetProductPrice(sci.Product, _priceCalculationService.GetUnitPrice(sci), out taxRate)),
-                                Total = _priceFormatter.FormatPrice(_taxService.GetProductPrice(sci.Product, _priceCalculationService.GetSubTotal(sci), out taxRate)),
-                                UpdatedOn = _dateTimeHelper.ConvertToUserTime(sci.UpdatedOnUtc, DateTimeKind.Utc)
-                            };
-                            return sciModel;
-                        }),
-                        Total = cart.Count
-                    };
+                            Id = sci.Id,
+                            Store = store != null ? store.Name : "Unknown",
+                            ProductId = sci.ProductId,
+                            Quantity = sci.Quantity,
+                            ProductName = sci.Product.Name,
+                            AttributeInfo = _productAttributeFormatter.FormatAttributes(sci.Product, sci.AttributesXml),
+                            UnitPrice = _priceFormatter.FormatPrice(_taxService.GetProductPrice(sci.Product, _priceCalculationService.GetUnitPrice(sci), out taxRate)),
+                            Total = _priceFormatter.FormatPrice(_taxService.GetProductPrice(sci.Product, _priceCalculationService.GetSubTotal(sci), out taxRate)),
+                            UpdatedOn = _dateTimeHelper.ConvertToUserTime(sci.UpdatedOnUtc, DateTimeKind.Utc)
+                        };
+                        return sciModel;
+                    }),
+                    Total = cart.Count
+                };
 
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
-                else
-                {
-                    response = request.CreateResponse(HttpStatusCode.Unauthorized, "Unauthorized user");
-                }
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -927,8 +936,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
                     var model = new CustomerReportsVM();
                     //customers by number of orders
                     model.BestCustomersByNumberOfOrders = new BestCustomersReportVM();
@@ -949,7 +958,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     model.BestCustomersByOrderTotal.AvailableShippingStatuses.Insert(0, new System.Web.Mvc.SelectListItem { Text = _localizationService.GetResource("Admin.Common.All"), Value = "0" });
 
                     response = request.CreateResponse<CustomerReportsVM>(HttpStatusCode.OK, model);
-                }
+                //}
                 return response;
 
             });
@@ -963,8 +972,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
                     DateTime? startDateValue = (model.StartDate == null) ? null
                             : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.StartDate.Value, _dateTimeHelper.CurrentTimeZone);
 
@@ -999,7 +1008,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                     };
 
                     response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
+                //}
                 return response;
 
             });
@@ -1012,8 +1021,8 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
                     DateTime? startDateValue = (model.StartDate == null) ? null
                             : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.StartDate.Value, _dateTimeHelper.CurrentTimeZone);
 
@@ -1046,7 +1055,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
                         Total = items.TotalCount
                     };
                     response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
+                //}
                 return response;
 
             });
@@ -1059,17 +1068,18 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var model = GetReportRegisteredCustomersModel();
-                    var gridModel = new DataSourceResult
-                    {
-                        Data = model,
-                        Total = model.Count
-                    };
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
+                //}
+                var model = GetReportRegisteredCustomersModel();
+                var gridModel = new DataSourceResult
+                {
+                    Data = model,
+                    Total = model.Count
+                };
+
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -1082,95 +1092,94 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{ 
+                //}
+                var result = new List<object>();
+
+                var nowDt = _dateTimeHelper.ConvertToUserTime(DateTime.Now);
+                var timeZone = _dateTimeHelper.CurrentTimeZone;
+                var searchCustomerRoleIds = new[] { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id };
+
+                var culture = new CultureInfo(_baseService.WorkContext.WorkingLanguage.LanguageCulture);
+
+                switch (period)
                 {
-
-                    var result = new List<object>();
-
-                    var nowDt = _dateTimeHelper.ConvertToUserTime(DateTime.Now);
-                    var timeZone = _dateTimeHelper.CurrentTimeZone;
-                    var searchCustomerRoleIds = new[] { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id };
-
-                    var culture = new CultureInfo(_baseService.WorkContext.WorkingLanguage.LanguageCulture);
-
-                    switch (period)
-                    {
-                        case "year":
-                            //year statistics
-                            var yearAgoDt = nowDt.AddYears(-1).AddMonths(1);
-                            var searchYearDateUser = new DateTime(yearAgoDt.Year, yearAgoDt.Month, 1);
-                            if (!timeZone.IsInvalidTime(searchYearDateUser))
+                    case "year":
+                        //year statistics
+                        var yearAgoDt = nowDt.AddYears(-1).AddMonths(1);
+                        var searchYearDateUser = new DateTime(yearAgoDt.Year, yearAgoDt.Month, 1);
+                        if (!timeZone.IsInvalidTime(searchYearDateUser))
+                        {
+                            for (int i = 0; i <= 12; i++)
                             {
-                                for (int i = 0; i <= 12; i++)
+                                result.Add(new
                                 {
-                                    result.Add(new
-                                    {
-                                        date = searchYearDateUser.Date.ToString("Y", culture),
-                                        value = _customerService.GetAllCustomers(
-                                            createdFromUtc: _dateTimeHelper.ConvertToUtcTime(searchYearDateUser, timeZone),
-                                            createdToUtc: _dateTimeHelper.ConvertToUtcTime(searchYearDateUser.AddMonths(1), timeZone),
-                                            customerRoleIds: searchCustomerRoleIds,
-                                            pageIndex: 0,
-                                            pageSize: 1).TotalCount.ToString()
-                                    });
+                                    date = searchYearDateUser.Date.ToString("Y", culture),
+                                    value = _customerService.GetAllCustomers(
+                                        createdFromUtc: _dateTimeHelper.ConvertToUtcTime(searchYearDateUser, timeZone),
+                                        createdToUtc: _dateTimeHelper.ConvertToUtcTime(searchYearDateUser.AddMonths(1), timeZone),
+                                        customerRoleIds: searchCustomerRoleIds,
+                                        pageIndex: 0,
+                                        pageSize: 1).TotalCount.ToString()
+                                });
 
-                                    searchYearDateUser = searchYearDateUser.AddMonths(1);
-                                }
+                                searchYearDateUser = searchYearDateUser.AddMonths(1);
                             }
-                            break;
+                        }
+                        break;
 
-                        case "month":
-                            //month statistics
-                            var monthAgoDt = nowDt.AddDays(-30);
-                            var searchMonthDateUser = new DateTime(monthAgoDt.Year, monthAgoDt.Month, monthAgoDt.Day);
-                            if (!timeZone.IsInvalidTime(searchMonthDateUser))
+                    case "month":
+                        //month statistics
+                        var monthAgoDt = nowDt.AddDays(-30);
+                        var searchMonthDateUser = new DateTime(monthAgoDt.Year, monthAgoDt.Month, monthAgoDt.Day);
+                        if (!timeZone.IsInvalidTime(searchMonthDateUser))
+                        {
+                            for (int i = 0; i <= 30; i++)
                             {
-                                for (int i = 0; i <= 30; i++)
+                                result.Add(new
                                 {
-                                    result.Add(new
-                                    {
-                                        date = searchMonthDateUser.Date.ToString("M", culture),
-                                        value = _customerService.GetAllCustomers(
-                                            createdFromUtc: _dateTimeHelper.ConvertToUtcTime(searchMonthDateUser, timeZone),
-                                            createdToUtc: _dateTimeHelper.ConvertToUtcTime(searchMonthDateUser.AddDays(1), timeZone),
-                                            customerRoleIds: searchCustomerRoleIds,
-                                            pageIndex: 0,
-                                            pageSize: 1).TotalCount.ToString()
-                                    });
+                                    date = searchMonthDateUser.Date.ToString("M", culture),
+                                    value = _customerService.GetAllCustomers(
+                                        createdFromUtc: _dateTimeHelper.ConvertToUtcTime(searchMonthDateUser, timeZone),
+                                        createdToUtc: _dateTimeHelper.ConvertToUtcTime(searchMonthDateUser.AddDays(1), timeZone),
+                                        customerRoleIds: searchCustomerRoleIds,
+                                        pageIndex: 0,
+                                        pageSize: 1).TotalCount.ToString()
+                                });
 
-                                    searchMonthDateUser = searchMonthDateUser.AddDays(1);
-                                }
+                                searchMonthDateUser = searchMonthDateUser.AddDays(1);
                             }
-                            break;
+                        }
+                        break;
 
-                        case "week":
-                        default:
-                            //week statistics
-                            var weekAgoDt = nowDt.AddDays(-7);
-                            var searchWeekDateUser = new DateTime(weekAgoDt.Year, weekAgoDt.Month, weekAgoDt.Day);
-                            if (!timeZone.IsInvalidTime(searchWeekDateUser))
+                    case "week":
+                    default:
+                        //week statistics
+                        var weekAgoDt = nowDt.AddDays(-7);
+                        var searchWeekDateUser = new DateTime(weekAgoDt.Year, weekAgoDt.Month, weekAgoDt.Day);
+                        if (!timeZone.IsInvalidTime(searchWeekDateUser))
+                        {
+                            for (int i = 0; i <= 7; i++)
                             {
-                                for (int i = 0; i <= 7; i++)
+                                result.Add(new
                                 {
-                                    result.Add(new
-                                    {
-                                        date = searchWeekDateUser.Date.ToString("d dddd", culture),
-                                        value = _customerService.GetAllCustomers(
-                                            createdFromUtc: _dateTimeHelper.ConvertToUtcTime(searchWeekDateUser, timeZone),
-                                            createdToUtc: _dateTimeHelper.ConvertToUtcTime(searchWeekDateUser.AddDays(1), timeZone),
-                                            customerRoleIds: searchCustomerRoleIds,
-                                            pageIndex: 0,
-                                            pageSize: 1).TotalCount.ToString()
-                                    });
+                                    date = searchWeekDateUser.Date.ToString("d dddd", culture),
+                                    value = _customerService.GetAllCustomers(
+                                        createdFromUtc: _dateTimeHelper.ConvertToUtcTime(searchWeekDateUser, timeZone),
+                                        createdToUtc: _dateTimeHelper.ConvertToUtcTime(searchWeekDateUser.AddDays(1), timeZone),
+                                        customerRoleIds: searchCustomerRoleIds,
+                                        pageIndex: 0,
+                                        pageSize: 1).TotalCount.ToString()
+                                });
 
-                                    searchWeekDateUser = searchWeekDateUser.AddDays(1);
-                                }
+                                searchWeekDateUser = searchWeekDateUser.AddDays(1);
                             }
-                            break;
-                    }
-
-                    response = request.CreateResponse<List<object>>(HttpStatusCode.OK, result);
+                        }
+                        break;
                 }
+
+                response = request.CreateResponse<List<object>>(HttpStatusCode.OK, result);
                 return response;
 
             });
@@ -1187,35 +1196,36 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
+
+                //}
+                var orders = _orderService.SearchOrders(customerId: customerId);
+
+                var gridModel = new DataSourceResult
                 {
-                    var orders = _orderService.SearchOrders(customerId: customerId);
-
-                    var gridModel = new DataSourceResult
-                    {
-                        Data = orders.Skip((pageIndex) * pageSize).Take(pageSize)
-                            .Select(order =>
+                    Data = orders.Skip((pageIndex) * pageSize).Take(pageSize)
+                        .Select(order =>
+                        {
+                            var store = _storeService.GetStoreById(order.StoreId);
+                            var orderModel = new CustomerVM.OrderVM
                             {
-                                var store = _storeService.GetStoreById(order.StoreId);
-                                var orderModel = new CustomerVM.OrderVM
-                                {
-                                    Id = order.Id,
-                                    OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
-                                    OrderStatusId = order.OrderStatusId,
-                                    PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
-                                    ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
-                                    OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false),
-                                    StoreName = store != null ? store.Name : "Unknown",
-                                    CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc),
-                                    CustomOrderNumber = order.CustomOrderNumber
-                                };
-                                return orderModel;
-                            }),
-                        Total = orders.Count
-                    };
+                                Id = order.Id,
+                                OrderStatus = order.OrderStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
+                                OrderStatusId = order.OrderStatusId,
+                                PaymentStatus = order.PaymentStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
+                                ShippingStatus = order.ShippingStatus.GetLocalizedEnum(_localizationService, _baseService.WorkContext),
+                                OrderTotal = _priceFormatter.FormatPrice(order.OrderTotal, true, false),
+                                StoreName = store != null ? store.Name : "Unknown",
+                                CreatedOn = _dateTimeHelper.ConvertToUserTime(order.CreatedOnUtc, DateTimeKind.Utc),
+                                CustomOrderNumber = order.CustomOrderNumber
+                            };
+                            return orderModel;
+                        }),
+                    Total = orders.Count
+                };
 
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -2578,16 +2588,17 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
+
+                //}
+                var customerRoles = _customerService.GetAllCustomerRoles(true);
+                var gridModel = new DataSourceResult
                 {
-                    var customerRoles = _customerService.GetAllCustomerRoles(true);
-                    var gridModel = new DataSourceResult
-                    {
-                        Data = customerRoles.Select(PrepareCustomerRoleModel),
-                        Total = customerRoles.Count()
-                    };
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
-                }
+                    Data = customerRoles.Select(PrepareCustomerRoleModel),
+                    Total = customerRoles.Count()
+                };
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -2600,21 +2611,22 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var customerRole = _customerService.GetCustomerRoleById(id);
-                    if (customerRole == null)
-                    {
-                        //No customer found with the specified id
-                        string newUri = Url.Link("CustomerRoles", null);
-                        response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = newUri });
-                        response.Headers.Location = new Uri(newUri);
-                        return response;
-                    }
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                    var model = PrepareCustomerRoleModel(customerRole);
-                    response = request.CreateResponse<CustomerRoleVM>(HttpStatusCode.OK, model);
+                //}
+                var customerRole = _customerService.GetCustomerRoleById(id);
+                if (customerRole == null)
+                {
+                    //No customer found with the specified id
+                    string newUri = Url.Link("CustomerRoles", null);
+                    response = request.CreateResponse(HttpStatusCode.OK, new { Success = true, RedirectUrl = newUri });
+                    response.Headers.Location = new Uri(newUri);
+                    return response;
                 }
+
+                var model = PrepareCustomerRoleModel(customerRole);
+                response = request.CreateResponse<CustomerRoleVM>(HttpStatusCode.OK, model);
                 return response;
 
             });
@@ -2627,14 +2639,15 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var model = new CustomerRoleVM();
-                    //default values
-                    model.Active = true;
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                    response = request.CreateResponse<CustomerRoleVM>(HttpStatusCode.OK, model);
-                }
+                //}
+                var model = new CustomerRoleVM();
+                //default values
+                model.Active = true;
+
+                response = request.CreateResponse<CustomerRoleVM>(HttpStatusCode.OK, model);
                 return response;
 
             });
@@ -2647,31 +2660,32 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
+
+                //}
+                if (ModelState.IsValid)
                 {
-                    if (ModelState.IsValid)
+                    var customerRole = model.ToEntity();
+                    _customerService.InsertCustomerRole(customerRole);
+
+                    //activity log
+                    _customerActivityService.InsertActivity("AddNewCustomerRole", _localizationService.GetResource("ActivityLog.AddNewCustomerRole"), customerRole.Name);
+
+                    _baseService.Commit();
+                    //SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Added"));
+                    if (continueEditing)
                     {
-                        var customerRole = model.ToEntity();
-                        _customerService.InsertCustomerRole(customerRole);
-
-                        //activity log
-                        _customerActivityService.InsertActivity("AddNewCustomerRole", _localizationService.GetResource("ActivityLog.AddNewCustomerRole"), customerRole.Name);
-
-                        _baseService.Commit();
-                        //SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Added"));
-                        if (continueEditing)
-                        {
-                            // Generate a link to the update item and set the Location header in the response.
-                            string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
-                            response.Headers.Location = new Uri(uri);
-                        }
-                        else
-                        {
-                            string uri = Url.Link("CustomerRoles", null);
-                            response.Headers.Location = new Uri(uri);
-                        }
-                        return response;
+                        // Generate a link to the update item and set the Location header in the response.
+                        string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
+                        response.Headers.Location = new Uri(uri);
                     }
+                    else
+                    {
+                        string uri = Url.Link("CustomerRoles", null);
+                        response.Headers.Location = new Uri(uri);
+                    }
+                    return response;
                 }
                 return response;
 
@@ -2685,70 +2699,68 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
+                //}
+                var customerRole = _customerService.GetCustomerRoleById(model.Id);
+                if (customerRole == null)
                 {
+                    //No customer role found with the specified id
+                    string uri = Url.Link("CustomerRoles", null);
+                    response.Headers.Location = new Uri(uri);
+                    return response;
+                }
 
-                    var customerRole = _customerService.GetCustomerRoleById(model.Id);
-                    if (customerRole == null)
+                try
+                {
+                    if (ModelState.IsValid)
                     {
-                        //No customer role found with the specified id
-                        string uri = Url.Link("CustomerRoles", null);
-                        response.Headers.Location = new Uri(uri);
-                        return response;
-                    }
+                        if (customerRole.IsSystemRole && !model.Active)
+                            throw new DreamSaleException(_localizationService.GetResource("Admin.Customers.CustomerRoles.Fields.Active.CantEditSystem"));
 
-                    try
-                    {
-                        if (ModelState.IsValid)
+                        if (customerRole.IsSystemRole && !customerRole.SystemName.Equals(model.SystemName, StringComparison.InvariantCultureIgnoreCase))
+                            throw new DreamSaleException(_localizationService.GetResource("Admin.Customers.CustomerRoles.Fields.SystemName.CantEditSystem"));
+
+                        if (SystemCustomerRoleNames.Registered.Equals(customerRole.SystemName, StringComparison.InvariantCultureIgnoreCase) &&
+                            model.PurchasedWithProductId > 0)
+                            throw new DreamSaleException(_localizationService.GetResource("Admin.Customers.CustomerRoles.Fields.PurchasedWithProduct.Registered"));
+
+                        customerRole = model.ToEntity(customerRole);
+                        _customerService.UpdateCustomerRole(customerRole);
+
+                        //activity log
+                        _customerActivityService.InsertActivity("EditCustomerRole", _localizationService.GetResource("ActivityLog.EditCustomerRole"), customerRole.Name);
+
+                        _baseService.Commit();
+                        response = request.CreateResponse(HttpStatusCode.OK, new { Message = "Customer role updated successfully" });
+                        //SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Updated"));
+                        if (continueEditing)
                         {
-                            if (customerRole.IsSystemRole && !model.Active)
-                                throw new DreamSaleException(_localizationService.GetResource("Admin.Customers.CustomerRoles.Fields.Active.CantEditSystem"));
-
-                            if (customerRole.IsSystemRole && !customerRole.SystemName.Equals(model.SystemName, StringComparison.InvariantCultureIgnoreCase))
-                                throw new DreamSaleException(_localizationService.GetResource("Admin.Customers.CustomerRoles.Fields.SystemName.CantEditSystem"));
-
-                            if (SystemCustomerRoleNames.Registered.Equals(customerRole.SystemName, StringComparison.InvariantCultureIgnoreCase) &&
-                                model.PurchasedWithProductId > 0)
-                                throw new DreamSaleException(_localizationService.GetResource("Admin.Customers.CustomerRoles.Fields.PurchasedWithProduct.Registered"));
-
-                            customerRole = model.ToEntity(customerRole);
-                            _customerService.UpdateCustomerRole(customerRole);
-
-                            //activity log
-                            _customerActivityService.InsertActivity("EditCustomerRole", _localizationService.GetResource("ActivityLog.EditCustomerRole"), customerRole.Name);
-
-                            _baseService.Commit();
-                            //SuccessNotification(_localizationService.GetResource("Admin.Customers.CustomerRoles.Updated"));
-                            if (continueEditing)
-                            {
-                                // Generate a link to the update item and set the Location header in the response.
-                                string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
-                                response.Headers.Location = new Uri(uri);
-                                return response;
-                            }
-                            else
-                            {
-                                string uri = Url.Link("CustomerRoles", null);
-                                response.Headers.Location = new Uri(uri);
-                            }
+                            // Generate a link to the update item and set the Location header in the response.
+                            string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
+                            response.Headers.Location = new Uri(uri);
                             return response;
                         }
+                        else
+                        {
+                            string uri = Url.Link("CustomerRoles", null);
+                            response.Headers.Location = new Uri(uri);
+                        }
+                        return response;
+                    }
 
-                        //If we got this far, something failed, redisplay form
-                        response = request.CreateResponse<CustomerRoleVM>(HttpStatusCode.OK, model);
-                        return response;
-                    }
-                    catch (Exception exc)
-                    {
-                        LogError(exc);
-                        _baseService.Commit();
-                        string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
-                        response.Headers.Location = new Uri(uri);
-                        return response;
-                    }
+                    //If we got this far, something failed, redisplay form
+                    response = request.CreateResponse<CustomerRoleVM>(HttpStatusCode.OK, model);
+                    return response;
                 }
-                return response;
-
+                catch (Exception exc)
+                {
+                    LogError(exc);
+                    _baseService.Commit();
+                    string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
+                    response.Headers.Location = new Uri(uri);
+                    return response;
+                }
             });
         }
 
@@ -2759,37 +2771,41 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.NotFound);
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    if (!ModelState.IsValid)
-                    {
-                        response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                    }
-                    else
-                    {
-                        var customerRole = _customerService.GetCustomerRoleById(id);
-                        try
-                        {
-                            if (customerRole != null)
-                            {
-                                _customerService.DeleteCustomerRole(customerRole);
-                                //activity log
-                                _customerActivityService.InsertActivity("DeleteCustomerRole", _localizationService.GetResource("ActivityLog.DeleteCustomerRole"), customerRole.Name);
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                                _baseService.Commit();
-                            }
-                            string uri = Url.Link("CustomerRoles", null);
-                            response.Headers.Location = new Uri(uri);
-                        }
-                        catch (Exception exc)
+                //}
+
+                if (!ModelState.IsValid)
+                {
+                    response = request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                else
+                {
+                    var customerRole = _customerService.GetCustomerRoleById(id);
+                    try
+                    {
+                        if (customerRole != null)
                         {
-                            LogError(exc);
+                            _customerService.DeleteCustomerRole(customerRole);
+                            //activity log
+                            _customerActivityService.InsertActivity("DeleteCustomerRole", _localizationService.GetResource("ActivityLog.DeleteCustomerRole"), customerRole.Name);
+
                             _baseService.Commit();
-                            string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
-                            response.Headers.Location = new Uri(uri);
                         }
-                        return response;
+                        response = request.CreateResponse(HttpStatusCode.Found, new { Message = "Role has been deleted successfully" });
+                        string uri = Url.Link("CustomerRoles", null);
+                        response.Headers.Location = new Uri(uri);
                     }
+                    catch (Exception exc)
+                    {
+                        LogError(exc);
+                        _baseService.Commit();
+                        response = request.CreateResponse(HttpStatusCode.Found, new { Message = exc.Message });
+                        string uri = Url.Link("GetCustomerRoleById", new { id = customerRole.Id });
+                        response.Headers.Location = new Uri(uri);
+                    }
+                    return response;
                 }
 
                 return response;
@@ -2803,42 +2819,43 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
-                {
-                    var model = new CustomerRoleVM.AssociateProductToCustomerRoleVM();
-                    //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
-                    string allText = _localizationService.GetResource("Admin.Common.All");
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
 
-                    //categories
-                    model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
-                    foreach (var c in categories)
-                        model.AvailableCategories.Add(c);
+                //}
+                var model = new CustomerRoleVM.AssociateProductToCustomerRoleVM();
+                //a vendor should have access only to his products
+                model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
+                string allText = _localizationService.GetResource("Admin.Common.All");
 
-                    //manufacturers
-                    model.AvailableManufacturers.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var manufacturers = SelectListHelper.GetManufacturerList(_manufacturerService, true);
-                    foreach (var m in manufacturers)
-                        model.AvailableManufacturers.Add(m);
+                //categories
+                model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
+                var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
+                foreach (var c in categories)
+                    model.AvailableCategories.Add(c);
 
-                    //stores
-                    model.AvailableStores.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    foreach (var s in _storeService.GetAllStores())
-                        model.AvailableStores.Add(new System.Web.Mvc.SelectListItem { Text = s.Name, Value = s.Id.ToString() });
+                //manufacturers
+                model.AvailableManufacturers.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
+                var manufacturers = SelectListHelper.GetManufacturerList(_manufacturerService, true);
+                foreach (var m in manufacturers)
+                    model.AvailableManufacturers.Add(m);
 
-                    //vendors
-                    model.AvailableVendors.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var vendors = SelectListHelper.GetVendorList(_vendorService, true);
-                    foreach (var v in vendors)
-                        model.AvailableVendors.Add(v);
+                //stores
+                model.AvailableStores.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
+                foreach (var s in _storeService.GetAllStores())
+                    model.AvailableStores.Add(new System.Web.Mvc.SelectListItem { Text = s.Name, Value = s.Id.ToString() });
 
-                    //product types
-                    model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
-                    model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
+                //vendors
+                model.AvailableVendors.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
+                var vendors = SelectListHelper.GetVendorList(_vendorService, true);
+                foreach (var v in vendors)
+                    model.AvailableVendors.Add(v);
 
-                    response = request.CreateResponse<CustomerRoleVM.AssociateProductToCustomerRoleVM>(HttpStatusCode.OK, model);
-                }
+                //product types
+                model.AvailableProductTypes = ProductType.SimpleProduct.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
+                model.AvailableProductTypes.Insert(0, new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
+
+                response = request.CreateResponse<CustomerRoleVM.AssociateProductToCustomerRoleVM>(HttpStatusCode.OK, model);
                 return response;
 
             });
@@ -2853,31 +2870,32 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
+
+                //}
+                //a vendor should have access only to his products
+                if (_baseService.WorkContext.CurrentVendor != null)
                 {
-                    //a vendor should have access only to his products
-                    if (_baseService.WorkContext.CurrentVendor != null)
-                    {
-                        model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
-                    }
-
-                    var products = _productService.SearchProducts(
-                        categoryIds: new List<int> { model.SearchCategoryId },
-                        manufacturerId: model.SearchManufacturerId,
-                        storeId: model.SearchStoreId,
-                        vendorId: model.SearchVendorId,
-                        productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
-                        keywords: model.SearchProductName,
-                        pageIndex: pageIndex,
-                        pageSize: pageSize,
-                        showHidden: true
-                        );
-                    var gridModel = new DataSourceResult();
-                    gridModel.Data = products.Select(x => x.ToModel());
-                    gridModel.Total = products.TotalCount;
-
-                    response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
+                    model.SearchVendorId = _baseService.WorkContext.CurrentVendor.Id;
                 }
+
+                var products = _productService.SearchProducts(
+                    categoryIds: new List<int> { model.SearchCategoryId },
+                    manufacturerId: model.SearchManufacturerId,
+                    storeId: model.SearchStoreId,
+                    vendorId: model.SearchVendorId,
+                    productType: model.SearchProductTypeId > 0 ? (ProductType?)model.SearchProductTypeId : null,
+                    keywords: model.SearchProductName,
+                    pageIndex: pageIndex,
+                    pageSize: pageSize,
+                    showHidden: true
+                    );
+                var gridModel = new DataSourceResult();
+                gridModel.Data = products.Select(x => x.ToModel());
+                gridModel.Total = products.TotalCount;
+
+                response = request.CreateResponse<DataSourceResult>(HttpStatusCode.OK, gridModel);
                 return response;
 
             });
@@ -2890,27 +2908,28 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //{
+
+                //}
+                var associatedProduct = _productService.GetProductById(model.AssociatedToProductId);
+                if (associatedProduct == null)
                 {
-                    var associatedProduct = _productService.GetProductById(model.AssociatedToProductId);
-                    if (associatedProduct == null)
-                    {
-                        response = request.CreateErrorResponse(HttpStatusCode.NotFound, "Cannot load a product");
-                        return response;
-                    }
-
-                    //a vendor should have access only to his products
-                    if (_baseService.WorkContext.CurrentVendor != null && associatedProduct.VendorId != _baseService.WorkContext.CurrentVendor.Id)
-                    {
-                        response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
-                        return response;
-                    }
-
-                    //a vendor should have access only to his products
-                    model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
-
-                    response = request.CreateResponse<CustomerRoleVM.AssociateProductToCustomerRoleVM>(HttpStatusCode.OK, model);
+                    response = request.CreateErrorResponse(HttpStatusCode.NotFound, "Cannot load a product");
+                    return response;
                 }
+
+                //a vendor should have access only to his products
+                if (_baseService.WorkContext.CurrentVendor != null && associatedProduct.VendorId != _baseService.WorkContext.CurrentVendor.Id)
+                {
+                    response = request.CreateErrorResponse(HttpStatusCode.NotFound, "This is not your product");
+                    return response;
+                }
+
+                //a vendor should have access only to his products
+                model.IsLoggedInAsVendor = _baseService.WorkContext.CurrentVendor != null;
+
+                response = request.CreateResponse<CustomerRoleVM.AssociateProductToCustomerRoleVM>(HttpStatusCode.OK, model);
                 return response;
 
             });

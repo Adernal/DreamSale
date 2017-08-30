@@ -1,4 +1,5 @@
 ﻿using Denmakers.DreamSale.Services.Categories;
+using Denmakers.DreamSale.Services.Localization;
 using Denmakers.DreamSale.Services.Manufacturers;
 using Denmakers.DreamSale.Services.Vendors;
 using System;
@@ -16,7 +17,7 @@ namespace Denmakers.DreamSale.Services.Helpers
         /// <param name="categoryService">Category service</param>
         /// <param name="showHidden">A value indicating whether to show hidden records</param>
         /// <returns>Category list</returns>
-        public static List<SelectListItem> GetCategoryList(ICategoryService categoryService, bool showHidden = false)
+        public static List<SelectListItem> GetCategoryList(ICategoryService categoryService, ILanguageService languageService, ILocalizedEntityService localizedEntityService, bool showHidden = false)
         {
             if (categoryService == null)
                 throw new ArgumentNullException("categoryService");
@@ -24,7 +25,7 @@ namespace Denmakers.DreamSale.Services.Helpers
             var categories = categoryService.GetAllCategories(showHidden: showHidden);
             var listItems = categories.Select(c => new SelectListItem
             {
-                Text = c.GetFormattedBreadCrumb(categories),
+                Text = c.GetFormattedBreadCrumb(categories, languageService, localizedEntityService),
                 Value = c.Id.ToString()
             });
             

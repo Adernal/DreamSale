@@ -58,7 +58,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
         private readonly IDateTimeHelper _dateTimeHelper;
         private readonly IPriceFormatter _priceFormatter;
         private readonly IDiscountService _discountService;
+        private readonly ILanguageService _languageService;
         private readonly ILocalizationService _localizationService;
+        private readonly ILocalizedEntityService _localizedEntityService;
         private readonly IWorkContext _workContext;
         private readonly ICurrencyService _currencyService;
         private readonly IEncryptionService _encryptionService;
@@ -114,7 +116,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             IDateTimeHelper dateTimeHelper,
             IPriceFormatter priceFormatter,
             IDiscountService discountService,
+            ILanguageService languageService,
             ILocalizationService localizationService,
+            ILocalizedEntityService localizedEntityService,
             ICurrencyService currencyService,
             IEncryptionService encryptionService,
             IPaymentService paymentService,
@@ -159,7 +163,9 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             this._dateTimeHelper = dateTimeHelper;
             this._priceFormatter = priceFormatter;
             this._discountService = discountService;
+            this._languageService = languageService;
             this._localizationService = localizationService;
+            this._localizedEntityService = localizedEntityService;
             this._workContext = base._baseService.WorkContext;
             this._currencyService = currencyService;
             this._encryptionService = encryptionService;
@@ -1234,7 +1240,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 
@@ -1350,7 +1356,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 
                     //categories
                     model.AvailableCategories.Add(new System.Web.Mvc.SelectListItem { Text = allText, Value = "0" });
-                    var categories = SelectListHelper.GetCategoryList(_categoryService, true);
+                    var categories = SelectListHelper.GetCategoryList(_categoryService, _languageService, _localizedEntityService, true);
                     foreach (var c in categories)
                         model.AvailableCategories.Add(c);
 

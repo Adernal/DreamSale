@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using Microsoft.Owin.Security.OAuth;
+using System.Web.Http;
 using System.Web.Http.Cors;
 
 namespace Denmakers.DreamSale.RESTAPI
@@ -9,8 +10,8 @@ namespace Denmakers.DreamSale.RESTAPI
         {
             // Web API configuration and services
             //enable cors
-            //EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "GET,POST");
-            //config.EnableCors(cors);
+            EnableCorsAttribute cors = new EnableCorsAttribute(origins: "*", headers: "*", methods: "GET,POST");
+            config.EnableCors(cors);
 
 
             // Web API routes
@@ -21,6 +22,10 @@ namespace Denmakers.DreamSale.RESTAPI
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // Configure Web API to use only bearer token authentication.
+            config.SuppressDefaultHostAuthentication();
+            config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // to ignore An error has occurred.","ExceptionMessage":"Self referencing loop detected with  
             // https://stackoverflow.com/questions/19664257/why-in-web-api-returning-an-entity-that-has-a-one-to-many-relationship-causes-an
