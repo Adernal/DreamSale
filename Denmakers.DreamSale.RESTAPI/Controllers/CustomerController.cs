@@ -52,7 +52,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/Customers")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class CustomerController : ApiControllerBase
     {
         #region Fields
@@ -1242,7 +1242,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(customerId);
                     if (customer == null)
@@ -1297,7 +1297,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(customerId);
@@ -1331,7 +1331,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(customerId);
                     if (customer == null)
@@ -1359,7 +1359,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(model.CustomerId);
                     if (customer == null)
@@ -1416,7 +1416,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(customerId);
                     if (customer == null)
@@ -1454,7 +1454,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(model.CustomerId);
                     if (customer == null)
@@ -1515,7 +1515,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     //load registered customers by default
                     var defaultRoleIds = new List<int> { _customerService.GetCustomerRoleBySystemName(SystemCustomerRoleNames.Registered).Id };
@@ -1553,7 +1553,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(id);
                     if (customer == null || customer.Deleted)
@@ -1583,7 +1583,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var searchDayOfBirth = 0;
                     int searchMonthOfBirth = 0;
@@ -1628,7 +1628,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var model = new CustomerVM();
                     PrepareCustomerModel(model, null, false);
@@ -1649,7 +1649,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     if (!String.IsNullOrWhiteSpace(model.Email))
@@ -1864,7 +1864,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(model.Id);
@@ -2136,7 +2136,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(id);
@@ -2214,7 +2214,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(model.Id);
                     if (customer == null)
@@ -2263,7 +2263,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customer = _customerService.GetCustomerById(model.Id);
                     if (customer == null)
@@ -2294,7 +2294,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(model.Id);
@@ -2329,7 +2329,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(id);
@@ -2379,7 +2379,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(model.Id);
@@ -2414,7 +2414,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(model.Id);
@@ -2449,7 +2449,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(model.Id);
@@ -2518,7 +2518,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
 
                     var customer = _customerService.GetCustomerById(model.Id);

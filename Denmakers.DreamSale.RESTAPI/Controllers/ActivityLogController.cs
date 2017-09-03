@@ -21,7 +21,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/ActivityLog")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class ActivityLogController : ApiControllerBase
     {
         #region Fields

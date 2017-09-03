@@ -19,7 +19,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/QueuedEmails")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public partial class QueuedEmailController : ApiControllerBase
     {
         #region Fields

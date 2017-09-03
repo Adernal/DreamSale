@@ -18,7 +18,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/Logs")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class LogController : ApiControllerBase
     {
         #region Fields

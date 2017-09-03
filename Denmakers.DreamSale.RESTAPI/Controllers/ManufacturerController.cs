@@ -27,7 +27,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/Manufacturers")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class ManufacturerController : ApiControllerBase
     {
         #region Fields

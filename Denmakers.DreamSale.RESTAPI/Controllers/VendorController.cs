@@ -29,7 +29,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/Vendors")]
     //[Infrastructure.Securities.AdminAuthorize/*(Roles = "Administrators, Vendors")*/]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class VendorController : ApiControllerBase
     {
         #region Fields

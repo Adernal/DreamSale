@@ -24,7 +24,7 @@ using System.Web.Http;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/onlineCustomers")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class OnlineCustomerController : ApiControllerBase
     {
         #region Fields
@@ -70,7 +70,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
+                //if (_permissionService.Authorize(StandardPermissionProvider.ManageCustomers))
                 {
                     var customers = _customerService.GetOnlineCustomers(DateTime.UtcNow.AddMinutes(_customerSettings.OnlineCustomerMinutes),
                 null, pageIndex, pageSize);

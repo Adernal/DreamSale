@@ -44,7 +44,7 @@ using System.Web;
 namespace Denmakers.DreamSale.RESTAPI.Controllers
 {
     [RoutePrefix("api/Orders")]
-    [Infrastructure.Securities.AdminAuthorize]
+    //[Infrastructure.Securities.AdminAuthorize]
     public class OrderController : ApiControllerBase
     {
         #region Fields
