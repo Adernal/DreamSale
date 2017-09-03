@@ -117,7 +117,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests))
+                if (true)
                 {
                     var model = new ReturnRequestListVM
                     {
@@ -152,7 +152,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests))
+                if (true)
                 {
                     var rrs = model.ReturnRequestStatusId == -1 ? null : (ReturnRequestStatus?)model.ReturnRequestStatusId;
 
@@ -195,7 +195,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests))
+                if (true)
                 {
                     var returnRequest = _returnRequestService.GetReturnRequestById(id);
                     if (returnRequest == null)
@@ -229,7 +229,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests))
+                if (true)
                 {
                     var returnRequest = _returnRequestService.GetReturnRequestById(model.Id);
                     if (returnRequest == null)
@@ -295,7 +295,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests))
+                if (true)
                 {
                     var returnRequest = _returnRequestService.GetReturnRequestById(id);
                     if (returnRequest == null)
@@ -347,7 +347,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageReturnRequests))
+                if (true)
                 {
                     var returnRequest = _returnRequestService.GetReturnRequestById(model.Id);
                     if (returnRequest == null)

@@ -62,7 +62,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var emailAccountModels = _emailAccountService.GetAllEmailAccounts()
                                     .Select(x => x.ToModel())
@@ -94,7 +94,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var emailAccount = _emailAccountService.GetEmailAccountById(id);
                     if (emailAccount == null)
@@ -124,7 +124,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var defaultEmailAccount = _emailAccountService.GetEmailAccountById(id);
                     if (defaultEmailAccount != null)
@@ -154,7 +154,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var model = new EmailAccountVM();
                     //default values
@@ -178,7 +178,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     if (ModelState.IsValid)
                     {
@@ -230,7 +230,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var emailAccount = _emailAccountService.GetEmailAccountById(model.Id);
                     if (emailAccount == null)
@@ -288,7 +288,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var emailAccount = _emailAccountService.GetEmailAccountById(model.Id);
                     if (emailAccount == null)
@@ -327,7 +327,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var emailAccount = _emailAccountService.GetEmailAccountById(id);
                     if (emailAccount == null)
@@ -380,7 +380,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageEmailAccounts))
+                if (true)
                 {
                     var emailAccount = _emailAccountService.GetEmailAccountById(model.Id);
                     if (emailAccount == null)

@@ -49,7 +49,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     var model = new QueuedEmailListVM
                     {
@@ -75,7 +75,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     DateTime? startDateValue = (model.SearchStartDate == null) ? null
                             : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.SearchStartDate.Value, _dateTimeHelper.CurrentTimeZone);
@@ -122,7 +122,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     var email = _queuedEmailService.GetQueuedEmailById(id);
                     if (email == null)
@@ -161,7 +161,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     _queuedEmailService.DeleteAllEmails();
                     _baseService.Commit();
@@ -187,7 +187,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     var email = _queuedEmailService.GetQueuedEmailById(id);
                     if (email == null)
@@ -218,7 +218,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, new { Result = false });
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     if (selectedIds != null)
                     {
@@ -243,7 +243,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     var queuedEmail = _queuedEmailService.GetQueuedEmailById(queuedEmailModel.Id);
                     if (queuedEmail == null)
@@ -300,7 +300,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageMessageQueue))
+                if (true)
                 {
                     var email = _queuedEmailService.GetQueuedEmailById(model.Id);
                     if (email == null)

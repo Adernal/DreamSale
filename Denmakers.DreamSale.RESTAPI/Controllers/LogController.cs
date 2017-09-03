@@ -46,7 +46,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageSystemLog))
+                if (true)
                 {
                     var model = new LogListVM();
                     model.AvailableLogLevels = LogLevel.Debug.ToSelectList(_localizationService, _baseService.WorkContext, false).ToList();
@@ -70,7 +70,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageSystemLog))
+                if (true)
                 {
                     DateTime? createdOnFromValue = (model.CreatedOnFrom == null) ? null
                             : (DateTime?)_dateTimeHelper.ConvertToUtcTime(model.CreatedOnFrom.Value, _dateTimeHelper.CurrentTimeZone);
@@ -119,7 +119,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageSystemLog))
+                if (true)
                 {
                     var log = _logger.GetLogById(id);
                     if (log == null)
@@ -163,7 +163,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageSystemLog))
+                if (true)
                 {
                     _logger.ClearLog();
                     _baseService.Commit();
@@ -189,7 +189,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateErrorResponse(HttpStatusCode.NotFound, "No items found");
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageSystemLog))
+                if (true)
                 {
                     var log = _logger.GetLogById(id);
                     if (log == null)
@@ -220,7 +220,7 @@ namespace Denmakers.DreamSale.RESTAPI.Controllers
             return CreateHttpResponse(request, () =>
             {
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, new { Result = false });
-                if (_permissionService.Authorize(StandardPermissionProvider.ManageSystemLog))
+                if (true)
                 {
                     if (selectedIds != null)
                     {

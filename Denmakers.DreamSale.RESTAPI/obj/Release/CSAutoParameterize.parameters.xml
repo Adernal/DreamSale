@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="DreamSaleConString-Web.config Connection String" description="DreamSaleConString Connection String used in web.config by the application to access the database." defaultValue="Data Source=sql5016.smarterasp.net;Initial Catalog=DB_A28596_dreamSale;User ID=DB_A28596_dreamSale_admin;Password=Pd27081990" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\project\\DreamSale\\Source\\DreamSale\\Denmakers\.DreamSale\.RESTAPI\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DreamSaleConString']/@connectionString" />
+  </parameter>
+</parameters>
