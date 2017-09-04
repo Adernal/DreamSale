@@ -59,19 +59,20 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor ="let i= index; let manufacturer of manufacturer | filter : filteredManufacturer : 'Name'">
+                          <tr *ngFor ="let manufacturer of manufacturer | filter : filteredManufacturer : 'Name' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
 
                           <td>{{manufacturer.Id}}</td>
                           <td>{{manufacturer.Name}}</td>
 
                           <td>{{manufacturer.DisplayOrder}}</td>
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editManufacturerMode(c)" #c><i class="fa fa-edit"></i></button>
-                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteManufacturer(d)" #d><i class="fa fa-times"></i></button></td>
+                          <td><button type="button" name="{{manufacturer.Id}}" class="btn btn-primary" (click)="editManufacturerMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{manufacturer.Id}}" class="btn btn-danger" (click)="deleteManufacturer(d)" #d><i class="fa fa-times"></i></button></td>
 
                         </tr>
 
                         </tbody>
                     </table>
+                    <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
                 </div>
             </div>
 

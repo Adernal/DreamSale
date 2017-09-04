@@ -8,6 +8,7 @@ import { ProductAttributesService } from './product-attributes.service';
   styleUrls: ['./product-attributes.component.scss']
 })
 export class ProductAttributesComponent implements OnInit {
+  currentPageNumber:number=1;
   @ViewChild('f') attributeForm: NgForm;
   submitted = false;
   attribute = [];

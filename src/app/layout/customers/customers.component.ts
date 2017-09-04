@@ -8,20 +8,24 @@ import { CustomersService } from './customers.service';
 })
 /* This is still in development ! Has bugs ! */
 export class CustomersComponent implements OnInit {
+
+currentPageNumber:number=1;
 editMode=false;
-customer;
+customer=[];
 customers;
 
   constructor(private customersService: CustomersService) { }
 
   ngOnInit() {
+    this.getCustomers();
   }
 getCustomers(){
   this.customersService.getCustomers()
     .subscribe(
     (response) => {
       this.customers = (response.json());
-      this.customer = this.customers.Data;
+      console.log(this.customers);
+      this.customer.push(this.customers);
     },
     (error) => {
       console.log(error)

@@ -14,15 +14,13 @@ export class CustomerRoleService {
     getCustomerRole() {
         return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/Roles/0/2147483647?pageIdex=0');
     }
-    updateCustomerRole(customer_role, id) {
+    updateCustomerRole(customer_role) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(customer_role);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/EditCustomerRole', customer_role[id], { headers: headers });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/EditCustomerRole?continueEditing=true', customer_role, { headers: headers });
     }
     deleteCustomerRole(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id = " + id);
-        //console.log(customer_role);
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/DeleteCustomerRole?id='+id, null, { headers: headers });
     }
 

@@ -6,6 +6,7 @@ import { CustomerRolesComponent } from './customer-roles.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
 import { CustomerRoleService } from './customer-roles.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { customerservice } from './product.service';
@@ -21,6 +22,7 @@ import { CustomerRoleService } from './customer-roles.service';
     CustomerRolesRoutingModule,
     PageHeaderModule,
     FormsModule,
+    NgxPaginationModule
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],

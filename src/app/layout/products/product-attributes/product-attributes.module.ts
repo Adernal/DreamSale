@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { ProductAttributesService } from './product-attributes.service';
 import { FilterPipe } from './filter.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { FilterPipe } from './filter.pipe';
         ProductAttributesRoutingModule,
         PageHeaderModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        NgxPaginationModule
     ],
     providers:[ ProductAttributesService],
     declarations: [ProductAttributesComponent, FilterPipe]

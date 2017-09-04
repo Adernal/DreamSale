@@ -13,7 +13,7 @@ import {CategoryService} from './category.service';
 })
 
 export class CategoryComponent implements OnInit {
-
+  currentPageNumber: number = 1;
   @ViewChild('f') categoryForm: NgForm;
   submitted = false;
   category = [];
@@ -21,9 +21,14 @@ export class CategoryComponent implements OnInit {
   Name = '';
   Description = '';
   DisplayOrder: Number;
+  ParentCategoryId:Number;
+  ParentCategory='';
+  currentCategory=[];
   editMode = false;
   filteredCategory = '';
   categories;
+
+
 
   constructor(private categoryService: CategoryService) {}
 
@@ -51,8 +56,10 @@ export class CategoryComponent implements OnInit {
       this.Name = this.categoryForm.value.Name;
       this.Description = this.categoryForm.value.Description;
       this.DisplayOrder = this.categoryForm.value.DisplayOrder;
+      this.ParentCategoryId = this.categoryForm.value.parentcategory;
+      this.getCategoryName();
       this.category.push({
-        'Id': this.Id,
+        'Id':0,
         'CustomProperties': {
           'sample string 1': {},
           'sample string 3': {}
@@ -86,7 +93,7 @@ export class CategoryComponent implements OnInit {
         'MetaDescription': 'sample string 6',
         'MetaTitle': 'sample string 7',
         'SeName': 'sample string 8',
-        'ParentCategoryId': 9,
+        'ParentCategoryId': this.ParentCategoryId,
         'PictureId': 10,
         'PageSize': 11,
         'AllowCustomersToSelectPageSize': true,
@@ -232,7 +239,7 @@ export class CategoryComponent implements OnInit {
         }
         );
       //  this.categorys.category=category;
-      console.log(this.category);
+
       this.categoryForm.reset();
     }
 
@@ -240,11 +247,12 @@ export class CategoryComponent implements OnInit {
   editCategoryMode(id: HTMLFormElement) {
     this.editMode = true;
     this.Id = +id.name;
-    console.log(this.Id);
+    this.currentCategory = this.getCategoryIndex(this.Id)[0];
     // console.log(this.category[1].Name);
-    this.Name = this.category[+this.Id].Name;
-    this.Description = this.category[+this.Id].Description;
-    this.DisplayOrder = this.category[+this.Id].DisplayOrder;
+    this.Name = this.currentCategory["Name"];
+    this.Description = this.currentCategory["Description"];
+    this.DisplayOrder = this.currentCategory["DisplayOrder"];
+    this.ParentCategoryId = this.currentCategory["ParentCategoryId"];
 
 
   }
@@ -253,18 +261,20 @@ export class CategoryComponent implements OnInit {
     this.Name = this.categoryForm.value.Name;
     this.Description = this.categoryForm.value.Description;
     this.DisplayOrder = this.categoryForm.value.DisplayOrder;
+    this.ParentCategoryId = this.categoryForm.value.parentcategory;
+    this.getCategoryName();
 
 
-    this.category[+this.Id].Name = this.Name;
-    this.category[+this.Id].Description = this.Description;
-    this.category[+this.Id].DisplayOrder = this.DisplayOrder;
-
+    this.currentCategory["Name"] = this.Name;
+    this.currentCategory["Description"] = this.Description;
+    this.currentCategory["DisplayOrder"] = this.DisplayOrder;
+    this.currentCategory["ParentCategoryId"] = this.ParentCategoryId;
     // localStorage.setItem("categories",JSON.stringify(this.category));
-    this.categoryService.updateCategory(this.category, this.Id)
+    this.categoryService.updateCategory(this.currentCategory)
       .subscribe(
       (data) => {
 
-        console.log(data.json());
+        console.log("Category Updated");
 
         this.getCategory();
         alert('Edited !');
@@ -282,7 +292,8 @@ export class CategoryComponent implements OnInit {
       (response) => {
         this.categories = (response.json());
         this.category = this.categories.Data;
-        console.log((this.category));
+
+        console.log(("Fetched Category"));
 
         //  this.attribute =[this.attributes];
       },
@@ -296,15 +307,9 @@ export class CategoryComponent implements OnInit {
   deleteCategory(id: HTMLFormElement) {
     const confirmation = confirm('Are you sure you want to delete ?');
     if (confirmation) {
-      this.Id = +this.category[+id.name].Id;
-      this.category = JSON.parse(localStorage.getItem('categories'));
-      this.category.splice(+id.name, 1);
-      // localStorage.setItem("categories",JSON.stringify(this.category));
-      this.categoryService.deleteCategory(this.category, this.Id)
+      this.categoryService.deleteCategory(+id.name)
         .subscribe(
         (data) => {
-          console.log(data);
-
           this.getCategory();
           alert('Deleted !');
         },
@@ -318,6 +323,19 @@ export class CategoryComponent implements OnInit {
       this.editMode = false;
 
     }
+  }
+   getCategoryIndex(id:Number) {
+    return this.category.filter(
+        function(category){ return category.Id == id }
+    );
+  }
+  getCategoryName(){
+    if(this.ParentCategoryId!=null){
+      var index=this.getCategoryIndex(this.ParentCategoryId);
+      this.ParentCategory = index[0].Name;
+      this.Name=this.ParentCategory+'--->'+this.Name;
+    }
+
   }
 
 }

@@ -6,11 +6,14 @@ import { ManufacturersComponent } from './manufacturers.component';
 import { ManufacturersService } from './manufacturers.service';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @NgModule({
   imports: [
     CommonModule,
     ManufacturersRoutingModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ],
   providers:[ManufacturersService],
   declarations: [ManufacturersComponent, FilterPipe]

@@ -67,7 +67,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index ;let tag of tag | filter : filteredTag : 'tag_name'">
+                          <tr *ngFor =" let i = index ;let tag of tag | filter : filteredTag : 'tag_name' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
 
                           <td>{{tag.tag_id}}</td>
                           <td>{{tag.tag_name}}</td>
@@ -97,6 +97,7 @@
                         </tr> -->
                         </tbody>
                     </table>
+                    <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
                 </div>
             </div>
 

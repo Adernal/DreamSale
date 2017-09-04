@@ -10,18 +10,20 @@ import { CustomerRoleService } from './customer-roles.service';
   styleUrls: ['./customer-roles.component.scss']
 })
 export class CustomerRolesComponent implements OnInit {
-Id;
-Name;
-FreeShipping;
-TaxExempt;
-Active;
-IsSystemRole;
-SystemName;
-editMode=false;
-customer_role=[];
-customer_roles;
-submitted;
-@ViewChild('f') customer_roleForm: NgForm;
+  currentPageNumber:number=1;
+  Id;
+  Name;
+  FreeShipping;
+  TaxExempt;
+  Active;
+  IsSystemRole;
+  SystemName;
+  editMode=false;
+  customer_role=[];
+  customer_roles;
+  submitted;
+  currentCustomerRole=[];
+  @ViewChild('f') customer_roleForm: NgForm;
 
 
 
@@ -80,7 +82,6 @@ addCustomerRole(){
     this.customer_roleService.storeCustomerRole(this.customer_role)
       .subscribe(
       (data) => {
-        console.log(data);
         alert('Added !');
       },
       (error) => {
@@ -101,7 +102,7 @@ getCustomerRoles(){
     (response) => {
       this.customer_roles = (response.json());
       this.customer_role = this.customer_roles.Data;
-      console.log((this.customer_role));
+
 
     },
     (error) => {
@@ -113,13 +114,13 @@ getCustomerRoles(){
 editCustomerRoleMode(id : HTMLFormElement){
   this.editMode = true;
   this.Id = +id.name;
-  console.log(this.Id);
-  // console.log(this.customer_role[1].Name);
-  this.Name = this.customer_role[+this.Id].Name;
-  this.FreeShipping = this.customer_role[+this.Id].FreeShipping;
-  this.TaxExempt = this.customer_role[+this.Id].TaxExempt;
-  this.Active = this.customer_role[+this.Id].Active;
-  this.IsSystemRole = this.customer_role[+this.Id].IsSystemRole;
+  this.currentCustomerRole = this.getCustomerRoleIndex(this.Id)[0];
+
+  this.Name = this.currentCustomerRole["Name"];
+  this.FreeShipping = this.currentCustomerRole["FreeShipping"];
+  this.TaxExempt = this.currentCustomerRole["TaxExempt"];
+  this.Active = this.currentCustomerRole["Active"];
+  this.IsSystemRole = this.currentCustomerRole["IsSystemRole"];
 }
 editCustomerRole(){
   this.editMode=false;
@@ -140,13 +141,13 @@ editCustomerRole(){
   if(!this.IsSystemRole){
     this.IsSystemRole=false;
   }
-  this.customer_role[+this.Id].Name = this.Name;
-  this.customer_role[+this.Id].FreeShipping = this.FreeShipping;
-  this.customer_role[+this.Id].TaxExempt = this.TaxExempt;
-  this.customer_role[+this.Id].Active = this.Active;
-  this.customer_role[+this.Id].IsSystemRole = this.IsSystemRole;
+  this.currentCustomerRole["Name"] = this.Name;
+  this.currentCustomerRole["FreeShipping"] = this.FreeShipping;
+  this.currentCustomerRole["TaxExempt"] = this.TaxExempt;
+  this.currentCustomerRole["Active"] = this.Active;
+  this.currentCustomerRole["IsSystemRole"] = this.IsSystemRole;
 
-  this.customer_roleService.updateCustomerRole(this.customer_role, this.Id)
+  this.customer_roleService.updateCustomerRole(this.currentCustomerRole)
     .subscribe(
     (data) => {
 
@@ -164,8 +165,7 @@ editCustomerRole(){
 deleteCustomerRole(id : HTMLFormElement){
   const confirmation = confirm('Are you sure you want to delete ?');
   if (confirmation) {
-    this.Id = +this.customer_role[+id.name].Id;
-    this.customer_roleService.deleteCustomerRole(this.Id)
+    this.customer_roleService.deleteCustomerRole(+id.name)
       .subscribe(
       (data) => {
         console.log(data);
@@ -183,6 +183,12 @@ deleteCustomerRole(id : HTMLFormElement){
     this.editMode = false;
 
   }
+}
+getCustomerRoleIndex(id:Number) {
+ return this.customer_role.filter(
+     function(customer_role
+     ){ return customer_role.Id == id }
+ );
 }
 
 

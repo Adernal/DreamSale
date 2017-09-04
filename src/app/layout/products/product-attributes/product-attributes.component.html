@@ -46,7 +46,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor ="let i = index; let attribute of attribute | filter:filteredAttribute:'Name'">
+                          <tr *ngFor ="let i = index; let attribute of attribute | filter:filteredAttribute:'Name' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
 
                           <td>{{attribute.Id}}</td>
                           <td>{{attribute.Name}}</td>
@@ -58,6 +58,7 @@
 
                         </tbody>
                     </table>
+                    <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
                 </div>
             </div>
 

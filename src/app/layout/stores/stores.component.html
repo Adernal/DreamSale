@@ -1,3 +1,134 @@
-<p>
-  stores works!
-</p>
+<div class="container">
+<h1>  Store Management </h1>
+     <hr>
+    <div class="row">
+
+
+      <form role="form" (ngSubmit)="addStores(f)" #f="ngForm" class="container">
+        <div class="row">
+          <div class="col-lg-6">
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Store Name</label>
+                <input class="form-control" ngModel name="Name" required placeholder="Enter Store Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Company Name</label>
+                <input class="form-control" ngModel name="CompanyName" required placeholder="Enter Store Name" *ngIf="!editMode">
+                <input class="form-control" [(ngModel)]="CompanyName" name="CompanyName" required value="{{CompanyName}}" *ngIf="editMode">
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+
+
+            <fieldset class="form-group card mb-3">
+              <label class="card-header">Company Address</label>
+              <textarea class="form-control" rows="3"
+
+              ngModel
+               name="CompanyAddress"
+
+              required
+
+              placeholder="Company Address"
+                *ngIf="!editMode"
+              ></textarea>
+              <textarea class="form-control" rows="3"
+
+              [(ngModel)]="CompanyAddress"
+               name="CompanyAddress"
+
+              required
+
+              value="{{CompanyAddress}}" *ngIf="editMode"></textarea>
+          </fieldset>
+
+
+
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Store</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Store</button>
+            <button type="reset" class="btn btn-danger">Reset Details</button>
+
+        </div>
+        <div class="col-lg-6">
+          <fieldset class="form-group card mb-3">
+              <label class="card-header">Company Phone</label>
+              <input class="form-control" ngModel name="CompanyPhoneNumber" required placeholder="Company Phone Number" *ngIf="!editMode">
+              <input class="form-control" [(ngModel)]="CompanyPhoneNumber" name="CompanyPhoneNumber" required value="{{CompanyPhoneNumber}}" *ngIf="editMode">
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+              <label class="card-header">Company Vat</label>
+              <input class="form-control" ngModel name="CompanyVat" required placeholder="Enter Vat" *ngIf="!editMode">
+              <input class="form-control" [(ngModel)]="CompanyVat" name="CompanyVat" required value="{{CompanyVat}}" *ngIf="editMode">
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+              <label class="card-header">Url</label>
+              <input class="form-control" ngModel name="Url" required placeholder="Url" *ngIf="!editMode">
+              <input class="form-control" [(ngModel)]="Url" name="Url" required value="{{Url}}" *ngIf="editMode">
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+          </fieldset>
+
+          <fieldset class="form-group card mb-3">
+            <label class="card-header">Display Order</label>
+            <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="!editMode">
+            <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="editMode">
+        </fieldset>
+
+        </div>
+
+
+  </div>
+</form>
+  </div>
+</div>
+ <hr>
+    <div class="row">
+
+
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h2>Store List</h2>
+                    <input type="text" placeholder="Search Store" [(ngModel)]="filteredStores" style="width:100%">
+                </div>
+                <div class="card-block table-responsive" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+                          
+                            <th>Store Name</th>
+                            <th>Company Name</th>
+                            <th>Company Phone Number</th>
+                            <th>Url</th>
+                            <th>Display Order</th>
+                            <th>Action</th>
+
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor ="let store of store | filter : filteredStores : 'Name'">
+
+
+                          <td>{{store.Name}}</td>
+                          <td>{{store.CompanyName}}</td>
+                          <td>{{store.CompanyPhoneNumber}}</td>
+                          <td>{{store.Url}}</td>
+                          <td>{{store.DisplayOrder}}</td>
+                          <td><button type="button" name="{{store.Id}}" class="btn btn-primary" (click)="editStoresMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{store.Id}}" class="btn btn-danger" (click)="deleteStores(d)" #d><i class="fa fa-times"></i></button></td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+    </div>

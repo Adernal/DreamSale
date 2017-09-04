@@ -11,9 +11,9 @@
                 <div class="col-lg-6">
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Product Name</label>
-                        <input class="form-control" ngModel name="product_name" required placeholder="Enter Product Name" *ngIf="!editMode">
+                        <input class="form-control" ngModel name="Name" required placeholder="Enter Product Name" *ngIf="!editMode">
                         <!-- <p class="help-block">Example block-level help text here.</p> -->
-                        <input class="form-control" [(ngModel)]="product_name" name="product_name" required value="{{product_name}}" *ngIf="editMode">
+                        <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
 
                     </fieldset>
 
@@ -26,8 +26,8 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Price</label>
-                        <input type="number" class="form-control" ngModel name="product_price" required placeholder="Enter Price" *ngIf="!editMode">
-                        <input type="number" class="form-control" [(ngModel)]="product_price" name="product_price" required *ngIf="editMode" value="{{product_price}}">
+                        <input type="number" class="form-control" ngModel name="Price" required placeholder="Enter Price" *ngIf="!editMode">
+                        <input type="number" class="form-control" [(ngModel)]="Price" name="Price" required *ngIf="editMode" value="{{Price}}">
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Product Attributes <span style="color:grey;">(Select Multiple)</span></label>
@@ -113,12 +113,9 @@
             <table class="table table-bordered table-hover" style="table-layout:fixed">
                 <thead class="thead-inverse">
                     <tr>
-                        <th>Product ID</th>
+
                         <th>Product Name</th>
-
                         <th>Price</th>
-                        <th>Product Category</th>
-
                         <th>Product Attributes</th>
                         <th>Specification Attributes</th>
                         <th>Action</th>
@@ -127,12 +124,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'product_name':'category'">
-                        <td>{{product.product_id}}</td>
-                        <td>{{product.product_name}}</td>
+                    <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'Name':'category' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
 
-                        <td>{{product.product_price}}</td>
-                        <td>{{product.category}}</td>
+                        <td>{{product.Name}}</td>
+
+                        <td>{{product.Price}}</td>
+
 
                         <td>
                             <select>
@@ -159,11 +156,13 @@
                         </td>
 
                         <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i></button>
-                            <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button></td>
+                            <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button>
+                            <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-camera"></i></button></td>
                     </tr>
 
                 </tbody>
             </table>
+            <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
         </div>
     </div>
 

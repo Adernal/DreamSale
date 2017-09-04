@@ -37,13 +37,6 @@
               value="{{Description}}" *ngIf="editMode"></textarea>
           </fieldset>
 
-          <fieldset class="form-group card mb-3">
-            <label class="card-header">Display Order</label>
-            <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
-            *ngIf="!editMode">
-            <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
-            *ngIf="editMode">
-        </fieldset>
 
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Category</button>
@@ -51,11 +44,35 @@
             <button type="reset" class="btn btn-danger">Reset Details</button>
 
         </div>
+        <div class="col-lg-6">
+          <fieldset class="form-group card mb-3">
+            <label class="card-header">Display Order</label>
+            <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="!editMode">
+            <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+            *ngIf="editMode">
+        </fieldset>
+        <fieldset class="form-group card mb-3">
+            <label class="card-header">Select Parent Category (Optional)</label>
+            <select class="form-control" *ngIf="!editMode" ngModel name="parentcategory" size="4">
+              <option *ngFor="let i= index;let parentcategory of category" value={{parentcategory.Id}}>
+                {{parentcategory.Name}}
+              <hr></option>
+                    </select>
+            <select class="form-control" [(ngModel)]="ParentCategories" name="parentcategory" *ngIf="editMode" size="4">
+              <option *ngFor="let i = index;let parentcategory of category" value="{{parentcategory.Id}}" >
+                {{parentcategory.Name}}
+              <hr></option>
+            </select>
+        </fieldset>
+
+        </div>
 
 
   </div>
 </form>
   </div>
+</div>
  <hr>
     <div class="row">
 
@@ -69,9 +86,9 @@
                     <table class="table table-bordered" style="table-layout:fixed">
                         <thead class="thead-inverse">
                         <tr>
-                            <th>Catgory Id</th>
-                            <th>Catgory Name</th>
-                            <th>Category Description</th>
+
+                            <th>Category Name</th>
+
                             <th>Display Order</th>
                             <th>Action</th>
 
@@ -80,23 +97,24 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index;let category of category | filter: filteredCategory : 'Name'">
+                          <tr *ngFor =" let i = index;let category of category | filter: filteredCategory : 'Name' | paginate: { itemsPerPage: 2, currentPage: currentPageNumber }">
 
-                          <td>{{category.Id}}</td>
+
                           <td>{{category.Name}}</td>
-                          <td>{{category.Description}}</td>
+
                           <td>{{category.DisplayOrder}}</td>
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <td><button type="button" name="{{category.Id}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i></button>
                           <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCategory(d)" #d><i class="fa fa-times"></i></button></td>
 
                         </tr>
 
                         </tbody>
                     </table>
+                    <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
+
                 </div>
             </div>
 
 
 
     </div>
-</div>

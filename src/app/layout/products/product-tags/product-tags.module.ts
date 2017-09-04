@@ -6,13 +6,15 @@ import { ProductTagsComponent } from './product-tags.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
     imports: [
         CommonModule,
         ProductTagsRoutingModule,
         PageHeaderModule,
-        FormsModule
+        FormsModule,
+        NgxPaginationModule
     ],
     declarations: [ProductTagsComponent, FilterPipe]
 })

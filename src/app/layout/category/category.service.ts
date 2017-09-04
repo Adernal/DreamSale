@@ -10,20 +10,16 @@ export class CategoryService {
         this.temp = category[category.length-1];
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Add?continueEditing=true', this.temp,
             { headers: headers });
-
     }
     getCategory() {
         return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Categories');
     }
-    updateCategory(category, id) {
+    updateCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log(category);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Update?continueEditing=true', category[id], { headers: headers });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Update?continueEditing=true', category, { headers: headers });
     }
-    deleteCategory(category, id) {
+    deleteCategory(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id = " + id);
-        console.log(category);
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Delete?id='+id, null, { headers: headers });
     }
 

@@ -8,6 +8,7 @@ import { ManufacturersService } from './manufacturers.service';
   styleUrls: ['./manufacturers.component.scss']
 })
 export class ManufacturersComponent implements OnInit {
+  currentPageNumber:number=1;
   @ViewChild('f') manufacturerForm :NgForm;
   submitted = false;
   manufacturer =[];

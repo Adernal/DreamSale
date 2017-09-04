@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
     styleUrls: ['./product-tags.component.scss']
 })
 export class ProductTagsComponent implements OnInit {
+    currentPageNumber:number=1;
     @ViewChild('f') tagForm: NgForm;
     submitted = false;
     tag = [];

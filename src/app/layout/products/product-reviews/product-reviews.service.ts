@@ -7,19 +7,19 @@ export class ProductReviewsService {
     constructor(private http: Http) { }
 
     getReviews() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/0/2147483647');
+        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductReviews');
     }
     updateReviews(reviews, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(reviews);
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Update?continueEditing=true', reviews[id], { headers: headers });
     }
-    deleteReviews(reviews, id) {
+    deleteReviews(id:number[]) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log("Id = " + id);
-        console.log(reviews);
+        //console.log(reviews);
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Delete/' + id, null, { headers: headers });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductReviews/DeleteSelected',id, { headers: headers });
     }
 
 

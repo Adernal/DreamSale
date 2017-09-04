@@ -101,14 +101,13 @@
                             <th>Tax Exempt</th>
                             <th>Active</th>
                             <th>Is System Role</th>
-
                             <th>Action</th>
 
 
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index ;let customer_role of customer_role" >
+                          <tr *ngFor ="let customer_role of customer_role | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }" >
 
 
                           <td>{{customer_role.Name}}</td>
@@ -120,12 +119,13 @@
 
 
 
-                          <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editCustomerRoleMode(c)" #c><i class="fa fa-edit"></i></button>
-                          <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCustomerRole(d)" #d><i class="fa fa-times"></i></button></td>
+                          <td><button type="button" name="{{customer_role.Id}}" class="btn btn-primary" (click)="editCustomerRoleMode(c)" #c><i class="fa fa-edit"></i></button>
+                          <button type="button" name="{{customer_role.Id}}" class="btn btn-danger" (click)="deleteCustomerRole(d)" #d><i class="fa fa-times"></i></button></td>
                         </tr>
 
                         </tbody>
                     </table>
+                  <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
                 </div>
             </div>
 

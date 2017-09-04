@@ -1,5 +1,5 @@
 <div class="container">
-<h1> Customer Role Management </h1>
+<h1> Customer Management </h1>
      <hr>
     <div class="row">
         <div class="card mb-3">
@@ -25,18 +25,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index ;let customer of customer" >
+                          <tr *ngFor =" let i = index ;let customer of customer | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }" >
 
 
-                          <!-- <td>{{customer.CustomerInfo}}</td>
+                          <td>{{customer.CustomerInfo}}</td>
                           <td>{{customer.IpAddress}}</td>
                           <td>{{customer.Location}}</td>
                           <td>{{customer.LastActivity}}</td>
-                          <td>{{customer.LastVisitedPage}}</td> -->
+                          <td>{{customer.LastVisitedPage}}</td>
                         </tr>
 
                         </tbody>
                     </table>
+                  <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
                 </div>
             </div>
 

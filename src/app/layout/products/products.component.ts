@@ -12,6 +12,7 @@ import { ProductService } from './product.service';
 /* This is still in development ! Has bugs ! */
 export class ProductsComponent implements OnInit {
     //@Input() categories :CategoryComponent;
+    currentPageNumber:number=1;
     @ViewChild('f') productForm: NgForm;
     @ViewChild('g') attributeForm: NgForm;
     @Input() multiple: boolean = false;
@@ -20,10 +21,10 @@ export class ProductsComponent implements OnInit {
     submitted = false;
     editMode = false;
     product = [];
-    product_name = '';
+    Name = '';
     product_description = '';
-    product_price: Number;
-    product_id: Number;
+    Price: Number;
+    Id: Number;
     filteredProduct = '';
     tag;
     category;
@@ -31,7 +32,7 @@ export class ProductsComponent implements OnInit {
     tags;
     product_attribute;
     product_attributes;
-    current_product_id;
+    current_Id;
     current_attribute_id;
     current_attribute;
     current_attribute_description;
@@ -40,6 +41,7 @@ export class ProductsComponent implements OnInit {
     current_spec_attribute;
     current_spec_attribute_description;
     products;
+    product_vm=[];
 
     editAttributeMode = false;
     editSpecAttributeMode = false
@@ -48,11 +50,11 @@ export class ProductsComponent implements OnInit {
     constructor(private http: Http, private productService: ProductService) { }
 
     ngOnInit() {
-        //localStorage.removeItem("products");
-        if (localStorage.getItem("products") != null) {
-            this.product = JSON.parse(localStorage.getItem("products"));
-
-        }
+    //    localStorage.removeItem("products");
+        // if (localStorage.getItem("products") != null) {
+        //     this.product = JSON.parse(localStorage.getItem("products"));
+        //
+        // }
         //  this.categories = JSON.parse(localStorage.getItem("categories"));
         this.tags = JSON.parse(localStorage.getItem("tags"));
         this.getAllData();
@@ -67,23 +69,23 @@ export class ProductsComponent implements OnInit {
         }
         else {
             if (this.product.length == 0) {
-                this.product_id = 1;
+                this.Id = 1;
             }
             else {
-                this.product_id = +this.product[this.product.length - 1].product_id + 1;
+                this.Id = +this.product[this.product.length - 1].Id + 1;
             }
-            this.product_name = this.productForm.value.product_name;
+            this.Name = this.productForm.value.Name;
             this.product_description = this.productForm.value.product_description;
-            this.product_price = this.productForm.value.product_price;
+            this.Price = this.productForm.value.Price;
             this.category = this.productForm.value.category;
             this.tag = (this.productForm.value.tag_name);
             this.product_attribute = this.productForm.value.prod_attributes;
             this.specification_attribute = this.productForm.value.spec_attributes;
             this.product.push({
-                'product_id': this.product_id,
-                'product_name': this.product_name,
+                'Id': this.Id,
+                'Name': this.Name,
                 'product_description': this.product_description,
-                'product_price': this.product_price,
+                'Price': this.Price,
                 'category': this.category,
                 'tag': this.tag,
                 'product_attributes': this.product_attribute,
@@ -100,35 +102,35 @@ export class ProductsComponent implements OnInit {
     }
     editProductMode(id: HTMLFormElement) {
         this.editMode = true;
-        this.product_id = +id.name;
-        console.log(this.product_id);
-        // console.log(this.product[1].product_name);p
-        this.product_name = this.product[+this.product_id].product_name;
-        this.product_description = this.product[+this.product_id].product_description;
-        this.product_price = this.product[+this.product_id].product_price;
-        this.category = this.product[+this.product_id].category;
-        this.tag = (this.product[+this.product_id].tag);
-        // this.product_attribute = (this.product[+this.product_id].product_attributes);
-        // this.specification_attribute = (this.product[+this.product_id].specification_attributes);
+        this.Id = +id.name;
+        console.log(this.Id);
+        // console.log(this.product[1].Name);p
+        this.Name = this.product[+this.Id].Name;
+        this.product_description = this.product[+this.Id].product_description;
+        this.Price = this.product[+this.Id].Price;
+        this.category = this.product[+this.Id].category;
+        this.tag = (this.product[+this.Id].tag);
+        // this.product_attribute = (this.product[+this.Id].product_attributes);
+        // this.specification_attribute = (this.product[+this.Id].specification_attributes);
 
     }
     editProduct() {
         this.editMode = false;
-        this.product_name = this.productForm.value.product_name;
+        this.Name = this.productForm.value.Name;
         this.product_description = this.productForm.value.product_description;
-        this.product_price = this.productForm.value.product_price;
+        this.Price = this.productForm.value.Price;
         this.category = this.productForm.value.category;
         this.tag = this.productForm.value.tag_name;
         this.product_attribute = this.productForm.value.prod_attributes;
         this.specification_attribute = this.productForm.value.spec_attributes;
 
-        this.product[+this.product_id].product_name = this.product_name;
-        this.product[+this.product_id].product_description = this.product_description;
-        this.product[+this.product_id].product_price = this.product_price;
-        this.product[+this.product_id].category = this.category;
-        this.product[+this.product_id].tag = (this.tag);
-        this.product[+this.product_id].product_attributes = (this.product_attribute);
-        this.product[+this.product_id].specification_attributes = (this.specification_attribute);
+        this.product[+this.Id].Name = this.Name;
+        this.product[+this.Id].product_description = this.product_description;
+        this.product[+this.Id].Price = this.Price;
+        this.product[+this.Id].category = this.category;
+        this.product[+this.Id].tag = (this.tag);
+        this.product[+this.Id].product_attributes = (this.product_attribute);
+        this.product[+this.Id].specification_attributes = (this.specification_attribute);
         this.getAllData();
 
         localStorage.setItem("products", JSON.stringify(this.product));
@@ -139,7 +141,7 @@ export class ProductsComponent implements OnInit {
     deleteProduct(id: HTMLFormElement) {
         var confirmation = confirm("Are you sure you want to delete ?");
         if (confirmation) {
-            this.product_id = +this.product[+id.name].product_id;
+            this.Id = +this.product[+id.name].Id;
             this.getAllData();
 
             this.product = JSON.parse(localStorage.getItem("products"));
@@ -152,6 +154,196 @@ export class ProductsComponent implements OnInit {
             }
 
         }
+    }
+    getProducts(){
+      this.product_vm=[{
+  "Id": 1,
+  "CustomProperties": {
+    "sample string 1": {},
+    "sample string 3": {}
+  },
+  "SearchProductName": "sample string 2",
+  "SearchCategoryId": 3,
+  "SearchIncludeSubCategories": true,
+  "SearchManufacturerId": 5,
+  "SearchStoreId": 6,
+  "SearchVendorId": 7,
+  "SearchWarehouseId": 8,
+  "SearchProductTypeId": 9,
+  "SearchPublishedId": 10,
+  "GoDirectlyToSku": "sample string 11",
+  "IsLoggedInAsVendor": true,
+  "AllowVendorsToImportProducts": true,
+  "AvailableCategories": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ],
+  "AvailableManufacturers": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ],
+  "AvailableStores": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ],
+  "AvailableWarehouses": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ],
+  "AvailableVendors": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ],
+  "AvailableProductTypes": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ],
+  "AvailablePublishedOptions": [
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    },
+    {
+      "Disabled": true,
+      "Group": {
+        "Disabled": true,
+        "Name": "sample string 2"
+      },
+      "Selected": true,
+      "Text": "sample string 3",
+      "Value": "sample string 4"
+    }
+  ]
+}];
+        this.productService.getAllProducts(this.product_vm)
+            .subscribe(
+            (response) => {
+                this.products = (response.json());
+                console.log(this.products.Name);
+                //this.product = JSON.parse(this.products);
+                console.log("Products:"+(this.product));
+                //  this.attribute =[this.attributes];
+            },
+            (error) =>      {
+                    console.log(error);
+                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                  }
+            );
+
     }
     getAttributes() {
         this.productService.getAttributes()
@@ -201,9 +393,11 @@ export class ProductsComponent implements OnInit {
             );
     }
     getAllData() {
+        this.getProducts();
         this.getAttributes();
         this.getSpecAttributes();
         this.getCategory();
+
     }
     // showAttributeDescription(){
     //     alert("HI");
@@ -213,7 +407,7 @@ export class ProductsComponent implements OnInit {
     editProductAttribute(prod_id,attr_id){
       console.log(prod_id,attr_id);
       this.editAttributeMode=true;
-      this.current_product_id =prod_id;
+      this.current_Id =prod_id;
       this.current_attribute_id =attr_id;
       this.current_attribute = this.product[prod_id].product_attributes[attr_id];
       this.current_attribute_description = this.product[prod_id].product_attributes[attr_id].description;
@@ -221,7 +415,7 @@ export class ProductsComponent implements OnInit {
     }
     saveAttribute(){
       this.current_attribute_description = this.attributeForm.value.prod_attrib;
-      this.product[+this.current_product_id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
+      this.product[+this.current_Id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
       localStorage.setItem("products",JSON.stringify(this.product));
       console.log("Up")
 

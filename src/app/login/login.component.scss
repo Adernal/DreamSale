@@ -28,7 +28,7 @@ $topnav-background-color: #222;
         border: none;
         box-shadow: none;
         border-bottom: 2px solid rgba(255,255,255,.5);
-        color: #FFF;
+        //color: #FFF;
         border-radius: 0;
     }
     .input-underline:focus {
@@ -64,19 +64,19 @@ $topnav-background-color: #222;
     .form-group {
         padding: 8px 0;
         input::-webkit-input-placeholder {
-        color: rgba(255,255,255,0.6) !important;
+        //color: rgba(255,255,255,0.6) !important;
         }
 
         input:-moz-placeholder { /* Firefox 18- */
-        color: rgba(255,255,255,0.6) !important;
+      //  color: rgba(255,255,255,0.6) !important;
         }
 
         input::-moz-placeholder {  /* Firefox 19+ */
-        color: rgba(255,255,255,0.6) !important;
+      //  color: rgba(255,255,255,0.6) !important;
         }
 
         input:-ms-input-placeholder {
-        color: rgba(255,255,255,0.6) !important;
+      //  color: rgba(255,255,255,0.6) !important;
         }
     }
     .form-content {

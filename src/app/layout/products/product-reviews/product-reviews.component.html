@@ -25,14 +25,16 @@
 </form>
   </div> -->
  <hr>
+ </div>
     <div class="row">
 
 
             <div class="card mb-3">
                 <div class="card-header">
-                    Review List
+                    <h2>Review List</h2>
+                    <input type="text" placeholder="Search Reviews by Product or Customer or Approved" [(ngModel)]="filteredReviews" style="width:100%">
                 </div>
-                <div class="card-block table-responsive" style="width:100%;">
+                <div class="card-block" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
                         <thead class="thead-inverse">
                         <tr>
@@ -49,7 +51,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                    
+                            <tr *ngFor="let i= inex;let review of review | filter: filteredReviews : 'ProductName':'CustomerInfo':'IsApproved'">
+                                <td>{{review.StoreName}}</td>
+                                <td>{{review.ProductName}}</td>
+                                <td>{{review.CustomerInfo}}</td>
+                                <td>{{review.Title}}</td>
+                                <td>{{review.ReviewText}}</td>
+                                <td>{{review.Rating}}</td>
+                                <td>{{review.IsApproved}}</td>
+                                <td>{{review.CreatedOn}}</td>
+                                <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editReviewMode(c)" #c><i class="fa fa-edit"></i></button>
+      <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteReview(d)" #d><i class="fa fa-times"></i></button></td>
+
+                            </tr>
 
 
                         </tbody>
@@ -60,4 +74,3 @@
 
 
     </div>
-</div>
