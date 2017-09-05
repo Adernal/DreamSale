@@ -28,6 +28,7 @@
         "@ngx-translate/core": "^7.2.0",
         "@ngx-translate/http-loader": "^0.1.0",
         "angular-4-data-table": "^0.2.3",
+        "angular2-busy": "^2.0.4",
         "angular2-image-upload": "^0.6.6",
         "core-js": "^2.5.0",
         "font-awesome": "^4.7.0",

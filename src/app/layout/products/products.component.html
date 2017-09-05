@@ -2,112 +2,201 @@
     <h1>Product Management</h1>
     <hr>
     <div class="row">
-
-
-        <form role="form" (ngSubmit)="addProduct(f)" #f="ngForm" class="container">
-
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <fieldset class="form-group card mb-3">
+        <!--Search Product Form -->
+        <div class="row">
+        <div *ngIf="searchProductMode">
+            <form role="form" (ngSubmit)="searchProduct(s)" #s="ngForm" style="width:100%">
+                <div>
+                       <fieldset class="form-group card mb-3">
                         <label class="card-header">Product Name</label>
-                        <input class="form-control" ngModel name="Name" required placeholder="Enter Product Name" *ngIf="!editMode">
-                        <!-- <p class="help-block">Example block-level help text here.</p> -->
-                        <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
-
+                        <input class="form-control" ngModel name="Name" placeholder="Enter Product Name">
                     </fieldset>
-
-
-
-                    <fieldset class="form-group card mb-3">
-                        <label class="card-header">Product Description</label>
-                        <textarea class="form-control" rows="3" ngModel name="product_description" required placeholder="Enter Product Description" *ngIf="!editMode"></textarea>
-                        <textarea class="form-control" rows="3" [(ngModel)]="product_description" name="product_description" required value="{{product_description}}" *ngIf="editMode"></textarea>
-                    </fieldset>
-                    <fieldset class="form-group card mb-3">
-                        <label class="card-header">Price</label>
-                        <input type="number" class="form-control" ngModel name="Price" required placeholder="Enter Price" *ngIf="!editMode">
-                        <input type="number" class="form-control" [(ngModel)]="Price" name="Price" required *ngIf="editMode" value="{{Price}}">
-                    </fieldset>
-                    <fieldset class="form-group card mb-3">
-                        <label class="card-header">Product Attributes <span style="color:grey;">(Select Multiple)</span></label>
-                        <select class="form-control" *ngIf="!editMode" ngModel name="prod_attributes" required multiple>
-              <option *ngFor="let attribute of product_attribute">
-                {{attribute.Name}}
-              <hr></option>
-            </select>
-                        <select class="form-control" [(ngModel)]="product_attribute" name="prod_attributes" required *ngIf="editMode" multiple>
-              <option *ngFor="let attribute of product_attribute">
-                {{attribute.Name}}
-              <hr></option>
-            </select>
-                    </fieldset>
-
-
-                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Product</button>
-                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Product</button>
-                    <button type="reset" class="btn btn-danger">Reset Details</button>
-
-                </div>
-                <div class="col-lg-6">
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Category</label>
-                        <select class="form-control" *ngIf="!editMode" ngModel name="category" required size="4">
-                          <option *ngFor="let category of categories">
-                            {{category.Name}}
-                          <hr></option>
-            </select>
-                        <select class="form-control" [(ngModel)]="category" name="category" required *ngIf="editMode" size="4">
-                          <option *ngFor="let category of categories">
-                            {{category.Name}}
-                          <hr></option>
-            </select>
+                        <select class="form-control" ngModel name="CategoryId" size="4">
+                                  <option *ngFor="let category of categories" value="{{category.Id}}">
+                                    {{category.Name}}
+                                  <hr></option>
+                    </select>
                     </fieldset>
                     <fieldset class="form-group card mb-3">
-                        <label class="card-header">Product Tags <span style="color:grey;">(Select Multiple)</span></label>
-                        <select class="form-control" *ngIf="!editMode" ngModel name="tag_name" required multiple>
-              <option *ngFor="let tag of tags">
-                {{tag.tag_name}}
-              <hr></option>
-            </select>
-                        <select class="form-control" [(ngModel)]="tag" name="tag_name" required *ngIf="editMode" multiple>
-              <option *ngFor="let tag of tags">
-                {{tag.tag_name}}
-              <hr></option>
-            </select>
+                        <label class="card-header">Manufacturers</label>
+                        <select class="form-control" ngModel name="ManufacturerId" size="4">
+                                  <option *ngFor="let manufacturer of manufacturers" value="{{manufacturer.Id}}">
+                                    {{manufacturer.Name}}
+                                  <hr></option>
+                    </select>
+                    </fieldset></div>
+                <div >
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Vendors</label>
+                        <select class="form-control" ngModel name="VendorId" size="4">
+                                  <option *ngFor="let vendor of vendors" value="{{vendor.Id}}">
+                                    {{vendor.Name}}
+                                  <hr></option>
+                    </select>
                     </fieldset>
                     <fieldset class="form-group card mb-3">
-                        <label class="card-header">Specification Attributes <span style="color:grey;">(Select Multiple)</span></label>
-                        <select class="form-control" *ngIf="!editMode" ngModel name="spec_attributes" required multiple>
-              <option *ngFor="let attribute of specification_attribute">
-                {{attribute.Name}}
-              <hr></option>
-            </select>
-                        <select class="form-control" [(ngModel)]="specification_attribute" name="spec_attributes" required *ngIf="editMode" multiple>
-              <option *ngFor="let attribute of specification_attribute">
-                {{attribute.Name}}
-              <hr></option>
-            </select>
+                        <label class="card-header">Stores</label>
+                        <select class="form-control" ngModel name="StoreId" size="4">
+                                  <option *ngFor="let store of stores" value="{{store.Id}}">
+                                    {{store.Name}}
+                                  <hr></option>
+                    </select>
                     </fieldset>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="!s.valid">Search Product</button>
 
 
                 </div>
 
 
-            </div>
-        </form>
-        <!-- Edit Form -->
 
+            </form>
+        <!--End of Search Product Form -->
+        <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        </div>
+    </div>
+
+    <!--Add New Product -->
+        <div *ngIf="addNewProduct">
+            <div align="center">
+                <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
+                        <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
+                        <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
+                        <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
+                   </span>
+            </div>
+            <br>
+            <div>
+                <form role="form" (ngSubmit)="addProduct(f)" #f="ngForm">
+
+
+
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Product Name (required)</label>
+                        <input class="form-control" ngModel name="Name" required placeholder="Enter Product Name" *ngIf="!editMode">
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Product FullDescription (required)</label>
+                        <textarea class="form-control" rows="3" ngModel name="FullDescription" required placeholder="Enter Product FullDescription" *ngIf="!editMode"></textarea>
+
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Price (required)</label>
+                        <input type="number" class="form-control" ngModel name="Price" required placeholder="Enter Price" *ngIf="!editMode">
+
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Stock Quantity (required)</label>
+                        <input type="number" class="form-control" ngModel name="StockQuantity" required>
+                    </fieldset>
+
+
+
+
+
+
+
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Category</label>
+                        <select class="form-control" ngModel name="CategoryId" required multiple size="4">
+                              <option *ngFor="let category of categories" value="{{category.Id}}">
+                                {{category.Name}}
+                              <hr></option>
+                </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Manufacturers</label>
+                        <select class="form-control" ngModel name="ManufacturerId" required multiple size="4">
+                              <option *ngFor="let manufacturer of manufacturers" value="{{manufacturer.Id}}">
+                                {{manufacturer.Name}}
+                              <hr></option>
+                </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Vendors</label>
+                        <select class="form-control" ngModel name="VendorId" required size="4">
+                              <option *ngFor="let vendor of vendors" value="{{vendor.Id}}">
+                                {{vendor.Name}}
+                              <hr></option>
+                </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Stores</label>
+                        <select class="form-control" ngModel name="StoreId" required multiple size="4">
+                              <option *ngFor="let store of stores" value="{{store.Id}}">
+                                {{store.Name}}
+                              <hr></option>
+                </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">SKU</label>
+                        <input type="text" class="form-control" ngModel name="Sku">
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Published <span>(required)</span></label>
+                        <div class="checkbox" style="float:left; margin:5px;">
+
+                            <input type="checkbox" class="form-control" ngModel required name="Published">
+                        </div>
+
+
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">GTIN(Global Trade Item Number)</label>
+                        <input type="text" class="form-control" ngModel name="Gtin">
+                    </fieldset>
+                    <fieldset class="form-group car mb-3">
+                        <label class="card-header">Manufacturer Part Number</label>
+                        <input type="text" class="form-control" ngModel name="ManufacturerPartNumber">
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Show on Home Page <span>(required)</span></label>
+                        <div class="checkbox" style="float:left; margin:5px;">
+
+                            <input type="checkbox" class="form-control" ngModel required name="ShowOnHomePage">
+                        </div>
+
+
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Mark as New <span>(required)</span></label>
+                        <div class="checkbox" style="float:left; margin:5px;">
+
+                            <input type="checkbox" class="form-control" ngModel required name="MarkAsNew">
+                        </div>
+
+
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Display Order</label>
+                        <input type="Number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order">
+                    </fieldset>
+
+
+
+
+                    <img [src]="loadingImagePath" *ngIf="loadingProduct" alt="">
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Product</button>
+
+
+
+                </form>
+            </div>
+            <!--End of Add New Product -->
+
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        </div>
     </div>
 </div>
 <hr>
-<div class="row">
+<div class="row" *ngIf="showSearchedProductList">
 
 
     <div class="card mb-3">
         <div class="card-header">
-            <h2>Product List </h2>
-            <input type="text" placeholder="Search by Product Name or Category" [(ngModel)]="filteredProduct" style="width:100%;">
+           <h2>Product List </h2>
         </div>
         <div class="card-block" style="width:100%;">
             <table class="table table-bordered table-hover" style="table-layout:fixed">
@@ -116,56 +205,263 @@
                         <th>Product Picture</th>
                         <th>Product Name</th>
                         <th>Price</th>
-                        <th>Product Attributes</th>
-                        <th>Specification Attributes</th>
+                        <th>Stock Quantity</th>
+
                         <th>Action</th>
 
 
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'Name':'Name' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
+                    <tr *ngFor="let product of searchedProducts">
                         <td><img [src]="product.PictureThumbnailUrl" alt=""></td>
                         <td>{{product.Name}}</td>
 
                         <td>{{product.Price}}</td>
+                        <td>{{product.StockQuantity}}</td>
 
 
-                        <td>
-                            <select>
-                                <option *ngFor="let rowIndex = index;let a of product.product_attributes" style="list-style:none;"
-                                (click)="editProductAttribute(i,rowIndex)">
-                                    <a style="cursor:pointer" >{{a}}</a>
-
-
-                                <hr></option>
-
-                            </select>
-                            <div *ngIf="editAttributeMode">
-                              <input type="text" placeholder="Enter Value" style="width:100%">
-                            </div>
+                        <td><button type="button" name="{{product.Id}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i></button>
+                            <button type="button" name="{{product.Id}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button>
                         </td>
-
-                        <td>
-                            <select>
-                                <option *ngFor="let j of product.specification_attributes" style="list-style:none;">
-                                    {{j}}
-
-                                <hr></option>
-                            </select>
-                        </td>
-
-                        <td><button type="button" name="{{i}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i></button>
-                            <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button>
-                            <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-camera"></i></button></td>
                     </tr>
 
                 </tbody>
             </table>
-            <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
+
+            <button (click)="showList()" class="btn btn-info">Switch</button>
+
         </div>
     </div>
 
 
 
+</div>
+<!--Show Products -->
+<div class="row" *ngIf="showProductList">
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <span>    <h2>Product List </h2> <button class="btn btn-primary" (click)="addProductMode()">Add Product</button></span>
+
+            <!-- <input type="text" placeholder="Search by Product Name or Category" [(ngModel)]="filteredProduct" style="width:100%;"> -->
+        </div>
+        <div class="card-block" style="width:100%;">
+            <table class="table table-bordered table-hover" style="table-layout:fixed">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Product Picture</th>
+                        <th>Product Name</th>
+                        <th>Price</th>
+                        <th>Stock Quantity</th>
+
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let product of products | paginate: { id:'Products', itemsPerPage: 5, currentPage: currentPageNumber , totalItems: totalProducts}">
+                        <td><img [src]="product.PictureThumbnailUrl" alt=""></td>
+                        <td>{{product.Name}}</td>
+
+                        <td>{{product.Price}}</td>
+                        <td>{{product.StockQuantity}}</td>
+
+
+                        <td><button type="button" name="{{product.Id}}" class="btn btn-primary" (click)="editProductMode(x)" #x><i class="fa fa-edit"></i></button>
+                            <button type="button" name="{{product.Id}}" class="btn btn-danger" (click)="deleteProduct(d)" #d><i class="fa fa-times"></i></button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <img [src]="loadingImagePath" *ngIf="loading" alt="">
+            <pagination-controls (pageChange)="getProducts($event)" id="Products"></pagination-controls>
+        </div>
+    </div>
+
+
+
+</div>
+<!--End of Product List-->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<!--Product Edit Form -->
+<div class="row" *ngIf="editMode">
+
+
+        <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
+        <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
+        <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
+        <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
+   </span>
+    <div class="col-lg-6" *ngIf="showProductInfo">
+        <form role="form" (ngSubmit)="editProduct(t)" #t="ngForm">
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Product Name</label>
+                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}">
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">FullDescription</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="FullDescription" name="FullDescription" required value="{{FullDescription}}"></textarea>
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Price</label>
+                <input type="number" class="form-control" [(ngModel)]="Price" name="Price" required value="{{Price}}">
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Stock Quantity</label>
+                <input type="number" class="form-control" [(ngModel)]="StockQuantity" name="StockQuantity" value="{{StockQuantity}}">
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Category</label>
+                <select class="form-control" [(ngModel)]="CategoryId" name="CategoryId" multiple size="4">
+              <option *ngFor="let category of categories" value="{{category.Id}}">
+                {{category.Name}}
+              <hr></option>
+</select>
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Manufacturers</label>
+                <select class="form-control" [(ngModel)]="ManufacturerId" name="ManufacturerId" multiple size="4">
+              <option *ngFor="let manufacturer of manufacturers" value="manufacturer.Id">
+                {{manufacturer.Name}}
+              <hr></option>
+</select>
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Vendors</label>
+                <select class="form-control" [(ngModel)]="VendorId" name="VendorId" size="4">
+              <option *ngFor="let vendor of vendors" value="vendor.Id">
+                {{vendor.Name}}
+              <hr></option>
+</select>
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Stores</label>
+                <select class="form-control" [(ngModel)]="StoreId" name="CategoryId" multiple size="4">
+              <option *ngFor="let store of stores" value="store.Id">
+                {{store.Name}}
+              <hr></option>
+</select>
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">SKU</label>
+                <input type="text" class="form-control" [(ngModel)]="Sku" name="Sku" value="{{Sku}}">
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Published <span>(required)</span></label>
+                <div class="checkbox" style="float:left; margin:5px;">
+
+                    <input type="checkbox" class="form-control" [(ngModel)]="Published" name="Published">
+                </div>
+
+
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">GTIN(Global Trade Item Number)</label>
+                <input type="text" class="form-control" [(ngModel)]="Gtin" name="Gtin" value="{{Gtin}}">
+            </fieldset>
+            <fieldset class="form-group car mb-3">
+                <label class="card-header">Manufacturer Part Number</label>
+                <input type="text" class="form-control" [(ngModel)]="ManufacturerPartNumber" name="ManufacturerPartNumber" value="{{ManufacturerPartNumber}}">
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Show on Home Page <span>(required)</span></label>
+                <div class="checkbox" style="float:left; margin:5px;">
+
+                    <input type="checkbox" class="form-control" [(ngModel)]="ShowOnHomePage" name="ShowOnHomePage">
+                </div>
+
+
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Mark as New <span>(required)</span></label>
+                <div class="checkbox" style="float:left; margin:5px;">
+
+                    <input type="checkbox" class="form-control" [(ngModel)]="MarkAsNew" name="MarkAsNew">
+                </div>
+
+
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Display Order</label>
+                <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" placeholder="Enter Display Order">
+            </fieldset>
+
+            <button (click)="showList()" class="btn btn-success">Go Back</button>
+
+            <button type="submit" class="btn btn-primary" [disabled]="!t.valid">Edit Product</button>
+        </form>
+    </div>
+
+
+<!-- Attribute Form  -->
+<!-- //////////////////////////////////////////////////////////////////////////////// -->
+    <div class="col-lg-6" *ngIf="showProductAttributes">
+        <h2>Attributes</h2>
+        <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button>
+    <hr>
+    <div *ngIf="showCurrentAttributeForm">
+    <form role="form" (ngSubmit)="addAttribute(q)" #q="ngForm">
+        <fieldset class="form-group card mb-3">
+            <label class="card-header">Attribute</label>
+            <input type="text" class="form-control" [(ngModel)]="Attribute" name="Attribute" required value="{{Name}}">
+        </fieldset>
+        <fieldset class="form-group car mb-3">
+            <label class="card-header">Text Prompt</label>
+            <input type="text" class="form-control" rows="3" ngModel name="TextPrompt" required >
+        </fieldset>
+
+        <fieldset class="form-group card mb-3">
+            <label class="card-header">Is Required </label>
+            <div class="checkbox" style="float:left; margin:5px;">
+
+                <input type="checkbox" class="form-control" ngModel name="IsRequired">
+            </div>
+        </fieldset>
+
+        <fieldset class="form-group card mb-3">
+            <label class="card-header">Display Order</label>
+            <input type="number" class="form-control" ngModel name="DisplayOrder" placeholder="Enter Display Order">
+        </fieldset>
+
+        <button (click)="showList()" class="btn btn-success">Go Back</button>
+
+        <button type="submit" class="btn btn-primary" [disabled]="!q.valid">Add Attribute</button>
+    </form>
+</div>
+
+
+
+        <div class="card-block" style="width:100%;" *ngIf="showCurrentAttributeList">
+            <table class="table table-bordered table-hover" style="table-layout:fixed">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Text Prompt</th>
+                        <th>Is Required</th>
+                        <th>Display Order</th>
+
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i = index;let attributeField of productAttributeFields">
+                    <td> </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+    </div>
+
+
+</div>
 </div>

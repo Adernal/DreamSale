@@ -247,7 +247,7 @@ export class CategoryComponent implements OnInit {
   editCategoryMode(id: HTMLFormElement) {
     this.editMode = true;
     this.Id = +id.name;
-    this.currentCategory = this.getCategoryIndex(this.Id)[0];
+    this.currentCategory = this.getCurrentCategory(this.Id)[0];
     // console.log(this.category[1].Name);
     this.Name = this.currentCategory["Name"];
     this.Description = this.currentCategory["Description"];
@@ -324,14 +324,14 @@ export class CategoryComponent implements OnInit {
 
     }
   }
-   getCategoryIndex(id:Number) {
+   getCurrentCategory(id:Number) {
     return this.category.filter(
         function(category){ return category.Id == id }
     );
   }
   getCategoryName(){
     if(this.ParentCategoryId!=null){
-      var index=this.getCategoryIndex(this.ParentCategoryId);
+      var index=this.getCurrentCategory(this.ParentCategoryId);
       this.ParentCategory = index[0].Name;
       this.Name=this.ParentCategory+'--->'+this.Name;
     }

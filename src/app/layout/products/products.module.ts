@@ -9,7 +9,8 @@ import { FilterPipe } from './filter.pipe';
 import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 import { ProductService } from './product.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { MdButtonModule } from '@angular/material';
+import {MdProgressSpinnerModule} from '@angular/material'
+
 
 // import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 // import { SpecificationAttributesComponent } from './specification-attributes/specification-attributes.component';
@@ -24,7 +25,9 @@ import { MdButtonModule } from '@angular/material';
     FormsModule,
     ImageUploadModule.forRoot(),
     NgxPaginationModule,
-    MdButtonModule
+    MdProgressSpinnerModule
+
+
     // ProductTagsModule
   ],
   providers:[ProductService],
