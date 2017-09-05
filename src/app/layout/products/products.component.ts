@@ -41,7 +41,8 @@ export class ProductsComponent implements OnInit {
     current_spec_attribute;
     current_spec_attribute_description;
     products;
-    product_vm=[];
+    loading:boolean;
+    totalProducts:number;
 
     editAttributeMode = false;
     editSpecAttributeMode = false
@@ -56,6 +57,7 @@ export class ProductsComponent implements OnInit {
         //
         // }
         //  this.categories = JSON.parse(localStorage.getItem("categories"));
+        this.totalProducts=25878;
         this.tags = JSON.parse(localStorage.getItem("tags"));
         this.getAllData();
         // this.product_attributes = JSON.parse(localStorage.getItem("attributes"));
@@ -156,186 +158,18 @@ export class ProductsComponent implements OnInit {
         }
     }
     getProducts(){
-      this.product_vm=[{
-  "Id": 1,
-  "CustomProperties": {
-    "sample string 1": {},
-    "sample string 3": {}
-  },
-  "SearchProductName": "sample string 2",
-  "SearchCategoryId": 3,
-  "SearchIncludeSubCategories": true,
-  "SearchManufacturerId": 5,
-  "SearchStoreId": 6,
-  "SearchVendorId": 7,
-  "SearchWarehouseId": 8,
-  "SearchProductTypeId": 9,
-  "SearchPublishedId": 10,
-  "GoDirectlyToSku": "sample string 11",
-  "IsLoggedInAsVendor": true,
-  "AllowVendorsToImportProducts": true,
-  "AvailableCategories": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ],
-  "AvailableManufacturers": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ],
-  "AvailableStores": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ],
-  "AvailableWarehouses": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ],
-  "AvailableVendors": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ],
-  "AvailableProductTypes": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ],
-  "AvailablePublishedOptions": [
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    },
-    {
-      "Disabled": true,
-      "Group": {
-        "Disabled": true,
-        "Name": "sample string 2"
-      },
-      "Selected": true,
-      "Text": "sample string 3",
-      "Value": "sample string 4"
-    }
-  ]
-}];
-        this.productService.getAllProducts(this.product_vm)
+        this.loading=true;
+
+        this.productService.getAllProducts()
             .subscribe(
             (response) => {
+                this.loading=false;
+
+
                 this.products = (response.json());
-                console.log(this.products.Name);
+                this.product = this.products.Data;
                 //this.product = JSON.parse(this.products);
-                console.log("Products:"+(this.product));
+                console.log((this.product));
                 //  this.attribute =[this.attributes];
             },
             (error) =>      {
@@ -399,11 +233,7 @@ export class ProductsComponent implements OnInit {
         this.getCategory();
 
     }
-    // showAttributeDescription(){
-    //     alert("HI");
-    //   this.editAttributeMode=true;
-    //
-    // }
+
     editProductAttribute(prod_id,attr_id){
       console.log(prod_id,attr_id);
       this.editAttributeMode=true;

@@ -1,6 +1,7 @@
 <div class="container">
 <h1> Customer Management </h1>
      <hr>
+</div>
     <div class="row">
         <div class="card mb-3">
                 <div class="card-header">
@@ -28,11 +29,14 @@
                           <tr *ngFor =" let i = index ;let customer of customer | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }" >
 
 
-                          <td>{{customer.CustomerInfo}}</td>
-                          <td>{{customer.IpAddress}}</td>
-                          <td>{{customer.Location}}</td>
-                          <td>{{customer.LastActivity}}</td>
-                          <td>{{customer.LastVisitedPage}}</td>
+                          <td>{{customer.Email}}</td>
+                          <td>{{customer.FullName}}</td>
+                          <td>{{customer.CustomerRoleNames}}</td>
+                          <td>{{customer.Company}}</td>
+                          <td>{{customer.Active}}</td>
+                          <td>{{customer.CreatedOn}}</td>
+                          <td>{{customer.LastActivityDate}}</td>
+                          <td></td>
                         </tr>
 
                         </tbody>
@@ -44,4 +48,3 @@
 
 
     </div>
-  </div>

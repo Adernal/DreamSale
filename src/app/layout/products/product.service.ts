@@ -11,9 +11,9 @@ export class ProductService {
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Add?continueEditing=true', this.temp,
             { headers: headers });
     }
-    getAllProducts(product_vm){
+    getAllProducts(){
          const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/0/2147483647',product_vm,
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products?pageIndex=0&pageSize=258768',{},
              { headers: headers });
     //  return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/DefaultPageLoad');
     }

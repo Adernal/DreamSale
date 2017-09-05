@@ -7,7 +7,8 @@ export class CustomersService {
     constructor(private http: Http) { }
 
     getCustomers() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Customers');
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/SearchCustomer?pageIndex=0&pageSize=258768',{},{headers: headers});
     }
     updateCustomers(customers, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });

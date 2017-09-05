@@ -24,8 +24,8 @@ getCustomers(){
     .subscribe(
     (response) => {
       this.customers = (response.json());
-      console.log(this.customers);
-      this.customer.push(this.customers);
+      this.customer=this.customers.Data;
+      console.log(this.customer);
     },
     (error) => {
       console.log(error)

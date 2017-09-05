@@ -113,7 +113,7 @@
             <table class="table table-bordered table-hover" style="table-layout:fixed">
                 <thead class="thead-inverse">
                     <tr>
-
+                        <th>Product Picture</th>
                         <th>Product Name</th>
                         <th>Price</th>
                         <th>Product Attributes</th>
@@ -124,8 +124,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'Name':'category' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
-
+                    <tr *ngFor="let i = index ;let product of product | filter: filteredProduct: 'Name':'Name' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
+                        <td><img [src]="product.PictureThumbnailUrl" alt=""></td>
                         <td>{{product.Name}}</td>
 
                         <td>{{product.Price}}</td>
