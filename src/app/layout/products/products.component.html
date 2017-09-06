@@ -228,6 +228,7 @@
                     </tr>
 
                 </tbody>
+
             </table>
 
             <button (click)="showList()" class="btn btn-info">Switch</button>
@@ -462,6 +463,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr><img [src]="loadingImagePath" *ngIf="loading" alt=""></tr>
                     <tr *ngFor="let i = index;let attributeField of productAttributeFields">
                     <td>{{attributeField.ProductAttribute}} </td>
                     <td>{{attributeField.TextPrompt}}</td>
@@ -490,6 +492,14 @@
 <form role="form" (ngSubmit)="addSpecAttribute(u)" #u="ngForm">
     <fieldset class="form-group card mb-3">
         <label class="card-header">Attribute</label>
+        <select class="form-control" ngModel name="current_attribute_id" >
+      <option *ngFor="let attribute of product_attributes" value="{{attribute.Id}}">
+        {{attribute.Name}}
+      <hr></option>
+  </select>
+    </fieldset>
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Specification</label>
         <select class="form-control" ngModel name="current_spec_attribute_id" >
       <option *ngFor="let spec_attribute of specification_attributes" value="{{spec_attribute.Id}}">
         {{spec_attribute.Name}}
@@ -515,6 +525,7 @@
         <table class="table table-bordered table-hover" style="table-layout:fixed">
             <thead class="thead-inverse">
                 <tr>
+                    <th>Attribute Type</th>
                     <th>Attribute</th>
                     <th>Value</th>
 
@@ -525,8 +536,10 @@
                 </tr>
             </thead>
             <tbody>
+                <tr><img [src]="loadingImagePath" *ngIf="loading" alt=""></tr>
                 <tr *ngFor="let i = index;let attributeField of specAttributeFields">
-                <td>{{attributeField.AttributeName}} </td>
+                <td>{{attributeField.AttributeTypeName}} </td>
+                <td>{{attributeField.AttributeName}}</td>
                 <td>{{attributeField.ValueRaw}}</td>
                 <td>
                     <button type="button" name="{{attributeField.Id}}" class="btn btn-primary" (click)="editCurrentAttributeMode(x)" [disabled]="true" #x><i class="fa fa-edit"></i></button>

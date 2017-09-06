@@ -1299,6 +1299,8 @@ export class ProductsComponent implements OnInit {
             .subscribe(
             (response) => {
                 this.specAttributeFields = (response.json().Data);
+                console.log(response.json());
+                console.log(this.specAttributeFields);
                 this.addSpecAttributeMode=true
                 this.loading=false;
             },
@@ -1453,14 +1455,46 @@ deletePicture(id:HTMLFormElement){
     }
 }
 addSpecAttribute(){
+    this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
      this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;
      this.Spec_Attribute_Id = this.getCurrentSpecAttributeName(this.current_spec_attribute_id)[0].Name;
      this.ValueRaw = this.specAttributeForm.value.ValueRaw;
-     this.current_spec_attribute.push();
+     this.productService.addSpecAttribute(this.Id,this.current_attribute_id,this.current_spec_attribute_id,this.Spec_Attribute_Id,this.ValueRaw)
+       .subscribe(
+       (data) => {
+
+         alert('Added !');
+         this.specAttributeForm.reset();
+         this.getCurrentSpecAttributes();
+       },
+       (error) => {
+         console.log(error)
+         alert('Can\'t fetch data ! Please refresh or check your connnection !')
+       }
+       );
+
 }
 getCurrentSpecAttributeName(id:number){
     return this.specification_attributes.filter(
       function(attribute){ return attribute.Id == id }
   );
+}
+deleteCurrentSpecAttribute(id :HTMLFormElement){
+    var confirmation = confirm("Are you sure you want to delete ?");
+    if (confirmation) {
+      this.productService.deleteSpecAttribute(+id.name)
+        .subscribe(
+        (data) => {
+
+          alert('Deleted !');
+          this.specAttributeForm.reset();
+          this.getCurrentSpecAttributes();
+        },
+        (error) => {
+          console.log(error)
+          alert('Can\'t fetch data ! Please refresh or check your connnection !')
+        }
+        );
+    }
 }
 }
