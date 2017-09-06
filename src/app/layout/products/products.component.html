@@ -4,7 +4,7 @@
     <div class="row">
         <!--Search Product Form -->
 
-        <div *ngIf="searchProductMode" class="col-lg-12">
+        <div *ngIf="searchProductMode" class="col-lg-6" style="float: none; margin: 0 auto;">
             <form role="form" (ngSubmit)="searchProduct(s)" #s="ngForm" style="width:100%">
                 <div>
                        <fieldset class="form-group card mb-3">
@@ -291,7 +291,7 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!--Product Edit Form -->
 <div class="row" *ngIf="editMode">
-<div class="col-lg-12">
+<div class="col-lg-6" style="float: none; margin: 0 auto;">
   <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
     <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
     <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
@@ -302,7 +302,7 @@
 
 
 
-    <div class="col-lg-12" *ngIf="showProductInfo" align="center">
+    <div class="col-lg-6" style="float: none; margin: 0 auto;" *ngIf="showProductInfo" align="center">
 
 
         <form role="form" (ngSubmit)="editProduct(t)" #t="ngForm">
@@ -407,7 +407,7 @@
 
 <!-- Attribute Form  -->
 <!-- //////////////////////////////////////////////////////////////////////////////// -->
-    <div class="col-lg-12" *ngIf="showProductAttributes">
+    <div class="col-lg-6" style="float: none; margin: 0 auto;" *ngIf="showProductAttributes">
         <h2>Attributes</h2>
         <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
     <hr>
@@ -483,7 +483,7 @@
 </div>
 <!-- End of Attribute Form -->
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
-<div class="col-lg-12" *ngIf="showSpecificationAttributes">
+<div class="col-lg-6" style="float: none; margin: 0 auto;" *ngIf="showSpecificationAttributes">
     <h2>Specification Attributes</h2>
     <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
 <hr>
@@ -554,7 +554,7 @@
 
 </div>
 
-<div class="col-lg-12" *ngIf="showPictures">
+<div class="col-lg-6" style="float: none; margin: 0 auto;" *ngIf="showPictures">
     <h2>Product Pictures</h2>
     <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
 <hr>
