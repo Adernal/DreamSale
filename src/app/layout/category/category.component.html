@@ -97,7 +97,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index;let category of category | filter: filteredCategory : 'Name' | paginate: { itemsPerPage: 2, currentPage: currentPageNumber }">
+                          <tr *ngFor =" let i = index;let category of category | filter: filteredCategory : 'Name' | paginate: { itemsPerPage: 10, currentPage: currentPageNumber }">
 
 
                           <td>{{category.Name}}</td>

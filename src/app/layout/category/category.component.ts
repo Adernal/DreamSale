@@ -34,7 +34,7 @@ export class CategoryComponent implements OnInit {
 
   ngOnInit() {
     // localStorage.removeItem("categories");
-
+    this.ParentCategoryId=0;
     this.getCategory();
 
 
@@ -56,8 +56,15 @@ export class CategoryComponent implements OnInit {
       this.Name = this.categoryForm.value.Name;
       this.Description = this.categoryForm.value.Description;
       this.DisplayOrder = this.categoryForm.value.DisplayOrder;
-      this.ParentCategoryId = this.categoryForm.value.parentcategory;
-      this.getCategoryName();
+      if(this.categoryForm.value.parentcategory==='' || this.categoryForm.value.parentcategory===null){
+        this.ParentCategoryId=0;
+      }
+        else{
+          this.ParentCategoryId = this.categoryForm.value.parentcategory;
+
+          this.getCategoryName();
+      }
+
       this.category.push({
         'Id':0,
         'CustomProperties': {
@@ -262,7 +269,16 @@ export class CategoryComponent implements OnInit {
     this.Description = this.categoryForm.value.Description;
     this.DisplayOrder = this.categoryForm.value.DisplayOrder;
     this.ParentCategoryId = this.categoryForm.value.parentcategory;
-    this.getCategoryName();
+    if(this.categoryForm.value.parentcategory==='' || this.categoryForm.value.parentcategory===null){
+      this.ParentCategoryId=0;
+    }
+      else{
+        this.ParentCategoryId = this.categoryForm.value.parentcategory;
+
+        this.getCategoryName();
+    }
+    console.log(this.ParentCategoryId);
+
 
 
     this.currentCategory["Name"] = this.Name;
@@ -330,7 +346,7 @@ export class CategoryComponent implements OnInit {
     );
   }
   getCategoryName(){
-    if(this.ParentCategoryId!=null){
+    if(this.ParentCategoryId>0){
       var index=this.getCurrentCategory(this.ParentCategoryId);
       this.ParentCategory = index[0].Name;
       this.Name=this.ParentCategory+'--->'+this.Name;

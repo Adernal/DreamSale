@@ -59,7 +59,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor ="let manufacturer of manufacturer | filter : filteredManufacturer : 'Name' | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }">
+                          <tr *ngFor ="let manufacturer of manufacturer | filter : filteredManufacturer : 'Name'">
 
                           <td>{{manufacturer.Id}}</td>
                           <td>{{manufacturer.Name}}</td>
@@ -72,7 +72,7 @@
 
                         </tbody>
                     </table>
-                    <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
+                    
                 </div>
             </div>
 

@@ -1,10 +1,10 @@
-<div class="container">
+<div align="center">
     <h1>Product Management</h1>
 
     <div class="row">
         <!--Search Product Form -->
 
-        <div *ngIf="searchProductMode" class="col-lg-6">
+        <div *ngIf="searchProductMode" class="col-lg-12">
             <form role="form" (ngSubmit)="searchProduct(s)" #s="ngForm" style="width:100%">
                 <div>
                        <fieldset class="form-group card mb-3">
@@ -177,7 +177,7 @@
 
 
 
-                    <img [src]="loadingImagePath" *ngIf="loadingProduct" alt="">
+                    <img [src]="loadingImagePath" *ngIf="loading" alt="">
                     <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Product</button>
                     <button (click)="showList()" class="btn btn-info">Switch</button>
 
@@ -190,7 +190,7 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
         </div>
     </div>
-</div>
+
 <hr>
 <div class="row" *ngIf="showSearchedProductList">
 
@@ -290,17 +290,18 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!--Product Edit Form -->
 <div class="row" *ngIf="editMode">
-<div align="center">
+<div class="col-lg-12">
   <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
     <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
     <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
     <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
    </span>
    </div>
+   <div style="height:50px; width:100%"></div>
 
 
 
-    <div class="col-lg-6" *ngIf="showProductInfo" align="center">
+    <div class="col-lg-12" *ngIf="showProductInfo" align="center">
 
 
         <form role="form" (ngSubmit)="editProduct(t)" #t="ngForm">
@@ -405,7 +406,7 @@
 
 <!-- Attribute Form  -->
 <!-- //////////////////////////////////////////////////////////////////////////////// -->
-    <div class="col-lg-6" *ngIf="showProductAttributes">
+    <div class="col-lg-12" *ngIf="showProductAttributes">
         <h2>Attributes</h2>
         <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
     <hr>
@@ -480,55 +481,43 @@
 </div>
 <!-- End of Attribute Form -->
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
-<div class="col-lg-6" *ngIf="showSpecificationAttributes">
+<div class="col-lg-12" *ngIf="showSpecificationAttributes">
     <h2>Specification Attributes</h2>
     <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
 <hr>
-<div *ngIf="showCurrentSpecAttributeForm">
+
+<div>
 <form role="form" (ngSubmit)="addSpecAttribute(u)" #u="ngForm">
     <fieldset class="form-group card mb-3">
         <label class="card-header">Attribute</label>
         <select class="form-control" ngModel name="current_spec_attribute_id" >
-      <option *ngFor="let spec_attribute of product_attributes" value="{{spec_attribute.Id}}">
+      <option *ngFor="let spec_attribute of specification_attributes" value="{{spec_attribute.Id}}">
         {{spec_attribute.Name}}
       <hr></option>
   </select>
     </fieldset>
 
     <fieldset class="form-group card mb-3">
-        <label class="card-header">Attribute Option</label>
-        <input type="text" class="form-control" rows="3" ngModel name="TextPrompt" required >
+        <label class="card-header">Value</label>
+        <input type="text" class="form-control" rows="3" ngModel name="ValueRaw" required >
     </fieldset>
 
-    <fieldset class="form-group card mb-3">
-        <label class="card-header">Is Required </label>
-        <div class="checkbox" style="float:left; margin:5px;">
-
-            <input type="checkbox" class="form-control" ngModel name="IsRequired">
-        </div>
-    </fieldset>
-
-    <fieldset class="form-group card mb-3">
-        <label class="card-header">Display Order</label>
-        <input type="number" class="form-control" ngModel name="DisplayOrder" placeholder="Enter Display Order">
-    </fieldset>
 
     <button (click)="showList()" class="btn btn-success">Go Back</button>
 
-    <button type="submit" class="btn btn-primary" [disabled]="!q.valid" *ngIf="addAttributeMode">Add Attribute</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!u.valid" *ngIf="addSpecAttributeMode">Add Attribute</button>
 </form>
 </div>
 
 
 
-    <div class="card-block" style="width:100%;" *ngIf="showCurrentAttributeList">
+    <div class="card-block" style="width:100%;" >
         <table class="table table-bordered table-hover" style="table-layout:fixed">
             <thead class="thead-inverse">
                 <tr>
                     <th>Attribute</th>
-                    <th>Text Prompt</th>
-                    <th>Is Required</th>
-                    <th>Display Order</th>
+                    <th>Value</th>
+
 
                     <th>Action</th>
 
@@ -536,14 +525,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let i = index;let attributeField of productAttributeFields">
-                <td>{{attributeField.ProductAttribute}} </td>
-                <td>{{attributeField.TextPrompt}}</td>
-                <td>{{attributeField.IsRequired}}</td>
-                <td>{{attributeField.DisplayOrder}}</td>
+                <tr *ngFor="let i = index;let attributeField of specAttributeFields">
+                <td>{{attributeField.AttributeName}} </td>
+                <td>{{attributeField.ValueRaw}}</td>
                 <td>
                     <button type="button" name="{{attributeField.Id}}" class="btn btn-primary" (click)="editCurrentAttributeMode(x)" [disabled]="true" #x><i class="fa fa-edit"></i></button>
-                        <button type="button" name="{{attributeField.Id}}" class="btn btn-danger" (click)="deleteCurrentAttribute(d)" #d><i class="fa fa-times"></i></button>
+                        <button type="button" name="{{attributeField.Id}}" class="btn btn-danger" (click)="deleteCurrentSpecAttribute(d)" #d><i class="fa fa-times"></i></button>
                 </td>
                 </tr>
             </tbody>
@@ -554,7 +541,7 @@
 
 </div>
 
-<div class="col-lg-6" *ngIf="showPictures">
+<div class="col-lg-12" *ngIf="showPictures">
     <h2>Product Pictures</h2>
     <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
 <hr>
@@ -609,7 +596,7 @@
                 <td>{{picture.DisplayOrder}}</td>
 
                 <td>
-                    <button type="button" name="{{picture.Id}}" class="btn btn-primary" (click)="editPicture(x)" #x><i class="fa fa-edit"></i></button>
+                    <button type="button" name="{{picture.Id}}" class="btn btn-primary" (click)="editPicture(x)" #x [disabled]="true"><i class="fa fa-edit"></i></button>
                         <button type="button" name="{{picture.Id}}" class="btn btn-danger" (click)="deletePicture(d)" #d><i class="fa fa-times"></i></button>
                 </td>
                 </tr>
@@ -623,4 +610,5 @@
 
 
 
+</div>
 </div>

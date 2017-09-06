@@ -15,6 +15,7 @@ export class ProductsComponent implements OnInit {
     @ViewChild('t') productEditForm: NgForm;
     @ViewChild('s') productSearchForm: NgForm;
     @ViewChild('q') productAttributeForm: NgForm;
+    @ViewChild('u') specAttributeForm: NgForm;
     @ViewChild('p') pictureForm: NgForm;
 
     @ViewChild('g') attributeForm: NgForm;
@@ -97,6 +98,9 @@ export class ProductsComponent implements OnInit {
     pictureList;
     currentPicture=[];
     pictureDisplayOrder:number;
+    addSpecAttributeMode:boolean;
+    Spec_Attribute_Id='';
+    ValueRaw='';
 
 
 
@@ -142,6 +146,7 @@ export class ProductsComponent implements OnInit {
         this.pictureId=0;
         this.imageUrl='';
         this.pictureDisplayOrder=0;
+        this.addSpecAttributeMode=false;
 
         this.getProducts(0);
         this.getAllData();
@@ -1127,22 +1132,22 @@ export class ProductsComponent implements OnInit {
         this.getSpecAttributes();
     }
 
-    editProductAttribute(prod_id,attr_id){
-      console.log(prod_id,attr_id);
-      this.editAttributeMode=true;
-      this.current_Id =prod_id;
-      this.current_attribute_id =attr_id;
-      this.current_attribute = this.product[prod_id].product_attributes[attr_id];
-      this.current_attribute_description = this.product[prod_id].product_attributes[attr_id].description;
-      console.log(this.current_attribute);
-    }
-    saveAttribute(){
-      this.current_attribute_description = this.attributeForm.value.prod_attrib;
-      this.product[+this.current_Id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
-      localStorage.setItem("products",JSON.stringify(this.product));
-      console.log("Up")
-
-    }
+    // editProductAttribute(prod_id,attr_id){
+    //   console.log(prod_id,attr_id);
+    //   this.editAttributeMode=true;
+    //   this.current_Id =prod_id;
+    //   this.current_attribute_id =attr_id;
+    //   this.current_attribute = this.product[prod_id].product_attributes[attr_id];
+    //   this.current_attribute_description = this.product[prod_id].product_attributes[attr_id].description;
+    //   console.log(this.current_attribute);
+    // }
+    // saveAttribute(){
+    //   this.current_attribute_description = this.attributeForm.value.prod_attrib;
+    //   this.product[+this.current_Id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
+    //   localStorage.setItem("products",JSON.stringify(this.product));
+    //   console.log("Up")
+    //
+    // }
     showList(){
         this.editMode=false;
         this.showProductList=true;
@@ -1288,11 +1293,14 @@ export class ProductsComponent implements OnInit {
 
     }
     getCurrentSpecAttributes(){
+        this.addSpecAttributeMode=false;
+        this.loading=true;
         this.productService.getCurrentSpecAttributes(this.Id)
             .subscribe(
             (response) => {
                 this.specAttributeFields = (response.json().Data);
-
+                this.addSpecAttributeMode=true
+                this.loading=false;
             },
             (error) =>      {
                     console.log(error);
@@ -1443,5 +1451,16 @@ deletePicture(id:HTMLFormElement){
         }
         );
     }
+}
+addSpecAttribute(){
+     this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;
+     this.Spec_Attribute_Id = this.getCurrentSpecAttributeName(this.current_spec_attribute_id)[0].Name;
+     this.ValueRaw = this.specAttributeForm.value.ValueRaw;
+     this.current_spec_attribute.push();
+}
+getCurrentSpecAttributeName(id:number){
+    return this.specification_attributes.filter(
+      function(attribute){ return attribute.Id == id }
+  );
 }
 }

@@ -107,7 +107,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor ="let customer_role of customer_role | paginate: { itemsPerPage: 5, currentPage: currentPageNumber }" >
+                          <tr *ngFor ="let customer_role of customer_role " >
 
 
                           <td>{{customer_role.Name}}</td>
@@ -125,7 +125,7 @@
 
                         </tbody>
                     </table>
-                  <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
+                  
                 </div>
             </div>
 

@@ -53,7 +53,9 @@ export class ProductService {
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/ProductAttributeMapping/Delete?id='+id,null, { headers: headers });
 
     }
-    addSpecAttribute(){
+    addSpecAttribute(attribute){
+        
+        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+this.temp["ProductId"]+'/ProductPictureAdd/'+this.temp["PictureId"]+'/'+this.temp["DisplayOrder"]+'/sampleString/sampleString');
 
     }
     getSpecAttributes() {
@@ -61,8 +63,8 @@ export class ProductService {
     }
     getCurrentSpecAttributes(id:number) {
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+id+'/ProductAttributeMappingList',    {
-          "Page": 1,
-          "PageSize": 2
+          "Page": 0,
+          "PageSize": 20
         });
     }
     getCategory() {
@@ -101,7 +103,7 @@ export class ProductService {
         this.temp = picture[0];
 
         console.log(picture[0]);
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+this.temp["ProductId"]+'/ProductPictureAdd/'+this.temp["PictureId"]+'/'+this.temp["DisplayOrder"]+'/"sampleString"/sampleString');
+        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+this.temp["ProductId"]+'/ProductPictureAdd/'+this.temp["PictureId"]+'/'+this.temp["DisplayOrder"]+'/sampleString/sampleString');
 
     }
     deletePicture(id:number){
