@@ -15,6 +15,7 @@ export class ProductsComponent implements OnInit {
     @ViewChild('t') productEditForm: NgForm;
     @ViewChild('s') productSearchForm: NgForm;
     @ViewChild('q') productAttributeForm: NgForm;
+    @ViewChild('p') pictureForm: NgForm;
 
     @ViewChild('g') attributeForm: NgForm;
     @Input() multiple: boolean = false;
@@ -46,8 +47,9 @@ export class ProductsComponent implements OnInit {
     product_attributes;
     current_Id;
     current_attribute_id;
-    current_attribute;
+    current_attribute=[];
     current_attribute_description;
+    current_spec_attribute_id;
     specification_attribute;
     specification_attributes;
     current_spec_attribute;
@@ -90,6 +92,11 @@ export class ProductsComponent implements OnInit {
     showCurrentSpecAttributeList:boolean;
     showCurrentAttributeForm:boolean;
     showCurrentSpecAttributeForm:boolean;
+    pictureId:number;
+    imageUrl:string;
+    pictureList;
+    currentPicture=[];
+    pictureDisplayOrder:number;
 
 
 
@@ -127,11 +134,14 @@ export class ProductsComponent implements OnInit {
         this.loadingProduct=false;
         this.searchProductMode=true;
         this.showSearchedProductList=false;
-        this.addAttributeMode=true;
+        this.addAttributeMode=false;
         this.showCurrentAttributeList=true;
         this.showCurrentSpecAttributeList=true;
         this.showCurrentAttributeForm=false;
         this.showCurrentSpecAttributeForm=false;
+        this.pictureId=0;
+        this.imageUrl='';
+        this.pictureDisplayOrder=0;
 
         this.getProducts(0);
         this.getAllData();
@@ -175,721 +185,562 @@ export class ProductsComponent implements OnInit {
             //this.product_attribute = this.productForm.value.prod_attributes;
             //this.specification_attribute = this.productForm.value.spec_attributes;
                       this.product.push({
-            "CustomProperties": {
-              "sample string 1": {},
-              "sample string 3": {}
-            },
+    "CustomProperties": {},
+    "Id": 0,
+    "PictureThumbnailUrl": null,
+    "ProductTypeId": 5,
+    "ProductTypeName": null,
+    "AssociatedToProductId": 0,
+    "AssociatedToProductName": null,
+    "VisibleIndividually": true,
+    "ProductTemplateId": 1,
+    "Name": this.Name,
+    "ShortDescription": "Test product (Token)",
+    "FullDescription":this.FullDescription,
+    "AdminComment": null,
+    "ShowOnHomePage": this.ShowOnHomePage,
+    "MetaKeywords": null,
+    "MetaDescription": null,
+    "MetaTitle": null,
+    "SeName": null,
+    "AllowCustomerReviews": true,
+    "ProductTags": null,
+    "Sku":this.Sku,
+    "ManufacturerPartNumber":this.ManufacturerPartNumber,
+    "Gtin": this.Gtin,
+    "IsGiftCard": false,
+    "GiftCardTypeId": 0,
+    "OverriddenGiftCardAmount": null,
+    "RequiredProductIds": null,
+    "AutomaticallyAddRequiredProducts": false,
+    "IsDownload": false,
+    "DownloadId": 0,
+    "UnlimitedDownloads": true,
+    "MaxNumberOfDownloads": 10,
+    "DownloadExpirationDays": null,
+    "DownloadActivationTypeId": 0,
+    "HasSampleDownload": false,
+    "SampleDownloadId": 0,
+    "HasUserAgreement": false,
+    "UserAgreementText": null,
+    "IsRecurring": false,
+    "RecurringCycleLength": 100,
+    "RecurringCyclePeriodId": 0,
+    "RecurringTotalCycles": 10,
+    "IsRental": false,
+    "RentalPriceLength": 1,
+    "RentalPricePeriodId": 0,
+    "IsShipEnabled": true,
+    "IsFreeShipping": false,
+    "ShipSeparately": false,
+    "AdditionalShippingCharge": 0,
+    "DeliveryDateId": 0,
+
+    "IsTaxExempt": false,
+    "TaxCategoryId": 0,
+
+    "IsTelecommunicationsOrBroadcastingOrElectronicServices": false,
+    "ManageInventoryMethodId": 0,
+    "ProductAvailabilityRangeId": 0,
+
+    "UseMultipleWarehouses": false,
+    "WarehouseId": 1,
+
+    "StockQuantity": this.StockQuantity,
+    "LastStockQuantity": 0,
+    "StockQuantityStr": null,
+    "AvailableBasepriceUnits": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "ounce(s)",
+            "Value": "1"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "lb(s)",
+            "Value": "2"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "kg(s)",
+            "Value": "3"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "gram(s)",
+            "Value": "4"
+        }
+    ],
+    "BasepriceBaseAmount": 0,
+    "BasepriceBaseUnitId": 0,
+    "AvailableBasepriceBaseUnits": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "ounce(s)",
+            "Value": "1"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "lb(s)",
+            "Value": "2"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "kg(s)",
+            "Value": "3"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "gram(s)",
+            "Value": "4"
+        }
+    ],
+    "MarkAsNew": this.MarkAsNew,
+    "MarkAsNewStartDateTimeUtc": null,
+    "MarkAsNewEndDateTimeUtc": null,
+    "Weight": 0,
+    "Length": 0,
+    "Width": 0,
+    "Height": 0,
+    "AvailableStartDateTimeUtc": null,
+    "AvailableEndDateTimeUtc": null,
+    "DisplayOrder": this.DisplayOrder,
+    "Published": this.Published,
+    "CreatedOn": null,
+    "UpdatedOn": null,
+    "PrimaryStoreCurrencyCode": "INR",
+    "BaseDimensionIn": "inch(es)",
+    "BaseWeightIn": "lb(s)",
+    "Locales": [],
+    "SelectedCustomerRoleIds": [],
+    "AvailableCustomerRoles": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Administrators",
+            "Value": "1"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Forum Moderators",
+            "Value": "2"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Guests",
+            "Value": "4"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Registered",
+            "Value": "3"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Vendors",
+            "Value": "5"
+        }
+    ],
+    "SelectedStoreIds": this.StoreId,
+    "AvailableStores": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Your store name",
+            "Value": "1"
+        }
+    ],
+    "SelectedCategoryIds": this.CategoryId,
+    "AvailableCategories": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Computers",
+            "Value": "1"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Computers >> Desktops",
+            "Value": "2"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Computers >> Notebooks",
+            "Value": "3"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Computers >> Software",
+            "Value": "4"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Shoes",
+            "Value": "18"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Electronics",
+            "Value": "5"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Electronics >> Camera & photo",
+            "Value": "6"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Electronics >> Cell phones",
+            "Value": "7"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Electronics >> Others",
+            "Value": "8"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apparel",
+            "Value": "9"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apparel >> Shoes",
+            "Value": "10"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apparel >> Clothing",
+            "Value": "11"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apparel >> Clothing >> Jeans",
+            "Value": "17"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apparel >> Clothing >> Jeans >> level 4",
+            "Value": "19"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apparel >> Accessories",
+            "Value": "12"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Digital downloads",
+            "Value": "13"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Books",
+            "Value": "14"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Jewelry",
+            "Value": "15"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Gift Cards",
+            "Value": "16"
+        }
+    ],
+    "SelectedManufacturerIds": this.ManufacturerId,
+    "AvailableManufacturers": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Test manufacturer updated 1",
+            "Value": "5"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Apple",
+            "Value": "1"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "HP",
+            "Value": "2"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Nike",
+            "Value": "3"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Test manufacturer",
+            "Value": "6"
+        }
+    ],
+    "VendorId": this.VendorId,
+    "AvailableVendors": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "No vendor",
+            "Value": "0"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Sandeep Vendor",
+            "Value": "3"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Vendor 1 update test",
+            "Value": "1"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Vendor 2",
+            "Value": "2"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Create Vendor Test",
+            "Value": "5"
+        },
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Create Vendor Test",
+            "Value": "6"
+        }
+    ],
+    "SelectedDiscountIds": [],
+    "AvailableDiscounts": [
+        {
+            "Disabled": false,
+            "Group": null,
+            "Selected": false,
+            "Text": "Sample discount with coupon code",
+            "Value": "1"
+        }
+    ],
+    "IsLoggedInAsVendor": false,
+    "AvailableProductAttributes": [],
+    "AddPictureModel": {
+        "Id": 0,
+        "CustomProperties": null,
+        "ProductId": 0,
+        "PictureId": 0,
+        "PictureUrl": null,
+        "DisplayOrder": 0,
+        "OverrideAltAttribute": null,
+        "OverrideTitleAttribute": null
+    },
+    "ProductPictureModels": [],
+    "AddSpecificationAttributeModel": {
+        "Id": 0,
+        "CustomProperties": {},
+        "SpecificationAttributeId": 0,
+        "AttributeTypeId": 0,
+        "SpecificationAttributeOptionId": 0,
+        "CustomValue": null,
+        "AllowFiltering": false,
+        "ShowOnProductPage": false,
+        "DisplayOrder": 0,
+        "AvailableAttributes": [],
+        "AvailableOptions": []
+    },
+    "ProductWarehouseInventoryModels": [
+        {
             "Id": 0,
-            "PictureThumbnailUrl": "sample string 2",
-            "ProductTypeId": 3,
-            "ProductTypeName": "sample string 4",
-            "AssociatedToProductId": 5,
-            "AssociatedToProductName": "sample string 6",
-            "VisibleIndividually": true,
-            "ProductTemplateId": 8,
-            "AvailableProductTemplates": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "ProductsTypesSupportedByProductTemplates": {
-              "1": [
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                },
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                }
-              ],
-              "2": [
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                },
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                }
-              ]
-            },
-            "Name":this.Name,
-            "ShortFullDescription": "",
-            "FullFullDescription": this.FullDescription,
-            "AdminComment": "",
-            "ShowOnHomePage": this.ShowOnHomePage,
-            "MetaKeywords": "",
-            "MetaFullDescription": "",
-            "MetaTitle": "",
-            "SeName": "",
-            "AllowCustomerReviews": true,
-            "ProductTags": "",
-            "Sku": this.Sku,
-            "ManufacturerPartNumber": this.ManufacturerPartNumber,
-            "Gtin": this.Gtin,
-            "IsGiftCard": true,
-            "GiftCardTypeId": 24,
-            "OverriddenGiftCardAmount": 1.0,
-            "RequireOtherProducts": true,
-            "RequiredProductIds": "sample string 26",
-            "AutomaticallyAddRequiredProducts": true,
-            "IsDownload": true,
-            "DownloadId": 29,
-            "UnlimitedDownloads": true,
-            "MaxNumberOfDownloads": 31,
-            "DownloadExpirationDays": 1,
-            "DownloadActivationTypeId": 32,
-            "HasSampleDownload": true,
-            "SampleDownloadId": 34,
-            "HasUserAgreement": true,
-            "UserAgreementText": "sample string 36",
-            "IsRecurring": true,
-            "RecurringCycleLength": 38,
-            "RecurringCyclePeriodId": 39,
-            "RecurringTotalCycles": 40,
-            "IsRental": true,
-            "RentalPriceLength": 42,
-            "RentalPricePeriodId": 43,
-            "IsShipEnabled": true,
-            "IsFreeShipping": true,
-            "ShipSeparately": true,
-            "AdditionalShippingCharge": 47.0,
-            "DeliveryDateId": 48,
-            "AvailableDeliveryDates": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "IsTaxExempt": true,
-            "TaxCategoryId": 50,
-            "AvailableTaxCategories": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "IsTelecommunicationsOrBroadcastingOrElectronicServices": true,
-            "ManageInventoryMethodId": 52,
-            "ProductAvailabilityRangeId": 53,
-            "AvailableProductAvailabilityRanges": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "UseMultipleWarehouses": true,
-            "WarehouseId": 55,
-            "AvailableWarehouses": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "StockQuantity": this.StockQuantity,
-            "LastStockQuantity": 57,
-            "StockQuantityStr": "sample string 58",
-            "DisplayStockAvailability": true,
-            "DisplayStockQuantity": true,
-            "MinStockQuantity": 1,
-            "LowStockActivityId": 62,
-            "NotifyAdminForQuantityBelow": 63,
-            "BackorderModeId": 64,
-            "AllowBackInStockSubscriptions": true,
-            "OrderMinimumQuantity": 1,
-            "OrderMaximumQuantity": 1000,
-            "AllowedQuantities": "sample string 68",
-            "AllowAddingOnlyExistingAttributeCombinations": true,
-            "NotReturnable": true,
-            "DisableBuyButton": true,
-            "DisableWishlistButton": true,
-            "AvailableForPreOrder": true,
-            "PreOrderAvailabilityStartDateTimeUtc": "2017-09-05T07:58:32.0580719-07:00",
-            "CallForPrice": true,
-            "Price": this.Price,
-            "OldPrice": 0.0,
-            "ProductCost": 77.0,
-            "CustomerEntersPrice": true,
-            "MinimumCustomerEnteredPrice": 79.0,
-            "MaximumCustomerEnteredPrice": 80.0,
-            "BasepriceEnabled": true,
-            "BasepriceAmount": 82.0,
-            "BasepriceUnitId": 83,
-            "AvailableBasepriceUnits": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "BasepriceBaseAmount": 84.0,
-            "BasepriceBaseUnitId": 85,
-            "AvailableBasepriceBaseUnits": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "MarkAsNew": this.MarkAsNew,
-            "MarkAsNewStartDateTimeUtc": "2017-09-05T07:58:32.0580719-07:00",
-            "MarkAsNewEndDateTimeUtc": "2017-09-05T07:58:32.0580719-07:00",
-            "Weight": 87.0,
-            "Length": 88.0,
-            "Width": 89.0,
-            "Height": 90.0,
-            "AvailableStartDateTimeUtc": "2017-09-05T07:58:32.0580719-07:00",
-            "AvailableEndDateTimeUtc": "2017-09-05T07:58:32.0580719-07:00",
-            "DisplayOrder": this.DisplayOrder,
-            "Published": this.Published,
-            "CreatedOn": "2017-09-05T07:58:32.0580719-07:00",
-            "UpdatedOn": "2017-09-05T07:58:32.0580719-07:00",
-            "PrimaryStoreCurrencyCode": "sample string 93",
-            "BaseDimensionIn": "sample string 94",
-            "BaseWeightIn": "sample string 95",
-            "Locales": [
-              {
-                "LanguageId": 1,
-                "Name": "sample string 2",
-                "ShortFullDescription": "sample string 3",
-                "FullFullDescription": "sample string 4",
-                "MetaKeywords": "sample string 5",
-                "MetaFullDescription": "sample string 6",
-                "MetaTitle": "sample string 7",
-                "SeName": "sample string 8"
-              },
-              {
-                "LanguageId": 1,
-                "Name": "sample string 2",
-                "ShortFullDescription": "sample string 3",
-                "FullFullDescription": "sample string 4",
-                "MetaKeywords": "sample string 5",
-                "MetaFullDescription": "sample string 6",
-                "MetaTitle": "sample string 7",
-                "SeName": "sample string 8"
-              }
-            ],
-            "SelectedCustomerRoleIds": [
-              1,
-              2
-            ],
-            "AvailableCustomerRoles": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "SelectedStoreIds": this.StoreId,
-            "AvailableStores": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "SelectedCategoryIds":this.CategoryId,
-            "AvailableCategories": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "SelectedManufacturerIds": this.ManufacturerId,
-            "AvailableManufacturers": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "VendorId": this.VendorId,
-            "AvailableVendors": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "SelectedDiscountIds": [
-              1,
-              2
-            ],
-            "AvailableDiscounts": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "IsLoggedInAsVendor": true,
-            "AvailableProductAttributes": [
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              },
-              {
-                "Disabled": true,
-                "Group": {
-                  "Disabled": true,
-                  "Name": "sample string 2"
-                },
-                "Selected": true,
-                "Text": "sample string 3",
-                "Value": "sample string 4"
-              }
-            ],
-            "AddPictureModel": {
-              "Id": 1,
-              "CustomProperties": {
-                "sample string 1": {},
-                "sample string 3": {}
-              },
-              "ProductId": 2,
-              "PictureId": 3,
-              "PictureUrl": "sample string 4",
-              "DisplayOrder": 5,
-              "OverrideAltAttribute": "sample string 6",
-              "OverrideTitleAttribute": "sample string 7"
-            },
-            "ProductPictureModels": [
-              {
-                "Id": 1,
-                "CustomProperties": {
-                  "sample string 1": {},
-                  "sample string 3": {}
-                },
-                "ProductId": 2,
-                "PictureId": 3,
-                "PictureUrl": "sample string 4",
-                "DisplayOrder": 5,
-                "OverrideAltAttribute": "sample string 6",
-                "OverrideTitleAttribute": "sample string 7"
-              },
-              {
-                "Id": 1,
-                "CustomProperties": {
-                  "sample string 1": {},
-                  "sample string 3": {}
-                },
-                "ProductId": 2,
-                "PictureId": 3,
-                "PictureUrl": "sample string 4",
-                "DisplayOrder": 5,
-                "OverrideAltAttribute": "sample string 6",
-                "OverrideTitleAttribute": "sample string 7"
-              }
-            ],
-            "AddSpecificationAttributeModel": {
-              "Id": 1,
-              "CustomProperties": {
-                "sample string 1": {},
-                "sample string 3": {}
-              },
-              "SpecificationAttributeId": 2,
-              "AttributeTypeId": 3,
-              "SpecificationAttributeOptionId": 4,
-              "CustomValue": "sample string 5",
-              "AllowFiltering": true,
-              "ShowOnProductPage": true,
-              "DisplayOrder": 8,
-              "AvailableAttributes": [
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                },
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                }
-              ],
-              "AvailableOptions": [
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                },
-                {
-                  "Disabled": true,
-                  "Group": {
-                    "Disabled": true,
-                    "Name": "sample string 2"
-                  },
-                  "Selected": true,
-                  "Text": "sample string 3",
-                  "Value": "sample string 4"
-                }
-              ]
-            },
-            "ProductWarehouseInventoryModels": [
-              {
-                "Id": 1,
-                "WarehouseId": 2,
-                "WarehouseName": "sample string 3",
-                "WarehouseUsed": true,
-                "StockQuantity": 5,
-                "ReservedQuantity": 6,
-                "PlannedQuantity": 7
-              },
-              {
-                "Id": 1,
-                "WarehouseId": 2,
-                "WarehouseName": "sample string 3",
-                "WarehouseUsed": true,
-                "StockQuantity": 5,
-                "ReservedQuantity": 6,
-                "PlannedQuantity": 7
-              }
-            ],
-            "CopyProductModel": {
-              "Id": 1,
-              "CustomProperties": {
-                "sample string 1": {},
-                "sample string 3": {}
-              },
-              "Name": "sample string 2",
-              "CopyImages": true,
-              "Published": true
-            },
-            "ProductEditorSettingsModel": {
-              "CustomProperties": {
-                "sample string 1": {},
-                "sample string 3": {}
-              },
-              "Id": true,
-              "ProductType": true,
-              "VisibleIndividually": true,
-              "ProductTemplate": true,
-              "AdminComment": true,
-              "Vendor": true,
-              "Stores": true,
-              "ACL": true,
-              "ShowOnHomePage": true,
-              "DisplayOrder": true,
-              "AllowCustomerReviews": true,
-              "ProductTags": true,
-              "ManufacturerPartNumber": true,
-              "GTIN": true,
-              "ProductCost": true,
-              "TierPrices": true,
-              "Discounts": true,
-              "DisableBuyButton": true,
-              "DisableWishlistButton": true,
-              "AvailableForPreOrder": true,
-              "CallForPrice": true,
-              "OldPrice": true,
-              "CustomerEntersPrice": true,
-              "PAngV": true,
-              "RequireOtherProductsAddedToTheCart": true,
-              "IsGiftCard": true,
-              "DownloadableProduct": true,
-              "RecurringProduct": true,
-              "IsRental": true,
-              "FreeShipping": true,
-              "ShipSeparately": true,
-              "AdditionalShippingCharge": true,
-              "DeliveryDate": true,
-              "TelecommunicationsBroadcastingElectronicServices": true,
-              "ProductAvailabilityRange": true,
-              "UseMultipleWarehouses": true,
-              "Warehouse": true,
-              "DisplayStockAvailability": true,
-              "DisplayStockQuantity": true,
-              "MinimumStockQuantity": true,
-              "LowStockActivity": true,
-              "NotifyAdminForQuantityBelow": true,
-              "Backorders": true,
-              "AllowBackInStockSubscriptions": true,
-              "MinimumCartQuantity": true,
-              "MaximumCartQuantity": true,
-              "AllowedQuantities": true,
-              "AllowAddingOnlyExistingAttributeCombinations": true,
-              "NotReturnable": true,
-              "Weight": true,
-              "Dimensions": true,
-              "AvailableStartDate": true,
-              "AvailableEndDate": true,
-              "MarkAsNew": true,
-              "MarkAsNewStartDate": true,
-              "MarkAsNewEndDate": true,
-              "Published": true,
-              "CreatedOn": true,
-              "UpdatedOn": true,
-              "RelatedProducts": true,
-              "CrossSellsProducts": true,
-              "Seo": true,
-              "PurchasedWithOrders": true,
-              "OneColumnProductPage": true,
-              "ProductAttributes": true,
-              "SpecificationAttributes": true,
-              "Manufacturers": true,
-              "StockQuantityHistory": true
-            },
-            "StockQuantityHistory": {
-              "Id": 1,
-              "CustomProperties": {
-                "sample string 1": {},
-                "sample string 3": {}
-              },
-              "SearchWarehouseId": 2,
-              "WarehouseName": "sample string 3",
-              "AttributeCombination": "sample string 4",
-              "QuantityAdjustment": 5,
-              "StockQuantity": this.StockQuantity,
-              "Message": "sample string 7",
-              "CreatedOn": this.CreatedOn
-            }
-          });
+            "WarehouseId": 1,
+            "WarehouseName": "Warehouse 1 (New York)",
+            "WarehouseUsed": false,
+            "StockQuantity": 0,
+            "ReservedQuantity": 0,
+            "PlannedQuantity": 0
+        },
+        {
+            "Id": 0,
+            "WarehouseId": 2,
+            "WarehouseName": "Warehouse 2 (Los Angeles)",
+            "WarehouseUsed": false,
+            "StockQuantity": 0,
+            "ReservedQuantity": 0,
+            "PlannedQuantity": 0
+        }
+    ],
+    "CopyProductModel": {
+        "Id": 0,
+        "CustomProperties": null,
+        "Name": null,
+        "CopyImages": false,
+        "Published": false
+    },
+    "ProductEditorSettingsModel": {
+        "CustomProperties": null,
+        "Id": false,
+        "ProductType": false,
+        "VisibleIndividually": false,
+        "ProductTemplate": false,
+        "AdminComment": true,
+        "Vendor": false,
+        "Stores": false,
+        "ACL": false,
+        "ShowOnHomePage": false,
+        "DisplayOrder": false,
+        "AllowCustomerReviews": false,
+        "ProductTags": false,
+        "ManufacturerPartNumber": false,
+        "GTIN": false,
+        "ProductCost": false,
+        "TierPrices": false,
+        "Discounts": false,
+        "DisableBuyButton": false,
+        "DisableWishlistButton": false,
+        "AvailableForPreOrder": false,
+        "CallForPrice": false,
+        "OldPrice": false,
+        "CustomerEntersPrice": false,
+        "PAngV": false,
+        "RequireOtherProductsAddedToTheCart": false,
+        "IsGiftCard": false,
+        "DownloadableProduct": false,
+        "RecurringProduct": false,
+        "IsRental": false,
+        "FreeShipping": false,
+        "ShipSeparately": false,
+        "AdditionalShippingCharge": false,
+        "DeliveryDate": false,
+        "TelecommunicationsBroadcastingElectronicServices": false,
+        "ProductAvailabilityRange": false,
+        "UseMultipleWarehouses": false,
+        "Warehouse": false,
+        "DisplayStockAvailability": false,
+        "DisplayStockQuantity": false,
+        "MinimumStockQuantity": false,
+        "LowStockActivity": false,
+        "NotifyAdminForQuantityBelow": false,
+        "Backorders": false,
+        "AllowBackInStockSubscriptions": false,
+        "MinimumCartQuantity": false,
+        "MaximumCartQuantity": false,
+        "AllowedQuantities": false,
+        "AllowAddingOnlyExistingAttributeCombinations": false,
+        "NotReturnable": false,
+        "Weight": true,
+        "Dimensions": true,
+        "AvailableStartDate": false,
+        "AvailableEndDate": false,
+        "MarkAsNew": false,
+        "MarkAsNewStartDate": false,
+        "MarkAsNewEndDate": false,
+        "Published": false,
+        "CreatedOn": false,
+        "UpdatedOn": false,
+        "RelatedProducts": false,
+        "CrossSellsProducts": false,
+        "Seo": false,
+        "PurchasedWithOrders": false,
+        "OneColumnProductPage": false,
+        "ProductAttributes": true,
+        "SpecificationAttributes": true,
+        "Manufacturers": false,
+        "StockQuantityHistory": false
+    },
+    "StockQuantityHistory": {
+        "Id": 0,
+        "CustomProperties": null,
+        "SearchWarehouseId": 0,
+        "WarehouseName": null,
+        "AttributeCombination": null,
+        "QuantityAdjustment": 0,
+        "StockQuantity": 0,
+        "Message": null,
+        "CreatedOn": "0001-01-01T00:00:00"
+    }
+});
 
           this.productService.storeProduct(this.product)
                   .subscribe(
@@ -1268,10 +1119,10 @@ export class ProductsComponent implements OnInit {
     getAllData() {
         //this.getProducts(0);
 
-        // this.getCategory();
-        // this.getManufacturers();
-        // this.getStores();
-        // this.getVendors();
+        this.getCategory();
+        this.getManufacturers();
+        this.getStores();
+        this.getVendors();
         this.getAttributes();
         this.getSpecAttributes();
     }
@@ -1313,6 +1164,7 @@ export class ProductsComponent implements OnInit {
        this.showPictures=true;
        this.showProductAttributes=false;
        this.showSpecificationAttributes=false;
+       this.getPicture();
       break;
    }
    case 3: {
@@ -1385,6 +1237,7 @@ export class ProductsComponent implements OnInit {
             );
     }
     addProductMode(){
+            this.searchProductMode=false;
       this.showProductList=false;
       this.addNewProduct = true;
       this.showToggle(1);
@@ -1406,12 +1259,25 @@ export class ProductsComponent implements OnInit {
           function(product){ return product.Id == id }
       );
     }
+    getCurrentAttributeName(id:number){
+        return this.product_attributes.filter(
+          function(attribute){ return attribute.Id == id }
+      );
+    }
+    checkCurrentAttributeId(id:number){
+        return this.productAttributeFields.filter(
+          function(attribute){ return attribute.ProductAttributeId == id }
+      );
+    }
     getCurrentAttributes(){
+        this.addAttributeMode=false;
         this.productService.getCurrentAttributes(this.Id)
             .subscribe(
             (response) => {
                 this.productAttributeFields = (response.json().Data);
                 console.log("Attributes Retrieved");
+                console.log(this.productAttributeFields);
+                this.addAttributeMode = true;
 
             },
             (error) =>      {
@@ -1434,14 +1300,148 @@ export class ProductsComponent implements OnInit {
                   }
             );
     }
-    addCurrentAttributeMode(){
-        this.addAttributeMode=false;
-        this.showCurrentAttributeList=false;
-        this.showCurrentAttributeForm=true;
-
-    }
+    // addCurrentAttributeMode(){
+    //     this.addAttributeMode=false;
+    //     this.showCurrentAttributeList=false;
+    //     this.showCurrentAttributeForm=true;
+    //
+    // }
     addAttribute(){
 
-    }
+      this.current_attribute_id = this.productAttributeForm.value.current_attribute_id;
+      var checkId = this.checkCurrentAttributeId(this.current_attribute_id);
+      console.log(checkId);
 
+      if(checkId.length!=0){
+          alert("Attribute already present !");
+      }
+      else{
+          this.Attribute = this.getCurrentAttributeName(this.current_attribute_id)[0].Name;
+
+          this.Attribute_TextPrompt = this.productAttributeForm.value.TextPrompt;
+          this.Attribute_IsRequired = this.productAttributeForm.value.IsRequired;
+          this.Attribute_DisplayOrder = this.productAttributeForm.value.DisplayOrder;
+          this.current_attribute.push({
+      "Id": 0,
+      "ProductId": this.Id,
+      "ProductAttributeId": this.current_attribute_id,
+      "ProductAttribute": this.Attribute,
+      "TextPrompt": this.Attribute_TextPrompt,
+      "IsRequired": this.Attribute_IsRequired,
+      "AttributeControlTypeId": 7,
+      "AttributeControlType": "sample string 8",
+      "DisplayOrder": this.Attribute_DisplayOrder,
+      "ShouldHaveValues": true,
+      "TotalValues": 11,
+      "ValidationRulesAllowed": true,
+      "ValidationMinLength": 1,
+      "ValidationMaxLength": 1,
+      "ValidationFileAllowedExtensions": "sample string 13",
+      "ValidationFileMaximumSize": 1,
+      "DefaultValue": "sample string 14",
+      "ValidationRulesString": "sample string 15",
+      "ConditionAllowed": true,
+      "ConditionString": "sample string 17"
+    });
+    this.productService.addAttribute(this.current_attribute)
+        .subscribe(
+        (response) => {
+          this.getCurrentAttributes();
+          this.current_attribute=[];
+            alert("Added !");
+        },
+        (error) =>      {
+                console.log(error);
+                alert("Can't fetch data ! Please refresh or check your connnection !");
+              }
+        );
+      }
+
+    }
+    deleteCurrentAttribute(id: HTMLFormElement) {
+        var confirmation = confirm("Are you sure you want to delete ?");
+        if (confirmation) {
+          this.productService.deleteAttribute(+id.name)
+            .subscribe(
+            (data) => {
+
+              alert('Deleted !');
+              this.getCurrentAttributes();
+            },
+            (error) => {
+              console.log(error)
+              alert('Can\'t fetch data ! Please refresh or check your connnection !')
+            }
+            );
+        }
+    }
+    getPictureDetails(file){
+        this.pictureId = file.serverResponse.json().pictureId;
+        this.imageUrl = file.serverResponse.json().imageUrl;
+    }
+addPicture(){
+
+
+     this.pictureDisplayOrder = this.pictureForm.value.DisplayOrder;
+     this.currentPicture.push({
+  "Id": 0,
+  "CustomProperties": {
+    "sample string 1": {},
+    "sample string 3": {}
+  },
+  "ProductId": this.Id,
+  "PictureId": this.pictureId,
+  "PictureUrl": this.imageUrl,
+  "DisplayOrder": this.DisplayOrder,
+  "OverrideAltAttribute": "sample string 6",
+  "OverrideTitleAttribute": "sample string 7"
+});
+     this.productService.addPicture(this.currentPicture)
+     .subscribe(
+     (response) => {
+         alert("Added !");
+         this.getPicture();
+         this.pictureForm.reset();
+         this.currentPicture=[];
+     },
+     (error) =>      {
+             console.log(error);
+             alert("Can't fetch data ! Please refresh or check your connnection !");
+           }
+     );
+}
+getPicture(){
+    this.loading=true;
+    this.productService.getPicture(this.Id)
+    .subscribe(
+    (response) => {
+
+        this.pictureList = (response.json().Data);
+        this.loading=false;
+        console.log(this.pictureList);
+    },
+    (error) =>      {
+            console.log(error);
+            alert("Can't fetch data ! Please refresh or check your connnection !");
+          }
+    );
+}
+deletePicture(id:HTMLFormElement){
+    var confirmation = confirm("Are you sure you want to delete ?");
+    if (confirmation) {
+      this.productService.deletePicture(+id.name)
+        .subscribe(
+        (data) => {
+
+          alert('Deleted !');
+          this.pictureForm.reset();
+          this.getPicture();
+        },
+        (error) => {
+          console.log(error)
+          alert('Can\'t fetch data ! Please refresh or check your connnection !')
+        }
+        );
+    }
+}
 }

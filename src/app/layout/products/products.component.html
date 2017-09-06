@@ -1,10 +1,10 @@
 <div class="container">
     <h1>Product Management</h1>
-    <hr>
+
     <div class="row">
         <!--Search Product Form -->
-        <div class="row">
-        <div *ngIf="searchProductMode">
+
+        <div *ngIf="searchProductMode" class="col-lg-6">
             <form role="form" (ngSubmit)="searchProduct(s)" #s="ngForm" style="width:100%">
                 <div>
                        <fieldset class="form-group card mb-3">
@@ -56,16 +56,16 @@
         <!--End of Search Product Form -->
         <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
         </div>
-    </div>
+
 
     <!--Add New Product -->
         <div *ngIf="addNewProduct">
             <div align="center">
-                <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
+                <!-- <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
                         <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
                         <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
                         <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
-                   </span>
+                   </span> -->
             </div>
             <br>
             <div>
@@ -179,6 +179,7 @@
 
                     <img [src]="loadingImagePath" *ngIf="loadingProduct" alt="">
                     <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Product</button>
+                    <button (click)="showList()" class="btn btn-info">Switch</button>
 
 
 
@@ -289,32 +290,37 @@
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
 <!--Product Edit Form -->
 <div class="row" *ngIf="editMode">
-
-
-        <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
-        <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
-        <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
-        <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
+<div align="center">
+  <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
+    <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
+    <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
+    <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
    </span>
-    <div class="col-lg-6" *ngIf="showProductInfo">
+   </div>
+
+
+
+    <div class="col-lg-6" *ngIf="showProductInfo" align="center">
+
+
         <form role="form" (ngSubmit)="editProduct(t)" #t="ngForm">
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Product Name</label>
                 <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}">
+              </fieldset>
+              <fieldset class="form-group card mb-3">
+                  <label class="card-header">FullDescription</label>
+                  <textarea class="form-control" rows="3" [(ngModel)]="FullDescription" name="FullDescription" required value="{{FullDescription}}"></textarea>
             </fieldset>
-            <fieldset class="form-group car mb-3">
-                <label class="card-header">FullDescription</label>
-                <textarea class="form-control" rows="3" [(ngModel)]="FullDescription" name="FullDescription" required value="{{FullDescription}}"></textarea>
-            </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Price</label>
                 <input type="number" class="form-control" [(ngModel)]="Price" name="Price" required value="{{Price}}">
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Stock Quantity</label>
                 <input type="number" class="form-control" [(ngModel)]="StockQuantity" name="StockQuantity" value="{{StockQuantity}}">
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Category</label>
                 <select class="form-control" [(ngModel)]="CategoryId" name="CategoryId" multiple size="4">
               <option *ngFor="let category of categories" value="{{category.Id}}">
@@ -322,7 +328,7 @@
               <hr></option>
 </select>
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Manufacturers</label>
                 <select class="form-control" [(ngModel)]="ManufacturerId" name="ManufacturerId" multiple size="4">
               <option *ngFor="let manufacturer of manufacturers" value="manufacturer.Id">
@@ -330,7 +336,7 @@
               <hr></option>
 </select>
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Vendors</label>
                 <select class="form-control" [(ngModel)]="VendorId" name="VendorId" size="4">
               <option *ngFor="let vendor of vendors" value="vendor.Id">
@@ -338,15 +344,15 @@
               <hr></option>
 </select>
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Stores</label>
-                <select class="form-control" [(ngModel)]="StoreId" name="CategoryId" multiple size="4">
+                <select class="form-control" [(ngModel)]="StoreId" name="StoreId" multiple size="4">
               <option *ngFor="let store of stores" value="store.Id">
                 {{store.Name}}
               <hr></option>
 </select>
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">SKU</label>
                 <input type="text" class="form-control" [(ngModel)]="Sku" name="Sku" value="{{Sku}}">
             </fieldset>
@@ -359,11 +365,11 @@
 
 
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">GTIN(Global Trade Item Number)</label>
                 <input type="text" class="form-control" [(ngModel)]="Gtin" name="Gtin" value="{{Gtin}}">
             </fieldset>
-            <fieldset class="form-group car mb-3">
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Manufacturer Part Number</label>
                 <input type="text" class="form-control" [(ngModel)]="ManufacturerPartNumber" name="ManufacturerPartNumber" value="{{ManufacturerPartNumber}}">
             </fieldset>
@@ -401,15 +407,20 @@
 <!-- //////////////////////////////////////////////////////////////////////////////// -->
     <div class="col-lg-6" *ngIf="showProductAttributes">
         <h2>Attributes</h2>
-        <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button>
+        <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
     <hr>
     <div *ngIf="showCurrentAttributeForm">
     <form role="form" (ngSubmit)="addAttribute(q)" #q="ngForm">
         <fieldset class="form-group card mb-3">
             <label class="card-header">Attribute</label>
-            <input type="text" class="form-control" [(ngModel)]="Attribute" name="Attribute" required value="{{Name}}">
+            <select class="form-control" ngModel name="current_attribute_id" >
+          <option *ngFor="let attribute of product_attributes" value="{{attribute.Id}}">
+            {{attribute.Name}}
+          <hr></option>
+      </select>
         </fieldset>
-        <fieldset class="form-group car mb-3">
+
+        <fieldset class="form-group card mb-3">
             <label class="card-header">Text Prompt</label>
             <input type="text" class="form-control" rows="3" ngModel name="TextPrompt" required >
         </fieldset>
@@ -429,7 +440,7 @@
 
         <button (click)="showList()" class="btn btn-success">Go Back</button>
 
-        <button type="submit" class="btn btn-primary" [disabled]="!q.valid">Add Attribute</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!q.valid" *ngIf="addAttributeMode">Add Attribute</button>
     </form>
 </div>
 
@@ -451,11 +462,14 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let i = index;let attributeField of productAttributeFields">
-                    <td> </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{attributeField.ProductAttribute}} </td>
+                    <td>{{attributeField.TextPrompt}}</td>
+                    <td>{{attributeField.IsRequired}}</td>
+                    <td>{{attributeField.DisplayOrder}}</td>
+                    <td>
+                        <button type="button" name="{{attributeField.Id}}" class="btn btn-primary" (click)="editCurrentAttributeMode(x)" [disabled]="true" #x><i class="fa fa-edit"></i></button>
+                            <button type="button" name="{{attributeField.Id}}" class="btn btn-danger" (click)="deleteCurrentAttribute(d)" #d><i class="fa fa-times"></i></button>
+                    </td>
                     </tr>
                 </tbody>
             </table>
@@ -464,4 +478,149 @@
 
 
 </div>
+<!-- End of Attribute Form -->
+<!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="col-lg-6" *ngIf="showSpecificationAttributes">
+    <h2>Specification Attributes</h2>
+    <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
+<hr>
+<div *ngIf="showCurrentSpecAttributeForm">
+<form role="form" (ngSubmit)="addSpecAttribute(u)" #u="ngForm">
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Attribute</label>
+        <select class="form-control" ngModel name="current_spec_attribute_id" >
+      <option *ngFor="let spec_attribute of product_attributes" value="{{spec_attribute.Id}}">
+        {{spec_attribute.Name}}
+      <hr></option>
+  </select>
+    </fieldset>
+
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Attribute Option</label>
+        <input type="text" class="form-control" rows="3" ngModel name="TextPrompt" required >
+    </fieldset>
+
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Is Required </label>
+        <div class="checkbox" style="float:left; margin:5px;">
+
+            <input type="checkbox" class="form-control" ngModel name="IsRequired">
+        </div>
+    </fieldset>
+
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Display Order</label>
+        <input type="number" class="form-control" ngModel name="DisplayOrder" placeholder="Enter Display Order">
+    </fieldset>
+
+    <button (click)="showList()" class="btn btn-success">Go Back</button>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!q.valid" *ngIf="addAttributeMode">Add Attribute</button>
+</form>
+</div>
+
+
+
+    <div class="card-block" style="width:100%;" *ngIf="showCurrentAttributeList">
+        <table class="table table-bordered table-hover" style="table-layout:fixed">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Attribute</th>
+                    <th>Text Prompt</th>
+                    <th>Is Required</th>
+                    <th>Display Order</th>
+
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let i = index;let attributeField of productAttributeFields">
+                <td>{{attributeField.ProductAttribute}} </td>
+                <td>{{attributeField.TextPrompt}}</td>
+                <td>{{attributeField.IsRequired}}</td>
+                <td>{{attributeField.DisplayOrder}}</td>
+                <td>
+                    <button type="button" name="{{attributeField.Id}}" class="btn btn-primary" (click)="editCurrentAttributeMode(x)" [disabled]="true" #x><i class="fa fa-edit"></i></button>
+                        <button type="button" name="{{attributeField.Id}}" class="btn btn-danger" (click)="deleteCurrentAttribute(d)" #d><i class="fa fa-times"></i></button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+
+</div>
+
+
+</div>
+
+<div class="col-lg-6" *ngIf="showPictures">
+    <h2>Product Pictures</h2>
+    <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
+<hr>
+<div >
+<form role="form" (ngSubmit)="addPicture(p)" #p="ngForm">
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Picture</label>
+        <image-upload
+      [max]="1"
+      [url]="'http://piyushdaftary-001-site1.ctempurl.com/api/Pictures/upload'"
+
+      [buttonCaption]="'Select Images!'"
+
+      [extensions]="['jpg','png','gif']"
+      (onFileUploadFinish)="getPictureDetails($event)"
+
+
+    ></image-upload>
+    </fieldset>
+    <fieldset class="form-group card mb-3">
+        <label class="card-header">Display Order</label>
+        <input type="number" class="form-control" ngModel name="DisplayOrder" placeholder="Enter Display Order">
+    </fieldset>
+
+
+    <button (click)="showList()" class="btn btn-success">Go Back</button>
+
+    <button type="submit" class="btn btn-primary" [disabled]="!p.valid" >Add Picture</button>
+</form>
+</div>
+
+
+
+    <div class="card-block" style="width:100%;">
+        <table class="table table-bordered table-hover" style="table-layout:fixed">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Picture</th>
+                    <th>Display Order</th>
+
+
+
+                    <th>Action</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr><img [src]="loadingImagePath" *ngIf="loading" alt=""></tr>
+                <tr *ngFor="let i = index;let picture of pictureList">
+            <td><img [src]="picture.PictureUrl" alt="" height="70" width="70"></td>
+                <td>{{picture.DisplayOrder}}</td>
+
+                <td>
+                    <button type="button" name="{{picture.Id}}" class="btn btn-primary" (click)="editPicture(x)" #x><i class="fa fa-edit"></i></button>
+                        <button type="button" name="{{picture.Id}}" class="btn btn-danger" (click)="deletePicture(d)" #d><i class="fa fa-times"></i></button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
+
+</div>
+
+
+</div>
+
+
+
 </div>
