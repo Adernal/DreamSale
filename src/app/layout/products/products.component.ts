@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { NgForm  } from '@angular/forms';
 import { Http } from '@angular/http';
 import { ProductService } from './product.service';
+import { ProductAttributesService } from './product-attributes/product-attributes.service';
 @Component({
     selector: 'app-products',
     templateUrl: './products.component.html',
@@ -16,7 +17,7 @@ export class ProductsComponent implements OnInit {
     @ViewChild('s') productSearchForm: NgForm;
     @ViewChild('q') productAttributeForm: NgForm;
     @ViewChild('u') specAttributeForm: NgForm;
-    @ViewChild('p') pictureForm: NgForm;
+
 
     @ViewChild('g') attributeForm: NgForm;
     @Input() multiple: boolean = false;
@@ -93,18 +94,13 @@ export class ProductsComponent implements OnInit {
     showCurrentSpecAttributeList:boolean;
     showCurrentAttributeForm:boolean;
     showCurrentSpecAttributeForm:boolean;
-    pictureId:number;
-    imageUrl:string;
-    pictureList;
-    currentPicture=[];
-    pictureDisplayOrder:number;
     addSpecAttributeMode:boolean;
     Spec_Attribute_Id='';
     ValueRaw='';
 
 
 
-    constructor(private http: Http, private productService: ProductService) { }
+    constructor(private http: Http, private productService: ProductService,private productAttributeService: ProductAttributesService) { }
 
     ngOnInit() {
 
@@ -143,9 +139,6 @@ export class ProductsComponent implements OnInit {
         this.showCurrentSpecAttributeList=true;
         this.showCurrentAttributeForm=false;
         this.showCurrentSpecAttributeForm=false;
-        this.pictureId=0;
-        this.imageUrl='';
-        this.pictureDisplayOrder=0;
         this.addSpecAttributeMode=false;
 
         this.getProducts(0);
@@ -1081,7 +1074,7 @@ export class ProductsComponent implements OnInit {
 
     }
     getAttributes() {
-        this.productService.getAttributes()
+        this.productAttributeService.getAttributes()
             .subscribe(
             (response) => {
                 this.product_attributes = (response.json().Data);
@@ -1169,7 +1162,7 @@ export class ProductsComponent implements OnInit {
        this.showPictures=true;
        this.showProductAttributes=false;
        this.showSpecificationAttributes=false;
-       this.getPicture();
+      // this.getPicture();
       break;
    }
    case 3: {
@@ -1385,75 +1378,7 @@ export class ProductsComponent implements OnInit {
             );
         }
     }
-    getPictureDetails(file){
-        this.pictureId = file.serverResponse.json().pictureId;
-        this.imageUrl = file.serverResponse.json().imageUrl;
-    }
-addPicture(){
-
-
-     this.pictureDisplayOrder = this.pictureForm.value.DisplayOrder;
-     this.currentPicture.push({
-  "Id": 0,
-  "CustomProperties": {
-    "sample string 1": {},
-    "sample string 3": {}
-  },
-  "ProductId": this.Id,
-  "PictureId": this.pictureId,
-  "PictureUrl": this.imageUrl,
-  "DisplayOrder": this.DisplayOrder,
-  "OverrideAltAttribute": "sample string 6",
-  "OverrideTitleAttribute": "sample string 7"
-});
-     this.productService.addPicture(this.currentPicture)
-     .subscribe(
-     (response) => {
-         alert("Added !");
-         this.getPicture();
-         this.pictureForm.reset();
-         this.currentPicture=[];
-     },
-     (error) =>      {
-             console.log(error);
-             alert("Can't fetch data ! Please refresh or check your connnection !");
-           }
-     );
-}
-getPicture(){
-    this.loading=true;
-    this.productService.getPicture(this.Id)
-    .subscribe(
-    (response) => {
-
-        this.pictureList = (response.json().Data);
-        this.loading=false;
-        console.log(this.pictureList);
-    },
-    (error) =>      {
-            console.log(error);
-            alert("Can't fetch data ! Please refresh or check your connnection !");
-          }
-    );
-}
-deletePicture(id:HTMLFormElement){
-    var confirmation = confirm("Are you sure you want to delete ?");
-    if (confirmation) {
-      this.productService.deletePicture(+id.name)
-        .subscribe(
-        (data) => {
-
-          alert('Deleted !');
-          this.pictureForm.reset();
-          this.getPicture();
-        },
-        (error) => {
-          console.log(error)
-          alert('Can\'t fetch data ! Please refresh or check your connnection !')
-        }
-        );
-    }
-}
+//
 addSpecAttribute(){
     this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
      this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;

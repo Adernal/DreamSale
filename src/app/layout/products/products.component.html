@@ -296,6 +296,7 @@
     <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
     <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
     <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
+    <button (click)="showList()" class="btn btn-success">Go Back</button>
    </span>
    </div>
    <div style="height:50px; width:100%"></div>
@@ -553,75 +554,7 @@
 
 
 </div>
-
-<div class="col-lg-6" style="float: none; margin: 0 auto;" *ngIf="showPictures">
-    <h2>Product Pictures</h2>
-    <!-- <button class="btn btn-primary" (click)="addCurrentAttributeMode()" [disabled]="!addAttributeMode">Add Current Attribute</button> -->
-<hr>
-<div >
-<form role="form" (ngSubmit)="addPicture(p)" #p="ngForm">
-    <fieldset class="form-group card mb-3">
-        <label class="card-header">Picture</label>
-        <image-upload
-      [max]="1"
-      [url]="'http://piyushdaftary-001-site1.ctempurl.com/api/Pictures/upload'"
-
-      [buttonCaption]="'Select Images!'"
-
-      [extensions]="['jpg','png','gif']"
-      (onFileUploadFinish)="getPictureDetails($event)"
+<app-product-pictures [ProductId]="Id"></app-product-pictures>
 
 
-    ></image-upload>
-    </fieldset>
-    <fieldset class="form-group card mb-3">
-        <label class="card-header">Display Order</label>
-        <input type="number" class="form-control" ngModel name="DisplayOrder" placeholder="Enter Display Order">
-    </fieldset>
-
-
-    <button (click)="showList()" class="btn btn-success">Go Back</button>
-
-    <button type="submit" class="btn btn-primary" [disabled]="!p.valid" >Add Picture</button>
-</form>
-</div>
-
-
-
-    <div class="card-block" style="width:100%;">
-        <table class="table table-bordered table-hover" style="table-layout:fixed">
-            <thead class="thead-inverse">
-                <tr>
-                    <th>Picture</th>
-                    <th>Display Order</th>
-
-
-
-                    <th>Action</th>
-
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr><img [src]="loadingImagePath" *ngIf="loading" alt=""></tr>
-                <tr *ngFor="let i = index;let picture of pictureList">
-            <td><img [src]="picture.PictureUrl" alt="" height="70" width="70"></td>
-                <td>{{picture.DisplayOrder}}</td>
-
-                <td>
-                    <button type="button" name="{{picture.Id}}" class="btn btn-primary" (click)="editPicture(x)" #x [disabled]="true"><i class="fa fa-edit"></i></button>
-                        <button type="button" name="{{picture.Id}}" class="btn btn-danger" (click)="deletePicture(d)" #d><i class="fa fa-times"></i></button>
-                </td>
-                </tr>
-            </tbody>
-        </table>
-
-</div>
-
-
-</div>
-
-
-
-</div>
 </div>

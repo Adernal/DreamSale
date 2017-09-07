@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <h2>Product Pictures</h2>
+    <hr>
+    <div class="row" >
+        <div class="col-lg-6 center-block" style="float: none; margin: 0 auto;">
+            <form role="form" (ngSubmit)="addPicture(p)" #p="ngForm">
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Picture</label>
+                    <image-upload [max]="1" [url]="'http://piyushdaftary-001-site1.ctempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+                </fieldset>
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Display Order</label>
+                    <input type="number" class="form-control" ngModel name="DisplayOrder" placeholder="Enter Display Order" required>
+                </fieldset>
+
+
+
+
+                <button type="submit" class="btn btn-primary" [disabled]="!p.valid">Add Picture</button>
+            </form>
+        </div>
+    </div>
+    <img [src]="loadingImagePath" *ngIf="loadingPicture" alt="">
+    <div class="row">
+        <div class="card-block" style="width:100%;">
+                <table class="table table-bordered table-hover" style="table-layout:fixed">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th>Picture</th>
+                            <th>Display Order</th>
+                            <th>Action</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr *ngFor="let i = index;let picture of pictureList">
+                    <td><img [src]="picture.PictureUrl" alt="" height="70" width="70"></td>
+                        <td>{{picture.DisplayOrder}}</td>
+
+                        <td>
+
+                                <button type="button" name="{{picture.Id}}" class="btn btn-danger" (click)="deletePicture(d)" #d><i class="fa fa-times"></i></button>
+                        </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+        </div>
+    </div>
+</div>

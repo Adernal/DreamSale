@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 
+
 @Injectable()
 export class ProductService {
     temp: {};
+    
     constructor(private http: Http) { }
     storeProduct(product) {
         const headers = new Headers({ 'Content-Type': 'application/json' , 'Accept' : 'application/json'});
@@ -26,9 +28,9 @@ export class ProductService {
              { headers: headers });
     //  return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/DefaultPageLoad');
     }
-    getAttributes() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/0/2147483647');
-    }
+    // getAttributes() {
+    //     return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/0/2147483647');
+    // }
     getCurrentAttributes(id:number) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
