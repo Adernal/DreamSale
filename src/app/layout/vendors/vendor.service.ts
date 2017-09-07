@@ -8,7 +8,7 @@ export class VendorService {
     storeVendor(Vendor) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = Vendor[Vendor.length-1];
-        
+
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendor/CreateVendor?continueEditing=true', this.temp,
             { headers: headers });
 
@@ -16,15 +16,14 @@ export class VendorService {
     getVendor() {
         return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors');
     }
-    updateVendor(Vendor, id) {
+    updateVendor(vendor) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log(Vendor);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors/Update?continueEditing=true', Vendor[id], { headers: headers });
+        console.log(vendor);
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors/EditVendor?continueEditing=true', vendor, { headers: headers });
     }
-    deleteVendor(Vendor, id) {
+    deleteVendor(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id = " + id);
-        console.log(Vendor);
+
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors/Delete?id='+id, null, { headers: headers });
     }
 

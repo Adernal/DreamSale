@@ -32,7 +32,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <h2>Review List</h2>
-                    <input type="text" placeholder="Search Reviews by Product or Customer or Approved" [(ngModel)]="filteredReviews" style="width:100%">
+                    <!-- <input type="text" placeholder="Search Reviews by Product or Customer or Approved" [(ngModel)]="filteredReviews" style="width:100%"> -->
                 </div>
                 <div class="card-block" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -51,7 +51,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let i= inex;let review of review | filter: filteredReviews : 'ProductName':'CustomerInfo':'IsApproved'">
+                            <tr *ngFor="let i= inex;let review of review">
                                 <td>{{review.StoreName}}</td>
                                 <td>{{review.ProductName}}</td>
                                 <td>{{review.CustomerInfo}}</td>
