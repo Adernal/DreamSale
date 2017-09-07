@@ -1,0 +1,70 @@
+<div class="container-fluid">
+    <h2>Specification Attributes</h2>
+    <hr>
+
+    <div class="row">
+        <div class="col-lg-6 center-block" style="float: none; margin: 0 auto;">
+            <form role="form" (ngSubmit)="addSpecAttribute(s)" #s="ngForm">
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Attribute</label>
+                    <select class="form-control" ngModel name="current_attribute_id">
+                    <option *ngFor="let attribute of product_attributes" value="{{attribute.Id}}">
+                      {{attribute.Name}}
+                    <hr>
+                  </option>
+  </select>
+                </fieldset>
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Specification</label>
+                    <select class="form-control" ngModel name="current_spec_attribute_id">
+      <option *ngFor="let spec_attribute of specAttributeList" value="{{spec_attribute.Id}}">
+        {{spec_attribute.Name}}
+      <hr></option>
+  </select>
+                </fieldset>
+
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Value</label>
+                    <input type="text" class="form-control" rows="3" ngModel name="ValueRaw" required>
+                </fieldset>
+
+
+                <button (click)="showList()" class="btn btn-success">Go Back</button>
+
+                <button type="submit" class="btn btn-primary" [disabled]="!u.valid" *ngIf="addSpecAttributeMode">Add Attribute</button>
+            </form>
+        </div>
+    </div>
+    <img [src]="loadingImagePath" *ngIf="loadingSpecAttributes" alt="">
+    <div class="row">
+
+        <div class="card-block" style="width:100%;">
+            <table class="table table-bordered table-hover" style="table-layout:fixed">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Attribute Type</th>
+                        <th>Attribute</th>
+                        <th>Value</th>
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let i = index;let specAttribute of specAttributeList">
+                        <td>{{specAttribute.AttributeTypeName}} </td>
+                        <td>{{specAttribute.AttributeName}}</td>
+                        <td>{{specAttribute.ValueRaw}}</td>
+                        <td>
+
+                            <button type="button" name="{{specAttribute.Id}}" class="btn btn-danger" (click)="deleteCurrentSpecAttribute(d)" #d><i class="fa fa-times"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>

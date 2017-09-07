@@ -12,6 +12,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ProductAttributesService} from './product-attributes/product-attributes.service';
 import { ProductPicturesComponent } from './product-pictures/product-pictures.component';
 import { ProductPicturesService } from './product-pictures/product-pictures.service';
+import { LinkProductSpecAttributesComponent } from './link-product-spec-attributes/link-product-spec-attributes.component';
+import { LinkProductSpecAttributesService } from './link-product-spec-attributes/link-product-spec-attributes.service';
 
 // import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
 // import { SpecificationAttributesComponent } from './specification-attributes/specification-attributes.component';
@@ -29,7 +31,7 @@ import { ProductPicturesService } from './product-pictures/product-pictures.serv
 
     // ProductTagsModule
   ],
-  providers:[ProductService,ProductAttributesService,ProductPicturesService],
-  declarations: [ProductsComponent, FilterPipe, ProductPicturesComponent]
+  providers:[ProductService,ProductAttributesService,ProductPicturesService,LinkProductSpecAttributesService],
+  declarations: [ProductsComponent, FilterPipe, ProductPicturesComponent, LinkProductSpecAttributesComponent]
 })
 export class ProductsModule { }

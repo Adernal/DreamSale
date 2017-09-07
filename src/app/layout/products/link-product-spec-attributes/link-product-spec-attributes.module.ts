@@ -5,8 +5,9 @@ import {FormsModule} from '@angular/forms';
 import { ImageUploadModule } from '../../../../../node_modules/angular2-image-upload/src/image-upload.module';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import {ProductPicturesComponent} from './product-pictures.component';
-import {ProductPicturesService} from './product-pictures.service';
+import {LinkProductSpecAttributesComponent} from './link-product-spec-attributes.component';
+import {LinkProductSpecAttributesService} from './link-product-spec-attributes.service';
+import { ProductAttributesService } from '../product-attributes/product-attributes.service';
 
 
 
@@ -19,7 +20,7 @@ import {ProductPicturesService} from './product-pictures.service';
 
     // ProductTagsModule
   ],
-  providers:[ProductPicturesService],
-  declarations: [ProductPicturesComponent]
+  providers:[LinkProductSpecAttributesService,ProductAttributesService],
+  declarations: [LinkProductSpecAttributesComponent]
 })
-export class ProductPicturesModule { }
+export class LinkProductSpecAttributesModule { }
