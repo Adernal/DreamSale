@@ -1,8 +1,25 @@
-<div class="container">
+<div class="container-fluid">
 <h1> Customer Management </h1>
      <hr>
-</div>
     <div class="row">
+      <form role="form" (ngSubmit)="searchCustomer(c)" #c="ngForm" style="width:100%">
+
+                 <fieldset class="form-group card mb-3">
+                  <label class="card-header">Customer Name</label>
+                  <input class="form-control" ngModel name="Name" >
+              </fieldset>
+              <fieldset class="form-group card mb-3">
+                  <label class="card-header">Email</label>
+                  <input  type="text" class="form-control" ngModel name="Email">
+
+              </fieldset>
+
+
+              <button type="submit" class="btn btn-primary" [disabled]="!c.valid">Search Customer</button>
+      </form>
+    </div>
+      <div class="row">
+      <div  class="center-block" style="float: none; margin: 0 auto;">
         <div class="card mb-3">
                 <div class="card-header">
                   <h2>Customers</h2>
@@ -26,7 +43,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index ;let customer of customer " >
+                          <tr *ngFor =" let i = index ;let customer of customerList| paginate: { id:'Customers', itemsPerPage:10 , currentPage: currentPageNumber , totalItems: totalCustomers} " >
 
 
                           <td>{{customer.Email}}</td>
@@ -36,15 +53,20 @@
                           <td>{{customer.Active}}</td>
                           <td>{{customer.CreatedOn}}</td>
                           <td>{{customer.LastActivityDate}}</td>
-                          <td></td>
+                          <!-- <td><button type="button" name="{{customer.Id}}" class="btn btn-primary" (click)="editCustomerMode(x)" #x><i class="fa fa-edit"></i></button> -->
+                          <td>    <button type="button" name="{{customer.Id}}" class="btn btn-danger" (click)="deleteCustomer(d)" #d><i class="fa fa-times"></i></button>
+                                      </td>
                         </tr>
 
                         </tbody>
                     </table>
+                      <img [src]="loadingImagePath" *ngIf="loadingCustomer" alt="">
+                      <pagination-controls (pageChange)="getCustomers($event)" id="Customers"></pagination-controls>
 
                 </div>
             </div>
-
+  </div>
 
 
     </div>
+  </div>

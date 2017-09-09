@@ -1380,7 +1380,7 @@ export class ProductsComponent implements OnInit {
     }
 //
 addSpecAttribute(){
-    this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
+     this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
      this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;
      this.Spec_Attribute_Id = this.getCurrentSpecAttributeName(this.current_spec_attribute_id)[0].Name;
      this.ValueRaw = this.specAttributeForm.value.ValueRaw;
