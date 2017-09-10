@@ -53,6 +53,10 @@
             *ngIf="editMode">
         </fieldset>
         <fieldset class="form-group card mb-3">
+            <label class="card-header">Picture</label>
+            <image-upload [max]="1" [url]="'http://piyushdaftary-001-site1.ctempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+        </fieldset>
+        <fieldset class="form-group card mb-3">
             <label class="card-header">Select Parent Category (Optional)</label>
             <select class="form-control" *ngIf="!editMode" ngModel name="parentcategory" size="4">
               <option *ngFor="let i= index;let parentcategory of category" value={{parentcategory.Id}}>

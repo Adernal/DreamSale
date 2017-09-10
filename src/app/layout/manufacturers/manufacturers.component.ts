@@ -19,6 +19,8 @@ export class ManufacturersComponent implements OnInit {
   editMode =false;
   filteredManufacturer='';
   manufacturers;
+  PictureId:number;
+  imageUrl:string;
   constructor(private manufacturersService : ManufacturersService) { }
 
   ngOnInit() {
@@ -253,6 +255,10 @@ export class ManufacturersComponent implements OnInit {
       // );
     }
   }
+  getPictureDetails(file){
+        this.PictureId = file.serverResponse.json().pictureId;
+        this.imageUrl = file.serverResponse.json().imageUrl;
+    }
   // getManufacturers(){
   //   this.manufacturersService.getManufacturers()
   //   .subscribe(

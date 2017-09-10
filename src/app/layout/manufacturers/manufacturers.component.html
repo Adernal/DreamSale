@@ -24,7 +24,10 @@
             <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
             *ngIf="editMode">
         </fieldset>
-
+        <fieldset class="form-group card mb-3">
+            <label class="card-header">Picture</label>
+            <image-upload [max]="1" [url]="'http://piyushdaftary-001-site1.ctempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+        </fieldset>
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Manufacturer</button>
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Manufacturer</button>
@@ -72,7 +75,7 @@
 
                         </tbody>
                     </table>
-                    
+
                 </div>
             </div>
 

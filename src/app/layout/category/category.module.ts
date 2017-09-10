@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { CategoryService } from './category.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     CommonModule,
     CategoryRoutingModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ImageUploadModule.forRoot()
   ],
   providers: [CategoryService],
   declarations: [CategoryComponent, FilterPipe]

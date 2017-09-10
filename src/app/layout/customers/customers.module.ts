@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CustomersService } from './customers.service';
+
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { customerservice } from './product.service';
@@ -22,7 +23,8 @@ import { CustomersService } from './customers.service';
     CustomersRoutingModule,
     PageHeaderModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+
 
     // ImageUploadModule.forRoot()
     // ProductTagsModule

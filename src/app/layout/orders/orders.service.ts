@@ -11,8 +11,14 @@ export class OrderService {
 //         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/AddOrder?continueEditing=true', this.temp,
 //             { headers: headers });
 // }
-    getOrder() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Customers/Roles/0/2147483647?pageIdex=0');
+    getOrders(page:number) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Orders/OrderList?pageIndex='+page+'&pageSize=10',{},{headers:headers});
+    }
+    searchOrders(order,page:number) {
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        console.log(order[0]);
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Orders/OrderList?pageIndex='+page+'&pageSize=10',order[0],{headers:headers});
     }
     updateOrder(customer_role, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });

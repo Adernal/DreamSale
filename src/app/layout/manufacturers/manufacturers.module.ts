@@ -7,13 +7,14 @@ import { ManufacturersService } from './manufacturers.service';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
-
+import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 @NgModule({
   imports: [
     CommonModule,
     ManufacturersRoutingModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ImageUploadModule.forRoot()
   ],
   providers:[ManufacturersService],
   declarations: [ManufacturersComponent, FilterPipe]

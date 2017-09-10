@@ -1,7 +1,136 @@
 <div class="container">
 <h1> Order Management </h1>
      <hr>
-    <div class="row">
+    <div class="row" *ngIf="editMode">
+      <div class="col-lg-6" style="float: none; margin: 0 auto;">
+        <fieldset class="form-group card mb-3">
+                  <label class="card-header">Order Status</label>
+                  <p class="card-text" style="text-align:center">{{OrderStatus}}</p>
+                  <!-- <select name="OrderStatus" (change)="changeOrderStatus()">
+                      <<option value="">Completed</option>
+                      <option value="">Processed</option>
+                  </select> -->
+        </fieldset>
+
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Shipping Status</label>
+                    <p class="card-text" style="text-align:center">{{ShippingStatus}}</p>
+          </fieldset>
+
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Payment Status</label>
+                    <p class="card-text" style="text-align:center">{{PaymentStatus}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Order Total</label>
+                    <p class="card-text" style="text-align:center">{{OrderTotal}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Customer Full Name</label>
+                    <p class="card-text" style="text-align:center">{{CustomerFullName}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Customer Email</label>
+                    <p class="card-text" style="text-align:center">{{CustomerEmail}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Customer Ip</label>
+                    <p class="card-text" style="text-align:center">{{CustomerIp}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Store Name</label>
+                    <p class="card-text" style="text-align:center">{{StoreName}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Shipping Address</label>
+                    <p class="card-text" style="text-align:center">{{ShippingAddress}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Billing Address</label>
+                    <p class="card-text" style="text-align:center">{{BillingAddress}}</p>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Items</label>
+                    <ul style="list-style:none">
+                      <li *ngFor="let item of Items">
+                        <p class="card-text" style="text-align:center">{{item}}</p>
+                      </li>
+                    </ul>
+
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+                    <label class="card-header">Created On</label>
+                    <p class="card-text" style="text-align:center">{{CreatedOn}}</p>
+          </fieldset>
+          <button class="btn btn-success" (click)="showSearch()">Search Form</button>
+
+      </div>
+    </div>
+
+
+
+    <div class="row" *ngIf="searchMode">
+      <div class="col-lg-6" style="float: none; margin: 0 auto;">
+
+            <form role="form" (ngSubmit)="searchOrder(s)" #s="ngForm">
+
+
+
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Billing Last Name</label>
+                    <input class="form-control" ngModel name="BillingLastName" placeholder="Billing Last Name">
+                </fieldset>
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Billing Email</label>
+                    <input type="text" class="form-control" ngModel name="BillingEmail"  placeholder="Enter Customer Email" >
+                </fieldset>
+                <!-- <fieldset class="form-group card mb-3">
+                    <label class="card-header">Store</label>
+                    <input type="text" class="form-control" ngModel name="StoreName"  placeholder="Enter Store Name" >
+
+                </fieldset> -->
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Order Status</label>
+                    <select class="form-control" ngModel name="OrderStatus">
+                          <option value="10">Pending</option>
+                          <option value="20">Processing </option>
+                          <option value="30">Complete</option>
+                          <option value="40">Cancelled</option>
+
+                                    </select>
+                </fieldset>
+                <!-- <fieldset class="form-group card mb-3">
+                    <label class="card-header">Shipping Status</label>
+                    <input type="number" class="form-control" ngModel name="StockQuantity" >
+                </fieldset> -->
+
+
+
+
+
+
+
+                <fieldset class="form-group card mb-3">
+                    <label class="card-header">Payment Status</label>
+                    <select class="form-control" ngModel name="PaymentStatus">
+                          <option value="10">Pending</option>
+                          <option value="20">Authorized</option>
+                          <option value="30">Paid</option>
+                          <option value="35">Partially Refunded</option>
+                          <option value="40">Refunded</option>
+                          <option value="50">Voided</option>
+                        </select>
+                </fieldset>
+                <img [src]="loadingImagePath" *ngIf="loadingOrder" alt="">
+                <button type="submit" class="btn btn-primary" [disabled]="!s.valid" >Search Order</button>
+
+
+
+
+            </form>
+      </div>
+    </div>
+    <div class="row" *ngIf="showAllOrders">
         <div class="card mb-3">
                 <div class="card-header">
                   <h2>Order</h2>
@@ -11,29 +140,79 @@
                         <thead class="thead-inverse">
                         <tr>
 
-                            <th>Customer Info</th>
-                            <th>IP Address</th>
-                            <th>Location</th>
-                            <th>Last Activity</th>
-                            <th>Last Visited Page</th>
+                            <th>Order Status</th>
+                            <th>Payment Status</th>
+                            <th>Shipping Status</th>
+                            <th>Customer</th>
+                            <th>Created On</th>
+                            <th>Total</th>
+                            <th>Action</th>
 
 
 
                         </tr>
                         </thead>
                         <tbody>
-                          <!-- <tr *ngFor =" let i = index ;let order of order" >
+                        <tr *ngFor ="let order of orderList | paginate: { id:'Orders', itemsPerPage: 10, currentPage: currentPageNumber , totalItems: totalOrders}">
+                          <td>{{order.OrderStatus}}</td>
+                          <td>{{order.PaymentStatus}}</td>
+                          <td>{{order.ShippingStatus}}</td>
+                          <td>{{order.CustomerFullName}}</td>
+                          <td>{{order.CreatedOn}}</td>
+                          <td>{{order.OrderTotal}}</td>
+                          <td><button type="button" name="{{order.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                        </tr>
 
-
-                          <td>{{order.CustomerInfo}}</td>
-                          <td>{{order.IpAddress}}</td>
-                          <td>{{order.Location}}</td>
-                          <td>{{order.LastActivity}}</td>
-                          <td>{{order.LastVisitedPage}}</td>
-                        </tr> -->
 
                         </tbody>
                     </table>
+                    <img [src]="loadingImagePath" *ngIf="loadingOrder" alt="">
+                    <pagination-controls (pageChange)="getOrders($event)" id="Orders"></pagination-controls>
+                </div>
+            </div>
+
+
+
+    </div>
+    <div class="row" *ngIf="searchList">
+        <div class="card mb-3">
+                <div class="card-header">
+                  <h2>Order</h2>
+                  <button (click)="showAllOrders()" class="btn btn-primary">Show All Orders </button>
+                </div>
+                <div class="card-block" style="width:100%;">
+                    <table class="table table-bordered" style="table-layout:fixed">
+                        <thead class="thead-inverse">
+                        <tr>
+
+                            <th>Order Status</th>
+                            <th>Payment Status</th>
+                            <th>Shipping Status</th>
+                            <th>Customer</th>
+                            <th>Created On</th>
+                            <th>Total</th>
+                            <th>Action</th>
+
+
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor ="let order of searchedOrders | paginate: { id:'SearchedOrders', itemsPerPage: 10, currentPage: currentPageNumber , totalItems: totalOrders}">
+                          <td>{{order.OrderStatus}}</td>
+                          <td>{{order.PaymentStatus}}</td>
+                          <td>{{order.ShippingStatus}}</td>
+                          <td>{{order.CustomerFullName}}</td>
+                          <td>{{order.CreatedOn}}</td>
+                          <td>{{order.OrderTotal}}</td>
+                          <td><button type="button" name="{{order.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+                    <img [src]="loadingImagePath" *ngIf="loadingOrder" alt="">
+                    <pagination-controls (pageChange)="searchOrder($event)" id="SearchedOrders"></pagination-controls>
                 </div>
             </div>
 

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 
 import { VendorService } from './vendor.service';
+import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { Vendorservice } from './product.service';
@@ -23,6 +24,7 @@ import { VendorService } from './vendor.service';
     VendorsRoutingModule,
     PageHeaderModule,
     FormsModule,
+      ImageUploadModule.forRoot()
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],

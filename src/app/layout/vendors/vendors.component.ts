@@ -24,10 +24,15 @@ export class VendorsComponent implements OnInit {
     products;
     filteredVendor='';
     vendors;
+    PictureId:number;
+    imageUrl:string;
 
     // filteredEmail='';
 
-    constructor(private vendorService : VendorService) { }
+    constructor(private vendorService : VendorService) {
+      this.PictureId=0;
+      this.imageUrl='';
+  }
 
     ngOnInit() {
       //   if(localStorage.getItem("vendors")!=null){
@@ -58,7 +63,7 @@ export class VendorsComponent implements OnInit {
   "Name":this.Name,
   "Email":this.Email,
   "Description":this.Description,
-  "PictureId": 5,
+  "PictureId": this.PictureId,
   "AdminComment":this.AdminComment,
   "Address": {
     "Id": 1,
@@ -336,4 +341,8 @@ export class VendorsComponent implements OnInit {
         function(vendor){ return vendor.Id == id }
     );
     }
+    getPictureDetails(file){
+          this.PictureId = file.serverResponse.json().pictureId;
+          this.imageUrl = file.serverResponse.json().imageUrl;
+      }
     }

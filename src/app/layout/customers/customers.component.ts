@@ -27,7 +27,7 @@ LastActivityDate:string;
 loadingCustomer:boolean;
 loadingImagePath:string;
 totalCustomers:number;
-searchParameters=[];
+searchParameters={};
   constructor(private http : Http,private customersService: CustomersService) {
       this.currentPageNumber=1;
       this.editMode=false;
@@ -102,10 +102,10 @@ searchCustomer(){
   this.loadingCustomer=true;
   this.Name = this.customerForm.value.Name;
   this.Email = this.customerForm.value.Email;
-  this.searchParameters.push({
+  this.searchParameters={
     "SearchEmail":this.Email,
     "SearchUsername":this.Name
-  });
+  };
   this.customersService.searchCustomers(this.searchParameters)
     .subscribe(
     (response) => {

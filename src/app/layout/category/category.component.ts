@@ -27,10 +27,15 @@ export class CategoryComponent implements OnInit {
   editMode = false;
   filteredCategory = '';
   categories;
+  PictureId:number;
+  imageUrl:string;
 
 
 
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService) {
+    this.PictureId=0;
+    this.imageUrl='';
+  }
 
   ngOnInit() {
     // localStorage.removeItem("categories");
@@ -101,7 +106,7 @@ export class CategoryComponent implements OnInit {
         'MetaTitle': 'sample string 7',
         'SeName': 'sample string 8',
         'ParentCategoryId': this.ParentCategoryId,
-        'PictureId': 10,
+        'PictureId': this.PictureId,
         'PageSize': 11,
         'AllowCustomersToSelectPageSize': true,
         'PageSizeOptions': 'sample string 13',
@@ -353,5 +358,8 @@ export class CategoryComponent implements OnInit {
     }
 
   }
-
+  getPictureDetails(file){
+        this.PictureId = file.serverResponse.json().pictureId;
+        this.imageUrl = file.serverResponse.json().imageUrl;
+    }
 }
