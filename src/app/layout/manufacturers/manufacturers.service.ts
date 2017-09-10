@@ -5,24 +5,24 @@ import { Headers, Http } from '@angular/http';
 export class ManufacturersService {
     temp: {};
     constructor(private http: Http) { }
-    storeManufacturers(manufacturers) {
+    storeManufacturers(manufacturer) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log(manufacturers);
-        this.temp = manufacturers[manufacturers.length - 1];
+        //console.log(manufacturer);
+        this.temp = manufacturer[0];
+        console.log(this.temp);
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Manufacturers/Add?continueEditing=true',this.temp,
             { headers: headers });
     }
     getManufacturers() {
         return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Manufacturers');
     }
-    updateManufacturers(manufacturers, id) {
+    updateManufacturer(manufacturer) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id :" + id);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Manufacturers/Update?continueEditing=true', manufacturers[id], { headers: headers });
+
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Manufacturers/Update?continueEditing=true', manufacturer, { headers: headers });
     }
-    deleteAttributes(manufacturers, id) {
+    deleteManufacturer(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log(manufacturers);
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Manufacturers/Delete?id=' + id, null, { headers: headers });
     }
 
