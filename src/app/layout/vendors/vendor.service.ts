@@ -8,8 +8,9 @@ export class VendorService {
     storeVendor(Vendor) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = Vendor[Vendor.length-1];
+        console.log(this.temp);
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendor/CreateVendor?continueEditing=true', this.temp,
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/vendors/CreateVendor', this.temp,
             { headers: headers });
 
     }
@@ -19,7 +20,7 @@ export class VendorService {
     updateVendor(vendor) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(vendor);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors/EditVendor?continueEditing=true', vendor, { headers: headers });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/vendors/EditVendor', vendor, { headers: headers });
     }
     deleteVendor(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });

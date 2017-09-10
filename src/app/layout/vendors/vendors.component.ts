@@ -56,10 +56,6 @@ export class VendorsComponent implements OnInit {
 
             this.vendor.push({
   "Id": 0,
-  "CustomProperties": {
-    "sample string 1": {},
-    "sample string 3": {}
-  },
   "Name":this.Name,
   "Email":this.Email,
   "Description":this.Description,
@@ -71,174 +67,11 @@ export class VendorsComponent implements OnInit {
       "sample string 1": {},
       "sample string 3": {}
     },
-    "FirstName": "sample string 2",
-    "LastName": "sample string 3",
-    "Email": "sample string 4",
-    "Company": "sample string 5",
-    "CountryId": 1,
-    "CountryName": "sample string 6",
-    "StateProvinceId": 1,
-    "StateProvinceName": "sample string 7",
-    "City": "sample string 8",
-    "Address1": "sample string 9",
-    "Address2": "sample string 10",
-    "ZipPostalCode": "sample string 11",
-    "PhoneNumber": "sample string 12",
-    "FaxNumber": "sample string 13",
-    "AddressHtml": "sample string 14",
-    "FormattedCustomAddressAttributes": "sample string 15",
-    "CustomAddressAttributes": [
-      {
-        "Id": 1,
-        "Name": "sample string 2",
-        "IsRequired": true,
-        "DefaultValue": "sample string 4",
-        "AttributeControlType": 1,
-        "Values": [
-          {
-            "Id": 1,
-            "Name": "sample string 2",
-            "IsPreSelected": true
-          },
-          {
-            "Id": 1,
-            "Name": "sample string 2",
-            "IsPreSelected": true
-          }
-        ]
-      },
-      {
-        "Id": 1,
-        "Name": "sample string 2",
-        "IsRequired": true,
-        "DefaultValue": "sample string 4",
-        "AttributeControlType": 1,
-        "Values": [
-          {
-            "Id": 1,
-            "Name": "sample string 2",
-            "IsPreSelected": true
-          },
-          {
-            "Id": 1,
-            "Name": "sample string 2",
-            "IsPreSelected": true
-          }
-        ]
-      }
-    ],
-    "AvailableCountries": [
-      {
-        "Disabled": true,
-        "Group": {
-          "Disabled": true,
-          "Name": "sample string 2"
-        },
-        "Selected": true,
-        "Text": "sample string 3",
-        "Value": "sample string 4"
-      },
-      {
-        "Disabled": true,
-        "Group": {
-          "Disabled": true,
-          "Name": "sample string 2"
-        },
-        "Selected": true,
-        "Text": "sample string 3",
-        "Value": "sample string 4"
-      }
-    ],
-    "AvailableStates": [
-      {
-        "Disabled": true,
-        "Group": {
-          "Disabled": true,
-          "Name": "sample string 2"
-        },
-        "Selected": true,
-        "Text": "sample string 3",
-        "Value": "sample string 4"
-      },
-      {
-        "Disabled": true,
-        "Group": {
-          "Disabled": true,
-          "Name": "sample string 2"
-        },
-        "Selected": true,
-        "Text": "sample string 3",
-        "Value": "sample string 4"
-      }
-    ],
-    "FirstNameEnabled": true,
-    "FirstNameRequired": true,
-    "LastNameEnabled": true,
-    "LastNameRequired": true,
-    "EmailEnabled": true,
-    "EmailRequired": true,
-    "CompanyEnabled": true,
-    "CompanyRequired": true,
-    "CountryEnabled": true,
-    "CountryRequired": true,
-    "StateProvinceEnabled": true,
-    "CityEnabled": true,
-    "CityRequired": true,
-    "StreetAddressEnabled": true,
-    "StreetAddressRequired": true,
-    "StreetAddress2Enabled": true,
-    "StreetAddress2Required": true,
-    "ZipPostalCodeEnabled": true,
-    "ZipPostalCodeRequired": true,
-    "PhoneEnabled": true,
-    "PhoneRequired": true,
-    "FaxEnabled": true,
-    "FaxRequired": true
-  },
   "Active": this.Active,
   "DisplayOrder": this.Display_Order,
-  "MetaKeywords": "sample string 9",
-  "MetaDescription": "sample string 10",
-  "MetaTitle": "sample string 11",
-  "SeName": "sample string 12",
-  "PageSize": 13,
-  "AllowCustomersToSelectPageSize": true,
-  "PageSizeOptions": "sample string 15",
-  "Locales": [
-    {
-      "Id": 1,
-      "LanguageId": 2,
-      "Name": "sample string 3",
-      "Description": "sample string 4",
-      "MetaKeywords": "sample string 5",
-      "MetaDescription": "sample string 6",
-      "MetaTitle": "sample string 7",
-      "SeName": "sample string 8"
-    },
-    {
-      "Id": 1,
-      "LanguageId": 2,
-      "Name": "sample string 3",
-      "Description": "sample string 4",
-      "MetaKeywords": "sample string 5",
-      "MetaDescription": "sample string 6",
-      "MetaTitle": "sample string 7",
-      "SeName": "sample string 8"
-    }
-  ],
-  "AssociatedCustomers": [
-    {
-      "Id": 1,
-      "Email": "sample string 2"
-    },
-    {
-      "Id": 1,
-      "Email": "sample string 2"
-    }
-  ],
-  "AddVendorNoteMessage": "sample string 16"
+
 }
-);
+});
         //  localStorage.setItem("vendors", JSON.stringify(this.vendor));
             this.vendorService.storeVendor(this.vendor)
             .subscribe(
@@ -246,6 +79,7 @@ export class VendorsComponent implements OnInit {
             console.log(data);
             alert("Added !");
             this.vendorForm.reset();
+            this.getVendor();
           },
           (error)=>{
             alert("Failed to add !");
@@ -280,6 +114,7 @@ export class VendorsComponent implements OnInit {
         console.log(data);
         alert("Edited !");
         this.vendorForm.reset();
+        this.getVendor();
       },
       (error)=>{
         alert("Failed to edit !");
