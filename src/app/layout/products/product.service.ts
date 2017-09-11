@@ -97,7 +97,7 @@ export class ProductService {
         console.log("Id = " + id);
         return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/Delete?id='+id, null, { headers: headers });
     }
-    
+
 
 
 }

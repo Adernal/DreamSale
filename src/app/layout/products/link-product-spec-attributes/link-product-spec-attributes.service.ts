@@ -12,13 +12,25 @@ export class LinkProductSpecAttributesService {
 
     }
     getSpecAttributes() {
-      return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/0/2147483647');
+     return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/0/2147483647');
     }
     getCurrentSpecAttributes(id:number) {
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+id+'/ProductSpecAttrList',    {
+      console.log("Get Current Spec Attributes called !");
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+id+'/ProductSpecAttrList',{
           "Page": 0,
           "PageSize": 20
-        });
+        },{ headers: headers });
+    }
+    getProductAttributes(id:number){
+      console.log("Get Attributes called !");
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        console.log(id);
+
+  return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+id+'/ProductAttributeMappingList',    {
+    "Page": 0,
+    "PageSize":200
+}, { headers: headers });
     }
     deleteSpecAttribute(id:number){
         const headers = new Headers({ 'Content-Type': 'application/json' });

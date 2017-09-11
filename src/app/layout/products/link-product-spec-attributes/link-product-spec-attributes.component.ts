@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { NgForm  } from '@angular/forms';
 import { Http } from '@angular/http';
 import { LinkProductSpecAttributesService } from './link-product-spec-attributes.service';
-import { ProductAttributesService } from '../product-attributes/product-attributes.service';
+
 
 
 @Component({
@@ -12,6 +12,7 @@ import { ProductAttributesService } from '../product-attributes/product-attribut
 })
 export class LinkProductSpecAttributesComponent implements OnInit {
     @Input('ProductId') Id;
+    @Input('Attributes') productAttributeFields;
 
 
     loadingImagePath: string;
@@ -20,11 +21,11 @@ export class LinkProductSpecAttributesComponent implements OnInit {
     specAttributeList = [];
     specAttributeId: number;
     ValueRaw: string;
-    currentSpecAttribute = [];
+    currentSpecs = [];
     specAttributeName: string;
     AttributeId: number;
-    product_attributes;
-    constructor(private http: Http, private specAttributeService: LinkProductSpecAttributesService , private productAttributeService : ProductAttributesService) {
+    attributeList=[];
+    constructor(private http: Http, private specAttributeService: LinkProductSpecAttributesService) {
         this.loadingSpecAttributes = false;
         this.specAttributeId = 0;
         this.ValueRaw = '';
@@ -34,11 +35,32 @@ export class LinkProductSpecAttributesComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getAttributes();
+        this.getCurrentSpecAttributes();
+        this.getSpecAttributes();
+
     }
     getCurrentSpecAttributes() {
 
         this.loadingSpecAttributes = true;
         this.specAttributeService.getCurrentSpecAttributes(this.Id)
+            .subscribe(
+            (response) => {
+                this.currentSpecs = (response.json().Data);
+                console.log(this.currentSpecs);
+
+                this.loadingSpecAttributes = false;
+            },
+            (error) => {
+                console.log(error);
+                alert("Can't fetch data ! Please refresh or check your connnection !");
+            }
+            );
+    }
+    getSpecAttributes() {
+
+        this.loadingSpecAttributes = true;
+        this.specAttributeService.getSpecAttributes()
             .subscribe(
             (response) => {
                 this.specAttributeList = (response.json().Data);
@@ -101,11 +123,12 @@ export class LinkProductSpecAttributesComponent implements OnInit {
         }
     }
     getAttributes(){
-        this.productAttributeService.getAttributes()
+        console.log("Product Id:"+this.Id);
+        this.specAttributeService.getProductAttributes(this.Id)
             .subscribe(
             (response) => {
-                this.product_attributes = (response.json().Data);
-
+                this.attributeList = (response.json().Data);
+                console.log(this.attributeList);
             },
             (error) =>      {
                     console.log(error);

@@ -8,8 +8,8 @@
                 <fieldset class="form-group card mb-3">
                     <label class="card-header">Attribute</label>
                     <select class="form-control" ngModel name="current_attribute_id">
-                    <option *ngFor="let attribute of product_attributes" value="{{attribute.Id}}">
-                      {{attribute.Name}}
+                    <option *ngFor="let attribute of attributeList" value="{{attribute.Id}}">
+                      {{attribute.ProductAttribute}}
                     <hr>
                   </option>
   </select>
@@ -29,9 +29,9 @@
                 </fieldset>
 
 
-                <button (click)="showList()" class="btn btn-success">Go Back</button>
 
-                <button type="submit" class="btn btn-primary" [disabled]="!u.valid" *ngIf="addSpecAttributeMode">Add Attribute</button>
+
+                <button type="submit" class="btn btn-primary" [disabled]="!s.valid">Add Attribute</button>
             </form>
         </div>
     </div>
@@ -52,7 +52,7 @@
                 </thead>
                 <tbody>
 
-                    <tr *ngFor="let i = index;let specAttribute of specAttributeList">
+                    <tr *ngFor="let i = index;let specAttribute of currentSpecs">
                         <td>{{specAttribute.AttributeTypeName}} </td>
                         <td>{{specAttribute.AttributeName}}</td>
                         <td>{{specAttribute.ValueRaw}}</td>

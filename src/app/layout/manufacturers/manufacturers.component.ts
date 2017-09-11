@@ -21,8 +21,10 @@ export class ManufacturersComponent implements OnInit {
   manufacturers;
   PictureId:number;
   imageUrl:string;
+  loadingManufacturer:boolean;
+  loadingImagePath='../../assets/images/ajax-loader.gif';
   constructor(private manufacturersService : ManufacturersService) {
-
+    this.loadingManufacturer=false;
    }
 
   ngOnInit() {
@@ -31,6 +33,7 @@ export class ManufacturersComponent implements OnInit {
   }
   addManufacturer(){
     this.submitted=true;
+    this.loadingManufacturer=true;
     if(this.editMode){
       this.editManufacturer();
     }
@@ -81,6 +84,7 @@ export class ManufacturersComponent implements OnInit {
   }
   editManufacturer(){
     this.editMode=false;
+    this.loadingManufacturer=true;
     this.Name= this.manufacturerForm.value.Name;
     this.DisplayOrder= this.manufacturerForm.value.DisplayOrder;
 
@@ -104,6 +108,7 @@ export class ManufacturersComponent implements OnInit {
   deleteManufacturer(id:HTMLFormElement){
     var confirmation = confirm("Are you sure you want to delete ?");
     if(confirmation){
+      this.loadingManufacturer=true;
 
       this.manufacturersService.deleteManufacturer(+id.name)
       .subscribe(
@@ -121,11 +126,12 @@ export class ManufacturersComponent implements OnInit {
         this.imageUrl = file.serverResponse.json().imageUrl;
     }
   getManufacturers(){
+    this.loadingManufacturer=true;
     this.manufacturersService.getManufacturers()
     .subscribe(
       (response)=>{
         this.manufacturers = (response.json().Data);
-
+        this.loadingManufacturer=false;
       },
       (error)=>console.log(error)
     );

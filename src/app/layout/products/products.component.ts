@@ -763,6 +763,9 @@ export class ProductsComponent implements OnInit {
         this.searchProductMode=false;
         this.editMode = true;
         this.showProductInfo=true;
+        this.showProductAttributes=false;
+        this.showPictures=false;
+        this.showSpecificationAttributes=false;
         this.Id = +id.name;
         this.currentProduct = this.getCurrentProduct(this.Id)[0];
         // console.log(this.product[1].Name);p
@@ -871,7 +874,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Product data ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1068,7 +1071,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch search data ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1082,7 +1085,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Product Attributes data ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1096,7 +1099,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Spec Attributes data ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1110,7 +1113,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Category data ! Please refresh or check your connnection !");
                   }
             );
     }
@@ -1179,7 +1182,7 @@ export class ProductsComponent implements OnInit {
        this.showPictures=false;
        this.showProductAttributes=false;
        this.showSpecificationAttributes=true;
-       this.getCurrentSpecAttributes();
+       //this.getCurrentSpecAttributes();
       break;
    }
    default: {
@@ -1285,24 +1288,24 @@ export class ProductsComponent implements OnInit {
             );
 
     }
-    getCurrentSpecAttributes(){
-        this.addSpecAttributeMode=false;
-        this.loading=true;
-        this.productService.getCurrentSpecAttributes(this.Id)
-            .subscribe(
-            (response) => {
-                this.specAttributeFields = (response.json().Data);
-                console.log(response.json());
-                console.log(this.specAttributeFields);
-                this.addSpecAttributeMode=true
-                this.loading=false;
-            },
-            (error) =>      {
-                    console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
-                  }
-            );
-    }
+    // getCurrentSpecAttributes(){
+    //     this.addSpecAttributeMode=false;
+    //     this.loading=true;
+    //     this.productService.getCurrentSpecAttributes(this.Id)
+    //         .subscribe(
+    //         (response) => {
+    //             this.specAttributeFields = (response.json().Data);
+    //             console.log(response.json());
+    //             console.log(this.specAttributeFields);
+    //             this.addSpecAttributeMode=true
+    //             this.loading=false;
+    //         },
+    //         (error) =>      {
+    //                 console.log(error);
+    //                 alert("Can't fetch data ! Please refresh or check your connnection !");
+    //               }
+    //         );
+    // }
     // addCurrentAttributeMode(){
     //     this.addAttributeMode=false;
     //     this.showCurrentAttributeList=false;
@@ -1379,47 +1382,47 @@ export class ProductsComponent implements OnInit {
         }
     }
 //
-addSpecAttribute(){
-     this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
-     this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;
-     this.Spec_Attribute_Id = this.getCurrentSpecAttributeName(this.current_spec_attribute_id)[0].Name;
-     this.ValueRaw = this.specAttributeForm.value.ValueRaw;
-     this.productService.addSpecAttribute(this.Id,this.current_attribute_id,this.current_spec_attribute_id,this.Spec_Attribute_Id,this.ValueRaw)
-       .subscribe(
-       (data) => {
-
-         alert('Added !');
-         this.specAttributeForm.reset();
-         this.getCurrentSpecAttributes();
-       },
-       (error) => {
-         console.log(error)
-         alert('Can\'t fetch data ! Please refresh or check your connnection !')
-       }
-       );
-
-}
-getCurrentSpecAttributeName(id:number){
-    return this.specification_attributes.filter(
-      function(attribute){ return attribute.Id == id }
-  );
-}
-deleteCurrentSpecAttribute(id :HTMLFormElement){
-    var confirmation = confirm("Are you sure you want to delete ?");
-    if (confirmation) {
-      this.productService.deleteSpecAttribute(+id.name)
-        .subscribe(
-        (data) => {
-
-          alert('Deleted !');
-          this.specAttributeForm.reset();
-          this.getCurrentSpecAttributes();
-        },
-        (error) => {
-          console.log(error)
-          alert('Can\'t fetch data ! Please refresh or check your connnection !')
-        }
-        );
-    }
-}
+// addSpecAttribute(){
+//      this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
+//      this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;
+//      this.Spec_Attribute_Id = this.getCurrentSpecAttributeName(this.current_spec_attribute_id)[0].Name;
+//      this.ValueRaw = this.specAttributeForm.value.ValueRaw;
+//      this.productService.addSpecAttribute(this.Id,this.current_attribute_id,this.current_spec_attribute_id,this.Spec_Attribute_Id,this.ValueRaw)
+//        .subscribe(
+//        (data) => {
+//
+//          alert('Added !');
+//          this.specAttributeForm.reset();
+//          this.getCurrentSpecAttributes();
+//        },
+//        (error) => {
+//          console.log(error)
+//          alert('Can\'t fetch data ! Please refresh or check your connnection !')
+//        }
+//        );
+//
+// }
+// getCurrentSpecAttributeName(id:number){
+//     return this.specification_attributes.filter(
+//       function(attribute){ return attribute.Id == id }
+//   );
+// }
+// deleteCurrentSpecAttribute(id :HTMLFormElement){
+//     var confirmation = confirm("Are you sure you want to delete ?");
+//     if (confirmation) {
+//       this.productService.deleteSpecAttribute(+id.name)
+//         .subscribe(
+//         (data) => {
+//
+//           alert('Deleted !');
+//           this.specAttributeForm.reset();
+//           this.getCurrentSpecAttributes();
+//         },
+//         (error) => {
+//           console.log(error)
+//           alert('Can\'t fetch data ! Please refresh or check your connnection !')
+//         }
+//         );
+//     }
+// }
 }

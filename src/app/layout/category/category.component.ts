@@ -29,6 +29,8 @@ export class CategoryComponent implements OnInit {
   categories;
   PictureId:number;
   imageUrl:string;
+  loadingCategory=false;
+  loadingImagePath='../../assets/images/ajax-loader.gif';
 
 
 
@@ -47,6 +49,7 @@ export class CategoryComponent implements OnInit {
   }
   addCategory() {
     this.submitted = true;
+    this.loadingCategory=true;
     if (this.editMode) {
       this.editCategory();
     }
@@ -244,6 +247,7 @@ export class CategoryComponent implements OnInit {
         (data) => {
           console.log(data);
           alert('Added !');
+          this.getCategory();
         },
         (error) => {
           alert('Failed to add !');
@@ -269,6 +273,7 @@ export class CategoryComponent implements OnInit {
 
   }
   editCategory() {
+    this.loadingCategory=true;
     this.editMode = false;
     this.Name = this.categoryForm.value.Name;
     this.Description = this.categoryForm.value.Description;
@@ -308,12 +313,13 @@ export class CategoryComponent implements OnInit {
 
   }
   getCategory() {
+    this.loadingCategory=true;
     this.categoryService.getCategory()
       .subscribe(
       (response) => {
         this.categories = (response.json());
         this.category = this.categories.Data;
-
+        this.loadingCategory=false;
         console.log(("Fetched Category"));
 
         //  this.attribute =[this.attributes];
@@ -328,6 +334,7 @@ export class CategoryComponent implements OnInit {
   deleteCategory(id: HTMLFormElement) {
     const confirmation = confirm('Are you sure you want to delete ?');
     if (confirmation) {
+      this.loadingCategory=true;
       this.categoryService.deleteCategory(+id.name)
         .subscribe(
         (data) => {

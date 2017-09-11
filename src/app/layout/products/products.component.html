@@ -484,7 +484,7 @@
 </div>
 <!-- End of Attribute Form -->
 <!-- /////////////////////////////////////////////////////////////////////////////////////////////// -->
-<app-link-product-spec-attributes [ProductId]="Id" *ngIf="showSpecificationAttributes"></app-link-product-spec-attributes>
+<app-link-product-spec-attributes [ProductId]="Id"  [Attributes] ="productAttributeFields" *ngIf="showSpecificationAttributes"></app-link-product-spec-attributes>
 <app-product-pictures [ProductId]="Id" *ngIf="showPictures"></app-product-pictures>
 
 
