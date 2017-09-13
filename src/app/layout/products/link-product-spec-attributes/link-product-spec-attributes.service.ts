@@ -7,7 +7,11 @@ export class LinkProductSpecAttributesService {
     temp: {};
     constructor(private http: Http) { }
     addSpecAttribute(prodId,attributeId,specId,specName,value){
-
+      console.log(prodId);
+      console.log(attributeId);
+      console.log(specId);
+      console.log(specName);
+      console.log(value);
         return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+prodId+'/ProductSpecificationAttributeAdd/'+attributeId+'/'+specId+'/'+value+'/sampleString/true/true/1');
 
     }
