@@ -160,8 +160,8 @@ var AppRoutingModule = (function () {
 }());
 AppRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forRoot(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
 ], AppRoutingModule);
 
@@ -251,6 +251,7 @@ var _a;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__shared__ = __webpack_require__("../../../../../src/app/shared/index.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__node_modules_angular2_image_upload_src_image_upload_module__ = __webpack_require__("../../../../angular2-image-upload/src/image-upload.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__angular_common__ = __webpack_require__("../../../common/@angular/common.es5.js");
 /* unused harmony export HttpLoaderFactory */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -259,6 +260,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -302,7 +304,7 @@ AppModule = __decorate([
                 }
             })
         ],
-        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], { provide: __WEBPACK_IMPORTED_MODULE_11__angular_common__["a" /* LocationStrategy */], useClass: __WEBPACK_IMPORTED_MODULE_11__angular_common__["b" /* HashLocationStrategy */] }],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
@@ -390,7 +392,7 @@ HeaderComponent = __decorate([
         template: __webpack_require__("../../../../../src/app/shared/components/header/header.component.html"),
         styles: [__webpack_require__("../../../../../src/app/shared/components/header/header.component.scss")]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ngx_translate_core__["c" /* TranslateService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _b || Object])
 ], HeaderComponent);
 
 var _a, _b;
@@ -513,7 +515,7 @@ var AuthGuard = (function () {
 }());
 AuthGuard = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]) === "function" && _a || Object])
 ], AuthGuard);
 
 var _a;
@@ -650,8 +652,8 @@ var PageHeaderModule = (function () {
 PageHeaderModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */],
-            __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* RouterModule */]
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* RouterModule */]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_3__page_header_component__["a" /* PageHeaderComponent */]]
@@ -773,7 +775,7 @@ var StatModule = (function () {
 StatModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */]
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]],
         exports: [__WEBPACK_IMPORTED_MODULE_2__stat_component__["a" /* StatComponent */]]
@@ -807,7 +809,7 @@ var SharedPipesModule = (function () {
 SharedPipesModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */]
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */]
         ],
         declarations: []
     })

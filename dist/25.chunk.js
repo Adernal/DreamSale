@@ -27,8 +27,8 @@ var BlankPageRoutingModule = (function () {
 }());
 BlankPageRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
 ], BlankPageRoutingModule);
 
@@ -125,7 +125,7 @@ var BlankPageModule = (function () {
 BlankPageModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__blank_page_routing_module__["a" /* BlankPageRoutingModule */]
         ],
         declarations: [__WEBPACK_IMPORTED_MODULE_3__blank_page_component__["a" /* BlankPageComponent */]]

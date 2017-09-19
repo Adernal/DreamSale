@@ -71,8 +71,8 @@ var ProductReviewsRoutingModule = (function () {
 }());
 ProductReviewsRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
 ], ProductReviewsRoutingModule);
 
@@ -216,7 +216,7 @@ var ProductReviewsModule = (function () {
 ProductReviewsModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__product_reviews_routing_module__["a" /* ProductReviewsRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_4__shared__["b" /* PageHeaderModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */]

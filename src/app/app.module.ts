@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './shared';
 import { ImageUploadModule } from '../../node_modules/angular2-image-upload/src/image-upload.module';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 
 // import { ImageUploadModule } from '../../node_modules/angular-4-data-table/src/image-upload.module';
 
@@ -41,7 +42,7 @@ export function HttpLoaderFactory(http: Http) {
             }
         })
     ],
-    providers: [AuthGuard],
+    providers: [AuthGuard,{provide: LocationStrategy, useClass: HashLocationStrategy}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -69,8 +69,8 @@ var ManufacturersRoutingModule = (function () {
 }());
 ManufacturersRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
-        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */].forChild(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* RouterModule */]]
+        imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forChild(routes)],
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
     })
 ], ManufacturersRoutingModule);
 
@@ -286,7 +286,7 @@ var ManufacturersModule = (function () {
 ManufacturersModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [
-            __WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */],
+            __WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */],
             __WEBPACK_IMPORTED_MODULE_2__manufacturers_routing_module__["a" /* ManufacturersRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_5__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_7_ngx_pagination__["a" /* NgxPaginationModule */],
@@ -867,7 +867,7 @@ var NgxPaginationModule = (function () {
 }());
 NgxPaginationModule.decorators = [
     { type: __WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"], args: [{
-                imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["h" /* CommonModule */]],
+                imports: [__WEBPACK_IMPORTED_MODULE_1__angular_common__["k" /* CommonModule */]],
                 declarations: [
                     PaginatePipe,
                     PaginationControlsComponent,
