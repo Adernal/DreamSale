@@ -1,43 +1,43 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <ul class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp;{{ 'dashboard' | translate }}
+            <i class="fa fa-fw fa-desktop"></i>&nbsp;Dashboard
         </a>
         <!-- <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp;{{ 'Catalog' | translate }}
+            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp; 'Catalog'
         </a> -->
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('catalog')" >
-                <span><i class="fa fa-cart-arrow-down"></i>&nbsp;{{ 'Catalog' | translate }}</span>
+                <span><i class="fa fa-cart-arrow-down"></i>&nbsp;Catalog</span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'catalog'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']"><span>{{ 'Products' | translate }}</span></a>
+                        <a [routerLink]="['/products']" [routerLinkActive]="['router-link-active']"><span>Products</span></a>
                     </li>
                     <!-- <li>
-                        <a [routerLink]="['/link-product-attribute']"><span>{{ 'Link Attributes to Products' | translate }}</span></a>
+                        <a [routerLink]="['/link-product-attribute']"><span> 'Link Attributes to Products'  </span></a>
                     </li> -->
                     <li>
-                        <a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']"><span>{{ 'Categories' | translate }}</span></a>
+                        <a [routerLink]="['/category']" [routerLinkActive]="['router-link-active']"><span>Categories</span></a>
                     </li>
                     <li>
-                        <a [routerLink]="['/manufacturers']" [routerLinkActive]="['router-link-active']"><span>{{ 'Manufacturers' | translate }}</span></a>
+                        <a [routerLink]="['/manufacturers']" [routerLinkActive]="['router-link-active']"><span>Manufacturers</span></a>
                     </li>
                     <li>
-                        <a [routerLink]="['/specification-attributes']"><span>{{ 'Specification Attributes' | translate }}</span></a>
+                        <a [routerLink]="['/specification-attributes']"><span>Specification Attributes</span></a>
                     </li>
                     <!-- <li>
-                        <a [routerLink]="['/product-reviews']"><span>{{ 'Product Reviews' | translate }}</span></a>
+                        <a [routerLink]="['/product-reviews']"><span> 'Product Reviews'  </span></a>
                     </li> -->
                     <!-- <li>
-                        <a [routerLink]="['/product-tags']" [routerLinkActive]="['router-link-active']"><span>{{ 'Product Tags' | translate }}</span></a>
+                        <a [routerLink]="['/product-tags']" [routerLinkActive]="['router-link-active']"><span> 'Product Tags'  </span></a>
                     </li> -->
                     <li>
-                        <a [routerLink]="['/product-attributes']"><span>{{ 'Product Attributes' | translate }}</span></a>
+                        <a [routerLink]="['/product-attributes']"><span>Product Attributes</span></a>
                     </li>
                     <li>
-                        <a [routerLink]="['/stores']"><span>{{ 'Stores' | translate }}</span></a>
+                        <a [routerLink]="['/stores']"><span>Stores</span></a>
                     </li>
 
 
@@ -47,25 +47,25 @@
 
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('sales')" >
-                <span><i class="fa fa-credit-card-alt"></i>&nbsp;{{ 'Sales' | translate }}</span>
+                <span><i class="fa fa-credit-card-alt"></i>&nbsp; Sales  </span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'sales'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']"><span>{{ 'Orders' | translate }}</span></a>
+                        <a [routerLink]="['/orders']" [routerLinkActive]="['router-link-active']"><span> Orders  </span></a>
                     </li>
                     <!-- <li>
-                        <a href="javascript:void(0)"><span>{{ 'Shipments' | translate }}</span></a>
+                        <a href="javascript:void(0)"><span> 'Shipments'  </span></a>
                     </li>
                     <li>
-                        <a [routerLink]="['/return-requests']" [routerLinkActive]="['router-link-active']"><span>{{ 'Return Requests' | translate }}</span></a>
+                        <a [routerLink]="['/return-requests']" [routerLinkActive]="['router-link-active']"><span> 'Return Requests'  </span></a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)"><span>{{ 'Recurring Payments' | translate }}</span></a>
+                        <a href="javascript:void(0)"><span> 'Recurring Payments'  </span></a>
                     </li>
 
                     <li>
-                        <a href="javascript:void(0)"><span>{{ 'Gift Cards' | translate }}</span></a>
+                        <a href="javascript:void(0)"><span> 'Gift Cards'  </span></a>
                     </li> -->
 
                 </ul>
@@ -73,25 +73,25 @@
         </div>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('customers')" >
-                <span><i class="fa fa-fw fa-table"></i>&nbsp;{{ 'Customers' | translate }}</span>
+                <span><i class="fa fa-fw fa-table"></i>&nbsp; Customers  </span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'customers'">
                 <ul class="submenu">
                     <li>
-                        <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']"><span>{{ 'Customers' | translate }}</span></a>
+                        <a [routerLink]="['/customers']" [routerLinkActive]="['router-link-active']"><span> Customers  </span></a>
                     </li>
                     <li>
-                        <a [routerLink]="['/customer-roles']" [routerLinkActive]="['router-link-active']"><span>{{ 'Customer Roles' | translate }}</span></a>
+                        <a [routerLink]="['/customer-roles']" [routerLinkActive]="['router-link-active']"><span> Customer Roles  </span></a>
                     </li>
                     <!-- <li>
-                        <a [routerLink]="['/online_customers']" [routerLinkActive]="['router-link-active']"><span>{{ 'Online Customers' | translate }}</span></a>
+                        <a [routerLink]="['/online_customers']" [routerLinkActive]="['router-link-active']"><span> 'Online Customers'  </span></a>
                     </li> -->
                     <li>
-                        <a [routerLink]="['/vendors']" [routerLinkActive]="['router-link-actives']"><span>{{ 'Vendors' | translate }}</span></a>
+                        <a [routerLink]="['/vendors']" [routerLinkActive]="['router-link-actives']"><span> Vendors  </span></a>
                     </li>
 
                     <!-- <li>
-                        <a href="javascript:void(0)"><span>{{ 'Activity Log' | translate }}</span></a>
+                        <a href="javascript:void(0)"><span> 'Activity Log'  </span></a>
                     </li> -->
 
                 </ul>
