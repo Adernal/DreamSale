@@ -40,7 +40,8 @@ export function HttpLoaderFactory(http: Http) {
                 useFactory: HttpLoaderFactory,
                 deps: [Http]
             }
-        })
+        }),
+        
     ],
     providers: [AuthGuard,{provide: LocationStrategy, useClass: HashLocationStrategy}],
     bootstrap: [AppComponent]
