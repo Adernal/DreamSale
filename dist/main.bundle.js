@@ -161,7 +161,8 @@ var AppRoutingModule = (function () {
 AppRoutingModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["NgModule"])({
         imports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */].forRoot(routes)],
-        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]]
+        exports: [__WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* RouterModule */]],
+        providers: [__WEBPACK_IMPORTED_MODULE_2__shared__["a" /* AuthGuard */]]
     })
 ], AppRoutingModule);
 
@@ -302,7 +303,7 @@ AppModule = __decorate([
                     useFactory: HttpLoaderFactory,
                     deps: [__WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]]
                 }
-            })
+            }),
         ],
         providers: [__WEBPACK_IMPORTED_MODULE_9__shared__["a" /* AuthGuard */], { provide: __WEBPACK_IMPORTED_MODULE_11__angular_common__["a" /* LocationStrategy */], useClass: __WEBPACK_IMPORTED_MODULE_11__angular_common__["b" /* HashLocationStrategy */] }],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_8__app_component__["a" /* AppComponent */]]
