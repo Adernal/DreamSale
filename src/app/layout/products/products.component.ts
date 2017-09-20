@@ -1146,6 +1146,8 @@ export class ProductsComponent implements OnInit {
     // }
     showList(){
         this.editMode=false;
+        this.addNewProduct = false;
+
         this.showProductList=true;
         this.searchProductMode=true;
         this.showSearchedProductList=false;

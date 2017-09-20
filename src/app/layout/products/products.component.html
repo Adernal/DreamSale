@@ -1,7 +1,7 @@
 <div align="center">
     <h1>Product Management</h1>
 
-    <div class="row">
+    <div class="row" style="float: none; margin: 0 auto;">
         <!--Search Product Form -->
 
         <div *ngIf="searchProductMode" class="col-lg-6" style="float: none; margin: 0 auto;">
@@ -59,7 +59,7 @@
 
 
     <!--Add New Product -->
-        <div *ngIf="addNewProduct">
+        <div *ngIf="addNewProduct" style="float: none; margin: 0 auto;">
             <div align="center">
                 <!-- <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
                         <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
@@ -179,7 +179,7 @@
 
                     <img [src]="loadingImagePath" *ngIf="loading" alt="">
                     <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Product</button>
-                    <button (click)="showList()" class="btn btn-info">Switch</button>
+                    <button (click)="showList()" class="btn btn-success">Switch</button>
 
 
 
