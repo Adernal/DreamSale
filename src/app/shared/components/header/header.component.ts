@@ -33,8 +33,8 @@ export class HeaderComponent implements OnInit {
     }
 
     onLoggedout() {
-       
-        localStorage.removeItem("Token");
+        localStorage.removeItem('isLoggedin');
+        localStorage.removeItem('Token');
     }
 
     changeLang(language: string) {
