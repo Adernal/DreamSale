@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { Http } from '@angular/http';
+import { DashboardService } from './dashboard.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -10,8 +12,10 @@ import { routerTransition } from '../../router.animations';
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
+    orderCount;
+    customerCount;
 
-    constructor() {
+    constructor(private http :Http ,  private dashboardService:DashboardService) {
         this.sliders.push({
             imagePath: 'assets/images/slider1.jpg',
             label: 'First slide label',
@@ -44,10 +48,47 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
+              
+    //   this.getOrders();
+    //   this.getCustomers();
     }
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);
         this.alerts.splice(index, 1);
+    }
+    getOrders(){
+      this.dashboardService.getOrders()
+          .subscribe(
+          (response) => {
+
+
+
+              this.orderCount = (response.json().Data.length);
+              console.log(this.orderCount);
+
+          },
+          (error) =>      {
+                  console.log(error);
+                  alert("Can't fetch data ! Please refresh or check your connnection !");
+                }
+          );
+    }
+    getCustomers(){
+        this.dashboardService.getCustomers()
+            .subscribe(
+            (response) => {
+
+
+
+                this.customerCount = (response.json().Data.length);
+                console.log(this.customerCount);
+
+            },
+            (error) =>      {
+                    console.log(error);
+                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                  }
+            );
     }
 }

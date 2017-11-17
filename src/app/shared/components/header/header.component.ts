@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+    Token;
 
     constructor(private translate: TranslateService, public router: Router) {
         this.router.events.subscribe((val) => {
@@ -17,7 +18,9 @@ export class HeaderComponent implements OnInit {
         });
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        
+    }
 
     toggleSidebar() {
         const dom: any = document.querySelector('body');
@@ -30,7 +33,8 @@ export class HeaderComponent implements OnInit {
     }
 
     onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+       
+        localStorage.removeItem("Token");
     }
 
     changeLang(language: string) {

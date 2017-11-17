@@ -8,19 +8,19 @@ export class CategoryService {
     storeCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = category[category.length-1];
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Add?continueEditing=true', this.temp,
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Add?continueEditing=true', this.temp,
             { headers: headers });
     }
     getCategory() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Categories');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/categories',{});
     }
     updateCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Update?continueEditing=true', category, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Update?continueEditing=true', category, { headers: headers });
     }
     deleteCategory(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Categories/Delete?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Delete?id='+id, null, { headers: headers });
     }
 
 

@@ -2,16 +2,17 @@
 <h1>  Category Management </h1>
      <hr>
     <div class="row">
+      <div class="col-lg-6" style="float: none; margin: 0 auto;">
 
 
-      <form role="form" (ngSubmit)="addCategory(f)" #f="ngForm" class="container">
-        <div class="row">
-          <div class="col-lg-6">
+      <form role="form" (ngSubmit)="addCategory(f)" #f="ngForm" >
+
+
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Category Name</label>
                 <input class="form-control" ngModel name="Name" required placeholder="Enter Category Name" *ngIf="!editMode">
                 <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
-                <!-- <p class="help-block">Example block-level help text here.</p> -->
+
             </fieldset>
 
 
@@ -39,12 +40,7 @@
 
 
 
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Category</button>
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Category</button>
 
-
-        </div>
-        <div class="col-lg-6">
           <fieldset class="form-group card mb-3">
             <label class="card-header">Display Order</label>
             <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
@@ -54,7 +50,7 @@
         </fieldset>
         <fieldset class="form-group card mb-3">
             <label class="card-header">Picture</label>
-            <image-upload [max]="1" [url]="'http://piyushdaftary-001-site1.ctempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+            <image-upload [max]="1" [url]="'http://denmakers-001-site1.itempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
         </fieldset>
         <fieldset class="form-group card mb-3">
             <label class="card-header">Select Parent Category (Optional)</label>
@@ -70,11 +66,15 @@
             </select>
         </fieldset>
 
-        </div>
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Category</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Category</button>
 
 
-  </div>
+
+
+
 </form>
+</div>
   </div>
 </div>
 <img [src]="loadingImagePath" *ngIf="loadingCategory" alt="">
@@ -93,6 +93,7 @@
                         <tr>
 
                             <th>Category Name</th>
+                            <th>Description</th>
 
                             <th>Display Order</th>
                             <th>Action</th>
@@ -106,7 +107,7 @@
 
 
                           <td>{{category.Name}}</td>
-
+                          <td>{{category.Description}}</td>
                           <td>{{category.DisplayOrder}}</td>
                           <td><button type="button" name="{{category.Id}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i></button>
                           <button type="button" name="{{i}}" class="btn btn-danger" (click)="deleteCategory(d)" #d><i class="fa fa-times"></i></button></td>

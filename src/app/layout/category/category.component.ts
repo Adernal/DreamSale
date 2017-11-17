@@ -15,28 +15,39 @@ import {CategoryService} from './category.service';
 export class CategoryComponent implements OnInit {
   currentPageNumber: number = 1;
   @ViewChild('f') categoryForm: NgForm;
-  submitted = false;
-  category = [];
-  Id: Number;
-  Name = '';
-  Description = '';
-  DisplayOrder: Number;
-  ParentCategoryId:Number;
-  ParentCategory='';
+  submitted:boolean;
+  category=[];
+  Id:number;
+  Name:string;
+  Description:string;
+  DisplayOrder:number;
+  ParentCategoryId:number;
+  ParentCategory:string;
   currentCategory=[];
-  editMode = false;
-  filteredCategory = '';
+  editMode:boolean;
+  filteredCategory:string;
   categories;
   PictureId:number;
   imageUrl:string;
-  loadingCategory=false;
-  loadingImagePath='../../assets/images/ajax-loader.gif';
+  loadingCategory:boolean;
+  loadingImagePath:string;
 
 
 
   constructor(private categoryService: CategoryService) {
     this.PictureId=0;
     this.imageUrl='';
+    this.currentPageNumber=1;
+    this.submitted=false;
+    this.Name='';
+    this.Description='';
+    this.DisplayOrder=1;
+    this.ParentCategory='';
+    this.editMode=false;
+    this.filteredCategory='';
+    this.loadingCategory=false;
+    this.loadingImagePath='../../assets/images/ajax-loader.gif';
+
   }
 
   ngOnInit() {

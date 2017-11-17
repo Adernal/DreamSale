@@ -10,22 +10,23 @@ export class VendorService {
         this.temp = Vendor[Vendor.length-1];
         console.log(this.temp);
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/vendors/CreateVendor', this.temp,
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors/Create', this.temp,
             { headers: headers });
 
     }
     getVendor() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors');
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors?showHidden='+true,{},{ headers : headers });
     }
     updateVendor(vendor) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(vendor);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/vendors/EditVendor', vendor, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors/Update', vendor, { headers: headers });
     }
     deleteVendor(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors/Delete?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors/Delete?id='+id, null, { headers: headers });
     }
 
 

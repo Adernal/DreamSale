@@ -7,25 +7,30 @@ export class ProductAttributesService {
     constructor(private http: Http) { }
     storeAttributes(attributes) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        this.temp = attributes[attributes.length-1];
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Add?continueEditing=true', this.temp,
+        this.temp = attributes[attributes.length - 1];
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ProductAttribute', this.temp,
             { headers: headers });
 
     }
     getAttributes() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/0/2147483647');
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ProductAttribute',{
+            'Page': 1,
+            'PageSize': 300
+          },{headers:headers});
     }
     updateAttributes(attributes, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(attributes);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Update?continueEditing=true', attributes[id], { headers: headers });
+        // tslint:disable-next-line:max-line-length
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ProductAttribute/Update?continueEditing=true', attributes[id], { headers: headers });
     }
     deleteAttributes(attributes, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log("Id = " + id);
         console.log(attributes);
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Delete/' + id, null, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ProductAttribute/Delete/' + id, null, { headers: headers });
     }
 
 

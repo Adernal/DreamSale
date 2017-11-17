@@ -245,9 +245,17 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <span>    <h2>Product List </h2> <button class="btn btn-primary" (click)="addProductMode()">Add Product</button></span>
+            <span>   
+                 <h2>Product List </h2> 
+                 <button class="btn btn-primary" (click)="addProductMode()">Add Product</button>
+                 <!-- <p-fileUpload name="myfile[]" url="http://denmakers-001-site1.itempurl.com/api/Products/ImportXlsx"></p-fileUpload> -->
+                 <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".xlsx">
+                 
+             </span>
+             <!-- <span style="width:20%">
+                    <image-upload [max]="1" [url]="'http://denmakers-001-site1.itempurl.com/api/Products/ImportXlsx'" [buttonCaption]="'Import Products!'" [dropBoxMessage]="''"  (onFileUploadFinish)="importProducts($event)"></image-upload>
+             </span> -->
 
-            <!-- <input type="text" placeholder="Search by Product Name or Category" [(ngModel)]="filteredProduct" style="width:100%;"> -->
         </div>
         <div class="card-block" style="width:100%;">
             <table class="table table-bordered table-hover" style="table-layout:fixed">
@@ -264,7 +272,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let product of products | paginate: { id:'Products', itemsPerPage: 5, currentPage: currentPageNumber , totalItems: totalProducts}">
+                    <tr *ngFor="let product of products | paginate: { id:'Products', itemsPerPage: 10, currentPage: currentPageNumber , totalItems: totalProducts}">
                         <td><img [src]="product.PictureThumbnailUrl" alt=""></td>
                         <td>{{product.Name}}</td>
 

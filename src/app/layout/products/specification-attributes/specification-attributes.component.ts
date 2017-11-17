@@ -9,74 +9,58 @@ import { SpecificationAttributesService } from './specification-attributes.servi
 })
 export class SpecificationAttributesComponent implements OnInit {
   @ViewChild('f') attributeForm: NgForm;
+  currentPageNumber: number;
   submitted = false;
   attribute = [];
-  Id: Number;
-  Name = '';
+  Id: number;
+  Name: string;
   editMode = false;
   filteredSpecificationAttribute='';
   attributes;
-  constructor(private specificationAttributeService : SpecificationAttributesService) { }
+  showAddForm:boolean;
+  DisplayOrder:number;
+
+  constructor(private specificationAttributeService: SpecificationAttributesService) { }
 
   ngOnInit() {
-    //localStorage.removeItem("spec-attributes");
+
+    this.currentPageNumber = 1;
+    this.showAddForm = true;
+    this.DisplayOrder = 0;
+    this.Name = '';
     this.getAttributes();
   }
   addAttribute() {
         this.submitted = true;
-        if (this.editMode) {
-            this.editAttribute();
-        }
-        else {
-          if(this.attribute.length==0){
-            this.Id =1;
-          }
-          else{
-              this.Id = +this.attribute[this.attribute.length-1].Id+1;
-          }
-
-
-            this.Name = this.attributeForm.value.Name;
-
-            this.attribute.push({
-              "Id": this.Id,
-              "CustomProperties": {
-                "sample string 1": {},
-                "sample string 3": {}
+        this.Name = this.attributeForm.value.Name;
+        this.DisplayOrder = this.attributeForm.value.DisplayOrder;
+        this.attribute.push({
+              'Id': 0,
+              'CustomProperties': {
+                'sample string 1': {},
+                'sample string 3': {}
               },
-              "Name": this.Name,
-              "DisplayOrder": 3,
-              "Locales": [
-                {
-                  "LanguageId": 1,
-                  "Name": "sample string 2"
-                },
-                {
-                  "LanguageId": 1,
-                  "Name": "sample string 2"
-                }
-              ]
+              'Name': this.Name,
+              'DisplayOrder': this.DisplayOrder
             }
 );
-            //localStorage.setItem("spec-attributes", JSON.stringify(this.attribute));
-            //  this.attributes.attribute=attribute;
-
+         
             this.specificationAttributeService.storeAttributes(this.attribute)
             .subscribe(
-              (data)=>{
+              (data) => {
                 console.log(data);
-                alert("Added !");
+                alert('Added !');
                 this.getAttributes();
               },
-              (error)=>{
+              (error) => {
                       console.log(error);
-                      alert("Can't fetch data ! Please refresh or check your connnection !");
+                      alert('Can\'t add Specification Attribute ! Please refresh or check your connnection !');
                     }
             );
             this.attributeForm.reset();
 
 
-        }
+      
 
     }
     editAttribute() {
@@ -87,17 +71,17 @@ export class SpecificationAttributesComponent implements OnInit {
 
 
         // localStorage.setItem("spec-attributes", JSON.stringify(this.attribute));
-        this.specificationAttributeService.updateAttributes(this.attribute,this.Id)
+        this.specificationAttributeService.updateAttributes(this.attribute, this.Id)
         .subscribe(
-          (data)=>{
+          (data) => {
             console.log(data);
 
             this.getAttributes();
-              alert("Edited !");
+              alert('Edited !');
           },
-          (error)=>      {
+          (error) =>      {
                   console.log(error);
-                  alert("Can't fetch data ! Please refresh or check your connnection !");
+                  alert('Can\'t fetch data ! Please refresh or check your connnection !');
                 }
         );
 
@@ -114,44 +98,44 @@ export class SpecificationAttributesComponent implements OnInit {
     getAttributes(){
       this.specificationAttributeService.getAttributes()
       .subscribe(
-        (response)=>{
+        (response) => {
           this.attributes = (response.json());
           this.attribute = this.attributes.Data;
           console.log((this.attribute));
         //  this.attribute =[this.attributes];
         },
-        (error)=>      {
+        (error) =>      {
                 console.log(error);
-                alert("Can't fetch data ! Please refresh or check your connnection !");
+                alert('Can\'t fetch data ! Please refresh or check your connnection !');
               }
       );
 
     }
-    deleteAttribute(id:HTMLFormElement){
-      var confirmation = confirm("Are you sure you want to delete ?");
-      if(confirmation){
+    deleteAttribute(id: HTMLFormElement){
+      const confirmation = confirm('Are you sure you want to delete ?');
+      if (confirmation) {
         this.Id = +this.attribute[+id.name].Id;
 
-        this.attribute.splice(+id.name,1);
+        this.attribute.splice(+id.name, 1);
 
-        //localStorage.setItem("attributes",JSON.stringify(this.attribute));
-        this.specificationAttributeService.deleteAttributes(this.attribute,this.Id)
+        // localStorage.setItem("attributes",JSON.stringify(this.attribute));
+        this.specificationAttributeService.deleteAttributes(this.attribute, this.Id)
         .subscribe(
-          (data)=>{
+          (data) => {
             console.log(data);
 
             this.getAttributes();
-            alert("Deleted");
+            alert('Deleted');
           },
-          (error)=>{
+          (error) => {
                   console.log(error);
-                  alert("Can't fetch data ! Please refresh or check your connnection !");
+                  alert('Can\'t fetch data ! Please refresh or check your connnection !');
                 }
         );
 
       }
-      if(this.editMode){
-              this.editMode=false;
+      if (this.editMode){
+              this.editMode = false;
 
           }
     }

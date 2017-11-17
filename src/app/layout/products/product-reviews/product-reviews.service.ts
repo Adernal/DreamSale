@@ -7,19 +7,19 @@ export class ProductReviewsService {
     constructor(private http: Http) { }
 
     getReviews() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductReviews');
+        return this.http.get('http://denmakers-001-site1.itempurl.com/api/ProductReviews');
     }
     updateReviews(reviews, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(reviews);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/Update?continueEditing=true', reviews[id], { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ProductAttribute/Update?continueEditing=true', reviews[id], { headers: headers });
     }
     deleteReviews(id:number[]) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log("Id = " + id);
         //console.log(reviews);
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/ProductReviews/DeleteSelected',id, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ProductReviews/DeleteSelected',id, { headers: headers });
     }
 
 

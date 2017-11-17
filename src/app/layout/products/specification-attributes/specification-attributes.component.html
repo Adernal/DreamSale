@@ -1,29 +1,54 @@
 <div class="container">
 <h1>  Specification Attributes Management </h1>
      <hr>
-    <div class="row">
+    
 
-
-      <form role="form" (ngSubmit)="addAttribute(f)" #f="ngForm" class="container">
         <div class="row">
-          <div class="col-lg-6">
+            <div class="col-lg-6" *ngIf="!editMode">
+      <form role="form" (ngSubmit)="addAttribute(f)" #f="ngForm" class="container">
+       
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Specification Attribute</label>
-                <input class="form-control" ngModel name="Name" required placeholder="Enter Attribute Name" *ngIf="!editMode">
-                <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}" *ngIf="editMode">
+                <input class="form-control" ngModel name="Name" required placeholder="Enter Attribute Name" >
+               
+                <!-- <p class="help-block">Example block-level help text here.</p> -->
+            </fieldset>
+            <fieldset class="form-group card mb-3">
+                <label class="card-header">Display Order</label>
+                <input class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" >
+               
                 <!-- <p class="help-block">Example block-level help text here.</p> -->
             </fieldset>
 
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Attribute</button>
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Attribute</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" >Add Attribute</button>
+          
             
 
-        </div>
-
-
-  </div>
+    
 </form>
+</div>
+<div class="col-lg-6" *ngIf="editMode">
+    <form role="form" (ngSubmit)="editAttribute(s)" #s="ngForm" class="container">
+     
+          <fieldset class="form-group card mb-3">
+              <label class="card-header">Specification Attribute</label>
+              
+              <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}">
+              <input class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required value ="{{DisplayOrder}}">
+              <!-- <p class="help-block">Example block-level help text here.</p> -->
+          </fieldset>
+
+        
+          <button type="submit" class="btn btn-primary" [disabled]="!s.valid">Edit Attribute</button>
+          
+
+  
+</form>
+</div>
+
+
   </div>
+  
  <hr>
     <div class="row">
 
@@ -31,7 +56,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <h2>Attribute List</h2>
-                    <input type="text" placeholder="Search Attribute" [(ngModel)]="filteredSpecificationAttribute" style="width:100%;">
+                    <!-- <input type="text" placeholder="Search Attribute" [(ngModel)]="filteredSpecificationAttribute" style="width:100%;"> -->
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -45,7 +70,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor =" let i = index;let attribute of attribute | filter: filteredSpecificationAttribute : 'Name'">
+                          <tr *ngFor =" let i = index;let attribute of attribute | filter: filteredSpecificationAttribute : 'Name' ">
 
                           <td>{{attribute.Id}}</td>
                           <td>{{attribute.Name}}</td>
@@ -57,6 +82,7 @@
 
                         </tbody>
                     </table>
+                    <!-- <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls> -->
                 </div>
             </div>
 

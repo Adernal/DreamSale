@@ -4,28 +4,35 @@ import { Headers, Http } from '@angular/http';
 @Injectable()
 export class SpecificationAttributesService {
     temp: {};
+    headers = new Headers({ 'Content-Type': 'application/json' });
     constructor(private http: Http) { }
     storeAttributes(attributes) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        this.temp = attributes[attributes.length-1];
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/Add?continueEditing=true', this.temp,
-            { headers: headers });
+
+        this.temp = attributes[attributes.length - 1];
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute/Create', this.temp,
+            { headers: this.headers });
 
     }
     getAttributes() {
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/0/2147483647');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute', {
+            'Page': 1,
+            'PageSize': 300
+          }, {headers: this.headers});
     }
     updateAttributes(attributes, id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+
         console.log(attributes);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/Update?continueEditing=true', attributes[id], { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute/Update',
+         attributes[id],
+          { headers: this.headers });
     }
     deleteAttributes(attributes, id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id = " + id);
-        console.log(attributes);
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/Delete/'+id, null, { headers: headers });
+        console.log('Id = ' + id);
+        
+
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute/Delete?id=' + id, null,
+         { headers: this.headers });
     }
 
 

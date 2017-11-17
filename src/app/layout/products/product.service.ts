@@ -5,99 +5,107 @@ import { Headers, Http } from '@angular/http';
 @Injectable()
 export class ProductService {
     temp: {};
-
+    headers = new Headers({ 'Content-Type': 'application/json' });
     constructor(private http: Http) { }
     storeProduct(product) {
         const headers = new Headers({ 'Content-Type': 'application/json' , 'Accept' : 'application/json'});
-        this.temp=product[0];
+        this.temp = product[0];
         console.log(this.temp);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/Add?continueEditing=true', this.temp,
-            { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/Create', this.temp,
+      
+            {headers:this.headers});
     }
     getAllProducts(page:number){
-         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products?pageIndex='+page+'&pageSize=10',{},
-             { headers: headers });
-    //  return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/DefaultPageLoad');
+         console.log(page);
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products',
+            {'Page':page,'PageSize':10},
+             {headers:this.headers}
+            );
+
     }
     searchProduct(searchProductParameters){
-         const headers = new Headers({ 'Content-Type': 'application/json' });
+         
 
          console.log(searchProductParameters[0]);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products?pageIndex=0&pageSize=25878',searchProductParameters[0],
-             { headers: headers });
-    //  return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/DefaultPageLoad');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products?pageIndex=0&pageSize=25878',searchProductParameters[0],
+             {headers:this.headers});
+    //  return this.http.get('http://denmakers-001-site1.itempurl.com/api/Products/DefaultPageLoad');
     }
     // getAttributes() {
-    //     return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/ProductAttribute/0/2147483647');
+    //     return this.http.get('http://denmakers-001-site1.itempurl.com/api/ProductAttribute/0/2147483647');
     // }
     getCurrentAttributes(id:number) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        
 
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+id+'/ProductAttributeMappingList',    {
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/'+id+'/ProductAttributeMappingList',    {
           "Page": 0,
           "PageSize":200
-      }, { headers: headers });
+      }, {headers:this.headers});
     }
     addAttribute(attribute){
-      const headers = new Headers({ 'Content-Type': 'application/json' });
+      
       this.temp = attribute[0];
 
       console.log(attribute[0]);
-      return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/ProductAttributeMapping/Add',this.temp, { headers: headers });
+      return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/ProductAttributeMapping/Add',this.temp, {headers:this.headers});
 
     }
-    deleteAttribute(id:number){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+    deleteAttribute(id: number) {
 
-
-
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/ProductAttributeMapping/Delete?id='+id,null, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/ProductAttributeMapping/Delete?id=' + id, null,
+         {headers: this.headers});
 
     }
     addSpecAttribute(prodId,attributeId,specId,specName,value){
 
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+prodId+'/ProductSpecificationAttributeAdd/'+attributeId+'/'+specId+'/'+value+'/sampleString/true/true/1');
+        return this.http.get('http://denmakers-001-site1.itempurl.com/api/Products/'+prodId+'/ProductSpecificationAttributeAdd/' +attributeId + '/'+specId+'/' + value + '/sampleString/true/true/1');
 
     }
     getSpecAttributes() {
-      return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/SpecificationAttribute/0/2147483647');
+      return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute', {
+        'Page': 1,
+        'PageSize': 2
+      }, {headers: this.headers});
     }
-    getCurrentSpecAttributes(id:number) {
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/'+id+'/ProductSpecAttrList',    {
-          "Page": 0,
-          "PageSize": 20
+    getCurrentSpecAttributes(id: number) {
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/' + id + '/ProductSpecAttrList',    {
+          'Page': 0,
+          'PageSize': 20
         });
     }
-    deleteSpecAttribute(id:number){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id = " + id);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/ProductSpecAttr/Delete?id='+id, null, { headers: headers });
+    deleteSpecAttribute(id: number){
+
+        console.log('Id = ' + id);
+
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/ProductSpecAttr/Delete?id=' + id, null, {headers: this.headers});
     }
     getCategory() {
-      return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Categories');
+
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/categories', {}, { headers: this.headers });
     }
     getManufacturers(){
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Manufacturers');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers', {}, {headers: this.headers});
     }
     getStores(){
-          return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Stores');
+          return this.http.get('http://denmakers-001-site1.itempurl.com/api/Stores');
     }
     getVendors(){
-        return this.http.get('http://piyushdaftary-001-site1.ctempurl.com/api/Vendors');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors?showHidden=true', {}, {headers: this.headers});
     }
     updateProduct(product) {
-        const headers = new Headers({ 'Content-Type': 'application/json','Accept' : 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json', 'Accept' : 'application/json' });
 
         console.log(product);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/Edit?continueEditing=true',product, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/Update', product, {headers: this.headers});
     }
-    deleteProduct(id:number) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log("Id = " + id);
-        return this.http.post('http://piyushdaftary-001-site1.ctempurl.com/api/Products/Delete?id='+id, null, { headers: headers });
-    }
+    deleteProduct(id: number) {
 
+        console.log('Id = ' + id);
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/products/Delete?id=' + id, null, {headers: this.headers});
+    }
+    // importProducts(selectedFiles){
+    //     return this.http.post('http://denmakers-001-site1.itempurl.com:35894/api/categories/ImportXlsx', selectedFiles, {headers: this.headers});
+    // }
 
 
 }

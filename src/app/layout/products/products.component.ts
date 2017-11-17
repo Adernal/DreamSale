@@ -3,6 +3,10 @@ import { NgForm  } from '@angular/forms';
 import { Http } from '@angular/http';
 import { ProductService } from './product.service';
 import { ProductAttributesService } from './product-attributes/product-attributes.service';
+import { RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import {Headers} from '@angular/http';
+
 @Component({
     selector: 'app-products',
     templateUrl: './products.component.html',
@@ -97,6 +101,9 @@ export class ProductsComponent implements OnInit {
     addSpecAttributeMode:boolean;
     Spec_Attribute_Id='';
     ValueRaw='';
+    public selectedFiles;
+    
+    
 
 
 
@@ -107,7 +114,7 @@ export class ProductsComponent implements OnInit {
         this.Name='';
         this.FullDescription='';
         this.filteredProduct='';
-        this.totalProducts=25878;
+        
         this.loadingImagePath = '../../assets/images/ajax-loader.gif';
         this.tags = JSON.parse(localStorage.getItem("tags"));
         this.addNewProduct=false;
@@ -141,7 +148,7 @@ export class ProductsComponent implements OnInit {
         this.showCurrentSpecAttributeForm=false;
         this.addSpecAttributeMode=false;
 
-        this.getProducts(0);
+        this.getProducts(1);
         this.getAllData();
 
 
@@ -746,10 +753,11 @@ export class ProductsComponent implements OnInit {
                             this.loadingProduct=false;
                             alert("Product Added");
                             this.productForm.reset();
+                            this.getProducts(this.currentPageNumber);
                         },
                         (error) => {
                           console.log(error);
-                          alert('Can\'t fetch data ! Please refresh or check your connnection !');
+                          alert('Can\'t add Product ! Please refresh or check your connnection !');
                         }
             );
 
@@ -834,7 +842,7 @@ export class ProductsComponent implements OnInit {
              },
              (error) =>      {
                      console.log(error);
-                     alert("Can't fetch data ! Please refresh or check your connnection !");
+                     alert("Can't update Product ! Please refresh or check your connnection !");
                    }
              );
 
@@ -851,7 +859,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) => {
               console.log(error)
-              alert('Can\'t fetch data ! Please refresh or check your connnection !')
+              alert('Can\'t delete Product ! Please refresh or check your connnection !')
             }
             );
         }
@@ -867,6 +875,7 @@ export class ProductsComponent implements OnInit {
 
 
                 this.products = (response.json().Data);
+                this.totalProducts = (response.json().Total);
 
                 //this.product = JSON.parse(this.products);
                 console.log((this.products));
@@ -874,7 +883,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch Product data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Products ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1071,7 +1080,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch search data ! Please refresh or check your connnection !");
+                    alert("Can't search Products ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1085,7 +1094,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch Product Attributes data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Product Attributes  ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1099,7 +1108,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch Spec Attributes data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Spec Attributes ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1113,7 +1122,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch Category data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Category ! Please refresh or check your connnection !");
                   }
             );
     }
@@ -1206,7 +1215,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Manufacturers ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1221,7 +1230,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Vendors ! Please refresh or check your connnection !");
                   }
             );
     }
@@ -1235,7 +1244,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Stores ! Please refresh or check your connnection !");
                   }
             );
     }
@@ -1285,7 +1294,7 @@ export class ProductsComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch Current Product Attribute ! Please refresh or check your connnection !");
                   }
             );
 
@@ -1360,7 +1369,7 @@ export class ProductsComponent implements OnInit {
         },
         (error) =>      {
                 console.log(error);
-                alert("Can't fetch data ! Please refresh or check your connnection !");
+                alert("Can't add Attribute ! Please refresh or check your connnection !");
               }
         );
       }
@@ -1378,11 +1387,40 @@ export class ProductsComponent implements OnInit {
             },
             (error) => {
               console.log(error)
-              alert('Can\'t fetch data ! Please refresh or check your connnection !')
+              alert('Can\'t delete Attribute ! Please refresh or check your connnection !')
             }
             );
         }
     }
+    // public filesSelect(selectedFiles: Ng4FilesSelected): void {
+    //     if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
+    //       this.selectedFiles = selectedFiles.status;
+    //       alert("File upload not successful");
+    //       return;  
+
+          
+    //       // Hnadle error statuses here
+    //     }
+     
+    //     this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
+    //     this.productService.importProducts(this.selectedFiles)
+    //     .subscribe(
+    //     (data) => {
+
+    //       alert('Import complete!');
+    //       this.getProducts(this.currentPageNumber);
+    //     },
+    //     (error) => {
+    //       console.log(error)
+    //       alert('Can\'t import products ! Please refresh or check your connnection !');
+    //     }
+    //     );
+
+    //   }
+    importProducts(file){
+        console.log(file.serverResponse.json());
+    }
+ 
 //
 // addSpecAttribute(){
 //      this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
@@ -1427,4 +1465,29 @@ export class ProductsComponent implements OnInit {
 //         );
 //     }
 // }
+fileChange(event) {
+    let fileList: FileList = event.target.files;
+    if(fileList.length > 0) {
+        let file: File = fileList[0];
+        let formData:FormData = new FormData();
+        formData.append('uploadFile', file, file.name);
+        let headers = new Headers({ 'Accept':'application/json' ,'Authorization':'2702eda0-5999-4c82-b3e9-7ec2918b7d26' });
+        /** No need to include Content-Type in Angular 4 */
+     
+        let options = new RequestOptions({ headers: headers });
+        this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/ImportXlsx', formData, options)
+        .subscribe(
+            (response) => {
+
+              alert('Uploaded !');
+              console.log(response.json());
+              //this.getCurrentAttributes();
+            },
+            (error) => {
+              console.log(error)
+             // alert('Can\'t delete Attribute ! Please refresh or check your connnection !')
+            }
+            );
+    }
+}
 }
