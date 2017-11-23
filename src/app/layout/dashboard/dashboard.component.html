@@ -16,16 +16,16 @@
     <hr> -->
     <div class="row">
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-primary'" [icon]="'fa-comments'" [count]="orderCount" [label]="'Orders'" ></app-stat>
+            <app-stat [bgClass]="'card-primary'" [icon]="'fa-comments'" [count]="orderCount" [label]="'Orders'" [routerLink]="['/orders']" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="12" [label]="'Pending Return Requests'" ></app-stat>
+            <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="returnRequestCount" [label]="' Return Requests'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-success'" [icon]="'fa-shopping-cart'" [count]="customerCount" [label]="'Registered Customers'" ></app-stat>
+            <app-stat [bgClass]="'card-success'" [icon]="'fa-shopping-cart'" [count]="customerCount" [label]="'Registered Customers'" [routerLink]="['/customers']" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
-            <app-stat [bgClass]="'card-danger'" [icon]="'fa-support'" [count]="13" [label]="'Low Stock Products'"></app-stat>
+            <app-stat [bgClass]="'card-danger'" [icon]="'fa-support'" [count]="lowStockCount" [label]="'Low Stock Products'"></app-stat>
         </div>
     </div>
     <hr />

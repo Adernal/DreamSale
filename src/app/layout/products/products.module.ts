@@ -14,6 +14,7 @@ import { ProductPicturesComponent } from './product-pictures/product-pictures.co
 import { ProductPicturesService } from './product-pictures/product-pictures.service';
 import { LinkProductSpecAttributesComponent } from './link-product-spec-attributes/link-product-spec-attributes.component';
 import { LinkProductSpecAttributesService } from './link-product-spec-attributes/link-product-spec-attributes.service';
+import {CsvService} from "angular2-json2csv"
 // import {FileUploadModule} from 'primeng/primeng';
 
 
@@ -38,7 +39,7 @@ import { LinkProductSpecAttributesService } from './link-product-spec-attributes
 
     // ProductTagsModule
   ],
-  providers:[ProductService,ProductAttributesService,ProductPicturesService,LinkProductSpecAttributesService],
+  providers:[ProductService,ProductAttributesService,ProductPicturesService,LinkProductSpecAttributesService,CsvService],
   declarations: [ProductsComponent, FilterPipe, ProductPicturesComponent, LinkProductSpecAttributesComponent]
 })
 export class ProductsModule { }

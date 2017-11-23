@@ -8,15 +8,15 @@ export class CategoryService {
     storeCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = category[category.length-1];
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Add?continueEditing=true', this.temp,
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Create', this.temp,
             { headers: headers });
     }
-    getCategory() {
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/categories',{});
+    getCategory(page) {
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories',{"Page":page ,"PageSize":10});
     }
     updateCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Update?continueEditing=true', category, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Categories/Update', category, { headers: headers });
     }
     deleteCategory(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });

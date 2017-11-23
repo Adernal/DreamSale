@@ -5,7 +5,8 @@ import { Headers, Http } from '@angular/http';
 @Injectable()
 export class ProductService {
     temp: {};
-    headers = new Headers({ 'Content-Type': 'application/json' });
+    Token = localStorage.getItem("Token");
+    headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
     constructor(private http: Http) { }
     storeProduct(product) {
         const headers = new Headers({ 'Content-Type': 'application/json' , 'Accept' : 'application/json'});

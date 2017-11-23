@@ -31,7 +31,7 @@ export class CategoryComponent implements OnInit {
   imageUrl:string;
   loadingCategory:boolean;
   loadingImagePath:string;
-
+  totalCategories:number;
 
 
   constructor(private categoryService: CategoryService) {
@@ -325,13 +325,15 @@ export class CategoryComponent implements OnInit {
   }
   getCategory() {
     this.loadingCategory=true;
-    this.categoryService.getCategory()
+    this.categoryService.getCategory(this.currentPageNumber)
       .subscribe(
       (response) => {
         this.categories = (response.json());
         this.category = this.categories.Data;
+        this.totalCategories=this.categories.Total;
         this.loadingCategory=false;
         console.log(("Fetched Category"));
+
 
         //  this.attribute =[this.attributes];
       },

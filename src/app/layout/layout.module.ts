@@ -10,6 +10,7 @@ import { HeaderComponent, SidebarComponent } from '../shared';
 
 
 
+
 // import { VendorsComponent } from './vendors/vendors.component';
 
 
@@ -24,6 +25,7 @@ import { HeaderComponent, SidebarComponent } from '../shared';
         LayoutComponent,
         HeaderComponent,
         SidebarComponent,
+ 
 
 
       ]

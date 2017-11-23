@@ -13,12 +13,12 @@ export class CustomersService {
     updateCustomers(customers, id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(customers);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Customers/Update?continueEditing=true', customers[id], { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers/Update', customers[id], { headers: headers });
     }
     deleteCustomers(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Customers/DeleteCustomer?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers/Delete?id='+id, null, { headers: headers });
     }
     searchCustomers(searchParameters){
         const headers = new Headers({ 'Content-Type': 'application/json' });

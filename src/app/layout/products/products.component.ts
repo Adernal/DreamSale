@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { NgForm  } from '@angular/forms';
-import { Http } from '@angular/http';
+import { Http, ResponseContentType } from '@angular/http';
 import { ProductService } from './product.service';
 import { ProductAttributesService } from './product-attributes/product-attributes.service';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {Headers} from '@angular/http';
+import {CsvService} from "angular2-json2csv";
+import * as FileSaver from 'file-saver';
 
 @Component({
     selector: 'app-products',
@@ -15,6 +17,7 @@ import {Headers} from '@angular/http';
 
 /* This is still in development ! Has bugs ! */
 export class ProductsComponent implements OnInit {
+    Token: string;
     currentPageNumber:number;
     @ViewChild('f') productForm: NgForm;
     @ViewChild('t') productEditForm: NgForm;
@@ -107,7 +110,7 @@ export class ProductsComponent implements OnInit {
 
 
 
-    constructor(private http: Http, private productService: ProductService,private productAttributeService: ProductAttributesService) { }
+    constructor(private http: Http, private productService: ProductService,private productAttributeService: ProductAttributesService,private _csvService: CsvService) { }
 
     ngOnInit() {
 
@@ -876,6 +879,7 @@ export class ProductsComponent implements OnInit {
 
                 this.products = (response.json().Data);
                 this.totalProducts = (response.json().Total);
+                console.log("Total Products:  "+this.totalProducts);
 
                 //this.product = JSON.parse(this.products);
                 console.log((this.products));
@@ -1470,17 +1474,20 @@ fileChange(event) {
     if(fileList.length > 0) {
         let file: File = fileList[0];
         let formData:FormData = new FormData();
-        formData.append('uploadFile', file, file.name);
-        let headers = new Headers({ 'Accept':'application/json' ,'Authorization':'2702eda0-5999-4c82-b3e9-7ec2918b7d26' });
-        /** No need to include Content-Type in Angular 4 */
+        console.log(file);
+        this.Token = localStorage.getItem("Token");
+   
+        formData.append('importexcelfile', file, file.name);
+        let headers = new Headers({ 'Accept':'application/json' ,'Authorization':'Token '+this.Token });
+       
      
         let options = new RequestOptions({ headers: headers });
-        this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/ImportXlsx', formData, options)
+        this.http.post('http://denmakers-001-site1.itempurl.com/api/products/ImportXlsx', formData, options)
         .subscribe(
-            (response) => {
+            (data) => {
 
               alert('Uploaded !');
-              console.log(response.json());
+              console.log(data);
               //this.getCurrentAttributes();
             },
             (error) => {
@@ -1489,5 +1496,25 @@ fileChange(event) {
             }
             );
     }
+}
+productExport(){
+    this.Token = localStorage.getItem("Token");
+        const url = 'http://denmakers-001-site1.itempurl.com/api/Products/ExportXlsx';
+        
+         let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Accept':'application/json' ,'Authorization':'Token '+this.Token });
+         let options = new RequestOptions({responseType: ResponseContentType.Blob, headers });
+        
+
+         this.http.get(url, options)
+         .map(res => res.blob())
+         .subscribe(
+         data => {
+ FileSaver.saveAs(data, 'Export.xlsx'); 
+         },
+         err => {
+             console.log('error');
+             console.error(err);
+         });
+
 }
 }

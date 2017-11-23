@@ -29,6 +29,8 @@ const routes: Routes = [
             { path: 'customer-roles', loadChildren: './customer-roles/customer-roles.module#CustomerRolesModule' },
             { path: 'return-requests', loadChildren: './return-requests/return-requests.module#ReturnRequestsModule' },
             { path: 'stores', loadChildren: './stores/stores.module#StoresModule' },
+            { path: 'best-seller', loadChildren: './best-seller/best-seller.module#BestSellerModule' },
+            { path: 'never-sold', loadChildren: './never-sold/never-sold.module#NeverSoldModule' },
             { path: 'specification-attributes', loadChildren: './products/specification-attributes/specification-attributes.module#SpecificationAttributesModule' }
 
 

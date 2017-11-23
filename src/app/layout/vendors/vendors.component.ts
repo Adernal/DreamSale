@@ -11,7 +11,7 @@ import { VendorService } from './vendor.service';
 export class VendorsComponent implements OnInit {
     @ViewChild('f') vendorForm: NgForm;
     submitted = false;
-    vendor = [];
+    vendor;
     Id: number;
     Name = '';
     Description:string;
@@ -52,9 +52,11 @@ export class VendorsComponent implements OnInit {
                 this.Display_Order = this.vendorForm.value.Display_Order;
                 this.Active = this.vendorForm.value.Active;
                 console.log(this.Active);
+                console.log(this.Display_Order);
+              
                 // this.Active = this.vendorForm.value.Active;
 
-            this.vendor.push({
+            this.vendor={
   "Id": 0,
   "Name":this.Name,
   "Email":this.Email,
@@ -70,8 +72,7 @@ export class VendorsComponent implements OnInit {
   "Active": this.Active,
   "DisplayOrder": this.Display_Order,
 
-}
-});
+}};
         //  localStorage.setItem("vendors", JSON.stringify(this.vendor));
             this.vendorService.storeVendor(this.vendor)
             .subscribe(

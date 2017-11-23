@@ -10,10 +10,12 @@ import { DashboardService } from './dashboard.service';
     animations: [routerTransition()]
 })
 export class DashboardComponent implements OnInit {
+    returnRequestCount: any;
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
     orderCount;
     customerCount;
+    lowStockCount;
 
     constructor(private http :Http ,  private dashboardService:DashboardService) {
         this.sliders.push({
@@ -49,8 +51,10 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
               
-    //   this.getOrders();
-    //   this.getCustomers();
+       this.getOrders();
+      this.getCustomers();
+      this.getLowStockReport();
+      this.getReturnRequest();
     }
 
     public closeAlert(alert: any) {
@@ -64,13 +68,13 @@ export class DashboardComponent implements OnInit {
 
 
 
-              this.orderCount = (response.json().Data.length);
+              this.orderCount = (response.json().Total);
               console.log(this.orderCount);
 
           },
           (error) =>      {
                   console.log(error);
-                  alert("Can't fetch data ! Please refresh or check your connnection !");
+                  alert("Can't fetch total orders ! Please refresh or check your connnection !");
                 }
           );
     }
@@ -81,14 +85,48 @@ export class DashboardComponent implements OnInit {
 
 
 
-                this.customerCount = (response.json().Data.length);
+                this.customerCount = (response.json().Total);
                 console.log(this.customerCount);
 
             },
             (error) =>      {
                     console.log(error);
-                    alert("Can't fetch data ! Please refresh or check your connnection !");
+                    alert("Can't fetch total customers ! Please refresh or check your connnection !");
                   }
             );
+    }
+    getLowStockReport(){
+        this.dashboardService.getLowStockReport()
+        .subscribe(
+        (response) => {
+
+
+
+            this.lowStockCount = (response.json().Total);
+            console.log(this.lowStockCount);
+
+        },
+        (error) =>      {
+                console.log(error);
+                alert("Can't fetch low stock data ! Please refresh or check your connnection !");
+              }
+        );
+    }
+    getReturnRequest(){
+        this.dashboardService.getReturnRequest()
+        .subscribe(
+        (response) => {
+
+
+
+            this.returnRequestCount = (response.json().Total);
+            console.log(this.lowStockCount);
+
+        },
+        (error) =>      {
+                console.log(error);
+                alert("Can't fetch return request data ! Please refresh or check your connnection !");
+              }
+        );
     }
 }

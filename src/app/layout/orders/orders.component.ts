@@ -2,6 +2,7 @@ import { Component, OnInit , ViewChild } from '@angular/core';
 import { NgForm  } from '@angular/forms';
 import { Http } from '@angular/http';
 import { OrderService } from './orders.service';
+
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -27,7 +28,7 @@ export class OrdersComponent implements OnInit {
   ShippingAddress='';
   BillingAddress='';
   Items=[];
-  CreatedOn='';
+  CreatedOn;
   loadingImagePath:string;
   searchMode:boolean;
   searchedOrders=[];
@@ -36,12 +37,13 @@ export class OrdersComponent implements OnInit {
   searchParameters=[];
   CustomerFullName='';
   CustomerEmail='';
+  
 
   order;
   orderDetails=[];
   constructor(private http:Http,private ordersService:OrderService) {
   this.loadingOrder=false;
-  this.totalOrders=25878;
+  
   this.currentPageNumber=1;
   this.OrderId=0;
   this.editMode=false;
@@ -59,7 +61,7 @@ export class OrdersComponent implements OnInit {
     this.loadingOrder=true;
     this.editMode=false;
 
-    this.ordersService.getOrders(page-1)
+    this.ordersService.getOrders(page)
         .subscribe(
         (response) => {
             this.loadingOrder=false;
@@ -67,6 +69,8 @@ export class OrdersComponent implements OnInit {
 
 
             this.orderList = (response.json().Data);
+            console.log(this.orderList);
+            this.totalOrders = (response.json().Total);
 
         },
         (error) =>      {
@@ -89,10 +93,12 @@ export class OrdersComponent implements OnInit {
     this.OrderStatus = this.order["OrderStatus"];
     this.PaymentStatus = this.order["PaymentStatus"];
     this.ShippingStatus = this.order["ShippingStatus"];
-    this.ShippingAddress = this.order["ShippingAddress"];
+     this.ShippingAddress = this.order['ShippingAddress'];
+    //this.getShippingAddress();
     this.BillingAddress = this.order["BillingAddress"];
     this.Items = this.order["Items"];
-    this.CreatedOn = this.order["CreatedOn"];
+    console.log(this.Items);
+    this.CreatedOn = new Date(this.order["CreatedOn"]).toString();
 
   }
   getCurrentOrder(id:number){
@@ -100,12 +106,12 @@ export class OrdersComponent implements OnInit {
       function(order){ return order.Id == id }
   );
   }
-changeOrderStatus(){
-  alert("Hi");
-}
+
 showSearch(){
   this.editMode=false;
   this.searchMode=true;
+  this.getOrders(this.currentPageNumber);
+
 }
 showAllProducts(){
   this.showAllOrders=true;
@@ -142,5 +148,71 @@ searchOrder(page:number){
             }
       );
 
+}
+getShippingAddress(){
+  this.ordersService.getShippingAddress(this.OrderId)
+  .subscribe(
+  (data) => {
+    console.log(data);
+   this.ShippingAddress = data.json();
+
+  },
+  (error) =>      {
+          console.log(error);
+          alert("Can't fetch Shipping Address ! Please refresh or check your connnection !");
+        }
+  );
+  
+}
+
+changeOrderStatus(status){
+  console.log(status);
+    this.ordersService.changeOrderStatus(this.OrderId,status)
+  .subscribe(
+  (response) => {
+   
+    this.OrderStatus = response.json()["OrderStatus"];
+   
+    console.log(response.json());
+
+  },
+  (error) =>      {
+          console.log(error);
+          alert("Can't change order status ! Please refresh or check your connnection !");
+        }
+  );
+  
+}
+changeShippingStatus(status){
+  console.log(status);
+    this.ordersService.changeShippingStatus(this.OrderId,status)
+  .subscribe(
+  (response) => {
+   
+    this.ShippingStatus = response.json()["ShippingStatus"];
+
+  },
+  (error) =>      {
+          console.log(error);
+          alert("Can't change Shipping status ! Please refresh or check your connnection !");
+        }
+  );
+  
+}
+changePaymentStatus(status){
+  console.log(status);
+    this.ordersService.changePaymentStatus(this.OrderId,status)
+  .subscribe(
+  (response) => {
+   
+    this.PaymentStatus = response.json()["PaymentStatus"];
+    console.log(response.json());
+  },
+  (error) =>      {
+          console.log(error);
+          alert("Can't change Payment status ! Please refresh or check your connnection !");
+        }
+  );
+  
 }
 }

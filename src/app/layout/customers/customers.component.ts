@@ -40,7 +40,7 @@ searchParameters={};
       this.LastActivityDate='';
       this.loadingCustomer=false;
       this.loadingImagePath='../../assets/images/ajax-loader.gif';
-      this.totalCustomers=25878;
+      this.totalCustomers=0;
   }
 
   ngOnInit() {
@@ -53,7 +53,9 @@ getCustomers(page:number){
     (response) => {
       this.currentPageNumber=page;
       this.customerList = (response.json().Data);
+      console.log(this.customerList);
       this.loadingCustomer=false;
+      this.totalCustomers = response.json().Total;
     },
     (error) => {
       console.log(error)
@@ -85,6 +87,7 @@ deleteCustomer(id:HTMLFormElement){
       (data) => {
 
         alert('Deleted !');
+        console.log(data.json());
         this.getCustomers(this.currentPageNumber);
       },
       (error) => {

@@ -2,7 +2,8 @@
 <h1> Customer Management </h1>
      <hr>
     <div class="row">
-      <form role="form" (ngSubmit)="searchCustomer(c)" #c="ngForm" style="width:100%">
+      <div class="col-lg-6" style="float: none; margin: 0 auto;">
+      <form role="form" (ngSubmit)="searchCustomer(c)" #c="ngForm">
 
                  <fieldset class="form-group card mb-3">
                   <label class="card-header">Customer Name</label>
@@ -17,6 +18,7 @@
 
               <button type="submit" class="btn btn-primary" [disabled]="!c.valid">Search Customer</button>
       </form>
+      </div>
     </div>
       <div class="row">
       <div  class="center-block" style="float: none; margin: 0 auto;">
@@ -33,9 +35,9 @@
                             <th>Name</th>
                             <th>Customer Roles</th>
                             <th>Company Name</th>
-                            <th>Active</th>
-                            <!-- <th>Created On</th>
-                            <th>Last Activity</th> -->
+                            
+                            <th>Created On</th>
+                            <th>Last Activity</th>
                             <th>Action</th>
 
 
@@ -50,9 +52,9 @@
                           <td>{{customer.FullName}}</td>
                           <td>{{customer.CustomerRoleNames}}</td>
                           <td>{{customer.Company}}</td>
-                          <!-- <td>{{customer.Active}}</td>
-                          <td>{{customer.CreatedOn}}</td> -->
-                          <td>{{customer.LastActivityDate}}</td>
+                         
+                          <td>{{customer.CreatedOn | date}}</td>
+                          <td>{{customer.LastActivityDate | date}}</td>
                           <!-- <td><button type="button" name="{{customer.Id}}" class="btn btn-primary" (click)="editCustomerMode(x)" #x><i class="fa fa-edit"></i></button> -->
                           <td>    <button type="button" name="{{customer.Id}}" class="btn btn-danger" (click)="deleteCustomer(d)" #d><i class="fa fa-times"></i></button>
                                       </td>

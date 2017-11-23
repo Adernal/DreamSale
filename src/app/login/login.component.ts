@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit {
                 this.Token = data.json();
                 console.log(this.Token);
                 localStorage.setItem('isLoggedin', 'true');
+                localStorage.setItem("Token",'4BC99919-17BA-4CB4-9B3E-A0C8673ADC0C')
                 this.router.navigateByUrl('/dashboard');
             }
             

@@ -4,16 +4,37 @@ import { Headers, Http } from '@angular/http';
 @Injectable()
 export class DashboardService {
     temp: {};
+    Token = localStorage.getItem("Token");
     constructor(private http: Http) { }
 
     getOrders(){
-        return this.http.get('http://denmakers-001-site1.itempurl.com/api/Orders/Reports/ByQuantity/0/25878');
+       
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/orders/OrderList',{"Page":1 ,"PageSize":1 },{headers:headers})
 }
 getCustomers() {
     const headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post('http://denmakers-001-site1.itempurl.com/api/Customers/SearchCustomer?pageIndex=0&pageSize=25878',{},{headers: headers});
+    return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers',{
+        "SearchCustomerRoleIds": [
+        3
+      ]
+    },{headers: headers});
+}
+getLowStockReport(){
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/LowStockReport',{"Page":1,"PageSize":1},{headers: headers});
+}
+getReturnRequest(){
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',{
+        "Command": {
+        "Page": 1,
+        "PageSize": 2
+      }
+    },{headers: headers});
+}
 }
 
 
 
-}
+

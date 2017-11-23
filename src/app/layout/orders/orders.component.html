@@ -6,10 +6,13 @@
         <fieldset class="form-group card mb-3">
                   <label class="card-header">Order Status</label>
                   <p class="card-text" style="text-align:center">{{OrderStatus}}</p>
-                  <!-- <select name="OrderStatus" (change)="changeOrderStatus()">
-                      <<option value="">Completed</option>
-                      <option value="">Processed</option>
-                  </select> -->
+                  <select name="OrderStatus" class="form-control" ngModel (ngModelChange)="changeOrderStatus($event)">
+                    <option value="0">Select Status</option>  
+                    <option value="10">Pending</option>
+                    <option value="20">Processing </option>
+                    <option value="30">Complete</option>
+                    <option value="40">Cancelled</option>
+                  </select>
         </fieldset>
 
           <fieldset class="form-group card mb-3">
@@ -20,6 +23,14 @@
           <fieldset class="form-group card mb-3">
                     <label class="card-header">Payment Status</label>
                     <p class="card-text" style="text-align:center">{{PaymentStatus}}</p>
+                    <!-- <select class="form-control" ngModel name="PaymentStatus" (ngModelChange)="changePaymentStatus($event)">
+                            <option value="10">Pending</option>
+                            <option value="20">Authorized</option>
+                            <option value="30">Paid</option>
+                            <option value="35">Partially Refunded</option>
+                            <option value="40">Refunded</option>
+                            <option value="50">Voided</option>
+                          </select> -->
           </fieldset>
           <fieldset class="form-group card mb-3">
                     <label class="card-header">Order Total</label>
@@ -60,7 +71,7 @@
           </fieldset>
           <fieldset class="form-group card mb-3">
                     <label class="card-header">Created On</label>
-                    <p class="card-text" style="text-align:center">{{CreatedOn}}</p>
+                    <p class="card-text" style="text-align:center">{{CreatedOn | date}}</p>
           </fieldset>
           <button class="btn btn-success" (click)="showSearch()">Search Form</button>
 
@@ -130,6 +141,8 @@
             </form>
       </div>
     </div>
+</div>
+
     <div class="row" *ngIf="showAllOrders">
         <div class="card mb-3">
                 <div class="card-header">
@@ -158,7 +171,7 @@
                           <td>{{order.PaymentStatus}}</td>
                           <td>{{order.ShippingStatus}}</td>
                           <td>{{order.CustomerFullName}}</td>
-                          <td>{{order.CreatedOn}}</td>
+                          <td>{{order.CreatedOn | date}}</td>
                           <td>{{order.OrderTotal}}</td>
                           <td><button type="button" name="{{order.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td>
                         </tr>
@@ -203,7 +216,7 @@
                           <td>{{order.PaymentStatus}}</td>
                           <td>{{order.ShippingStatus}}</td>
                           <td>{{order.CustomerFullName}}</td>
-                          <td>{{order.CreatedOn}}</td>
+                          <td>{{order.CreatedOn | date}}</td>
                           <td>{{order.OrderTotal}}</td>
                           <td><button type="button" name="{{order.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td>
                         </tr>
@@ -219,4 +232,3 @@
 
 
     </div>
-  </div>

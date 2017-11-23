@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule , DatePipe} from '@angular/common';
 import { CustomersRoutingModule } from './customers-routing.module';
 import { CustomersComponent } from './customers.component';
 import { PageHeaderModule } from './../../shared';
@@ -29,7 +29,7 @@ import { CustomersService } from './customers.service';
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  providers:[CustomersService],
+  providers:[CustomersService, DatePipe],
   declarations: [CustomersComponent, FilterPipe]
 })
 export class CustomersModule { }
