@@ -5,7 +5,7 @@ import {FormsModule} from '@angular/forms';
 import { ImageUploadModule } from '../../../../../node_modules/angular2-image-upload/src/image-upload.module';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import {LinkProductSpecAttributesComponent} from './link-product-spec-attributes.component';
+
 import {LinkProductSpecAttributesService} from './link-product-spec-attributes.service';
 //import { ProductAttributesService } from '../product-attributes/product-attributes.service';
 
@@ -21,6 +21,6 @@ import {LinkProductSpecAttributesService} from './link-product-spec-attributes.s
     // ProductTagsModule
   ],
   providers:[LinkProductSpecAttributesService],
-  declarations: [LinkProductSpecAttributesComponent]
+  declarations: []
 })
 export class LinkProductSpecAttributesModule { }

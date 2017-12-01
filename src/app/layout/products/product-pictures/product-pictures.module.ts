@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule , CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from '@angular/forms';
 
@@ -6,7 +6,7 @@ import {FormsModule} from '@angular/forms';
 import { ImageUploadModule } from '../../../../../node_modules/angular2-image-upload/src/image-upload.module';
 
 import { NgxPaginationModule } from 'ngx-pagination';
-import {ProductPicturesComponent} from './product-pictures.component';
+
 import {ProductPicturesService} from './product-pictures.service';
 
 
@@ -22,6 +22,7 @@ import {ProductPicturesService} from './product-pictures.service';
     // ProductTagsModule
   ],
   providers:[ProductPicturesService],
-  declarations: [ProductPicturesComponent]
+  declarations: [],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class ProductPicturesModule { }
