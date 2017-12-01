@@ -10,16 +10,16 @@ export class ManufacturersService {
         //console.log(manufacturer);
         this.temp = manufacturer[0];
         console.log(this.temp);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers/Add?continueEditing=true',this.temp,
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers/Create',this.temp,
             { headers: headers });
     }
     getManufacturers() {
-        return this.http.get('http://denmakers-001-site1.itempurl.com/api/Manufacturers');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers',{});
     }
     updateManufacturer(manufacturer) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers/Update?continueEditing=true', manufacturer, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers/Update', manufacturer, { headers: headers });
     }
     deleteManufacturer(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });

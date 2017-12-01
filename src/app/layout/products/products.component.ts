@@ -43,7 +43,7 @@ export class ProductsComponent implements OnInit {
     CreatedOn:string;
     loadingProduct:boolean;
     searchProductMode:boolean;
-    searchProductParameters=[];
+    searchProductParameters={};
     searchedProducts;
     tag;
 
@@ -899,9 +899,16 @@ export class ProductsComponent implements OnInit {
         this.CategoryId = this.productSearchForm.value.CategoryId;
         this.StoreId = this.productSearchForm.value.StoreId;
         this.ManufacturerId = this.productSearchForm.value.ManufacturerId;
+        console.log(this.Name);
+        console.log(this.Price);
+        console.log(this.CategoryId);
+        console.log(this.StoreId);
+        console.log(this.ManufacturerId);
+        
+
         //this.convertStringtoNumber();
 
-        this.searchProductParameters.push({
+        this.searchProductParameters={
   "Id": 0,
   "CustomProperties": {
     "sample string 1": {},
@@ -1073,7 +1080,7 @@ export class ProductsComponent implements OnInit {
       "Value": "sample string 4"
     }
   ]
-})
+}
         this.productService.searchProduct(this.searchProductParameters)
             .subscribe(
             (response) => {
@@ -1081,6 +1088,8 @@ export class ProductsComponent implements OnInit {
                 this.showSearchedProductList=true;
                 this.showProductList=false;
                 this.searchedProducts = (response.json().Data);
+                console.log(this.searchedProducts);
+                this.productSearchForm.reset();
             },
             (error) =>      {
                     console.log(error);
@@ -1488,6 +1497,7 @@ fileChange(event) {
 
               alert('Uploaded !');
               console.log(data);
+              this.getProducts(this.currentPageNumber);
               //this.getCurrentAttributes();
             },
             (error) => {

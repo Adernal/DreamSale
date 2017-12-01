@@ -19,7 +19,7 @@ export class ProductService {
     getAllProducts(page:number){
          console.log(page);
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products',
-            {'Page':page,'PageSize':10},
+            {'Page':1,'PageSize':50000},
              {headers:this.headers}
             );
 
@@ -27,8 +27,8 @@ export class ProductService {
     searchProduct(searchProductParameters){
          
 
-         console.log(searchProductParameters[0]);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products?pageIndex=0&pageSize=25878',searchProductParameters[0],
+         console.log();
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products?pageIndex=0&pageSize=25878',searchProductParameters,
              {headers:this.headers});
     //  return this.http.get('http://denmakers-001-site1.itempurl.com/api/Products/DefaultPageLoad');
     }

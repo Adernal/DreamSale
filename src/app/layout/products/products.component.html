@@ -288,7 +288,7 @@
                 </tbody>
             </table>
             <img [src]="loadingImagePath" *ngIf="loading" alt="">
-            <pagination-controls (pageChange)="getProducts($event)" id="Products"></pagination-controls>
+            <pagination-controls (pageChange)="currentPageNumber = $event" id="Products"></pagination-controls>
         </div>
     </div>
 

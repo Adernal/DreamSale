@@ -1,3 +1,103 @@
-<p>
-  return-requests works!
-</p>
+<div class="container">
+  <h1>  Return Request Management </h1>
+       <hr>
+      <div class="row">
+        <div class="col-lg-6" style="float: none; margin: 0 auto;">
+  
+  
+        <form role="form" (ngSubmit)="searchRequest(f)" #f="ngForm" >
+  
+  
+              <fieldset class="form-group card mb-3">
+                  <label class="card-header">ID</label>
+                  <input class="form-control" ngModel name="ID" required placeholder="Enter ID">  
+              </fieldset>
+
+  
+  
+  
+  
+            <fieldset class="form-group card mb-3">
+              <label class="card-header"></label>
+              <input type="number" class="form-control" ngModel name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+              *ngIf="!editMode">
+              <input type="number" class="form-control" [(ngModel)]="DisplayOrder" name="DisplayOrder" required placeholder="Enter Display Order" min="1" step="1"
+              *ngIf="editMode">
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+              <label class="card-header">Picture</label>
+              <image-upload [max]="1" [url]="'http://denmakers-001-site1.itempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+          </fieldset>
+          <fieldset class="form-group card mb-3">
+              <label class="card-header">Select Parent Category (Optional)</label>
+              <select class="form-control" *ngIf="!editMode" ngModel name="parentcategory" size="4">
+                <option *ngFor="let i= index;let parentcategory of category" value={{parentcategory.Id}}>
+                  {{parentcategory.Name}}
+                <hr></option>
+                      </select>
+              <select class="form-control" [(ngModel)]="ParentCategories" name="parentcategory" *ngIf="editMode" size="4">
+                <option *ngFor="let i = index;let parentcategory of category" value="{{parentcategory.Id}}" >
+                  {{parentcategory.Name}}
+                <hr></option>
+              </select>
+          </fieldset>
+  
+                      <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Category</button>
+                      <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Category</button>
+  
+  
+  
+  
+  
+  </form>
+  </div>
+    </div>
+  </div>
+  <img [src]="loadingImagePath" *ngIf="loadingCategory" alt="">
+   <hr>
+      <div class="row">
+  
+  
+              <div class="card mb-3">
+                  <div class="card-header">
+                      <h2>Category List</h2>
+                      <input type="text" placeholder="Search Category" [(ngModel)]="filteredCategory" style="width:100%">
+                  </div>
+                  <div class="card-block table-responsive" style="width:100%;">
+                      <table class="table table-bordered" style="table-layout:fixed">
+                          <thead class="thead-inverse">
+                          <tr>
+  
+                              <th>Category Name</th>
+                              <th>Description</th>
+  
+                              <th>Display Order</th>
+                              <th>Action</th>
+  
+  
+  
+                          </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor =" let i = index;let category of category | filter: filteredCategory : 'Name' | paginate: { itemsPerPage: 10, currentPage: currentPageNumber , totalItems : totalCategories }">
+  
+  
+                            <td>{{category.Name}}</td>
+                            <td>{{category.Description}}</td>
+                            <td>{{category.DisplayOrder}}</td>
+                            <td><button type="button" name="{{category.Id}}" class="btn btn-primary" (click)="editCategoryMode(c)" #c><i class="fa fa-edit"></i></button>
+                            <button type="button" name="{{category.Id}}" class="btn btn-danger" (click)="deleteCategory(d)" #d><i class="fa fa-times"></i></button></td>
+  
+                          </tr>
+  
+                          </tbody>
+                      </table>
+                      <pagination-controls (pageChange)="currentPageNumber = $event"></pagination-controls>
+  
+                  </div>
+              </div>
+  
+  
+  
+      </div>
+  
