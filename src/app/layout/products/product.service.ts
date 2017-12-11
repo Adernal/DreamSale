@@ -94,7 +94,7 @@ export class ProductService {
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors?showHidden=true', {}, {headers: this.headers});
     }
     updateProduct(product) {
-        const headers = new Headers({ 'Content-Type': 'application/json', 'Accept' : 'application/json' });
+
 
         console.log(product);
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/Update', product, {headers: this.headers});

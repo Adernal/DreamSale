@@ -815,6 +815,7 @@ export class ProductsComponent implements OnInit {
         this.ShowOnHomePage = this.productEditForm.value.ShowOnHomePage;
         this.MarkAsNew = this.productEditForm.value.MarkAsNew;
         this.DisplayOrder = this.productEditForm.value.DisplayOrder;
+
         this.StockQuantity = this.productEditForm.value.StockQuantity;
         //this.CreatedOn=new Date(new Date().getTime()).toLocaleString();
         this.convertStringtoNumber();
@@ -822,6 +823,7 @@ export class ProductsComponent implements OnInit {
         console.log(this.CategoryId);
         console.log(this.ManufacturerId);
         console.log(this.StoreId);
+        this.currentProduct["Id"]=this.Id;
          this.currentProduct["Name"]=this.Name;
         this.currentProduct["FullDescription"]=this.FullDescription ;
         this.currentProduct["Price"]=this.Price ;
@@ -835,6 +837,7 @@ export class ProductsComponent implements OnInit {
          this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
          this.currentProduct["MarkAsNew"]=this.MarkAsNew;
          this.currentProduct["DisplayOrder"]=this.DisplayOrder;
+         
          this.currentProduct["StockQuantity"]=this.StockQuantity;
          console.log(this.currentProduct);
          this.productService.updateProduct(this.currentProduct)
