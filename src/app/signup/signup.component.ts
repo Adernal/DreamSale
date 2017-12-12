@@ -40,8 +40,9 @@ export class SignupComponent implements OnInit {
           if(data.json()["Success"]){
             this.Token = data.json()["Token"];
             console.log(this.Token);
-            localStorage.setItem('isLoggedin', 'true');
-            this.router.navigateByUrl('/dashboard');          }
+            alert("Registration Succesful !")
+            // localStorage.setItem('isLoggedin', 'true');
+            this.router.navigateByUrl('/login');          }
           else
           {
               alert("Registration failed ! Try new email or re-type password !");
