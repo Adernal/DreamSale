@@ -16,8 +16,8 @@ getCustomers() {
     const headers = new Headers({ 'Content-Type': 'application/json' });
     return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers',{
         "SearchCustomerRoleIds": [
-        3
-      ]
+            1,
+            2]
     },{headers: headers});
 }
 getLowStockReport(){

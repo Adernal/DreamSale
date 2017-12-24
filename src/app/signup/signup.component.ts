@@ -19,7 +19,12 @@ export class SignupComponent implements OnInit {
     Token;
     constructor(private router:Router,private signupService : SignupService) { }
 
-    ngOnInit() { }
+    ngOnInit() {
+        this.Email = '';
+        this.Password = '';
+        this.ConfirmPassword = '';
+
+     }
 
     register(){
         this.Email =this.signupForm.value.Email;
@@ -51,7 +56,7 @@ export class SignupComponent implements OnInit {
           
         },
         (error) => {
-          alert('Failed !');
+          alert('Failed ! Please check your connection or try after sometime !');
           console.log(error)
         }
         ); 

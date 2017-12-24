@@ -6,6 +6,7 @@ import { Headers, Http } from '@angular/http';
 export class ProductService {
     temp: {};
     Token = localStorage.getItem("Token");
+    
     headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
     constructor(private http: Http) { }
     storeProduct(product) {
@@ -95,7 +96,7 @@ export class ProductService {
     }
     updateProduct(product) {
 
-
+        console.log(this.Token);
         console.log(product);
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/Update', product, {headers: this.headers});
     }
