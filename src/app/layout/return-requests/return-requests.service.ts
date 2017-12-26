@@ -4,16 +4,18 @@ import { Headers, Http } from '@angular/http';
 @Injectable()
 export class ReturnRequestService {
     temp: {};
+    Token = localStorage.getItem("Token");
+     headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
     constructor(private http: Http) { }
     storeReturnRequest(store) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+      
         this.temp = store[store.length-1];
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest/CreateStore?continueEditing=true', this.temp,
-            { headers: headers });
+            { headers: this.headers });
 
     }
     getReturnRequest() {
-        return this.http.get('http://denmakers-001-site1.itempurl.com/api/ReturnRequest');
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',{},{headers:this.headers});
     }
     updateReturnRequest(store) {
         const headers = new Headers({ 'Content-Type': 'application/json' });

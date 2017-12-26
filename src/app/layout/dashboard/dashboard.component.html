@@ -16,15 +16,19 @@
     <hr> -->
     <div class="row">
         <div class="col-xl-3 col-lg-6">
+                <img [src]="loadingImagePath" *ngIf="showOrderCount" alt="">
             <app-stat [bgClass]="'card-primary'" [icon]="'fa-comments'" [count]="orderCount" [label]="'Orders'" [routerLink]="['/orders']" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
+                <img [src]="loadingImagePath" *ngIf="showReturnRequestCount" alt="">
             <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="returnRequestCount" [label]="' Return Requests'" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
+                <img [src]="loadingImagePath" *ngIf="showCustomerCount" alt="">
             <app-stat [bgClass]="'card-success'" [icon]="'fa-shopping-cart'" [count]="customerCount" [label]="'Registered Customers'" [routerLink]="['/customers']" ></app-stat>
         </div>
         <div class="col-xl-3 col-lg-6">
+                <img [src]="loadingImagePath" *ngIf="showLowStockCount" alt="">
             <app-stat [bgClass]="'card-danger'" [icon]="'fa-support'" [count]="lowStockCount" [label]="'Low Stock Products'"></app-stat>
         </div>
     </div>
@@ -35,11 +39,51 @@
         <div class="col-lg-8">
             <div class="card card-default">
                 <div class="card-header">
-                    <i class="fa fa-clock-o fa-fw"></i>Order Charts
+                    <i class="fa fa-clock-o fa-fw"></i>Latest Orders
                 </div>
-                <!-- /.card-header -->
-                <!-- <app-timeline></app-timeline> -->
-                <!-- /.card-body -->
+              
+    <div class="row" >
+           
+                    
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Order Status</th>
+                                <th>Payment Status</th>
+                                <th>Shipping Status</th>
+                                <th>Customer</th>
+                                <th>Created On</th>
+                                <th>Total</th>
+                                <!-- <th>Action</th> -->
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor ="let order of orderList ">
+                              <td>{{order.OrderStatus}}</td>
+                              <td>{{order.PaymentStatus}}</td>
+                              <td>{{order.ShippingStatus}}</td>
+                              <td>{{order.CustomerFullName}}</td>
+                              <td>{{order.CreatedOn | date}}</td>
+                              <td>{{order.OrderTotal}}</td>
+                              <!-- <td><button type="button" name="{{order.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
+                            </tr>
+    
+    
+                            </tbody>
+                        </table>
+                     
+                  
+                    </div>
+                
+    
+    
+    
+        </div>
             </div>
             <!-- /.card -->
         </div>

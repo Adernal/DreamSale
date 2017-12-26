@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ViewChild } from '@angular/core';
+import { NgForm  } from '@angular/forms';
+import { Http } from '@angular/http';
+import { ReturnRequestService } from './return-requests.service';
 
 @Component({
   selector: 'app-return-requests',
@@ -7,9 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReturnRequestsComponent implements OnInit {
 
-  constructor() { }
+  showAllReturnRequests :boolean;
+  returnRequestList;
+  totalReturnRequests;
+  constructor(private http:Http,private returnRequestService: ReturnRequestService) { }
 
   ngOnInit() {
+    this.showAllReturnRequests=true;
+    this.getAllReturnRequests();
   }
+  getAllReturnRequests(){
+    this.returnRequestService.getReturnRequest()
+    .subscribe(
+    (response) => {
+        // this.loadingreturnRequest=false;
+        // this.currentPageNumber=page;
 
+
+        this.returnRequestList = (response.json().Data);
+        console.log(this.returnRequestList);
+        this.totalReturnRequests = (response.json().Total);
+
+    },
+    (error) =>      {
+            console.log(error);
+            alert("Can't fetch Return Requests ! Please refresh or check your connnection !");
+          }
+    );
+  }
 }

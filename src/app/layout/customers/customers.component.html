@@ -14,17 +14,26 @@
                   <input  type="text" class="form-control" ngModel name="Email">
 
               </fieldset>
+              <fieldset class="form-group card mb-3">
+                <label for="" class="card-header">Roles</label>
+                <select ngModel name="customerRole">
+                  
+                  <option *ngFor="let roles of customerRoleList" [value]="roles.Id">{{roles.Name}}</option>
+                </select>
 
+              </fieldset>
 
               <button type="submit" class="btn btn-primary" [disabled]="!c.valid">Search Customer</button>
       </form>
       </div>
+      <br>
     </div>
       <div class="row">
       <div  class="center-block" style="float: none; margin: 0 auto;">
         <div class="card mb-3">
                 <div class="card-header">
                   <h2>Customers</h2>
+                  <button class="btn btn-success" (click)="showAllCustomers()" *ngIf="showAll">Show All</button>
                 </div>
                 <div class="card-block" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">

@@ -5,34 +5,44 @@ import { Headers, Http } from '@angular/http';
 export class DashboardService {
     temp: {};
     Token = localStorage.getItem("Token");
+    headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
     constructor(private http: Http) { }
 
     getOrders(){
        
-        const headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/orders/OrderList',{"Page":1 ,"PageSize":1 },{headers:headers})
+        
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/orders/OrderList',{"Page":1 ,"PageSize":10 },{headers:this.headers})
 }
 getCustomers() {
-    const headers = new Headers({ 'Content-Type': 'application/json' });
+  
     return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers',{
         "SearchCustomerRoleIds": [
             1,
             2]
-    },{headers: headers});
+    },{headers: this.headers});
 }
 getLowStockReport(){
-    const headers = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/LowStockReport',{"Page":1,"PageSize":1},{headers: headers});
+    
+    return this.http.post('http://denmakers-001-site1.itempurl.com/api/Products/LowStockReport',{"Page":1,"PageSize":1},{headers: this.headers});
 }
 getReturnRequest(){
-    const headers = new Headers({ 'Content-Type': 'application/json' });
+   
     return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',{
         "Command": {
         "Page": 1,
         "PageSize": 2
       }
-    },{headers: headers});
+    },{headers: this.headers});
 }
+// getLatestOrders(){
+//     return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',{
+//         "Command": {
+//         "Page": 1,
+//         "PageSize": 2
+//       }
+//     },{headers: this.headers});
+
+// }
 }
 
 

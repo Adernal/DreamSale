@@ -13,7 +13,7 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Category</label>
-                        <select class="form-control" ngModel name="CategoryId" size="4">
+                        <select class="form-control" ngModel name="CategoryId" >
                                   <option *ngFor="let category of categories" value="{{category.Id}}">
                                     {{category.Name}}
                                   <hr></option>
@@ -21,7 +21,7 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Manufacturers</label>
-                        <select class="form-control" ngModel name="ManufacturerId" size="4">
+                        <select class="form-control" ngModel name="ManufacturerId">
                                   <option *ngFor="let manufacturer of manufacturers" value="{{manufacturer.Id}}">
                                     {{manufacturer.Name}}
                                   <hr></option>
@@ -30,7 +30,7 @@
                 <div >
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Vendors</label>
-                        <select class="form-control" ngModel name="VendorId" size="4">
+                        <select class="form-control" ngModel name="VendorId">
                                   <option *ngFor="let vendor of vendors" value="{{vendor.Id}}">
                                     {{vendor.Name}}
                                   <hr></option>
@@ -38,7 +38,7 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Stores</label>
-                        <select class="form-control" ngModel name="StoreId" size="4">
+                        <select class="form-control" ngModel name="StoreId">
                                   <option *ngFor="let store of stores" value="{{store.Id}}">
                                     {{store.Name}}
                                   <hr></option>
@@ -100,7 +100,7 @@
 
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Category</label>
-                        <select class="form-control" ngModel name="CategoryId" required multiple size="4">
+                        <select class="form-control" ngModel name="CategoryId" required multiple >
                               <option *ngFor="let category of categories" value="{{category.Id}}">
                                 {{category.Name}}
                               <hr></option>
@@ -108,7 +108,7 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Manufacturers</label>
-                        <select class="form-control" ngModel name="ManufacturerId" required multiple size="4">
+                        <select class="form-control" ngModel name="ManufacturerId" required multiple >
                               <option *ngFor="let manufacturer of manufacturers" value="{{manufacturer.Id}}">
                                 {{manufacturer.Name}}
                               <hr></option>
@@ -116,7 +116,7 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Vendors</label>
-                        <select class="form-control" ngModel name="VendorId" required size="4">
+                        <select class="form-control" ngModel name="VendorId" required >
                               <option *ngFor="let vendor of vendors" value="{{vendor.Id}}">
                                 {{vendor.Name}}
                               <hr></option>
@@ -124,7 +124,7 @@
                     </fieldset>
                     <fieldset class="form-group card mb-3">
                         <label class="card-header">Stores</label>
-                        <select class="form-control" ngModel name="StoreId" required multiple size="4">
+                        <select class="form-control" ngModel name="StoreId" required multiple >
                               <option *ngFor="let store of stores" value="{{store.Id}}">
                                 {{store.Name}}
                               <hr></option>
@@ -333,7 +333,7 @@
             </fieldset>
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Category</label>
-                <select class="form-control" [(ngModel)]="CategoryId" name="CategoryId" multiple size="4">
+                <select class="form-control" [(ngModel)]="CategoryId" name="CategoryId" >
               <option *ngFor="let category of categories" value="{{category.Id}}">
                 {{category.Name}}
               <hr></option>
@@ -341,7 +341,7 @@
             </fieldset>
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Manufacturers</label>
-                <select class="form-control" [(ngModel)]="ManufacturerId" name="ManufacturerId" multiple size="4">
+                <select class="form-control" [(ngModel)]="ManufacturerId" name="ManufacturerId" >
               <option *ngFor="let manufacturer of manufacturers" value="manufacturer.Id">
                 {{manufacturer.Name}}
               <hr></option>
@@ -349,7 +349,7 @@
             </fieldset>
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Vendors</label>
-                <select class="form-control" [(ngModel)]="VendorId" name="VendorId" size="4">
+                <select class="form-control" [(ngModel)]="VendorId" name="VendorId" >
               <option *ngFor="let vendor of vendors" value="vendor.Id">
                 {{vendor.Name}}
               <hr></option>
@@ -357,7 +357,7 @@
             </fieldset>
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Stores</label>
-                <select class="form-control" [(ngModel)]="StoreId" name="StoreId" multiple size="4">
+                <select class="form-control" [(ngModel)]="StoreId" name="StoreId" >
               <option *ngFor="let store of stores" value="store.Id">
                 {{store.Name}}
               <hr></option>

@@ -14,8 +14,14 @@ export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
     orderCount;
+    orderList;
     customerCount;
     lowStockCount;
+    loadingImagePath:string;
+    showOrderCount:boolean;
+    showCustomerCount:boolean;
+    showReturnRequestCount:boolean;
+    showLowStockCount:boolean;
 
     constructor(private http :Http ,  private dashboardService:DashboardService) {
         this.sliders.push({
@@ -50,7 +56,11 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-              
+      this.loadingImagePath='../../assets/images/ajax-loader.gif';
+      this.showOrderCount=false;
+      this.showCustomerCount=false;
+      this.showLowStockCount=false;
+      this.showReturnRequestCount=false;
        this.getOrders();
       this.getCustomers();
       this.getLowStockReport();
@@ -62,14 +72,17 @@ export class DashboardComponent implements OnInit {
         this.alerts.splice(index, 1);
     }
     getOrders(){
+        this.showOrderCount=true;
       this.dashboardService.getOrders()
           .subscribe(
           (response) => {
 
 
-
+              this.showOrderCount=false; 
               this.orderCount = (response.json().Total);
+              this.orderList=(response.json().Data);
               console.log(this.orderCount);
+              console.log(this.orderList);
 
           },
           (error) =>      {
@@ -79,12 +92,13 @@ export class DashboardComponent implements OnInit {
           );
     }
     getCustomers(){
+        this.showCustomerCount=true;
         this.dashboardService.getCustomers()
             .subscribe(
             (response) => {
 
 
-
+                this.showCustomerCount=false;
                 this.customerCount = (response.json().Total);
                 console.log(this.customerCount);
 
@@ -96,12 +110,13 @@ export class DashboardComponent implements OnInit {
             );
     }
     getLowStockReport(){
+        this.showLowStockCount=true;
         this.dashboardService.getLowStockReport()
         .subscribe(
         (response) => {
 
 
-
+            this.showLowStockCount=false;
             this.lowStockCount = (response.json().Total);
             console.log(this.lowStockCount);
 
@@ -113,12 +128,13 @@ export class DashboardComponent implements OnInit {
         );
     }
     getReturnRequest(){
+        this.showReturnRequestCount=true;
         this.dashboardService.getReturnRequest()
         .subscribe(
         (response) => {
 
 
-
+            this.showReturnRequestCount=false;
             this.returnRequestCount = (response.json().Total);
             console.log(this.lowStockCount);
 

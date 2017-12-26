@@ -1,0 +1,96 @@
+<div class="container">
+    <h1> Return Request Management </h1>
+         <hr>
+       
+    </div>
+    
+        <div class="row" *ngIf="showAllReturnRequests">
+            <div class="card mb-3">
+                    <div class="card-header">
+                      <h2>Return Requests</h2>
+                    </div>
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Customer</th>
+                                <th>Order #</th>
+                                <th>Return Request Status</th>
+                                <th>Date</th>
+                            
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor ="let returnRequest of returnRequestList">
+                              <!-- <td>{{returnRequest.OrderStatus}}</td>
+                              <td>{{returnRequest.PaymentStatus}}</td>
+                              <td>{{returnRequest.ShippingStatus}}</td>
+                              <td>{{returnRequest.CustomerFullName}}</td>
+                              <td>{{returnRequest.CreatedOn | date}}</td>
+                              <td>{{returnRequest.OrderTotal}}</td> -->
+                              <td><button type="button" name="{{returnRequest.Id}}" class="btn btn-primary" (click)="editReturnRequestMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                            </tr>
+    
+    
+                            </tbody>
+                        </table>
+                        <!-- <img [src]="loadingImagePath" *ngIf="loadingOrder" alt=""> -->
+                        <!-- <pagination-controls (pageChange)="getAllReturnRequests($event)" id="ReturnRequests"></pagination-controls> -->
+                    </div>
+                </div>
+    
+    
+    
+        </div>
+        <!-- <div class="row" *ngIf="searchList">
+            <div class="card mb-3">
+                    <div class="card-header">
+                      <h2>Order</h2>
+                      <button (click)="showAllOrders()" class="btn btn-primary">Show All Orders </button>
+                    </div>
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Order Status</th>
+                                <th>Payment Status</th>
+                                <th>Shipping Status</th>
+                                <th>Customer</th>
+                                <th>Created On</th>
+                                <th>Total</th>
+                                <th>Action</th>
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngFor ="let returnRequest of searchedOrders | paginate: { id:'SearchedOrders', itemsPerPage: 10, currentPage: currentPageNumber , totalItems: totalOrders}">
+                              <td>{{returnRequest.OrderStatus}}</td>
+                              <td>{{returnRequest.PaymentStatus}}</td>
+                              <td>{{returnRequest.ShippingStatus}}</td>
+                              <td>{{returnRequest.CustomerFullName}}</td>
+                              <td>{{returnRequest.CreatedOn | date}}</td>
+                              <td>{{returnRequest.OrderTotal}}</td>
+                              <td><button type="button" name="{{returnRequest.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                            </tr>
+    
+    
+                            </tbody>
+                        </table>
+                        <img [src]="loadingImagePath" *ngIf="loadingOrder" alt="">
+                        <pagination-controls (pageChange)="searchOrder($event)" id="SearchedOrders"></pagination-controls>
+                    </div>
+                </div>
+    
+    
+    
+        </div> -->
+    

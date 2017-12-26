@@ -22,8 +22,11 @@ export class CustomersService {
     }
     searchCustomers(searchParameters){
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Customers/SearchCustomer?pageIndex=0&pageSize=25878',searchParameters,{headers: headers});
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers',searchParameters,{headers: headers});
     }
+    getCustomerRoles(){
+        return this.http.get('http://denmakers-001-site1.itempurl.com/api/customers/Roles');
 
+    }
 
 }
