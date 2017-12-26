@@ -1,3 +1,46 @@
-<p>
-  never-sold works!
-</p>
+<div class="container">
+    <h1> Never Sold Management </h1>
+         <hr>
+       
+    </div>
+    
+        <div class="row" *ngIf="showAllNeverSold">
+            <div class="card mb-3">
+                    <div class="card-header">
+                      <h2>Never Sold</h2>
+                    </div>
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Name</th>
+                                <th>Action</th>
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- <tr *ngFor ="let neverSold of neverSoldList">
+                              <td>{{neverSold.ProductName}}</td>
+                              <td>{{neverSold.Quantity}}</td>
+                              <td>{{neverSold.CustomerInfo}}</td>
+                              <td>{{neverSold.OrderId}}</td>
+                              <td>{{neverSold.NeverSoldStatusStr}}</td>
+                              <td>{{neverSold.CreatedOn | date}}</td>
+                              <td><button type="button" name="{{neverSold.Id}}" class="btn btn-primary" (click)="editNeverSoldMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                            </tr>
+     -->
+    
+                            </tbody>
+                        </table>
+                         <img [src]="loadingImagePath" *ngIf="loadingOrder" alt=""> 
+                      <pagination-controls (pageChange)="getAllNeverSold($event)" id="NeverSold"></pagination-controls>
+                    </div>
+                </div>
+    
+    
+    
+        </div>
+ 

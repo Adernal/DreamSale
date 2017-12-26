@@ -54,7 +54,7 @@
                                 <th>Payment Status</th>
                                 <th>Shipping Status</th>
                                 <th>Customer</th>
-                                <th>Created On</th>
+                                
                                 <th>Total</th>
                                 <!-- <th>Action</th> -->
     
@@ -68,7 +68,7 @@
                               <td>{{order.PaymentStatus}}</td>
                               <td>{{order.ShippingStatus}}</td>
                               <td>{{order.CustomerFullName}}</td>
-                              <td>{{order.CreatedOn | date}}</td>
+            
                               <td>{{order.OrderTotal}}</td>
                               <!-- <td><button type="button" name="{{order.Id}}" class="btn btn-primary" (click)="editOrderMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
                             </tr>
@@ -91,7 +91,7 @@
         <div class="col-lg-4">
             <div class="card card-default">
                 <div class="card-header">
-                    <i class="fa fa-bell fa-fw"></i> Notifications card
+                    <i class="fa fa-bell fa-fw"></i> Best Sellers
                 </div>
                 <!-- /.card-header -->
                 <!-- <app-notification></app-notification> -->

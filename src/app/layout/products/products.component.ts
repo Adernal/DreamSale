@@ -779,13 +779,16 @@ export class ProductsComponent implements OnInit {
         this.showSpecificationAttributes=false;
         this.Id = +id.name;
         this.currentProduct = this.getCurrentProduct(this.Id)[0];
-        // console.log(this.product[1].Name);p
+        console.log("Current Product :"+this.currentProduct);
         this.Name = this.currentProduct["Name"];
         this.FullDescription = this.currentProduct["FullDescription"];
         this.Price = this.currentProduct["Price"];
-        this.CategoryId = this.currentProduct["CategoryId"];
-        this.StoreId = this.currentProduct["StoreId"];
-        this.ManufacturerId = this.currentProduct["ManufacturerId"];
+        this.CategoryId = this.currentProduct["SelectedCategoryIds"];
+        console.log(this.CategoryId);
+        this.StoreId = this.currentProduct["SelectedStoreIds"];
+        console.log(this.SelectedStoreIds);
+        this.ManufacturerId = this.currentProduct["SelectedManufacturerIds"];
+        console.log(this.ManufacturerId);
         this.Sku = this.currentProduct["Sku"];
         this.Published = this.currentProduct["Published"];
         this.Gtin = this.currentProduct["Gtin"];
@@ -794,10 +797,8 @@ export class ProductsComponent implements OnInit {
         this.MarkAsNew = this.currentProduct["MarkAsNew"];
         this.DisplayOrder = this.currentProduct["DisplayOrder"];
         this.StockQuantity = this.currentProduct["StockQuantity"];
-        //this.SelectedCategoryId = this.product[+this.Id].SelectedCategoryId;
-
-        // this.product_attribute = (this.product[+this.Id].product_attributes);
-        // this.specification_attribute = (this.product[+this.Id].specification_attributes);
+        this.VendorId = this.currentProduct["VendorId"];
+ 
 
     }
     editProduct() {
@@ -817,19 +818,20 @@ export class ProductsComponent implements OnInit {
         this.DisplayOrder = this.productEditForm.value.DisplayOrder;
 
         this.StockQuantity = this.productEditForm.value.StockQuantity;
-        //this.CreatedOn=new Date(new Date().getTime()).toLocaleString();
+        this.VendorId = this.productEditForm.value.VendorId;
+
         this.convertStringtoNumber();
 
         console.log(this.CategoryId);
         console.log(this.ManufacturerId);
         console.log(this.StoreId);
         this.currentProduct["Id"]=this.Id;
-         this.currentProduct["Name"]=this.Name;
+        this.currentProduct["Name"]=this.Name;
         this.currentProduct["FullDescription"]=this.FullDescription ;
         this.currentProduct["Price"]=this.Price ;
-        this.currentProduct["CategoryId"]=this.CategoryId  ;
-        this.currentProduct["StoreId"]=this.StoreId  ;
-         this.currentProduct["ManufacturerId"]=this.ManufacturerId;
+        this.currentProduct["SelectedCategoryIds"]=this.CategoryId  ;
+        this.currentProduct["SelectedStoreIds"]=this.StoreId  ;
+         this.currentProduct["SelectedManufacturerIds"]=this.ManufacturerId;
         this.currentProduct["Sku"]=this.Sku;
          this.currentProduct["Published"]=this.Published ;
         this.currentProduct["Gtin"]=this.Gtin;
@@ -839,6 +841,7 @@ export class ProductsComponent implements OnInit {
          this.currentProduct["DisplayOrder"]=this.DisplayOrder;
          
          this.currentProduct["StockQuantity"]=this.StockQuantity;
+         this.currentProduct["VendorId"]=this.VendorId;
          console.log(this.currentProduct);
          this.productService.updateProduct(this.currentProduct)
              .subscribe(
@@ -1225,7 +1228,7 @@ export class ProductsComponent implements OnInit {
         this.productService.getManufacturers()
             .subscribe(
             (response) => {
-                this.loading=false;
+                
                 this.manufacturers = (response.json().Data);
 
             },
@@ -1240,7 +1243,7 @@ export class ProductsComponent implements OnInit {
         this.productService.getVendors()
             .subscribe(
             (response) => {
-                this.loading=false;
+            
                 this.vendors = (response.json().Data);
 
             },
@@ -1254,7 +1257,7 @@ export class ProductsComponent implements OnInit {
         this.productService.getStores()
             .subscribe(
             (response) => {
-                this.loading=false;
+             
                 this.stores = (response.json().Data);
 
             },

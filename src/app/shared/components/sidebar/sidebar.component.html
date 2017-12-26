@@ -1,7 +1,8 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <ul class="list-group">
         <a routerLink="/dashboard" [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp;Dashboard
+            <i class="fa fa-home" aria-hidden="true"></i>
+            &nbsp;Dashboard
         </a>
         <!-- <a [routerLink]="['/charts']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp; 'Catalog'
@@ -70,7 +71,8 @@
         </div>
         <div class="nested-menu">
             <a class="list-group-item" (click)="addExpandClass('customers')" >
-                <span><i class="fa fa-fw fa-table"></i>&nbsp; Customers  </span>
+                <span><i class="fa fa-users" aria-hidden="true"></i>
+                    &nbsp; Customers  </span>
             </a>
             <li class="nested" [class.expand]="showMenu === 'customers'">
                 <ul class="submenu">

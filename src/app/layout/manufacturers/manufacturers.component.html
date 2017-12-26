@@ -1,12 +1,13 @@
 <div class="container">
-<h1> Manufacturer Management </h1>
-     <hr>
-    <div class="row">
 
+            <div class="row" style="float: none; margin: 0 auto;">
+                    <div class="col-lg-6" style="float: none; margin: 0 auto;">
+                            <h1> Manufacturer Management </h1>
+                            <hr>
+                          
 
       <form role="form" (ngSubmit)="addManufacturer(f)" #f="ngForm" class="container">
-        <div class="row">
-          <div class="col-lg-6">
+    
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Manufacturer Name</label>
                 <input class="form-control" ngModel name="Name" required placeholder="Enter Manufacturer Name" *ngIf="!editMode">
@@ -31,23 +32,23 @@
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Manufacturer</button>
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="editMode">Edit Manufacturer</button>
-
+        </form>
 
         </div>
 
 
   </div>
-</form>
-  </div>
   <img [src]="loadingImagePath" *ngIf="loadingManufacturer" alt="">
- <hr>
+  <hr>
+  </div>
+
     <div class="row">
 
 
             <div class="card mb-3">
                 <div class="card-header">
                     <h2>Manufacturer List</h2>
-                    <!-- <input type="text" placeholder="Search Manufacturer" [(ngModel)]="filteredManufacturer" style="width:100%;" > -->
+                    <input type="text" placeholder="Search Manufacturer" [(ngModel)]="filteredManufacturer" style="width:100%;" >
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -63,7 +64,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor ="let manufacturer of manufacturers">
+                          <tr *ngFor ="let manufacturer of manufacturers | filter : filteredManufacturer : 'Name'">
 
                           <td>{{manufacturer.Id}}</td>
                           <td>{{manufacturer.Name}}</td>
@@ -83,4 +84,4 @@
 
 
     </div>
-</div>
+

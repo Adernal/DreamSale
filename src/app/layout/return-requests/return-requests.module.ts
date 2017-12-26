@@ -4,7 +4,8 @@ import { ReturnRequestsRoutingModule } from './return-requests-routing.module';
 import { ReturnRequestsComponent } from './return-requests.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
-import { ReturnRequestService } from './return-requests.service'
+import { ReturnRequestService } from './return-requests.service';
+import { NgxPaginationModule } from 'ngx-pagination';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { customerservice } from './product.service';
@@ -21,6 +22,7 @@ import { ReturnRequestService } from './return-requests.service'
     ReturnRequestsRoutingModule,
     PageHeaderModule,
     FormsModule,
+    NgxPaginationModule
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],

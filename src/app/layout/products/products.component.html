@@ -332,9 +332,23 @@
                 <input type="number" class="form-control" [(ngModel)]="StockQuantity" name="StockQuantity" value="{{StockQuantity}}">
             </fieldset>
             <fieldset class="form-group card mb-3">
+                    <label class="card-header">Selected Categories</label>
+                    <ul class="form-control" style="list-style:none">
+                            <li *ngFor="let category of categories">
+                                <ul style="list-style:none">
+                                    <li *ngFor="let selectedcategory of CategoryId" >
+                                        <p *ngIf="selectedcategory===category.Id">{{category.Name}}</p>
+                                    </li>
+                                    </ul>
+                                </li>
+                                  </ul>
+                 
+
+                </fieldset>
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Category</label>
                 <select class="form-control" [(ngModel)]="CategoryId" name="CategoryId" >
-              <option *ngFor="let category of categories" value="{{category.Id}}">
+              <option *ngFor="let category of categories" value="{{category.Id}}" >
                 {{category.Name}}
               <hr></option>
 </select>
@@ -472,7 +486,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><img [src]="loadingImagePath" *ngIf="loading" alt=""></tr>
+                    
                     <tr *ngFor="let i = index;let attributeField of productAttributeFields">
                     <td>{{attributeField.ProductAttribute}} </td>
                     <td>{{attributeField.TextPrompt}}</td>

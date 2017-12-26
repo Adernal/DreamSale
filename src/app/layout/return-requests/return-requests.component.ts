@@ -13,6 +13,8 @@ export class ReturnRequestsComponent implements OnInit {
   showAllReturnRequests :boolean;
   returnRequestList;
   totalReturnRequests;
+  loadingReturnRequest:boolean;
+  currentPageNumber:number;
   constructor(private http:Http,private returnRequestService: ReturnRequestService) { }
 
   ngOnInit() {
@@ -23,7 +25,7 @@ export class ReturnRequestsComponent implements OnInit {
     this.returnRequestService.getReturnRequest()
     .subscribe(
     (response) => {
-        // this.loadingreturnRequest=false;
+        this.loadingReturnRequest=false;
         // this.currentPageNumber=page;
 
 

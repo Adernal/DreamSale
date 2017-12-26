@@ -1,3 +1,49 @@
-<p>
-  best-seller works!
-</p>
+<div class="container">
+    <h1> Best Seller Management </h1>
+         <hr>
+       
+    </div>
+    
+        <div class="row" *ngIf="showAllBestSellers">
+            <div class="card mb-3">
+                    <div class="card-header">
+                      <h2>Best Sellers</h2>
+                    </div>
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Name</th>
+                                <th>Total Quantity</th>
+                                <th>Total Amount</th>
+                                <th>Action</th>
+                            
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- <tr *ngFor ="let bestSeller of bestSellerList">
+                              <td>{{bestSeller.ProductName}}</td>
+                              <td>{{bestSeller.Quantity}}</td>
+                              <td>{{bestSeller.CustomerInfo}}</td>
+                              <td>{{bestSeller.OrderId}}</td>
+                              <td>{{bestSeller.BestSellerStatusStr}}</td>
+                              <td>{{bestSeller.CreatedOn | date}}</td>
+                              <td><button type="button" name="{{bestSeller.Id}}" class="btn btn-primary" (click)="editBestSellerMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                            </tr>
+     -->
+    
+                            </tbody>
+                        </table>
+                         <img [src]="loadingImagePath" *ngIf="loadingOrder" alt=""> 
+                      <pagination-controls (pageChange)="getAllBestSellers($event)" id="BestSellers"></pagination-controls>
+                    </div>
+                </div>
+    
+    
+    
+        </div>
+ 

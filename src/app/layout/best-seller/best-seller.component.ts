@@ -11,9 +11,11 @@ import {BestSellerService} from './best-seller.service';
 })
 export class BestSellerComponent implements OnInit {
   best_sellers;
+  showAllBestSellers:boolean;
   constructor(private bestSellerService:BestSellerService) { }
 
   ngOnInit() {
+    this.showAllBestSellers=true;
     this.getBestSeller();
   }
   getBestSeller(){
@@ -21,12 +23,12 @@ export class BestSellerComponent implements OnInit {
     .subscribe(
     (data) => {
       console.log(data);
-      this.best_sellers =data.json();
+      this.best_sellers =data.json().Data;
     
     },
     (error) => {
       alert('Failed to fetch best sellers !');
-      console.log(error)
+      console.log(error);
     }
     );
   }

@@ -5,7 +5,7 @@ import { BestSellerRoutingModule } from './best-seller-routing.module';
 import { BestSellerComponent } from './best-seller.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 import { BestSellerService } from './best-seller.service';
 
 
@@ -15,6 +15,7 @@ import { BestSellerService } from './best-seller.service';
     BestSellerRoutingModule,
     PageHeaderModule,
     FormsModule,
+    NgxPaginationModule
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],

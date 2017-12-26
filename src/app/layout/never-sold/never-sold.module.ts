@@ -5,7 +5,7 @@ import { NeverSoldRoutingModule } from './never-sold-routing.module';
 import { NeverSoldComponent } from './never-sold.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
-
+import { NgxPaginationModule } from 'ngx-pagination';
 import { NeverSoldService } from './never-sold.service';
 
 
@@ -15,6 +15,7 @@ import { NeverSoldService } from './never-sold.service';
     NeverSoldRoutingModule,
     PageHeaderModule,
     FormsModule,
+    NgxPaginationModule
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],

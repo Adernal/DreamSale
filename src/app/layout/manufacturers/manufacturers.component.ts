@@ -17,18 +17,21 @@ export class ManufacturersComponent implements OnInit {
   Description='';
   DisplayOrder:Number;
   editMode =false;
-  filteredManufacturer='';
+  filteredManufacturer:string;
   manufacturers;
   PictureId:number;
   imageUrl:string;
   loadingManufacturer:boolean;
-  loadingImagePath='../../assets/images/ajax-loader.gif';
+  loadingImagePath:string;
+
   constructor(private manufacturersService : ManufacturersService) {
-    this.loadingManufacturer=false;
+    
    }
 
   ngOnInit() {
-
+    this.loadingImagePath='../../assets/images/ajax-loader.gif';
+    this.loadingManufacturer=false;
+    this.filteredManufacturer='';
     this.getManufacturers();
   }
   addManufacturer(){
