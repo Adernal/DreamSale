@@ -10,6 +10,7 @@ import { DashboardService } from './dashboard.service';
     animations: [routerTransition()]
 })
 export class DashboardComponent implements OnInit {
+    bestSellerList: any;
     returnRequestCount: any;
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
       this.getCustomers();
       this.getLowStockReport();
       this.getReturnRequest();
+      this.getBestSeller();
     }
 
     public closeAlert(alert: any) {
@@ -136,12 +138,29 @@ export class DashboardComponent implements OnInit {
 
             this.showReturnRequestCount=false;
             this.returnRequestCount = (response.json().Total);
-            console.log(this.lowStockCount);
+            console.log(this.returnRequestCount);
 
         },
         (error) =>      {
                 console.log(error);
                 alert("Can't fetch return request data ! Please refresh or check your connnection !");
+              }
+        );
+    }
+    getBestSeller(){
+        this.dashboardService.getBestSeller()
+        .subscribe(
+        (response) => {
+
+
+        
+            this.bestSellerList = (response.json().Data);
+            console.log(this.bestSellerList);
+
+        },
+        (error) =>      {
+                console.log(error);
+                alert("Can't fetch best Seller data ! Please refresh or check your connnection !");
               }
         );
     }

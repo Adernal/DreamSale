@@ -34,6 +34,9 @@ getReturnRequest(){
       }
     },{headers: this.headers});
 }
+getBestSeller(){
+    return this.http.post('http://denmakers-001-site1.itempurl.com/api/Orders/BestsellersReportList',{Page:1,PageSize:10},{headers:this.headers});
+}
 // getLatestOrders(){
 //     return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',{
 //         "Command": {

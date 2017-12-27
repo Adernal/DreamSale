@@ -93,9 +93,39 @@
                 <div class="card-header">
                     <i class="fa fa-bell fa-fw"></i> Best Sellers
                 </div>
-                <!-- /.card-header -->
-                <!-- <app-notification></app-notification> -->
-                <!-- /.card-body -->
+                <div class="row" >
+                   
+                               
+                                <div class="card-block" style="width:100%;">
+                                    <table class="table table-bordered" style="table-layout:fixed">
+                                        <thead class="thead-inverse">
+                                        <tr>
+                
+                                            <th>Name</th>
+                                            <!-- <th>Action</th> -->
+                
+                
+                
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                         <tr *ngFor ="let bestSeller of bestSellerList ">
+                                          <td>{{bestSeller.ProductName}}</td>
+                                          <!-- <td><button type="button" name="{{bestSeller.Id}}" class="btn btn-primary" (click)="editBestSellerMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
+                                        </tr>
+                 
+                
+                                        </tbody>
+                                    </table>
+                                     <img [src]="loadingImagePath" *ngIf="loadingBestSeller" alt=""> 
+                                  <!-- <pagination-controls (pageChange)="currentPageNumber = $event" id="BestSellerList"></pagination-controls> -->
+                                </div>
+                       
+                
+                
+                
+                    </div>
+          
             </div>
             <!-- /.card -->
 
