@@ -17,6 +17,7 @@ import * as FileSaver from 'file-saver';
 
 /* This is still in development ! Has bugs ! */
 export class ProductsComponent implements OnInit {
+   updatedProduct={};
     Token: string;
     currentPageNumber:number;
     @ViewChild('f') productForm: NgForm;
@@ -184,7 +185,7 @@ export class ProductsComponent implements OnInit {
             this.DisplayOrder = this.productForm.value.DisplayOrder;
             this.StockQuantity = this.productForm.value.StockQuantity;
             this.CreatedOn=new Date(new Date().getTime()).toLocaleString();
-            this.convertStringtoNumber();
+          //  this.convertStringtoNumber();
 
             console.log(this.CategoryId);
             console.log(this.ManufacturerId);
@@ -820,30 +821,75 @@ export class ProductsComponent implements OnInit {
         this.StockQuantity = this.productEditForm.value.StockQuantity;
         this.VendorId = this.productEditForm.value.VendorId;
 
-        this.convertStringtoNumber();
+       // this.convertStringtoNumber();
 
         console.log(this.CategoryId);
         console.log(this.ManufacturerId);
         console.log(this.StoreId);
-        this.currentProduct["Id"]=this.Id;
-        this.currentProduct["Name"]=this.Name;
-        this.currentProduct["FullDescription"]=this.FullDescription ;
-        this.currentProduct["Price"]=this.Price ;
-        this.currentProduct["SelectedCategoryIds"]=this.CategoryId  ;
-        this.currentProduct["SelectedStoreIds"]=this.StoreId  ;
-         this.currentProduct["SelectedManufacturerIds"]=this.ManufacturerId;
-        this.currentProduct["Sku"]=this.Sku;
-         this.currentProduct["Published"]=this.Published ;
-        this.currentProduct["Gtin"]=this.Gtin;
-         this.currentProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
-         this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
-         this.currentProduct["MarkAsNew"]=this.MarkAsNew;
-         this.currentProduct["DisplayOrder"]=this.DisplayOrder;
+    //     this.currentProduct["Id"]=this.Id;
+    //     this.currentProduct["Name"]=this.Name;
+    //     this.currentProduct["FullDescription"]=this.FullDescription ;
+    //     this.currentProduct["Price"]=this.Price ;
+    //     this.currentProduct["SelectedCategoryIds"]=[+this.CategoryId]  ;
+    //     this.currentProduct["SelectedStoreIds"]=[+this.StoreId]  ;
+    //      this.currentProduct["SelectedManufacturerIds"]=[+this.ManufacturerId];
+    //     this.currentProduct["Sku"]=this.Sku;
+    //      this.currentProduct["Published"]=this.Published ;
+    //     this.currentProduct["Gtin"]=this.Gtin;
+    //      this.currentProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
+    //      this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
+    //      this.currentProduct["MarkAsNew"]=this.MarkAsNew;
+    //      this.currentProduct["DisplayOrder"]=this.DisplayOrder;
          
-         this.currentProduct["StockQuantity"]=this.StockQuantity;
-         this.currentProduct["VendorId"]=this.VendorId;
-         console.log(this.currentProduct);
-         this.productService.updateProduct(this.currentProduct)
+    //    //  this.currentProduct["StockQuantity"]=this.StockQuantity;
+    //      this.currentProduct["VendorId"]=this.VendorId;
+    //      console.log(this.currentProduct);
+    this.updatedProduct = {
+      
+        "Id": this.Id,
+        
+        "Name": this.Name,
+ 
+        "FullDescription": this.FullDescription,
+    
+        "ShowOnHomePage": this.ShowOnHomePage,
+
+       
+        "Sku": this.Sku,
+        "ManufacturerPartNumber":this.ManufacturerPartNumber,
+        "Gtin": this.Gtin,
+        "Price": this.Price,
+        
+        
+        
+        
+        "MarkAsNew":this.MarkAsNew,
+        "DisplayOrder": this.DisplayOrder,
+        "Published": this.Published,
+        
+        "SelectedStoreIds": [
+          +this.StoreId
+          
+        ],
+      
+        "SelectedCategoryIds": [
+         +this.CategoryId
+        ],
+
+        "SelectedManufacturerIds": [
+          +this.ManufacturerId
+        ],
+  
+        "VendorId": +this.VendorId,
+  
+  
+   
+    
+  
+  
+      };
+      console.log("Updated Product "+this.updatedProduct)
+         this.productService.updateProduct(this.updatedProduct)
              .subscribe(
              (response) => {
                  this.loadingProduct=false;
@@ -1156,22 +1202,6 @@ export class ProductsComponent implements OnInit {
         this.getSpecAttributes();
     }
 
-    // editProductAttribute(prod_id,attr_id){
-    //   console.log(prod_id,attr_id);
-    //   this.editAttributeMode=true;
-    //   this.current_Id =prod_id;
-    //   this.current_attribute_id =attr_id;
-    //   this.current_attribute = this.product[prod_id].product_attributes[attr_id];
-    //   this.current_attribute_description = this.product[prod_id].product_attributes[attr_id].description;
-    //   console.log(this.current_attribute);
-    // }
-    // saveAttribute(){
-    //   this.current_attribute_description = this.attributeForm.value.prod_attrib;
-    //   this.product[+this.current_Id].product_attributes[this.current_attribute_id].description = this.current_attribute_description;
-    //   localStorage.setItem("products",JSON.stringify(this.product));
-    //   console.log("Up")
-    //
-    // }
     showList(){
         this.editMode=false;
         this.addNewProduct = false;
@@ -1274,17 +1304,17 @@ export class ProductsComponent implements OnInit {
       this.showToggle(1);
       this.getAllData();
     }
-    convertStringtoNumber(){
-        for (let index in this.CategoryId){
-            this.CategoryId[index]= +this.CategoryId[index];
-        }
-        for(let index in this.ManufacturerId){
-            this.ManufacturerId[index]=+this.ManufacturerId[index];
-        }
-        for(let index in this.StoreId){
-            this.StoreId[index]=+this.StoreId[index];
-        }
-    }
+    // convertStringtoNumber(){
+    //     for (let index in this.CategoryId){
+    //         this.CategoryId[index]= +this.CategoryId[index];
+    //     }
+    //     for(let index in this.ManufacturerId){
+    //         this.ManufacturerId[index]=+this.ManufacturerId[index];
+    //     }
+    //     for(let index in this.StoreId){
+    //         this.StoreId[index]=+this.StoreId[index];
+    //     }
+    // }
     getCurrentProduct(id:number){
         return this.products.filter(
           function(product){ return product.Id == id }
