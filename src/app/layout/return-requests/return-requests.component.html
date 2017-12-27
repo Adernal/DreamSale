@@ -1,6 +1,78 @@
 <div class="container">
     <h1> Return Request Management </h1>
          <hr>
+         <div class="row" *ngIf="!editMode">
+                <div class="col-lg-6" style="float: none; margin: 0 auto;">
+                <form role="form" (ngSubmit)="searchReturnRequest(c)" #c="ngForm">
+          
+                       
+                     
+                        <fieldset class="form-group card mb-3">
+                          <label for="" class="card-header">Return Request Status Id</label>
+                          <select ngModel name="ReturnRequestStatusId">
+                            
+                           <option value="-1">All</option>
+                           <option value="0">Pending</option>
+                           <option value="10">Received</option>
+                           <option value="20">Return Authorized</option>
+                           <option value="30">Item Repaired</option>
+                           <option value="40">Item Refunded</option>
+                           <option value="50">Request Rejected</option>
+                           <option value="60">Cancelled</option>
+
+                          </select>
+          
+                        </fieldset>
+                      
+                          <fieldset class="form-group card mb-3">
+                            <label for="" class="card-header">Start Date</label>
+                        
+                          <my-date-picker name="startDate" [options]="myDatePickerOptions" (dateChanged)="onStartDateChanged($event)"></my-date-picker>
+                         </fieldset>
+                         <fieldset class="form-group card mb-3">
+                            <label for="" class="card-header">End Date</label>
+                        
+                          <my-date-picker name="endDate" [options]="myDatePickerOptions" (dateChanged)="onEndDateChanged($event)"></my-date-picker>
+                         </fieldset>
+    
+                        <button type="submit" class="btn btn-primary" [disabled]="!c.valid">Search List</button>
+                        <img [src]="loadingImagePath" *ngIf="loadingReturnRequest" alt=""> 
+                        <div style="height:30px;"></div>
+                </form>
+                </div>
+
+                <div class="row" *ngIf="editMode">
+                        <div class="col-lg-6" style="float: none; margin: 0 auto;">
+                        <form role="form" (ngSubmit)="updateReturnRequest(u)" #u="ngForm">
+                  
+                               
+                             
+                                <fieldset class="form-group card mb-3">
+                                  <label for="" class="card-header">Return Request Status Id</label>
+                                  <p>Current Status Id: {{returnRequestStatusId}}</p>
+                                  <select ngModel name="ReturnRequestStatusId">
+                                    
+                                   <option value="-1">All</option>
+                                   <option value="0">Pending</option>
+                                   <option value="10">Received</option>
+                                   <option value="20">Return Authorized</option>
+                                   <option value="30">Item Repaired</option>
+                                   <option value="40">Item Refunded</option>
+                                   <option value="50">Request Rejected</option>
+                                   <option value="60">Cancelled</option>
+        
+                                  </select>
+                  
+                                </fieldset>
+                              
+                                
+            
+                                <button type="submit" class="btn btn-primary" [disabled]="!u.valid">Update Return Request</button>
+                                <img [src]="loadingImagePath" *ngIf="loadingReturnRequest" alt=""> 
+                                <div style="height:30px;"></div>
+                        </form>
+                        </div>
+                 
        
     </div>
     
@@ -36,6 +108,7 @@
                               <td>{{returnRequest.ReturnRequestStatusStr}}</td>
                               <td>{{returnRequest.CreatedOn | date}}</td>
                               <td><button type="button" name="{{returnRequest.Id}}" class="btn btn-primary" (click)="editReturnRequestMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                              <td><button type="button" name="{{returnRequest.Id}}" class="btn btn-primary" (click)="deleteReturnRequest(d)" #d><i class="fa fa-delete"></i></button></td>   
                             </tr>
     
     
@@ -49,4 +122,51 @@
     
     
         </div>
+        <div class="row" *ngIf="showSearchList">
+                <div class="card mb-3">
+                        <div class="card-header">
+                          <h2>Return Requests</h2>
+                          <button class="btn btn-success" (click)="showAll()">Show All</button>
+                        </div>
+                        <div class="card-block" style="width:100%;">
+                            <table class="table table-bordered" style="table-layout:fixed">
+                                <thead class="thead-inverse">
+                                <tr>
+        
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Customer</th>
+                                    <th>Order #</th>
+                                    <th>Return Request Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
+                                
+        
+        
+        
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr *ngFor ="let returnRequest of returnRequestList">
+                                  <td>{{returnRequest.ProductName}}</td>
+                                  <td>{{returnRequest.Quantity}}</td>
+                                  <td>{{returnRequest.CustomerInfo}}</td>
+                                  <td>{{returnRequest.OrderId}}</td>
+                                  <td>{{returnRequest.ReturnRequestStatusStr}}</td>
+                                  <td>{{returnRequest.CreatedOn | date}}</td>
+                                  <td><button type="button" name="{{returnRequest.Id}}" class="btn btn-primary" (click)="editReturnRequestMode(e)" #e><i class="fa fa-edit"></i></button></td>
+                                  <td><button type="button" name="{{returnRequest.Id}}" class="btn btn-primary" (click)="deleteReturnRequest(d)" #d><i class="fa fa-delete"></i></button></td> 
+                                </tr>
+        
+        
+                                </tbody>
+                            </table>
+                             <img [src]="loadingImagePath" *ngIf="loadingOrder" alt=""> 
+                          <pagination-controls (pageChange)="getAllReturnRequests($event)" id="ReturnRequests"></pagination-controls>
+                        </div>
+                    </div>
+        
+        
+        
+            </div>
  

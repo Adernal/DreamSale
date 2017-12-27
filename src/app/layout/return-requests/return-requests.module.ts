@@ -6,13 +6,8 @@ import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
 import { ReturnRequestService } from './return-requests.service';
 import { NgxPaginationModule } from 'ngx-pagination';
-//import { FilterPipe } from './filter.pipe';
-// import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
-//import { customerservice } from './product.service';
+import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
 
-// import { ProductAttributesComponent } from './product-attributes/product-attributes.component';
-// import { SpecificationAttributesComponent } from './specification-attributes/specification-attributes.component';
-// import { ProductTagsModule } from './product-tags/product-tags.module';
 
 
 
@@ -22,9 +17,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReturnRequestsRoutingModule,
     PageHeaderModule,
     FormsModule,
-    NgxPaginationModule
-    // ImageUploadModule.forRoot()
-    // ProductTagsModule
+    NgxPaginationModule,
+    MyDatePickerModule
+  
   ],
   providers:[ReturnRequestService],
   declarations: [ReturnRequestsComponent]

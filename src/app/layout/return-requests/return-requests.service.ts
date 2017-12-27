@@ -11,17 +11,19 @@ export class ReturnRequestService {
     getReturnRequest() {
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',{},{headers:this.headers});
     }
-    updateReturnRequest(store) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log(store);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest/Update', store, { headers: headers });
+    updateReturnRequest(searchParameters) {
+      
+    
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest/Update', searchParameters, { headers: this.headers });
     }
     deleteReturnRequest(id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+       
         console.log("Id = " + id);
         //console.log(store);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest/Delete?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest/Delete?id='+id, null, { headers: this.headers });
     }
-
+    searchReturnRequest(searchParameters) {
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/ReturnRequest',searchParameters,{headers:this.headers});
+    }
 
 }
