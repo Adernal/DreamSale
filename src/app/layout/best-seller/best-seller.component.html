@@ -1,10 +1,89 @@
 <div class="container">
     <h1> Best Seller Management </h1>
          <hr>
+         <!-- Search Form-->
+         <div class="row">
+            <div class="col-lg-6" style="float: none; margin: 0 auto;">
+            <form role="form" (ngSubmit)="searchBestSeller(c)" #c="ngForm">
+      
+                       <fieldset class="form-group card mb-3">
+                        <label class="card-header">Category</label>
+                        <select ngModel name="Category">
+                          
+                            <option *ngFor="let category of categoryList" [value]="category.Id">{{category.Name}}</option>
+                          </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Manufacturer</label>
+                        <select ngModel name="Manufacturer">
+                          
+                            <option *ngFor="let manufacturer of manufacturerList" [value]="manufacturer.Id">{{manufacturer.Name}}</option>
+                          </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                      <label for="" class="card-header">Store</label>
+                      <select ngModel name="Store">
+                        
+                        <option *ngFor="let store of storeList" [value]="store.Id">{{store.Name}}</option>
+                      </select>
+      
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label for="" class="card-header">Vendor</label>
+                        <select ngModel name="Vendor">
+                          
+                          <option *ngFor="let vendor of vendorList" [value]="vendor.Id">{{vendor.Name}}</option>
+                        </select>
+        
+                      </fieldset>
+                      <fieldset class="form-group card mb-3">
+                            <fieldset class="form-group card mb-3">
+                                    <label class="card-header">Order Status</label>
+                                 
+                                    <select name="OrderStatus" class="form-control" ngModel >
+                                      <option value="0">Select Status</option>  
+                                      <option value="10">Pending</option>
+                                      <option value="20">Processing </option>
+                                      <option value="30">Complete</option>
+                                      <option value="40">Cancelled</option>
+                                    </select>
+                          </fieldset>
+                  
+                          
+                  
+                            <fieldset class="form-group card mb-3">
+                                      <label class="card-header">Payment Status</label>
+                                   
+                                       <select class="form-control" ngModel name="PaymentStatus">
+                                              <option value="10">Pending</option>
+                                              <option value="20">Authorized</option>
+                                              <option value="30">Paid</option>
+                                              <option value="35">Partially Refunded</option>
+                                              <option value="40">Refunded</option>
+                                              <option value="50">Voided</option>
+                                            </select> 
+                            </fieldset>
+                        <label for="" class="card-header">Start Date</label>
+                    
+                      <my-date-picker name="startDate" [options]="myDatePickerOptions" (dateChanged)="onStartDateChanged($event)"></my-date-picker>
+                     </fieldset>
+                     <fieldset class="form-group card mb-3">
+                        <label for="" class="card-header">End Date</label>
+                    
+                      <my-date-picker name="endDate" [options]="myDatePickerOptions" (dateChanged)="onEndDateChanged($event)"></my-date-picker>
+                     </fieldset>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="!c.valid">Search List</button>
+                    <img [src]="loadingImagePath" *ngIf="loadingBestSeller" alt=""> 
+                    <div style="height:30px;"></div>
+            </form>
+            </div>
+            <br>
+          </div>
        
     </div>
-    
-        <div class="row" *ngIf="showAllBestSellers">
+<!-- All never sold products-->    
+        <div class="row" *ngIf="showAllBestSeller">
             <div class="card mb-3">
                     <div class="card-header">
                       <h2>Best Sellers</h2>
@@ -15,31 +94,59 @@
                             <tr>
     
                                 <th>Name</th>
-                                <th>Total Quantity</th>
-                                <th>Total Amount</th>
-                                <th>Action</th>
-                            
+                                <!-- <th>Action</th> -->
     
     
     
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- <tr *ngFor ="let bestSeller of bestSellerList">
+                             <tr *ngFor ="let bestSeller of bestSellerList | paginate: { id:'BestSellerList', itemsPerPage:10 , currentPage: currentPageNumber , totalItems: totalBestSellerItems}">
                               <td>{{bestSeller.ProductName}}</td>
-                              <td>{{bestSeller.Quantity}}</td>
-                              <td>{{bestSeller.CustomerInfo}}</td>
-                              <td>{{bestSeller.OrderId}}</td>
-                              <td>{{bestSeller.BestSellerStatusStr}}</td>
-                              <td>{{bestSeller.CreatedOn | date}}</td>
-                              <td><button type="button" name="{{bestSeller.Id}}" class="btn btn-primary" (click)="editBestSellerMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                              <!-- <td><button type="button" name="{{bestSeller.Id}}" class="btn btn-primary" (click)="editBestSellerMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
                             </tr>
-     -->
+     
     
                             </tbody>
                         </table>
-                         <img [src]="loadingImagePath" *ngIf="loadingOrder" alt=""> 
-                      <pagination-controls (pageChange)="getAllBestSellers($event)" id="BestSellers"></pagination-controls>
+                         <img [src]="loadingImagePath" *ngIf="loadingBestSeller" alt=""> 
+                      <pagination-controls (pageChange)="currentPageNumber = $event" id="BestSellerList"></pagination-controls>
+                    </div>
+                </div>
+    
+    
+    
+        </div>
+<!-- Search Results-->
+        <div class="row" *ngIf="showSearchList">
+            <div class="card mb-3">
+                    <div class="card-header">
+                      <h2>Best Sellers</h2>
+                      <button class="btn btn-success" (click)="showAll()">Show All</button>
+                    </div>
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Name</th>
+                                <!-- <th>Action</th> -->
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                             <tr *ngFor ="let bestSeller of searchBestSellerList | paginate: { id:'BestSellerList', itemsPerPage:10 , currentPage: currentPageNumber , totalItems: totalBestSellerItems}">
+                              <td>{{bestSeller.ProductName}}</td>
+                              <!-- <td><button type="button" name="{{bestSeller.Id}}" class="btn btn-primary" (click)="editBestSellerMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
+                            </tr>
+     
+    
+                            </tbody>
+                        </table>
+                         <img [src]="loadingImagePath" *ngIf="loadingBestSeller" alt=""> 
+                      <pagination-controls (pageChange)="currentPageNumber = $event" id="BestSellerList"></pagination-controls>
                     </div>
                 </div>
     
