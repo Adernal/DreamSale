@@ -7,6 +7,7 @@ import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NeverSoldService } from './never-sold.service';
+import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { NeverSoldService } from './never-sold.service';
     NeverSoldRoutingModule,
     PageHeaderModule,
     FormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MyDatePickerModule
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],

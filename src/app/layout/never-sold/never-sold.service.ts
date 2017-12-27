@@ -10,7 +10,7 @@ export class NeverSoldService {
     constructor(private http: Http) { }
 
     getNeverSold() {
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Orders/NeverSoldReportList',{},{headers:this.headers});
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Orders/NeverSoldReportList',{Page:1,PageSize:100},{headers:this.headers});
     }
     updateNeverSold(store) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
@@ -22,6 +22,22 @@ export class NeverSoldService {
         console.log("Id = " + id);
         //console.log(store);
         return this.http.post('http://denmakers-001-site1.itempurl.com/api/NeverSold/DeleteStore?id='+id, null, { headers: headers });
+    }
+    getCategory() {
+
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/categories', {}, { headers: this.headers });
+    }
+    getManufacturers(){
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers', {}, {headers: this.headers});
+    }
+    getStores(){
+          return this.http.get('http://denmakers-001-site1.itempurl.com/api/Stores');
+    }
+    getVendors(){
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors?showHidden=true', {}, {headers: this.headers});
+    }
+    searchNeverSoldItems(searchParameters) {
+        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Orders/NeverSoldReportList',searchParameters,{headers:this.headers});
     }
 
 

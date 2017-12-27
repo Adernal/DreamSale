@@ -1,9 +1,62 @@
 <div class="container">
     <h1> Never Sold Management </h1>
          <hr>
+         <!-- Search Form-->
+         <div class="row">
+            <div class="col-lg-6" style="float: none; margin: 0 auto;">
+            <form role="form" (ngSubmit)="searchNeverSold(c)" #c="ngForm">
+      
+                       <fieldset class="form-group card mb-3">
+                        <label class="card-header">Category</label>
+                        <select ngModel name="Category">
+                          
+                            <option *ngFor="let category of categoryList" [value]="category.Id">{{category.Name}}</option>
+                          </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Manufacturer</label>
+                        <select ngModel name="Manufacturer">
+                          
+                            <option *ngFor="let manufacturer of manufacturerList" [value]="manufacturer.Id">{{manufacturer.Name}}</option>
+                          </select>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                      <label for="" class="card-header">Store</label>
+                      <select ngModel name="Store">
+                        
+                        <option *ngFor="let store of storeList" [value]="store.Id">{{store.Name}}</option>
+                      </select>
+      
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label for="" class="card-header">Vendor</label>
+                        <select ngModel name="Vendor">
+                          
+                          <option *ngFor="let vendor of vendorList" [value]="vendor.Id">{{vendor.Name}}</option>
+                        </select>
+        
+                      </fieldset>
+                      <fieldset class="form-group card mb-3">
+                        <label for="" class="card-header">Start Date</label>
+                    
+                      <my-date-picker name="startDate" [options]="myDatePickerOptions" (dateChanged)="onStartDateChanged($event)"></my-date-picker>
+                     </fieldset>
+                     <fieldset class="form-group card mb-3">
+                        <label for="" class="card-header">End Date</label>
+                    
+                      <my-date-picker name="endDate" [options]="myDatePickerOptions" (dateChanged)="onEndDateChanged($event)"></my-date-picker>
+                     </fieldset>
+
+                    <button type="submit" class="btn btn-primary" [disabled]="!c.valid">Search List</button>
+                    <img [src]="loadingImagePath" *ngIf="loadingNeverSold" alt=""> 
+                    <div style="height:30px;"></div>
+            </form>
+            </div>
+            <br>
+          </div>
        
     </div>
-    
+<!-- All never sold products-->    
         <div class="row" *ngIf="showAllNeverSold">
             <div class="card mb-3">
                     <div class="card-header">
@@ -15,28 +68,59 @@
                             <tr>
     
                                 <th>Name</th>
-                                <th>Action</th>
+                                <!-- <th>Action</th> -->
     
     
     
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- <tr *ngFor ="let neverSold of neverSoldList">
+                             <tr *ngFor ="let neverSold of neverSoldList | paginate: { id:'NeverSoldList', itemsPerPage:10 , currentPage: currentPageNumber , totalItems: totalNeverSoldItems}">
                               <td>{{neverSold.ProductName}}</td>
-                              <td>{{neverSold.Quantity}}</td>
-                              <td>{{neverSold.CustomerInfo}}</td>
-                              <td>{{neverSold.OrderId}}</td>
-                              <td>{{neverSold.NeverSoldStatusStr}}</td>
-                              <td>{{neverSold.CreatedOn | date}}</td>
-                              <td><button type="button" name="{{neverSold.Id}}" class="btn btn-primary" (click)="editNeverSoldMode(c)" #c><i class="fa fa-edit"></i></button></td>
+                              <!-- <td><button type="button" name="{{neverSold.Id}}" class="btn btn-primary" (click)="editNeverSoldMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
                             </tr>
-     -->
+     
     
                             </tbody>
                         </table>
-                         <img [src]="loadingImagePath" *ngIf="loadingOrder" alt=""> 
-                      <pagination-controls (pageChange)="getAllNeverSold($event)" id="NeverSold"></pagination-controls>
+                         <img [src]="loadingImagePath" *ngIf="loadingNeverSold" alt=""> 
+                      <pagination-controls (pageChange)="currentPageNumber = $event" id="NeverSoldList"></pagination-controls>
+                    </div>
+                </div>
+    
+    
+    
+        </div>
+<!-- Search Results-->
+        <div class="row" *ngIf="showSearchList">
+            <div class="card mb-3">
+                    <div class="card-header">
+                      <h2>Never Sold</h2>
+                      <button class="btn btn-success" (click)="showAll()">Show All</button>
+                    </div>
+                    <div class="card-block" style="width:100%;">
+                        <table class="table table-bordered" style="table-layout:fixed">
+                            <thead class="thead-inverse">
+                            <tr>
+    
+                                <th>Name</th>
+                                <!-- <th>Action</th> -->
+    
+    
+    
+                            </tr>
+                            </thead>
+                            <tbody>
+                             <tr *ngFor ="let neverSold of searchNeverSoldList | paginate: { id:'NeverSoldList', itemsPerPage:10 , currentPage: currentPageNumber , totalItems: totalNeverSoldItems}">
+                              <td>{{neverSold.ProductName}}</td>
+                              <!-- <td><button type="button" name="{{neverSold.Id}}" class="btn btn-primary" (click)="editNeverSoldMode(c)" #c><i class="fa fa-edit"></i></button></td> -->
+                            </tr>
+     
+    
+                            </tbody>
+                        </table>
+                         <img [src]="loadingImagePath" *ngIf="loadingNeverSold" alt=""> 
+                      <pagination-controls (pageChange)="currentPageNumber = $event" id="NeverSoldList"></pagination-controls>
                     </div>
                 </div>
     
