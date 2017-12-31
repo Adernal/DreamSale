@@ -1155,6 +1155,7 @@ export class ProductsComponent implements OnInit {
             .subscribe(
             (response) => {
                 this.product_attributes = (response.json().Data);
+                console.log("Attributes fetched");
 
             },
             (error) =>      {
@@ -1169,6 +1170,7 @@ export class ProductsComponent implements OnInit {
             .subscribe(
             (response) => {
                 this.specification_attributes = (response.json().Data);
+                console.log("Spec Attributes fetched");
 
             },
             (error) =>      {
@@ -1183,7 +1185,7 @@ export class ProductsComponent implements OnInit {
             .subscribe(
             (response) => {
                 this.categories = (response.json().Data);
-
+                console.log("Category fetched");
             },
             (error) =>      {
                     console.log(error);
@@ -1260,6 +1262,7 @@ export class ProductsComponent implements OnInit {
             (response) => {
                 
                 this.manufacturers = (response.json().Data);
+                console.log("Manufacturers fetched");
 
             },
             (error) =>      {
@@ -1527,7 +1530,7 @@ fileChange(event) {
        
      
         let options = new RequestOptions({ headers: headers });
-        this.http.post('http://denmakers-001-site1.itempurl.com/api/products/ImportXlsx', formData, options)
+        this.http.post('http://denmakers2-001-site1.gtempurl.com/api/products/ImportXlsx', formData, options)
         .subscribe(
             (data) => {
 
@@ -1545,7 +1548,7 @@ fileChange(event) {
 }
 productExport(){
     this.Token = localStorage.getItem("Token");
-        const url = 'http://denmakers-001-site1.itempurl.com/api/Products/ExportXlsx';
+        const url = 'http://denmakers2-001-site1.gtempurl.com/api/Products/ExportXlsx';
         
          let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Accept':'application/json' ,'Authorization':'Token '+this.Token });
          let options = new RequestOptions({responseType: ResponseContentType.Blob, headers });

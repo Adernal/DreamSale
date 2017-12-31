@@ -27,7 +27,7 @@
         </fieldset>
         <fieldset class="form-group card mb-3">
             <label class="card-header">Picture</label>
-            <image-upload [max]="1" [url]="'http://denmakers-001-site1.itempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+            <image-upload [max]="1" [url]="'http://denmakers2-001-site1.gtempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
         </fieldset>
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Manufacturer</button>

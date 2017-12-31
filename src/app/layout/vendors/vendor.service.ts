@@ -11,23 +11,23 @@ export class VendorService {
         
       
 
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors/Create', Vendor,
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Vendors/Create', Vendor,
             { headers: this.headers });
 
     }
     getVendor() {
         
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors?showHidden='+true,{},{ headers : this.headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Vendors?showHidden='+true,{},{ headers : this.headers });
     }
     updateVendor(vendor) {
         
         console.log(vendor);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors/Update', vendor, { headers: this.headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Vendors/Update', vendor, { headers: this.headers });
     }
     deleteVendor(id) {
         
 
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors/Delete?id='+id, null, { headers: this.headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Vendors/Delete?id='+id, null, { headers: this.headers });
     }
 
 

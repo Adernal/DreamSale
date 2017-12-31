@@ -9,12 +9,12 @@ export class SpecificationAttributesService {
     storeAttributes(attributes) {
 
         this.temp = attributes[attributes.length - 1];
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute/Create', this.temp,
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/SpecificationAttribute/Create', this.temp,
             { headers: this.headers });
 
     }
     getAttributes() {
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute', {
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/SpecificationAttribute', {
             'Page': 1,
             'PageSize': 300
           }, {headers: this.headers});
@@ -22,7 +22,7 @@ export class SpecificationAttributesService {
     updateAttributes(attributes, id) {
 
         console.log(attributes);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute/Update',
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/SpecificationAttribute/Update',
          attributes[id],
           { headers: this.headers });
     }
@@ -31,7 +31,7 @@ export class SpecificationAttributesService {
         console.log('Id = ' + id);
         
 
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/SpecificationAttribute/Delete?id=' + id, null,
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/SpecificationAttribute/Delete?id=' + id, null,
          { headers: this.headers });
     }
 

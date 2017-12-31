@@ -9,7 +9,7 @@ export class LoginService {
     checkLogin(Credentials) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(Credentials);
-        return this.http.post('//denmakers-001-site1.itempurl.com/api/Account/Login',Credentials,
+        return this.http.post('//denmakers2-001-site1.gtempurl.com/api/Account/Login',Credentials,
         { headers: headers });
     }
    

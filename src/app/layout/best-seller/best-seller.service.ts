@@ -11,23 +11,23 @@ export class BestSellerService {
  
     getBestSeller() {
         console.log(this.Token);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Orders/BestsellersReportList',{Page:1,PageSize:50000},{headers:this.headers});
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/BestsellersReportList',{Page:1,PageSize:50000},{headers:this.headers});
     }
     getCategory() {
 
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/categories', {}, { headers: this.headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/categories', {}, { headers: this.headers });
     }
     getManufacturers(){
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Manufacturers', {}, {headers: this.headers});
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Manufacturers', {}, {headers: this.headers});
     }
     getStores(){
-          return this.http.get('http://denmakers-001-site1.itempurl.com/api/Stores');
+          return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/Stores');
     }
     getVendors(){
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Vendors?showHidden=true', {}, {headers: this.headers});
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Vendors?showHidden=true', {}, {headers: this.headers});
     }
     searchBestSellerItems(searchParameters) {
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/Orders/BestsellersReportList',searchParameters,{headers:this.headers});
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/BestsellersReportList',searchParameters,{headers:this.headers});
     }
 
 

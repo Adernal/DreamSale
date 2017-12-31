@@ -8,20 +8,20 @@ export class CustomerRoleService {
     storeCustomerRole(customer_role) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = customer_role[customer_role.length-1];
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers/CreateCustomerRole', this.temp,
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/customers/CreateCustomerRole', this.temp,
             { headers: headers });
 }
     getCustomerRole() {
-        return this.http.get('http://denmakers-001-site1.itempurl.com/api/customers/Roles');
+        return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/customers/Roles');
     }
     updateCustomerRole(customer_role) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(customer_role);
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers/UpdateCustomerRole', customer_role, { headers: headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/customers/UpdateCustomerRole', customer_role, { headers: headers });
     }
     deleteCustomerRole(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://denmakers-001-site1.itempurl.com/api/customers/DeleteCustomerRole?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/customers/DeleteCustomerRole?id='+id, null, { headers: headers });
     }
 
 
