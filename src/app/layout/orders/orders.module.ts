@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderService } from './orders.service';
+import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
 
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
@@ -26,6 +27,7 @@ import { OrderService } from './orders.service';
     PageHeaderModule,
     FormsModule,
     NgxPaginationModule,
+    MyDatePickerModule
    
     // ImageUploadModule.forRoot()
     // ProductTagsModule

@@ -2,6 +2,8 @@ import { Component, OnInit , ViewChild } from '@angular/core';
 import { NgForm  } from '@angular/forms';
 import { Http } from '@angular/http';
 import { OrderService } from './orders.service';
+import {IMyDpOptions} from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
+import { IMyDateModel } from 'angular4-datepicker/src/my-date-picker/interfaces';
 
 @Component({
   selector: 'app-orders',
@@ -9,6 +11,8 @@ import { OrderService } from './orders.service';
   styleUrls: ['./orders.component.scss']
 })
 export class OrdersComponent implements OnInit {
+  endDate: string;
+  startDate: string;
   currentPageNumber:number;
   @ViewChild('f') ordersForm: NgForm;
   @ViewChild('s') searchForm: NgForm;
@@ -34,11 +38,14 @@ export class OrdersComponent implements OnInit {
   searchedOrders=[];
   showAllOrders:boolean;
   searchList:boolean;
-  searchParameters=[];
+  searchParameters={};
   CustomerFullName='';
   CustomerEmail='';
   
-
+  public myDatePickerOptions: IMyDpOptions = {
+   
+    dateFormat: 'dd.mm.yyyy',
+};
   order;
   orderDetails=[];
   constructor(private http:Http,private ordersService:OrderService) {
@@ -125,13 +132,15 @@ searchOrder(page:number){
   //this.StoreName = this.searchForm.value.StoreName;
   this.OrderStatus = this.searchForm.value.OrderStatus;
   this.PaymentStatus = this.searchForm.value.PaymentStatus;
-  this.searchParameters.push({
+  this.searchParameters={
     "BillingLastName":this.BillingLastName,
     "BillingEmail":this.BillingEmail,
     //"StoreName":this.StoreName,
     "OrderStatusIds":[+this.OrderStatus],
-    "PaymentStatusIds":[+this.PaymentStatus]
-  });
+    "PaymentStatusIds":[+this.PaymentStatus],
+    "StartDate":this.startDate,
+    "EndDate":this.endDate
+  };
   this.ordersService.searchOrders((this.searchParameters),page-1)
       .subscribe(
       (response) => {
@@ -139,12 +148,14 @@ searchOrder(page:number){
           this.showAllOrders=false;
           this.searchList=true;
           this.searchedOrders = (response.json().Data);
+          this.searchForm.reset();
           console.log(this.searchedOrders);
 
       },
       (error) =>      {
               console.log(error);
               alert("Can't fetch data ! Please refresh or check your connnection !");
+              this.searchForm.reset();
             }
       );
 
@@ -214,5 +225,17 @@ changePaymentStatus(status){
         }
   );
   
+}
+onStartDateChanged(event: IMyDateModel) {
+  this.startDate = new Date(event.jsdate).toLocaleDateString()
+}
+onEndDateChanged(event: IMyDateModel) {
+this.endDate = new Date(event.jsdate).toLocaleDateString()
+}
+showAll(){
+  this.showAllOrders=true;
+  this.editMode=false;
+  this.searchMode = true;
+  this.searchList=false;
 }
 }

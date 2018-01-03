@@ -132,6 +132,17 @@
                           <option value="50">Voided</option>
                         </select>
                 </fieldset>
+                <fieldset>
+                    <label for="" class="card-header">Start Date</label>
+                
+                  <my-date-picker name="startDate" [options]="myDatePickerOptions" (dateChanged)="onStartDateChanged($event)"></my-date-picker>
+                 </fieldset>
+                 <fieldset class="form-group card mb-3">
+                    <label for="" class="card-header">End Date</label>
+                
+                  <my-date-picker name="endDate" [options]="myDatePickerOptions" (dateChanged)="onEndDateChanged($event)"></my-date-picker>
+                 </fieldset>
+
                 <img [src]="loadingImagePath" *ngIf="loadingOrder" alt="">
                 <button type="submit" class="btn btn-primary" [disabled]="!s.valid" >Search Order</button>
 
@@ -191,7 +202,7 @@
         <div class="card mb-3">
                 <div class="card-header">
                   <h2>Order</h2>
-                  <button (click)="showAllOrders()" class="btn btn-primary">Show All Orders </button>
+                  <button (click)="showAll()" class="btn btn-success">Show All Orders </button>
                 </div>
                 <div class="card-block" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">

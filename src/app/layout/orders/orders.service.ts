@@ -5,45 +5,45 @@ import { Headers, Http } from '@angular/http';
 export class OrderService {
     temp: {};
     Token = localStorage.getItem("Token");
-    
+     headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
     constructor(private http: Http) { }
 
     getOrders(page:number) {
        
         const headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/orders/OrderList',{"Page":page ,"PageSize":10 },{headers:headers});
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/orders/OrderList',{"Page":page ,"PageSize":10 },{headers:this.headers});
     }
-    searchOrders(order,page:number) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
-        console.log(order[0]);
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/OrderList?pageIndex='+page+'&pageSize=10',order[0],{headers:headers});
+    searchOrders(searchParameters,page:number) {
+       
+        console.log(searchParameters);
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/OrderList',searchParameters,{headers:this.headers});
     }
     updateOrder(customer_role, id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        
         console.log(customer_role);
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Customers/EditOrder', customer_role[id], { headers: headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Customers/EditOrder', customer_role[id], { headers: this.headers });
     }
     deleteOrder(id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+       
         console.log("Id = " + id);
         //console.log(customer_role);
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Customers/DeleteOrder?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Customers/DeleteOrder?id='+id, null, { headers: this.headers });
     }
     getShippingAddress(orderid){
-        const headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Token '+this.Token });
-        return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/Orders/'+orderid+'/BillingAddress',{headers:headers});
+       
+        return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/Orders/'+orderid+'/BillingAddress',{headers:this.headers});
     }
     changeOrderStatus(orderid,status){
-        const headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Token '+this.Token });
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/ChangeOrderStatus',{"Id":orderid,"OrderStatusId":status},{headers:headers});
+       
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/ChangeOrderStatus',{"Id":orderid,"OrderStatusId":status},{headers:this.headers});
     }
     changeShippingStatus(orderid,status){
-        const headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Token '+this.Token });
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/ChangeOrderStatus',{"Id":orderid,"ShippingStatusId":status},{headers:headers});
+       
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/ChangeOrderStatus',{"Id":orderid,"ShippingStatusId":status},{headers:this.headers});
     }
     changePaymentStatus(orderid,status){
-        const headers = new Headers({ 'Content-Type': 'application/json','Authorization':'Token '+this.Token });
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/ChangeOrderStatus',{"Id":orderid,"PaymentStatusId":status},{headers:headers});
+       
+        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Orders/ChangeOrderStatus',{"Id":orderid,"PaymentStatusId":status},{headers:this.headers});
     }
 
 }
