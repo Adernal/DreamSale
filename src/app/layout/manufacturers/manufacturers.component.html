@@ -48,7 +48,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <h2>Manufacturer List</h2>
-                    <input type="text" placeholder="Search Manufacturer" [(ngModel)]="filteredManufacturer" style="width:100%;" >
+                    <input type="text" placeholder="Search Manufacturer" [(ngModel)]="filteredManufacturer" style="width:100%;" *ngIf="showSearchField" >
                 </div>
                 <div class="card-block table-responsive" style="width:100%;">
                     <table class="table table-bordered" style="table-layout:fixed">
@@ -64,7 +64,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          <tr *ngFor ="let manufacturer of manufacturers | filter : filteredManufacturer : 'Name'">
+                          <tr *ngFor ="let manufacturer of manufacturers | filter : filteredManufacturer: 'Name' ">
 
                           <td>{{manufacturer.Id}}</td>
                           <td>{{manufacturer.Name}}</td>

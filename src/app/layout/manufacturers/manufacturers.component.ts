@@ -9,6 +9,7 @@ import { ManufacturersService } from './manufacturers.service';
 })
 export class ManufacturersComponent implements OnInit {
   currentPageNumber:number=1;
+  filteredManufacturer:string;
   @ViewChild('f') manufacturerForm :NgForm;
   submitted = false;
   manufacturer =[];
@@ -17,21 +18,22 @@ export class ManufacturersComponent implements OnInit {
   Description='';
   DisplayOrder:Number;
   editMode =false;
-  filteredManufacturer:string;
-  manufacturers;
+  showSearchField:boolean;  
+
+  manufacturers=[];
   PictureId:number;
   imageUrl:string;
   loadingManufacturer:boolean;
   loadingImagePath:string;
 
   constructor(private manufacturersService : ManufacturersService) {
-    
+    this.filteredManufacturer='';
    }
 
   ngOnInit() {
     this.loadingImagePath='../../assets/images/ajax-loader.gif';
     this.loadingManufacturer=false;
-    this.filteredManufacturer='';
+    this.showSearchField=false;
     this.getManufacturers();
   }
   addManufacturer(){
@@ -130,10 +132,12 @@ export class ManufacturersComponent implements OnInit {
     }
   getManufacturers(){
     this.loadingManufacturer=true;
+    this.showSearchField=false;
     this.manufacturersService.getManufacturers()
     .subscribe(
       (response)=>{
         this.manufacturers = (response.json().Data);
+        this.showSearchField=true;
         this.loadingManufacturer=false;
       },
       (error)=>console.log(error)

@@ -89,6 +89,7 @@ export class DashboardComponent implements OnInit {
           },
           (error) =>      {
                   console.log(error);
+                  this.showOrderCount=false; 
                   alert("Can't fetch total orders ! Please refresh or check your connnection !");
                 }
           );
@@ -107,6 +108,7 @@ export class DashboardComponent implements OnInit {
             },
             (error) =>      {
                     console.log(error);
+                    this.showCustomerCount=false;
                     alert("Can't fetch total customers ! Please refresh or check your connnection !");
                   }
             );
@@ -125,6 +127,7 @@ export class DashboardComponent implements OnInit {
         },
         (error) =>      {
                 console.log(error);
+                this.showLowStockCount=false;
                 alert("Can't fetch low stock data ! Please refresh or check your connnection !");
               }
         );
@@ -143,6 +146,7 @@ export class DashboardComponent implements OnInit {
         },
         (error) =>      {
                 console.log(error);
+                this.showReturnRequestCount=false;
                 alert("Can't fetch return request data ! Please refresh or check your connnection !");
               }
         );

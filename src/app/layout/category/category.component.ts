@@ -35,6 +35,11 @@ export class CategoryComponent implements OnInit {
 
 
   constructor(private categoryService: CategoryService) {
+  
+
+  }
+
+  ngOnInit() {
     this.PictureId=0;
     this.imageUrl='';
     this.currentPageNumber=1;
@@ -47,10 +52,6 @@ export class CategoryComponent implements OnInit {
     this.filteredCategory='';
     this.loadingCategory=false;
     this.loadingImagePath='../../assets/images/ajax-loader.gif';
-
-  }
-
-  ngOnInit() {
     // localStorage.removeItem("categories");
     this.ParentCategoryId=0;
     this.getCategory();

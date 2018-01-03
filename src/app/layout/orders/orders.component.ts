@@ -83,6 +83,7 @@ export class OrdersComponent implements OnInit {
         (error) =>      {
                 console.log(error);
                 alert("Can't fetch data ! Please refresh or check your connnection !");
+                this.loadingOrder=false;
               }
         );
 
@@ -155,6 +156,7 @@ searchOrder(page:number){
       (error) =>      {
               console.log(error);
               alert("Can't fetch data ! Please refresh or check your connnection !");
+              this.loadingOrder=false;
               this.searchForm.reset();
             }
       );
