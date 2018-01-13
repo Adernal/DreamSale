@@ -96,8 +96,7 @@ export class ProductService {
     }
     updateProduct(product) {
 
-        console.log(this.Token);
-        console.log(product);
+        console.log("Product sent :"+product);
         return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Products/Update', product, {headers: this.headers});
     }
     deleteProduct(id: number) {

@@ -185,7 +185,7 @@ changeOrderStatus(status){
   (response) => {
    
     this.OrderStatus = response.json()["OrderStatus"];
-   
+    alert("Updated Order Status !");
     console.log(response.json());
 
   },

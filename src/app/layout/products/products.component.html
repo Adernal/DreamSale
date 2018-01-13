@@ -337,7 +337,7 @@
                             <li *ngFor="let category of categories">
                                 <ul style="list-style:none">
                                     <li *ngFor="let selectedcategory of CategoryId" >
-                                        <p *ngIf="selectedcategory===category.Id">{{category.Name}}</p>
+                                        <p *ngIf="selectedcategory===category.Id">Hi {{category.Name}}</p>
                                     </li>
                                     </ul>
                                 </li>
@@ -362,6 +362,16 @@
 </select>
             </fieldset>
             <fieldset class="form-group card mb-3">
+                <label class="card-header">Selected Vendor</label>
+                <ul style="list-style:none">
+                        <li *ngFor="let vendor of vendors">
+                                <p *ngIf="VendorId===vendor.Id">{{vendor.Name}}</p>
+                            </li>
+                              </ul>
+             
+
+            </fieldset>
+            <fieldset class="form-group card mb-3">
                 <label class="card-header">Vendors</label>
                 <select class="form-control" [(ngModel)]="VendorId" name="VendorId" >
               <option *ngFor="let vendor of vendors" value="vendor.Id">
@@ -369,6 +379,16 @@
               <hr></option>
 </select>
             </fieldset>
+            <!-- <fieldset class="form-group card mb-3">
+                    <label class="card-header">Selected Store</label>
+                    <ul style="list-style:none">
+                            <li *ngFor="let store of stores">
+                                    <p *ngIf="VendorId===vendor.Id">{{vendor.Name}}</p>
+                                </li>
+                                  </ul>
+                 
+    
+                </fieldset> -->
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Stores</label>
                 <select class="form-control" [(ngModel)]="StoreId" name="StoreId" >

@@ -15,7 +15,7 @@ import * as FileSaver from 'file-saver';
     styleUrls: ['./products.component.scss']
 })
 
-/* This is still in development ! Has bugs ! */
+
 export class ProductsComponent implements OnInit {
    updatedProduct={};
     Token: string;
@@ -780,16 +780,16 @@ export class ProductsComponent implements OnInit {
         this.showSpecificationAttributes=false;
         this.Id = +id.name;
         this.currentProduct = this.getCurrentProduct(this.Id)[0];
-        console.log("Current Product :"+this.currentProduct);
+        console.log("Current Product :"+(JSON.stringify(this.currentProduct)));
         this.Name = this.currentProduct["Name"];
         this.FullDescription = this.currentProduct["FullDescription"];
         this.Price = this.currentProduct["Price"];
         this.CategoryId = this.currentProduct["SelectedCategoryIds"];
-        console.log(this.CategoryId);
+        console.log("Selected Category Ids :"+this.CategoryId);
         this.StoreId = this.currentProduct["SelectedStoreIds"];
-        console.log(this.SelectedStoreIds);
+        console.log("Selected Store Ids:"+this.SelectedStoreIds);
         this.ManufacturerId = this.currentProduct["SelectedManufacturerIds"];
-        console.log(this.ManufacturerId);
+        console.log("Selected Manufacturer Ids :"+this.ManufacturerId);
         this.Sku = this.currentProduct["Sku"];
         this.Published = this.currentProduct["Published"];
         this.Gtin = this.currentProduct["Gtin"];
@@ -799,7 +799,7 @@ export class ProductsComponent implements OnInit {
         this.DisplayOrder = this.currentProduct["DisplayOrder"];
         this.StockQuantity = this.currentProduct["StockQuantity"];
         this.VendorId = this.currentProduct["VendorId"];
- 
+        console.log("Vendor Id :"+this.VendorId);
 
     }
     editProduct() {
@@ -817,79 +817,29 @@ export class ProductsComponent implements OnInit {
         this.ShowOnHomePage = this.productEditForm.value.ShowOnHomePage;
         this.MarkAsNew = this.productEditForm.value.MarkAsNew;
         this.DisplayOrder = this.productEditForm.value.DisplayOrder;
-
         this.StockQuantity = this.productEditForm.value.StockQuantity;
         this.VendorId = this.productEditForm.value.VendorId;
 
-       // this.convertStringtoNumber();
-
-        console.log(this.CategoryId);
-        console.log(this.ManufacturerId);
-        console.log(this.StoreId);
-    //     this.currentProduct["Id"]=this.Id;
-    //     this.currentProduct["Name"]=this.Name;
-    //     this.currentProduct["FullDescription"]=this.FullDescription ;
-    //     this.currentProduct["Price"]=this.Price ;
-    //     this.currentProduct["SelectedCategoryIds"]=[+this.CategoryId]  ;
-    //     this.currentProduct["SelectedStoreIds"]=[+this.StoreId]  ;
-    //      this.currentProduct["SelectedManufacturerIds"]=[+this.ManufacturerId];
-    //     this.currentProduct["Sku"]=this.Sku;
-    //      this.currentProduct["Published"]=this.Published ;
-    //     this.currentProduct["Gtin"]=this.Gtin;
-    //      this.currentProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
-    //      this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
-    //      this.currentProduct["MarkAsNew"]=this.MarkAsNew;
-    //      this.currentProduct["DisplayOrder"]=this.DisplayOrder;
-         
-    //    //  this.currentProduct["StockQuantity"]=this.StockQuantity;
-    //      this.currentProduct["VendorId"]=this.VendorId;
-    //      console.log(this.currentProduct);
-    this.updatedProduct = {
-      
-        "Id": this.Id,
-        
-        "Name": this.Name,
- 
-        "FullDescription": this.FullDescription,
-    
-        "ShowOnHomePage": this.ShowOnHomePage,
-
        
-        "Sku": this.Sku,
-        "ManufacturerPartNumber":this.ManufacturerPartNumber,
-        "Gtin": this.Gtin,
-        "Price": this.Price,
-        
-        
-        
-        
-        "MarkAsNew":this.MarkAsNew,
-        "DisplayOrder": this.DisplayOrder,
-        "Published": this.Published,
-        
-        "SelectedStoreIds": [
-          +this.StoreId
-          
-        ],
-      
-        "SelectedCategoryIds": [
-         +this.CategoryId
-        ],
 
-        "SelectedManufacturerIds": [
-          +this.ManufacturerId
-        ],
-  
-        "VendorId": +this.VendorId,
-  
-  
-   
-    
-  
-  
-      };
-      console.log("Updated Product "+this.updatedProduct)
-         this.productService.updateProduct(this.updatedProduct)
+        this.currentProduct["Id"]=this.Id;
+        this.currentProduct["Name"]=this.Name;
+        this.currentProduct["FullDescription"]=this.FullDescription ;
+        this.currentProduct["Price"]=this.Price ;
+        this.currentProduct["SelectedCategoryIds"]=[+this.CategoryId]  ;
+        this.currentProduct["SelectedStoreIds"]=[+this.StoreId]  ;
+        this.currentProduct["SelectedManufacturerIds"]=[+this.ManufacturerId];
+        this.currentProduct["Sku"]=this.Sku;
+        this.currentProduct["Published"]=this.Published ;
+        this.currentProduct["Gtin"]=this.Gtin;
+        this.currentProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
+        this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
+        this.currentProduct["MarkAsNew"]=this.MarkAsNew;
+        this.currentProduct["DisplayOrder"]=this.DisplayOrder;
+        this.currentProduct["StockQuantity"]=this.StockQuantity;
+        this.currentProduct["VendorId"]=this.VendorId;
+
+        this.productService.updateProduct(this.currentProduct)
              .subscribe(
              (response) => {
                  this.loadingProduct=false;
@@ -1307,17 +1257,7 @@ export class ProductsComponent implements OnInit {
       this.showToggle(1);
       this.getAllData();
     }
-    // convertStringtoNumber(){
-    //     for (let index in this.CategoryId){
-    //         this.CategoryId[index]= +this.CategoryId[index];
-    //     }
-    //     for(let index in this.ManufacturerId){
-    //         this.ManufacturerId[index]=+this.ManufacturerId[index];
-    //     }
-    //     for(let index in this.StoreId){
-    //         this.StoreId[index]=+this.StoreId[index];
-    //     }
-    // }
+  
     getCurrentProduct(id:number){
         return this.products.filter(
           function(product){ return product.Id == id }
@@ -1351,30 +1291,7 @@ export class ProductsComponent implements OnInit {
             );
 
     }
-    // getCurrentSpecAttributes(){
-    //     this.addSpecAttributeMode=false;
-    //     this.loading=true;
-    //     this.productService.getCurrentSpecAttributes(this.Id)
-    //         .subscribe(
-    //         (response) => {
-    //             this.specAttributeFields = (response.json().Data);
-    //             console.log(response.json());
-    //             console.log(this.specAttributeFields);
-    //             this.addSpecAttributeMode=true
-    //             this.loading=false;
-    //         },
-    //         (error) =>      {
-    //                 console.log(error);
-    //                 alert("Can't fetch data ! Please refresh or check your connnection !");
-    //               }
-    //         );
-    // }
-    // addCurrentAttributeMode(){
-    //     this.addAttributeMode=false;
-    //     this.showCurrentAttributeList=false;
-    //     this.showCurrentAttributeForm=true;
-    //
-    // }
+
     addAttribute(){
 
       this.current_attribute_id = this.productAttributeForm.value.current_attribute_id;
@@ -1444,79 +1361,12 @@ export class ProductsComponent implements OnInit {
             );
         }
     }
-    // public filesSelect(selectedFiles: Ng4FilesSelected): void {
-    //     if (selectedFiles.status !== Ng4FilesStatus.STATUS_SUCCESS) {
-    //       this.selectedFiles = selectedFiles.status;
-    //       alert("File upload not successful");
-    //       return;  
-
-          
-    //       // Hnadle error statuses here
-    //     }
-     
-    //     this.selectedFiles = Array.from(selectedFiles.files).map(file => file.name);
-    //     this.productService.importProducts(this.selectedFiles)
-    //     .subscribe(
-    //     (data) => {
-
-    //       alert('Import complete!');
-    //       this.getProducts(this.currentPageNumber);
-    //     },
-    //     (error) => {
-    //       console.log(error)
-    //       alert('Can\'t import products ! Please refresh or check your connnection !');
-    //     }
-    //     );
-
-    //   }
+  
     importProducts(file){
         console.log(file.serverResponse.json());
     }
  
-//
-// addSpecAttribute(){
-//      this.current_attribute_id = this.specAttributeForm.value.current_attribute_id;
-//      this.current_spec_attribute_id = this.specAttributeForm.value.current_spec_attribute_id;
-//      this.Spec_Attribute_Id = this.getCurrentSpecAttributeName(this.current_spec_attribute_id)[0].Name;
-//      this.ValueRaw = this.specAttributeForm.value.ValueRaw;
-//      this.productService.addSpecAttribute(this.Id,this.current_attribute_id,this.current_spec_attribute_id,this.Spec_Attribute_Id,this.ValueRaw)
-//        .subscribe(
-//        (data) => {
-//
-//          alert('Added !');
-//          this.specAttributeForm.reset();
-//          this.getCurrentSpecAttributes();
-//        },
-//        (error) => {
-//          console.log(error)
-//          alert('Can\'t fetch data ! Please refresh or check your connnection !')
-//        }
-//        );
-//
-// }
-// getCurrentSpecAttributeName(id:number){
-//     return this.specification_attributes.filter(
-//       function(attribute){ return attribute.Id == id }
-//   );
-// }
-// deleteCurrentSpecAttribute(id :HTMLFormElement){
-//     var confirmation = confirm("Are you sure you want to delete ?");
-//     if (confirmation) {
-//       this.productService.deleteSpecAttribute(+id.name)
-//         .subscribe(
-//         (data) => {
-//
-//           alert('Deleted !');
-//           this.specAttributeForm.reset();
-//           this.getCurrentSpecAttributes();
-//         },
-//         (error) => {
-//           console.log(error)
-//           alert('Can\'t fetch data ! Please refresh or check your connnection !')
-//         }
-//         );
-//     }
-// }
+
 fileChange(event) {
     let fileList: FileList = event.target.files;
     if(fileList.length > 0) {
@@ -1565,5 +1415,8 @@ productExport(){
              console.error(err);
          });
 
+}
+getCurrentCategory(){
+  
 }
 }
