@@ -56,20 +56,14 @@
         <!--End of Search Product Form -->
         <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
         </div>
-
+</div>
 
     <!--Add New Product -->
-        <div *ngIf="addNewProduct" style="float: none; margin: 0 auto;">
-            <div align="center">
-                <!-- <span><button class="btn btn-primary" (click)="showToggle(1)">Product Info</button>
-                        <button class="btn btn-success" (click)="showToggle(2)">Pictures</button>
-                        <button class="btn btn-danger" (click)="showToggle(3)">Product Attributes</button>
-                        <button class="btn btn-warning" (click)="showToggle(4)">Specification Attributes</button>
-                   </span> -->
-            </div>
+        <div *ngIf="addNewProduct" class="row" style="float: none; margin: 0 auto;">
+     
             <br>
-            <div>
-                <form role="form" (ngSubmit)="addProduct(f)" #f="ngForm">
+            <div class="col-lg-6" style="float: none; margin: 0 auto;">
+                <form role="form" (ngSubmit)="addProduct(f)" #f="ngForm" >
 
 
 
@@ -147,7 +141,7 @@
                         <label class="card-header">GTIN(Global Trade Item Number)</label>
                         <input type="text" class="form-control" ngModel name="Gtin">
                     </fieldset>
-                    <fieldset class="form-group car mb-3">
+                    <fieldset class="form-group card mb-3">
                         <label class="card-header">Manufacturer Part Number</label>
                         <input type="text" class="form-control" ngModel name="ManufacturerPartNumber">
                     </fieldset>
@@ -189,7 +183,7 @@
 
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
         </div>
-    </div>
+    
 
 <hr>
 <div class="row" *ngIf="showSearchedProductList">

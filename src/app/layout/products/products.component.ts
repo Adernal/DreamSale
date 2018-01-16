@@ -780,7 +780,7 @@ export class ProductsComponent implements OnInit {
         this.showSpecificationAttributes=false;
         this.Id = +id.name;
         this.currentProduct = this.getCurrentProduct(this.Id)[0];
-        console.log("Current Product :"+(JSON.stringify(this.currentProduct)));
+       
         this.Name = this.currentProduct["Name"];
         this.FullDescription = this.currentProduct["FullDescription"];
         this.Price = this.currentProduct["Price"];
@@ -818,28 +818,48 @@ export class ProductsComponent implements OnInit {
         this.MarkAsNew = this.productEditForm.value.MarkAsNew;
         this.DisplayOrder = this.productEditForm.value.DisplayOrder;
         this.StockQuantity = this.productEditForm.value.StockQuantity;
+        console.log("Stock Quantity: "+this.StockQuantity);
         this.VendorId = this.productEditForm.value.VendorId;
 
        
 
-        this.currentProduct["Id"]=this.Id;
-        this.currentProduct["Name"]=this.Name;
-        this.currentProduct["FullDescription"]=this.FullDescription ;
-        this.currentProduct["Price"]=this.Price ;
-        this.currentProduct["SelectedCategoryIds"]=[+this.CategoryId]  ;
-        this.currentProduct["SelectedStoreIds"]=[+this.StoreId]  ;
-        this.currentProduct["SelectedManufacturerIds"]=[+this.ManufacturerId];
-        this.currentProduct["Sku"]=this.Sku;
-        this.currentProduct["Published"]=this.Published ;
-        this.currentProduct["Gtin"]=this.Gtin;
-        this.currentProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
-        this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
-        this.currentProduct["MarkAsNew"]=this.MarkAsNew;
-        this.currentProduct["DisplayOrder"]=this.DisplayOrder;
-        this.currentProduct["StockQuantity"]=this.StockQuantity;
-        this.currentProduct["VendorId"]=this.VendorId;
+        // this.currentProduct["Id"]=this.Id;
+        // this.currentProduct["Name"]=this.Name;
+        // this.currentProduct["FullDescription"]=this.FullDescription ;
+        // this.currentProduct["Price"]=this.Price ;
+        // this.currentProduct["SelectedCategoryIds"]=[+this.CategoryId]  ;
+        // this.currentProduct["SelectedStoreIds"]=[+this.StoreId]  ;
+        // this.currentProduct["SelectedManufacturerIds"]=[+this.ManufacturerId];
+        // this.currentProduct["Sku"]=this.Sku;
+        // this.currentProduct["Published"]=this.Published ;
+        // this.currentProduct["Gtin"]=this.Gtin;
+        // this.currentProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
+        // this.currentProduct["ShowOnHomePage"]=this.ShowOnHomePage;
+        // this.currentProduct["MarkAsNew"]=this.MarkAsNew;
+        // this.currentProduct["DisplayOrder"]=this.DisplayOrder;
+        // this.currentProduct["StockQuantity"]=this.StockQuantity;
+        // this.currentProduct["VendorId"]=this.VendorId;
+        
+        this.updatedProduct["Id"]=this.Id;
+        this.updatedProduct["Name"]=this.Name;
+        this.updatedProduct["FullDescription"]=this.FullDescription ;
+        this.updatedProduct["Price"]=this.Price ;
+        this.updatedProduct["SelectedCategoryIds"]=[+this.CategoryId]  ;
+        this.updatedProduct["SelectedStoreIds"]=[+this.StoreId]  ;
+        this.updatedProduct["SelectedManufacturerIds"]=[+this.ManufacturerId];
+        this.updatedProduct["Sku"]=this.Sku;
+        this.updatedProduct["Published"]=this.Published ;
+        this.updatedProduct["Gtin"]=this.Gtin;
+        this.updatedProduct["ManufacturerPartNumber"]=this.ManufacturerPartNumber;
+        this.updatedProduct["ShowOnHomePage"]=this.ShowOnHomePage;
+        this.updatedProduct["MarkAsNew"]=this.MarkAsNew;
+        this.updatedProduct["DisplayOrder"]=this.DisplayOrder;
+        this.updatedProduct["StockQuantity"]=this.StockQuantity;
+    this.updatedProduct["LastStockQuantity"]=this.currentProduct["LastStockQuantity"];
+        this.updatedProduct["VendorId"]=this.VendorId;
+        console.log("Current Product: "+JSON.stringify(this.updatedProduct));
 
-        this.productService.updateProduct(this.currentProduct)
+        this.productService.updateProduct((this.updatedProduct))
              .subscribe(
              (response) => {
                  this.loadingProduct=false;
@@ -884,7 +904,7 @@ export class ProductsComponent implements OnInit {
                 console.log("Total Products:  "+this.totalProducts);
 
                 //this.product = JSON.parse(this.products);
-                console.log((this.products));
+               // console.log((this.products));
                 //  this.attribute =[this.attributes];
             },
             (error) =>      {
@@ -901,13 +921,7 @@ export class ProductsComponent implements OnInit {
         this.CategoryId = this.productSearchForm.value.CategoryId;
         this.StoreId = this.productSearchForm.value.StoreId;
         this.ManufacturerId = this.productSearchForm.value.ManufacturerId;
-        console.log(this.Name);
-        console.log(this.Price);
-        console.log(this.CategoryId);
-        console.log(this.StoreId);
-        console.log(this.ManufacturerId);
-        
-
+     
         //this.convertStringtoNumber();
 
         this.searchProductParameters={
