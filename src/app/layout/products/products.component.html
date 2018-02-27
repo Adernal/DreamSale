@@ -60,7 +60,7 @@
 
     <!--Add New Product -->
         <div *ngIf="addNewProduct" class="row" style="float: none; margin: 0 auto;">
-     
+
             <br>
             <div class="col-lg-6" style="float: none; margin: 0 auto;">
                 <form role="form" (ngSubmit)="addProduct(f)" #f="ngForm" >
@@ -183,7 +183,7 @@
 
 <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
         </div>
-    
+
 
 <hr>
 <div class="row" *ngIf="showSearchedProductList">
@@ -239,15 +239,15 @@
 
     <div class="card mb-3">
         <div class="card-header">
-            <span>   
-                 <h2>Product List </h2> 
+            <span>
+                 <h2>Product List </h2>
                  <button class="btn btn-primary" (click)="addProductMode()">Add Product</button>
-                 <!-- <p-fileUpload name="myfile[]" url="http://denmakers2-001-site1.gtempurl.com/api/Products/ImportXlsx"></p-fileUpload> -->
+                 <!-- <p-fileUpload name="myfile[]" url="http://denmakers3-001-site1.ctempurl.com/api/Products/ImportXlsx"></p-fileUpload> -->
                  <input type="file" (change)="fileChange($event)" class="btn btn-success" placeholder="Upload file" accept=".xlsx">
                  <button class="btn btn-danger" (click)="productExport()">Export Products</button>
              </span>
              <!-- <span style="width:20%">
-                    <image-upload [max]="1" [url]="'http://denmakers2-001-site1.gtempurl.com/api/Products/ImportXlsx'" [buttonCaption]="'Import Products!'" [dropBoxMessage]="''"  (onFileUploadFinish)="importProducts($event)"></image-upload>
+                    <image-upload [max]="1" [url]="'http://denmakers3-001-site1.ctempurl.com/api/Products/ImportXlsx'" [buttonCaption]="'Import Products!'" [dropBoxMessage]="''"  (onFileUploadFinish)="importProducts($event)"></image-upload>
              </span> -->
 
         </div>
@@ -336,7 +336,7 @@
                                     </ul>
                                 </li>
                                   </ul>
-                 
+
 
                 </fieldset> -->
             <fieldset class="form-group card mb-3">
@@ -362,7 +362,7 @@
                                 <p *ngIf="VendorId===vendor.Id">{{vendor.Name}}</p>
                             </li>
                               </ul>
-             
+
 
             </fieldset>
             <fieldset class="form-group card mb-3">
@@ -380,8 +380,8 @@
                                     <p *ngIf="VendorId===vendor.Id">{{vendor.Name}}</p>
                                 </li>
                                   </ul>
-                 
-    
+
+
                 </fieldset> -->
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Stores</label>
@@ -500,7 +500,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr *ngFor="let i = index;let attributeField of productAttributeFields">
                     <td>{{attributeField.ProductAttribute}} </td>
                     <td>{{attributeField.TextPrompt}}</td>

@@ -7,7 +7,7 @@ export class OnlineCustomersService {
     constructor(private http: Http) { }
 
     getOnlineCustomers() {
-        return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/onlineCustomers/0/2147483647');
+        return this.http.get('http://denmakers3-001-site1.ctempurl.com/api/onlineCustomers/0/2147483647');
     }
 
 

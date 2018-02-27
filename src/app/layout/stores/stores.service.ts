@@ -8,23 +8,23 @@ export class StoresService {
     storeStores(store) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = store[store.length-1];
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Stores/CreateStore?continueEditing=true', this.temp,
+        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Stores/CreateStore?continueEditing=true', this.temp,
             { headers: headers });
 
     }
     getStores() {
-        return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/Stores');
+        return this.http.get('http://denmakers3-001-site1.ctempurl.com/api/Stores');
     }
     updateStores(store) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(store);
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Stores/EditStore?continueEditing=true', store, { headers: headers });
+        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Stores/EditStore?continueEditing=true', store, { headers: headers });
     }
     deleteStores(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log("Id = " + id);
         //console.log(store);
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Stores/DeleteStore?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Stores/DeleteStore?id='+id, null, { headers: headers });
     }
 
 

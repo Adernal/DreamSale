@@ -106,8 +106,8 @@ export class ProductsComponent implements OnInit {
     Spec_Attribute_Id='';
     ValueRaw='';
     public selectedFiles;
-    
-    
+
+
 
 
 
@@ -118,7 +118,7 @@ export class ProductsComponent implements OnInit {
         this.Name='';
         this.FullDescription='';
         this.filteredProduct='';
-        
+
         this.loadingImagePath = '../../assets/images/ajax-loader.gif';
         this.tags = JSON.parse(localStorage.getItem("tags"));
         this.addNewProduct=false;
@@ -780,7 +780,7 @@ export class ProductsComponent implements OnInit {
         this.showSpecificationAttributes=false;
         this.Id = +id.name;
         this.currentProduct = this.getCurrentProduct(this.Id)[0];
-       
+
         this.Name = this.currentProduct["Name"];
         this.FullDescription = this.currentProduct["FullDescription"];
         this.Price = this.currentProduct["Price"];
@@ -821,7 +821,7 @@ export class ProductsComponent implements OnInit {
         console.log("Stock Quantity: "+this.StockQuantity);
         this.VendorId = this.productEditForm.value.VendorId;
 
-       
+
 
         // this.currentProduct["Id"]=this.Id;
         // this.currentProduct["Name"]=this.Name;
@@ -839,7 +839,7 @@ export class ProductsComponent implements OnInit {
         // this.currentProduct["DisplayOrder"]=this.DisplayOrder;
         // this.currentProduct["StockQuantity"]=this.StockQuantity;
         // this.currentProduct["VendorId"]=this.VendorId;
-        
+
         this.updatedProduct["Id"]=this.Id;
         this.updatedProduct["Name"]=this.Name;
         this.updatedProduct["FullDescription"]=this.FullDescription ;
@@ -921,7 +921,7 @@ export class ProductsComponent implements OnInit {
         this.CategoryId = this.productSearchForm.value.CategoryId;
         this.StoreId = this.productSearchForm.value.StoreId;
         this.ManufacturerId = this.productSearchForm.value.ManufacturerId;
-     
+
         //this.convertStringtoNumber();
 
         this.searchProductParameters={
@@ -1224,7 +1224,7 @@ export class ProductsComponent implements OnInit {
         this.productService.getManufacturers()
             .subscribe(
             (response) => {
-                
+
                 this.manufacturers = (response.json().Data);
                 console.log("Manufacturers fetched");
 
@@ -1240,7 +1240,7 @@ export class ProductsComponent implements OnInit {
         this.productService.getVendors()
             .subscribe(
             (response) => {
-            
+
                 this.vendors = (response.json().Data);
 
             },
@@ -1254,7 +1254,7 @@ export class ProductsComponent implements OnInit {
         this.productService.getStores()
             .subscribe(
             (response) => {
-             
+
                 this.stores = (response.json().Data);
 
             },
@@ -1271,7 +1271,7 @@ export class ProductsComponent implements OnInit {
       this.showToggle(1);
       this.getAllData();
     }
-  
+
     getCurrentProduct(id:number){
         return this.products.filter(
           function(product){ return product.Id == id }
@@ -1375,11 +1375,11 @@ export class ProductsComponent implements OnInit {
             );
         }
     }
-  
+
     importProducts(file){
         console.log(file.serverResponse.json());
     }
- 
+
 
 fileChange(event) {
     let fileList: FileList = event.target.files;
@@ -1388,13 +1388,13 @@ fileChange(event) {
         let formData:FormData = new FormData();
         console.log(file);
         this.Token = localStorage.getItem("Token");
-   
+
         formData.append('importexcelfile', file, file.name);
         let headers = new Headers({ 'Accept':'application/json' ,'Authorization':'Token '+this.Token });
-       
-     
+
+
         let options = new RequestOptions({ headers: headers });
-        this.http.post('http://denmakers2-001-site1.gtempurl.com/api/products/ImportXlsx', formData, options)
+        this.http.post('http://denmakers3-001-site1.ctempurl.com/api/products/ImportXlsx', formData, options)
         .subscribe(
             (data) => {
 
@@ -1412,17 +1412,17 @@ fileChange(event) {
 }
 productExport(){
     this.Token = localStorage.getItem("Token");
-        const url = 'http://denmakers2-001-site1.gtempurl.com/api/Products/ExportXlsx';
-        
+        const url = 'http://denmakers3-001-site1.ctempurl.com/api/Products/ExportXlsx';
+
          let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Accept':'application/json' ,'Authorization':'Token '+this.Token });
          let options = new RequestOptions({responseType: ResponseContentType.Blob, headers });
-        
+
 
          this.http.get(url, options)
          .map(res => res.blob())
          .subscribe(
          data => {
- FileSaver.saveAs(data, 'Export.xlsx'); 
+ FileSaver.saveAs(data, 'Export.xlsx');
          },
          err => {
              console.log('error');
@@ -1431,6 +1431,6 @@ productExport(){
 
 }
 getCurrentCategory(){
-  
+
 }
 }

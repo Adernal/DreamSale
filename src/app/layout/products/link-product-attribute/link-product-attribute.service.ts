@@ -6,10 +6,10 @@ export class LinkProductAttributeService {
     temp: {};
     constructor(private http: Http) { }
     getAttributes() {
-      return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/ProductAttribute/0/2147483647');
+      return this.http.get('http://denmakers3-001-site1.ctempurl.com/api/ProductAttribute/0/2147483647');
   }
   getSpecAttributes() {
-    return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/SpecificationAttribute/0/2147483647');
+    return this.http.get('http://denmakers3-001-site1.ctempurl.com/api/SpecificationAttribute/0/2147483647');
 }
 
 

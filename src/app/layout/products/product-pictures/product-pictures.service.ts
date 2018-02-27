@@ -9,7 +9,7 @@ export class ProductPicturesService {
 
     getPicture(id:number){
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Products/'+id+'/ProductPictureList',    {
+        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Products/'+id+'/ProductPictureList',    {
           "Page": 0,
           "PageSize":200
       }, { headers: headers });
@@ -20,13 +20,13 @@ export class ProductPicturesService {
         this.temp = picture[0];
 
         console.log(picture[0]);
-        return this.http.get('http://denmakers2-001-site1.gtempurl.com/api/Products/'+this.temp["ProductId"]+'/ProductPictureAdd/'+this.temp["PictureId"]+'/'+this.temp["DisplayOrder"]+'/sampleString/sampleString');
+        return this.http.get('http://denmakers3-001-site1.ctempurl.com/api/Products/'+this.temp["ProductId"]+'/ProductPictureAdd/'+this.temp["PictureId"]+'/'+this.temp["DisplayOrder"]+'/sampleString/sampleString');
 
     }
     deletePicture(id:number){
         const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log("Id = " + id);
-        return this.http.post('http://denmakers2-001-site1.gtempurl.com/api/Products/ProductPicture/Delete?id='+id, null, { headers: headers });
+        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Products/ProductPicture/Delete?id='+id, null, { headers: headers });
     }
 
 

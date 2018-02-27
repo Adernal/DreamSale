@@ -4,10 +4,10 @@
                     <div class="col-lg-6" style="float: none; margin: 0 auto;">
                             <h1> Manufacturer Management </h1>
                             <hr>
-                          
+
 
       <form role="form" (ngSubmit)="addManufacturer(f)" #f="ngForm" class="container">
-    
+
             <fieldset class="form-group card mb-3">
                 <label class="card-header">Manufacturer Name</label>
                 <input class="form-control" ngModel name="Name" required placeholder="Enter Manufacturer Name" *ngIf="!editMode">
@@ -27,7 +27,7 @@
         </fieldset>
         <fieldset class="form-group card mb-3">
             <label class="card-header">Picture</label>
-            <image-upload [max]="1" [url]="'http://denmakers2-001-site1.gtempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+            <image-upload [max]="1" [url]="'http://denmakers3-001-site1.ctempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
         </fieldset>
 
             <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Manufacturer</button>
