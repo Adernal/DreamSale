@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { URLService } from '../../../shared/services';
 
 @Injectable()
 export class SpecificationAttributesService {
     temp: {};
     headers = new Headers({ 'Content-Type': 'application/json' });
-    constructor(private http: Http) { }
+    constructor(private http: Http,private urlService:URLService) { }
     storeAttributes(attributes) {
 
         this.temp = attributes[attributes.length - 1];
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/SpecificationAttribute/Create', this.temp,
+        return this.http.post(this.urlService.serverUrl+'/SpecificationAttribute/Create', this.temp,
             { headers: this.headers });
 
     }
     getAttributes() {
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/SpecificationAttribute', {
+        return this.http.post(this.urlService.serverUrl+'/SpecificationAttribute', {
             'Page': 1,
             'PageSize': 300
           }, {headers: this.headers});
@@ -22,7 +23,7 @@ export class SpecificationAttributesService {
     updateAttributes(attributes, id) {
 
         console.log(attributes);
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/SpecificationAttribute/Update',
+        return this.http.post(this.urlService.serverUrl+'/SpecificationAttribute/Update',
          attributes[id],
           { headers: this.headers });
     }
@@ -31,7 +32,7 @@ export class SpecificationAttributesService {
         console.log('Id = ' + id);
 
 
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/SpecificationAttribute/Delete?id=' + id, null,
+        return this.http.post(this.urlService.serverUrl+'/SpecificationAttribute/Delete?id=' + id, null,
          { headers: this.headers });
     }
 

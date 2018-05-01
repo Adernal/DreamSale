@@ -7,6 +7,7 @@ import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { StoresService } from './stores.service';
+import { URLService } from '../../shared/services';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { StoresService } from './stores.service';
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  providers:[StoresService],
+  providers:[StoresService,URLService],
   declarations: [StoresComponent, FilterPipe]
 })
 export class StoresModule { }

@@ -5,6 +5,7 @@ import { SignupRoutingModule } from './signup-routing.module';
 import { SignupComponent } from './signup.component';
 import { SignupService } from './signup.service';
 import { FormsModule } from '@angular/forms';
+import { URLService } from '../shared/services';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
     SignupRoutingModule,
     FormsModule
   ],
-  providers:[SignupService],
+  providers:[SignupService,URLService],
   declarations: [SignupComponent]
 })
 export class SignupModule { }

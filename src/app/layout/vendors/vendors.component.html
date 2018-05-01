@@ -29,7 +29,7 @@
           </fieldset>
           <fieldset class="form-group card mb-3">
               <label class="card-header">Picture</label>
-              <image-upload [max]="1" [url]="'http://denmakers3-001-site1.ctempurl.com/api/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+              <image-upload [max]="1" [url]="urlService.serverUrl+'/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
           </fieldset>
           <fieldset class="form-group card mb-3">
 

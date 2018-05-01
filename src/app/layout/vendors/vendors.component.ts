@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { VendorService } from './vendor.service';
+import { URLService } from '../../shared/services';
 @Component({
     selector: 'app-vendors',
     templateUrl: './vendors.component.html',
@@ -29,7 +30,7 @@ export class VendorsComponent implements OnInit {
 
     // filteredEmail='';
 
-    constructor(private vendorService : VendorService) {
+    constructor(private vendorService : VendorService,private urlService:URLService) {
       this.PictureId=0;
       this.imageUrl='';
   }
@@ -53,7 +54,7 @@ export class VendorsComponent implements OnInit {
                 this.Active = this.vendorForm.value.Active;
                 console.log(this.Active);
                 console.log(this.Display_Order);
-              
+
                 // this.Active = this.vendorForm.value.Active;
 
             this.vendor={

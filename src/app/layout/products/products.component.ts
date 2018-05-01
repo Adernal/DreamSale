@@ -1394,7 +1394,7 @@ fileChange(event) {
 
 
         let options = new RequestOptions({ headers: headers });
-        this.http.post('http://denmakers3-001-site1.ctempurl.com/api/products/ImportXlsx', formData, options)
+        this.http.post('/products/ImportXlsx', formData, options)
         .subscribe(
             (data) => {
 
@@ -1412,7 +1412,7 @@ fileChange(event) {
 }
 productExport(){
     this.Token = localStorage.getItem("Token");
-        const url = 'http://denmakers3-001-site1.ctempurl.com/api/Products/ExportXlsx';
+        const url = '/Products/ExportXlsx';
 
          let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded', 'Accept':'application/json' ,'Authorization':'Token '+this.Token });
          let options = new RequestOptions({responseType: ResponseContentType.Blob, headers });

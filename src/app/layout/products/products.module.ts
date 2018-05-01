@@ -15,6 +15,7 @@ import { ProductPicturesService } from './product-pictures/product-pictures.serv
 import { LinkProductSpecAttributesComponent } from './link-product-spec-attributes/link-product-spec-attributes.component';
 import { LinkProductSpecAttributesService } from './link-product-spec-attributes/link-product-spec-attributes.service';
 import {CsvService} from "angular2-json2csv"
+import { URLService } from '../../shared/services';
 // import {FileUploadModule} from 'primeng/primeng';
 
 
@@ -39,7 +40,7 @@ import {CsvService} from "angular2-json2csv"
 
     // ProductTagsModule
   ],
-  providers:[ProductService,ProductAttributesService,ProductPicturesService,LinkProductSpecAttributesService,CsvService],
+  providers:[ProductService,ProductAttributesService,ProductPicturesService,LinkProductSpecAttributesService,CsvService,URLService],
   declarations: [ProductsComponent, FilterPipe, ProductPicturesComponent, LinkProductSpecAttributesComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

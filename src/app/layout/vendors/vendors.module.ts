@@ -9,6 +9,7 @@ import { FilterPipe } from './filter.pipe';
 
 import { VendorService } from './vendor.service';
 import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
+import { URLService } from '../../shared/services';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { Vendorservice } from './product.service';
@@ -28,7 +29,7 @@ import { ImageUploadModule } from '../../../../node_modules/angular2-image-uploa
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  providers:[VendorService],
+  providers:[VendorService,URLService],
   declarations: [VendorsComponent, FilterPipe ]
 })
 export class VendorsModule { }

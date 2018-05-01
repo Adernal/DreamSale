@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {NgModule} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {CategoryService} from './category.service';
+import { URLService } from '../../shared/services';
 
 
 @Component({
@@ -34,8 +35,8 @@ export class CategoryComponent implements OnInit {
   totalCategories:number;
 
 
-  constructor(private categoryService: CategoryService) {
-  
+  constructor(private categoryService: CategoryService,private urlService:URLService) {
+
 
   }
 

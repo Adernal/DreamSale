@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NeverSoldService } from './never-sold.service';
 import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
+import { URLService } from '../../shared/services';
 
 
 @NgModule({
@@ -21,7 +22,7 @@ import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  providers:[NeverSoldService],
+  providers:[NeverSoldService,URLService],
   declarations: [NeverSoldComponent]
 })
 export class NeverSoldModule { }

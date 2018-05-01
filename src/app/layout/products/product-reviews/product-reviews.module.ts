@@ -7,6 +7,7 @@ import { PageHeaderModule } from '../../../shared';
 import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { ProductReviewsService } from './product-reviews.service';
+import { URLService } from '../../../shared/services';
 
 @NgModule({
     imports: [
@@ -15,7 +16,7 @@ import { ProductReviewsService } from './product-reviews.service';
         PageHeaderModule,
         FormsModule
     ],
-    providers:[ProductReviewsService],
+    providers:[ProductReviewsService,URLService],
     declarations: [ProductReviewsComponent, FilterPipe]
 })
 export class ProductReviewsModule { }

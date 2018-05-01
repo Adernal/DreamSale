@@ -6,6 +6,7 @@ import { OnlineCustomersComponent } from './online-customers.component';
 import { PageHeaderModule } from './../../shared';
 import { FormsModule } from '@angular/forms';
 import { OnlineCustomersService } from './online-customers.service';
+import { URLService } from '../../shared/services';
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
 //import { customerservice } from './product.service';
@@ -24,7 +25,7 @@ import { OnlineCustomersService } from './online-customers.service';
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  providers:[OnlineCustomersService],
+  providers:[OnlineCustomersService,URLService],
   declarations: [OnlineCustomersComponent]
 })
 export class OnlineCustomersModule { }

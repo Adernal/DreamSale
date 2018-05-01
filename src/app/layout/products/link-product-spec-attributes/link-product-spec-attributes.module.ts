@@ -7,6 +7,7 @@ import { ImageUploadModule } from '../../../../../node_modules/angular2-image-up
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import {LinkProductSpecAttributesService} from './link-product-spec-attributes.service';
+import { URLService } from '../../../shared/services';
 //import { ProductAttributesService } from '../product-attributes/product-attributes.service';
 
 
@@ -20,7 +21,7 @@ import {LinkProductSpecAttributesService} from './link-product-spec-attributes.s
 
     // ProductTagsModule
   ],
-  providers:[LinkProductSpecAttributesService],
+  providers:[LinkProductSpecAttributesService,URLService],
   declarations: []
 })
 export class LinkProductSpecAttributesModule { }

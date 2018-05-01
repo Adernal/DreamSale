@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { FilterPipe } from './filter.pipe';
 import { LinkProductAttributeService } from './link-product-attribute.service';
+import { URLService } from '../../../shared/services';
 
 @NgModule({
     imports: [
@@ -17,7 +18,7 @@ import { LinkProductAttributeService } from './link-product-attribute.service';
         FormsModule,
         HttpModule
     ],
-    providers:[LinkProductAttributeService],
+    providers:[LinkProductAttributeService,URLService],
     declarations: [LinkProductAttributeComponent, FilterPipe]
 })
 export class LinkProductAttributeModule { }

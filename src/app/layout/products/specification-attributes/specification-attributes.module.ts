@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterPipe } from './filter.pipe';
 import { SpecificationAttributesService } from './specification-attributes.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { URLService } from '../../../shared/services';
 
 @NgModule({
     imports: [
@@ -17,7 +18,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
         FormsModule,
         NgxPaginationModule,
     ],
-    providers:[SpecificationAttributesService],
+    providers:[SpecificationAttributesService,URLService],
     declarations: [SpecificationAttributesComponent, FilterPipe]
 })
 export class SpecificationAttributesModule { }

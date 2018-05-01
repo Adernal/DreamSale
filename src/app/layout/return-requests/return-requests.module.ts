@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ReturnRequestService } from './return-requests.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
+import { URLService } from '../../shared/services';
 
 
 
@@ -19,9 +20,9 @@ import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker
     FormsModule,
     NgxPaginationModule,
     MyDatePickerModule
-  
+
   ],
-  providers:[ReturnRequestService],
+  providers:[ReturnRequestService,URLService],
   declarations: [ReturnRequestsComponent]
 })
 export class ReturnRequestsModule { }

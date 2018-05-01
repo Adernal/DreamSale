@@ -8,6 +8,7 @@ import { FilterPipe } from './filter.pipe';
 import { CategoryService } from './category.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
+import { URLService } from '../../shared/services';
 
 
 @NgModule({
@@ -18,7 +19,7 @@ import { ImageUploadModule } from '../../../../node_modules/angular2-image-uploa
     NgxPaginationModule,
     ImageUploadModule.forRoot()
   ],
-  providers: [CategoryService],
+  providers: [CategoryService,URLService],
   declarations: [CategoryComponent, FilterPipe]
 })
 export class CategoryModule { }

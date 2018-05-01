@@ -8,6 +8,7 @@ import { ImageUploadModule } from '../../../../../node_modules/angular2-image-up
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import {ProductPicturesService} from './product-pictures.service';
+import { URLService } from '../../../shared/services';
 
 
 
@@ -17,11 +18,11 @@ import {ProductPicturesService} from './product-pictures.service';
     FormsModule,
     ImageUploadModule.forRoot(),
     NgxPaginationModule,
-    
+
 
     // ProductTagsModule
   ],
-  providers:[ProductPicturesService],
+  providers:[ProductPicturesService,URLService],
   declarations: [],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

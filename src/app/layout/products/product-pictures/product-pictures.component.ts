@@ -2,12 +2,13 @@ import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 import { NgForm  } from '@angular/forms';
 import { Http } from '@angular/http';
 import { ProductPicturesService } from './product-pictures.service';
+import { URLService } from '../../../shared/services';
 
 @Component({
   selector: 'app-product-pictures',
   templateUrl: './product-pictures.component.html',
   styleUrls: ['./product-pictures.component.scss'],
-  
+
 })
 export class ProductPicturesComponent implements OnInit {
 
@@ -21,7 +22,7 @@ export class ProductPicturesComponent implements OnInit {
   pictureDisplayOrder:number;
   imageUrl:string;
   currentPicture=[];
-  constructor(private http: Http, private productPicturesService: ProductPicturesService) {
+  constructor(private http: Http, private productPicturesService: ProductPicturesService,private urlService:URLService) {
       this.currentPageNumber=1;
       this.loadingPicture=false;
       this.loadingImagePath = '../../../assets/images/ajax-loader.gif';

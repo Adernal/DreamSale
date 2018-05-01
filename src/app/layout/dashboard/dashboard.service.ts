@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { URLService } from '../../shared/services';
 
 @Injectable()
 export class DashboardService {
     temp: {};
     Token = localStorage.getItem("Token");
     headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
-    constructor(private http: Http) { }
+    constructor(private http: Http,private urlService:URLService) { }
 
     getOrders(){
 
 
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/orders/OrderList',{"Page":1 ,"PageSize":10 },{headers:this.headers})
+        return this.http.post(this.urlService.serverUrl+'/orders/OrderList',{"Page":1 ,"PageSize":10 },{headers:this.headers})
 }
 getCustomers() {
 
-    return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/customers',{
+    return this.http.post(this.urlService.serverUrl+'/customers',{
         "SearchCustomerRoleIds": [
             1,
             2]
@@ -23,11 +24,11 @@ getCustomers() {
 }
 getLowStockReport(){
 
-    return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Products/LowStockReport',{"Page":1,"PageSize":1},{headers: this.headers});
+    return this.http.post(this.urlService.serverUrl+'/Products/LowStockReport',{"Page":1,"PageSize":1},{headers: this.headers});
 }
 getReturnRequest(){
 
-    return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/ReturnRequest',{
+    return this.http.post(this.urlService.serverUrl+'/ReturnRequest',{
         "Command": {
         "Page": 1,
         "PageSize": 2
@@ -35,10 +36,10 @@ getReturnRequest(){
     },{headers: this.headers});
 }
 getBestSeller(){
-    return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Orders/BestsellersReportList',{Page:1,PageSize:10},{headers:this.headers});
+    return this.http.post(this.urlService.serverUrl+'/Orders/BestsellersReportList',{Page:1,PageSize:10},{headers:this.headers});
 }
 // getLatestOrders(){
-//     return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/ReturnRequest',{
+//     return this.http.post('/ReturnRequest',{
 //         "Command": {
 //         "Page": 1,
 //         "PageSize": 2

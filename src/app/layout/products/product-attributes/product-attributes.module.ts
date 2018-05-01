@@ -9,6 +9,7 @@ import { HttpModule } from '@angular/http';
 import { ProductAttributesService } from './product-attributes.service';
 import { FilterPipe } from './filter.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { URLService } from '../../../shared/services';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
         HttpModule,
         NgxPaginationModule
     ],
-    providers:[ ProductAttributesService],
+    providers:[ ProductAttributesService,URLService],
     declarations: [ProductAttributesComponent, FilterPipe]
 })
 export class ProductAttributesModule { }

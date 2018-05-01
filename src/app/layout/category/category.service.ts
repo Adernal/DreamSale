@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { URLService } from '../../shared/services';
 
 @Injectable()
 export class CategoryService {
     temp: {};
-    constructor(private http: Http) { }
+    constructor(private http: Http,private urlService:URLService) { }
     storeCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
         this.temp = category[category.length-1];
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Categories/Create', this.temp,
+        return this.http.post(this.urlService.serverUrl+'/Categories/Create', this.temp,
             { headers: headers });
     }
     getCategory(page) {
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Categories',{"Page":1 ,"PageSize":5000});
+        return this.http.post(this.urlService.serverUrl+'/Categories',{"Page":1 ,"PageSize":5000});
     }
     updateCategory(category) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Categories/Update', category, { headers: headers });
+        return this.http.post(this.urlService.serverUrl+'/Categories/Update', category, { headers: headers });
     }
     deleteCategory(id) {
         const headers = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Categories/Delete?id='+id, null, { headers: headers });
+        return this.http.post(this.urlService.serverUrl+'/Categories/Delete?id='+id, null, { headers: headers });
     }
 
 

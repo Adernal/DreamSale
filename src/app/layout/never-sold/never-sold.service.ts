@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { URLService } from '../../shared/services';
 
 @Injectable()
 export class NeverSoldService {
@@ -7,27 +8,27 @@ export class NeverSoldService {
     Token = localStorage.getItem("Token");
 
     headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
-    constructor(private http: Http) { }
+    constructor(private http: Http,private urlService:URLService) { }
 
     getNeverSold() {
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Orders/NeverSoldReportList',{Page:1,PageSize:100},{headers:this.headers});
+        return this.http.post(this.urlService.serverUrl+'/Orders/NeverSoldReportList',{Page:1,PageSize:100},{headers:this.headers});
     }
 
     getCategory() {
 
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/categories', {}, { headers: this.headers });
+        return this.http.post(this.urlService.serverUrl+'/categories', {}, { headers: this.headers });
     }
     getManufacturers(){
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Manufacturers', {}, {headers: this.headers});
+        return this.http.post(this.urlService.serverUrl+'/Manufacturers', {}, {headers: this.headers});
     }
     getStores(){
-          return this.http.get('http://denmakers3-001-site1.ctempurl.com/api/Stores');
+          return this.http.get(this.urlService.serverUrl+'/Stores');
     }
     getVendors(){
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Vendors?showHidden=true', {}, {headers: this.headers});
+        return this.http.post(this.urlService.serverUrl+'/Vendors?showHidden=true', {}, {headers: this.headers});
     }
     searchNeverSoldItems(searchParameters) {
-        return this.http.post('http://denmakers3-001-site1.ctempurl.com/api/Orders/NeverSoldReportList',searchParameters,{headers:this.headers});
+        return this.http.post(this.urlService.serverUrl+'/Orders/NeverSoldReportList',searchParameters,{headers:this.headers});
     }
 
 

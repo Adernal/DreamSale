@@ -9,6 +9,7 @@ import { FilterPipe } from './filter.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { OrderService } from './orders.service';
 import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker/src/my-date-picker';
+import { URLService } from '../../shared/services';
 
 //import { FilterPipe } from './filter.pipe';
 // import { ImageUploadModule } from '../../../../node_modules/angular2-image-upload/src/image-upload.module';
@@ -22,17 +23,17 @@ import { MyDatePickerModule } from '../../../../node_modules/angular4-datepicker
 @NgModule({
   imports: [
     CommonModule,
-    
+
     OrdersRoutingModule,
     PageHeaderModule,
     FormsModule,
     NgxPaginationModule,
     MyDatePickerModule
-   
+
     // ImageUploadModule.forRoot()
     // ProductTagsModule
   ],
-  providers:[OrderService,DatePipe],
+  providers:[OrderService,DatePipe,URLService],
   declarations: [OrdersComponent, FilterPipe]
 })
 export class OrdersModule { }

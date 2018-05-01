@@ -1,6 +1,7 @@
 import { Component, OnInit ,ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ManufacturersService } from './manufacturers.service';
+import { URLService } from '../../shared/services';
 
 @Component({
   selector: 'app-manufacturers',
@@ -18,7 +19,7 @@ export class ManufacturersComponent implements OnInit {
   Description='';
   DisplayOrder:Number;
   editMode =false;
-  showSearchField:boolean;  
+  showSearchField:boolean;
 
   manufacturers=[];
   PictureId:number;
@@ -26,7 +27,7 @@ export class ManufacturersComponent implements OnInit {
   loadingManufacturer:boolean;
   loadingImagePath:string;
 
-  constructor(private manufacturersService : ManufacturersService) {
+  constructor(private manufacturersService : ManufacturersService,private urlService:URLService) {
     this.filteredManufacturer='';
    }
 
