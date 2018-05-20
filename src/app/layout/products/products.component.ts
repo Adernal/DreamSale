@@ -1398,7 +1398,7 @@ export class ProductsComponent implements OnInit {
 
 
             let options = new RequestOptions({ headers: headers });
-            this.http.post('/products/ImportXlsx', formData, options)
+            this.http.post(this.urlService.serverUrl+'/products/ImportXlsx', formData, options)
                 .subscribe(
                     (data) => {
 
