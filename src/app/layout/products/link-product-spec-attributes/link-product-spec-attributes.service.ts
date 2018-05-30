@@ -21,7 +21,7 @@ export class LinkProductSpecAttributesService {
     }
     getCurrentSpecAttributes(id:number) {
       console.log("Get Current Spec Attributes called !");
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         return this.http.post(this.urlService.serverUrl+'/Products/'+id+'/ProductSpecAttrList',{
           "Page": 0,
           "PageSize": 20
@@ -29,7 +29,7 @@ export class LinkProductSpecAttributesService {
     }
     getProductAttributes(id:number){
       console.log("Get Attributes called !");
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log(id);
 
   return this.http.post(this.urlService.serverUrl+'/Products/'+id+'/ProductAttributeMappingList',    {
@@ -38,7 +38,7 @@ export class LinkProductSpecAttributesService {
 }, { headers: headers });
     }
     deleteSpecAttribute(id:number){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log("Id = " + id);
         return this.http.post(this.urlService.serverUrl+'/Products/ProductSpecAttr/Delete?id='+id, null, { headers: headers });
     }

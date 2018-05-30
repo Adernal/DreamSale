@@ -6,6 +6,6 @@ export class URLService {
     serverUrl:string;
 
     constructor() {
-        this.serverUrl = "https://denmakersapi.azurewebsites.net/api/";
+        this.serverUrl = "https://denmakersapi.azurewebsites.net/api";
     }
 }

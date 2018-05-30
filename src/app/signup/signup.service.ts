@@ -8,7 +8,7 @@ export class SignupService {
     constructor(private http: Http,private urlService:URLService) { }
 
     checkSignup(Credentials) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log(Credentials);
         return this.http.post(this.urlService.serverUrl+'/Account/Register',Credentials,
         { headers: headers });

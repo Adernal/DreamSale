@@ -9,7 +9,7 @@ export class ProductPicturesService {
     constructor(private http: Http,private urlService:URLService) { }
 
     getPicture(id:number){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         return this.http.post(this.urlService.serverUrl+'/Products/'+id+'/ProductPictureList',    {
           "Page": 0,
           "PageSize":200
@@ -17,7 +17,7 @@ export class ProductPicturesService {
 
     }
     addPicture(picture){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         this.temp = picture[0];
 
         console.log(picture[0]);
@@ -25,7 +25,7 @@ export class ProductPicturesService {
 
     }
     deletePicture(id:number){
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log("Id = " + id);
         return this.http.post(this.urlService.serverUrl+'/Products/ProductPicture/Delete?id='+id, null, { headers: headers });
     }

@@ -11,12 +11,12 @@ export class ProductReviewsService {
         return this.http.get('/ProductReviews');
     }
     updateReviews(reviews, id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log(reviews);
         return this.http.post(this.urlService.serverUrl+'/ProductAttribute/Update?continueEditing=true', reviews[id], { headers: headers });
     }
     deleteReviews(id:number[]) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log("Id = " + id);
         //console.log(reviews);
 

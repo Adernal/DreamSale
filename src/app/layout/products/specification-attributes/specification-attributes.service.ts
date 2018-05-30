@@ -5,7 +5,7 @@ import { URLService } from '../../../shared/services';
 @Injectable()
 export class SpecificationAttributesService {
     temp: {};
-    headers = new Headers({ 'Content-Type': 'application/json' });
+    headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
     constructor(private http: Http,private urlService:URLService) { }
     storeAttributes(attributes) {
 

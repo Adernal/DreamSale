@@ -7,7 +7,7 @@ export class ManufacturersService {
     temp: {};
     constructor(private http: Http,private urlService:URLService) { }
     storeManufacturers(manufacturer) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         //console.log(manufacturer);
         this.temp = manufacturer[0];
         console.log(this.temp);
@@ -18,12 +18,12 @@ export class ManufacturersService {
         return this.http.post(this.urlService.serverUrl+'/Manufacturers',{});
     }
     updateManufacturer(manufacturer) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
 
         return this.http.post(this.urlService.serverUrl+'/Manufacturers/Update', manufacturer, { headers: headers });
     }
     deleteManufacturer(id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         return this.http.post(this.urlService.serverUrl+'/Manufacturers/Delete?id=' + id, null, { headers: headers });
     }
 

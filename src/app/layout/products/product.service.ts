@@ -8,10 +8,10 @@ export class ProductService {
     temp: {};
     Token = localStorage.getItem("Token");
 
-    headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
+    headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() ,'Accept':'application/json',});
     constructor(private http: Http,private urlService:URLService) { }
     storeProduct(product) {
-        const headers = new Headers({ 'Content-Type': 'application/json' , 'Accept' : 'application/json'});
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() , 'Accept' : 'application/json'});
         this.temp = product[0];
         console.log(this.temp);
         return this.http.post(this.urlService.serverUrl+'/Products/Create', this.temp,

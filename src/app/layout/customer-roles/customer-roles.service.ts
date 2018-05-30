@@ -7,7 +7,7 @@ export class CustomerRoleService {
     temp: {};
     constructor(private http: Http , private urlService:URLService) { }
     storeCustomerRole(customer_role) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         this.temp = customer_role[customer_role.length-1];
         return this.http.post(this.urlService.serverUrl+'/customers/CreateCustomerRole', this.temp,
             { headers: headers });
@@ -16,12 +16,12 @@ export class CustomerRoleService {
         return this.http.get(this.urlService.serverUrl+'/customers/Roles');
     }
     updateCustomerRole(customer_role) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log(customer_role);
         return this.http.post(this.urlService.serverUrl+'/customers/UpdateCustomerRole', customer_role, { headers: headers });
     }
     deleteCustomerRole(id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         return this.http.post(this.urlService.serverUrl+'/customers/DeleteCustomerRole?id='+id, null, { headers: headers });
     }
 

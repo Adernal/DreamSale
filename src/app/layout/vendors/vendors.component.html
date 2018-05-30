@@ -1,67 +1,57 @@
 <div class="container">
-<h1> Vendor Management </h1>
-     <hr>
+    <h1> Vendor Management </h1>
+    <hr>
     <div class="row">
 
 
-      <form role="form" (ngSubmit)="addVendor(f)" #f="ngForm" class="container" *ngIf="!editMode">
-        <div class="row">
-          <div class="col-lg-6">
-            <fieldset class="form-group card mb-3">
-                <label class="card-header">Vendor</label>
-                <input class="form-control" ngModel name="Name" required placeholder="Enter Vendor Name" >
+        <form role="form" (ngSubmit)="addVendor(f)" #f="ngForm" class="container" *ngIf="!editMode">
+            <div class="row">
+                <div class="col-lg-6">
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Vendor</label>
+                        <input class="form-control" ngModel name="Name" required placeholder="Enter Vendor Name">
 
-                <!-- <p class="help-block">Example block-level help text here.</p> -->
-            </fieldset>
-            <fieldset class="form-group card mb-3">
-              <label class="card-header">Vendor Description</label>
-                <textarea class="form-control" rows="3"
+                        <!-- <p class="help-block">Example block-level help text here.</p> -->
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Vendor Description</label>
+                        <textarea class="form-control" rows="3" ngModel name="Description" placeholder="Enter vendor Description" required></textarea>
 
-                ngModel
-                 name="Description"
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Picture</label>
+                        <image-upload [max]="1" [url]="urlService.serverUrl+'/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']"
+                            (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
 
+                        <label class="card-header">Display Order</label>
+                        <input type="number" class="form-control" ngModel name="Display_Order" required placeholder="Enter Display Order">
 
-                placeholder="Enter vendor Description"
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Active</label>
+                        <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
 
-                  required
-                ></textarea>
-
-          </fieldset>
-          <fieldset class="form-group card mb-3">
-              <label class="card-header">Picture</label>
-              <image-upload [max]="1" [url]="urlService.serverUrl+'/Pictures/upload'" [buttonCaption]="'Select Images!'" [extensions]="['jpg','png','gif']" (onFileUploadFinish)="getPictureDetails($event)"></image-upload>
-          </fieldset>
-          <fieldset class="form-group card mb-3">
-
-            <label class="card-header">Display Order</label>
-            <input type="number" class="form-control" ngModel name="Display_Order" required placeholder="Enter Display Order"
-            >
-
-          </fieldset>
-          <fieldset class="form-group card mb-3">
-  <label class="card-header">Active</label>
-            <div *ngIf="!editMode" class="checkbox" style="float:left; margin:5px;">
-
-              <input type="checkbox" class="form-control" ngModel name="Active">
-            </div>
+                            <input type="checkbox" class="form-control" ngModel name="Active">
+                        </div>
 
 
 
-          </fieldset>
+                    </fieldset>
 
-            <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Vendor</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid" *ngIf="!editMode">Add Vendor</button>
 
-        </div>
-        <div class="col-lg-6">
-          <fieldset class="form-group card mb-3">
-            <label class="card-header">Email</label>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Email</label>
 
-            <input type="email" class="form-control" ngModel name="Email" required placeholder="Email" min="1" step="1"
-            >
+                        <input type="email" class="form-control" ngModel name="Email" required placeholder="Email" min="1" step="1">
 
-          </fieldset>
+                    </fieldset>
 
-          <!-- <fieldset class="form-group card mb-3">
+                    <!-- <fieldset class="form-group card mb-3">
             <label class="card-header">Address</label>
 
                         <input type="text" class="form-control" ngModel name="Address" required placeholder="Address" min="1" step="1"
@@ -71,74 +61,65 @@
 
 
           </fieldset> -->
-          <fieldset class="form-group card mb-3">
-            <label class="card-header">Admin Comment</label>
-            <textarea class="form-control" ngModel name="AdminComment" required placeholder="AdminComment" rows="3"
-            ></textarea>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Admin Comment</label>
+                        <textarea class="form-control" ngModel name="AdminComment" placeholder="AdminComment" rows="3"></textarea>
 
-          </fieldset>
-
+                    </fieldset>
 
 
-        </div>
+
+                </div>
 
 
-  </div>
+            </div>
 
 
-</form>
-<form role="form" (ngSubmit)="editVendor(f)" #f="ngForm" class="container" *ngIf="editMode">
-  <div class="row">
-    <div class="col-lg-6">
-      <fieldset class="form-group card mb-3">
-          <label class="card-header">Vendor</label>
+        </form>
+        <form role="form" (ngSubmit)="editVendor(f)" #f="ngForm" class="container" *ngIf="editMode">
+            <div class="row">
+                <div class="col-lg-6">
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Vendor</label>
 
-          <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}">
-          <!-- <p class="help-block">Example block-level help text here.</p> -->
-      </fieldset>
-      <fieldset class="form-group card mb-3">
-        <label class="card-header">Vendor Description</label>
+                        <input class="form-control" [(ngModel)]="Name" name="Name" required value="{{Name}}">
+                        <!-- <p class="help-block">Example block-level help text here.</p> -->
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Vendor Description</label>
 
-          <textarea class="form-control" rows="3"
+                        <textarea class="form-control" rows="3" [(ngModel)]="Description" name="Description" required value="{{Description}}" *ngIf="editMode"></textarea>
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
 
-          [(ngModel)]="Description"
-           name="Description"
+                        <label class="card-header">Display Order</label>
 
-          required
+                        <input type="number" class="form-control" [(ngModel)]="Display_Order" name="Display_Order" required placeholder="Enter Display Order"
+                            *ngIf="editMode">
+                    </fieldset>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Active</label>
 
-          value="{{Description}}" *ngIf="editMode"></textarea>
-    </fieldset>
-    <fieldset class="form-group card mb-3">
+                        <div class="checkbox" style="float:left; margin:5px;">
+                            <input type="checkbox" class="form-control" [(ngModel)]="Active" name="Active">
+                        </div>
 
-      <label class="card-header">Display Order</label>
-
-      <input type="number" class="form-control" [(ngModel)]="Display_Order" name="Display_Order" required placeholder="Enter Display Order"
-      *ngIf="editMode">
-    </fieldset>
-    <fieldset class="form-group card mb-3">
-<label class="card-header">Active</label>
-
-      <div  class="checkbox" style="float:left; margin:5px;">
-        <input type="checkbox" class="form-control" [(ngModel)]="Active" name="Active">
-      </div>
-
-    </fieldset>
+                    </fieldset>
 
 
-      <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Edit Vendor</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Edit Vendor</button>
 
 
-  </div>
-  <div class="col-lg-6">
-    <fieldset class="form-group card mb-3">
-      <label class="card-header">Email</label>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Email</label>
 
-      <input type="email" class="form-control" [(ngModel)]="Email" name="Email" required placeholder="Email" min="1" step="1"
-      >
+                        <input type="email" class="form-control" [(ngModel)]="Email" name="Email" required placeholder="Email" min="1" step="1">
 
-    </fieldset>
+                    </fieldset>
 
-    <!-- <fieldset class="form-group card mb-3">
+                    <!-- <fieldset class="form-group card mb-3">
       <label class="card-header">Address</label>
 
                   <input type="text" class="form-control" ngModel name="Address" required placeholder="Address" min="1" step="1"
@@ -148,74 +129,79 @@
 
 
     </fieldset> -->
-    <fieldset class="form-group card mb-3">
-      <label class="card-header">Admin Comment</label>
+                    <fieldset class="form-group card mb-3">
+                        <label class="card-header">Admin Comment</label>
 
-      <textarea class="form-control" [(ngModel)]="AdminComment" name="AdminComment" required placeholder="AdminComment"
-      >
-    </textarea>
+                        <textarea class="form-control" [(ngModel)]="AdminComment" name="AdminComment" placeholder="AdminComment">
+                        </textarea>
 
-    </fieldset>
-
+                    </fieldset>
 
 
-  </div>
 
-
-</div>
-
-
-</form>
-  </div>
-  </div>
- <hr>
-    <div class="row">
-
-
-            <div class="card mb-3">
-                <div class="card-header">
-                  <h2>Vendor List</h2>
-                  <!-- <input type="text" placeholder="Search By Name or Email" [(ngModel)]="filteredVendor" style="width:100%;"> -->
                 </div>
-                <div class="card-block" style="width:100%;">
-                    <table class="table table-bordered" style="table-layout:fixed">
-                        <thead class="thead-inverse">
-                        <tr>
-                            <th>Vendor Id</th>
-                            <th>Vendor Name   </th>
-                            <th>Vendor Description</th>
-                            <th>Display Order</th>
-                            <th>Email</th>
-
-                            <th>Admin Comment</th>
-                            <th>Active</th>
-                            <th>Action</th>
 
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                          <tr *ngFor =" let i = index ;let vendor of vendors" >
-
-                          <td>{{vendor.Id}}</td>
-                          <td>{{vendor.Name}}</td>
-                          <td>{{vendor.Description}}</td>
-                          <td>{{vendor.DisplayOrder}}</td>
-                          <td>{{vendor.Email}}</td>
-
-                          <td>{{vendor.AdminComment}}</td>
-                          <td *ngIf="vendor.Active">Yes</td>
-                          <td *ngIf="!vendor.Active">No</td>
-
-                          <td><button type="button" name="{{vendor.Id}}" class="btn btn-primary" (click)="editVendorMode(c)" #c><i class="fa fa-edit"></i></button>
-                          <button type="button" name="{{vendor.Id}}" class="btn btn-danger" (click)="deleteVendor(d)" #d><i class="fa fa-times"></i></button></td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
 
-
+        </form>
     </div>
+</div>
+<hr>
+<div class="row">
+
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2>Vendor List</h2>
+            <!-- <input type="text" placeholder="Search By Name or Email" [(ngModel)]="filteredVendor" style="width:100%;"> -->
+        </div>
+        <div class="card-block" style="width:100%;">
+            <table class="table table-bordered" style="table-layout:fixed">
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>Vendor Id</th>
+                        <th>Vendor Name </th>
+                        <th>Vendor Description</th>
+                        <th>Display Order</th>
+                        <th>Email</th>
+
+                        <th>Admin Comment</th>
+                        <th>Active</th>
+                        <th>Action</th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor=" let i = index ;let vendor of vendors">
+
+                        <td>{{vendor.Id}}</td>
+                        <td>{{vendor.Name}}</td>
+                        <td>{{vendor.Description}}</td>
+                        <td>{{vendor.DisplayOrder}}</td>
+                        <td>{{vendor.Email}}</td>
+
+                        <td>{{vendor.AdminComment}}</td>
+                        <td *ngIf="vendor.Active">Yes</td>
+                        <td *ngIf="!vendor.Active">No</td>
+
+                        <td>
+                            <button type="button" name="{{vendor.Id}}" class="btn btn-primary" (click)="editVendorMode(c)" #c>
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            <button type="button" name="{{vendor.Id}}" class="btn btn-danger" (click)="deleteVendor(d)" #d>
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+</div>

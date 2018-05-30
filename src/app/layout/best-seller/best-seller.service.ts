@@ -7,7 +7,7 @@ export class BestSellerService {
     temp: {};
     Token = localStorage.getItem("Token");
 
-    headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
+    headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase()});
     constructor(private http: Http,private urlService:URLService) { }
 
     getBestSeller() {

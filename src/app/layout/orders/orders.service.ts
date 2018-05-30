@@ -6,12 +6,12 @@ import { URLService } from '../../shared/services';
 export class OrderService {
     temp: {};
     Token = localStorage.getItem("Token");
-     headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
+     headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() ,'Accept':'application/json',});
     constructor(private http: Http,private urlService:URLService) { }
 
     getOrders(page:number) {
 
-        const headers = new Headers({ 'Content-Type': 'application/json' ,'Accept':'application/json','Authorization':'Token '+this.Token});
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() ,'Accept':'application/json',});
         return this.http.post(this.urlService.serverUrl+'/orders/OrderList',{"Page":page ,"PageSize":10 },{headers:this.headers});
     }
     searchOrders(searchParameters,page:number) {

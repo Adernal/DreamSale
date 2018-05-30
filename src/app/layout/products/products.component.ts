@@ -113,9 +113,9 @@ export class ProductsComponent implements OnInit {
 
 
     constructor(private http: Http, private productService: ProductService,
-         private productAttributeService: ProductAttributesService,
-          private _csvService: CsvService,
-        private urlService:URLService) { }
+        private productAttributeService: ProductAttributesService,
+        private _csvService: CsvService,
+        private urlService: URLService) { }
 
     ngOnInit() {
 
@@ -1398,7 +1398,7 @@ export class ProductsComponent implements OnInit {
 
 
             let options = new RequestOptions({ headers: headers });
-            this.http.post(this.urlService.serverUrl+'/products/ImportXlsx', formData, options)
+            this.http.post(this.urlService.serverUrl + '/products/ImportXlsx', formData, options)
                 .subscribe(
                     (data) => {
 
@@ -1416,7 +1416,7 @@ export class ProductsComponent implements OnInit {
     }
     productExport() {
         this.Token = localStorage.getItem("Token");
-        const url = this.urlService.serverUrl+'/Products/ExportXlsx';
+        const url = this.urlService.serverUrl + '/Products/ExportXlsx';
 
         let headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'Accept': 'application/json', 'Authorization': 'Token ' + this.Token });
         let options = new RequestOptions({ responseType: ResponseContentType.Blob, headers });
@@ -1427,6 +1427,7 @@ export class ProductsComponent implements OnInit {
             .subscribe(
                 data => {
                     FileSaver.saveAs(data, 'Export.xlsx');
+                    alert("Exported !");
                 },
                 err => {
                     console.log('error');

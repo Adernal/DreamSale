@@ -7,7 +7,7 @@ export class StoresService {
     temp: {};
     constructor(private http: Http,private urlService:URLService) { }
     storeStores(store) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         this.temp = store[store.length-1];
         return this.http.post(this.urlService.serverUrl+'/Stores/CreateStore?continueEditing=true', this.temp,
             { headers: headers });
@@ -17,12 +17,12 @@ export class StoresService {
         return this.http.get(this.urlService.serverUrl+'/Stores');
     }
     updateStores(store) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log(store);
         return this.http.post(this.urlService.serverUrl+'/Stores/EditStore?continueEditing=true', store, { headers: headers });
     }
     deleteStores(id) {
-        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
         console.log("Id = " + id);
         //console.log(store);
         return this.http.post(this.urlService.serverUrl+'/Stores/DeleteStore?id='+id, null, { headers: headers });
