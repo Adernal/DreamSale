@@ -10,7 +10,7 @@ export class LoginService {
      }
 
     checkLogin(Credentials) {
-        const headers = new Headers({ 'Content-Type': 'application/json' ,'Authorization': 'Token ' + localStorage.getItem("Token").toUpperCase() });
+        const headers = new Headers({ 'Content-Type': 'application/json' });
         console.log(Credentials);
         return this.http.post(this.urlService.serverUrl+'/Account/Login',Credentials,
         { headers: headers });
